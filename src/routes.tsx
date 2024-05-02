@@ -3,7 +3,9 @@ import Home from "./page/Home";
 import Admin from "./page/admin/Admin";
 import ComHeaderAdmin from "./Components/ComHeaderAdmin/ComHeaderAdmin";
 import Admin1 from "./page/admin/Admin copy";
-import ComLogin from './Components/ComLogin/ComLogin';
+import ComHeader from "./Components/ComHeader/ComHeader";
+import React from "react";
+import ComLogin from "./Components/ComLogin/ComLogin";
 
 export const routers = createBrowserRouter([
   {
@@ -12,7 +14,17 @@ export const routers = createBrowserRouter([
   },
   {
     path: "/",
-    element: <ComLogin />,
+    element: (
+      <ComHeader>
+        <Outlet />
+      </ComHeader>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <ComLogin />,
+      },
+    ],
   },
   {
     path: "/admin",

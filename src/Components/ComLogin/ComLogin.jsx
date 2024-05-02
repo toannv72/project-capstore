@@ -15,7 +15,7 @@ import { FieldError } from "../FieldError/FieldError";
 import { useStorage } from "../../hooks/useLocalStorage";
 
 
-export default function ComLogin({handleCancel}) {
+export default function ComLogin() {
     const [token, setToken] = useStorage("user", null);
     const [disabled, setDisabled] = useState(false);
     const [Login, setLogin] = useState(false);
