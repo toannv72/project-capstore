@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -10,13 +10,11 @@ import {
 } from "@heroicons/react/20/solid";
 import { Affix } from "antd";
 import { MenuFoldOutlined, MenuOutlined } from "@ant-design/icons";
+import { LanguageContext } from "../../contexts/LanguageContext";
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "vn", href: "#", current: true, lang: "vn" },
+  { name: "lg", href: "#", current: false, lang: "en" },
 ];
 const subCategories = [
   { name: "Totes", href: "#" },
@@ -69,7 +67,7 @@ function classNames(...classes) {
 
 export default function ComHeaderAdmin({ children }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+  const { language, setLanguage } = useContext(LanguageContext);
   return (
     <div className="bg-white">
       <div>
@@ -205,10 +203,10 @@ export default function ComHeaderAdmin({ children }) {
               </h1>
 
               <div className="flex items-center">
-                {/* <Menu as="div" className="relative inline-block text-left">
+                <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      Sort
+                      Language
                       <ChevronDownIcon
                         className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                         aria-hidden="true"
@@ -232,6 +230,11 @@ export default function ComHeaderAdmin({ children }) {
                             {({ active }) => (
                               <a
                                 href={option.href}
+                                onClick={() => {
+                          
+                                    setLanguage(option.lang);
+                                 
+                                }}
                                 className={classNames(
                                   option.current
                                     ? "font-medium text-gray-900"
@@ -240,7 +243,7 @@ export default function ComHeaderAdmin({ children }) {
                                   "block px-4 py-2 text-sm"
                                 )}
                               >
-                                {option.name}1
+                                {option.name}
                               </a>
                             )}
                           </Menu.Item>
@@ -250,7 +253,7 @@ export default function ComHeaderAdmin({ children }) {
                   </Transition>
                 </Menu>
 
-                <button
+                {/* <button
                   type="button"
                   className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
                 >
