@@ -18,7 +18,7 @@ export const en = {
   Login: {
     pageTitle: "login",
     label: {
-      username: "Login ID",
+      username: "Login mail",
       password: "password",
     },
     placeholder: {
