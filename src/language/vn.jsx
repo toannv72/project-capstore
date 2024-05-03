@@ -88,4 +88,21 @@ export const vn = {
     { name: "Xem bản trình diễn", href: "#", icon: PlayCircleIcon },
     { name: "Liên hệ bán hàng", href: "#", icon: PhoneIcon },
   ],
+  Notification: [
+    {
+      name: "success",
+      message: "Success",
+      description: "Đây là thông báo thành công.",
+    },
+    {
+      name: "info",
+      message: "Info",
+      description: "Đây là thông báo truyền tin.",
+    },
+    {
+      name: "warning",
+      message: "Warning",
+      description: "Đây là thông báo cảnh cáo",
+    },
+  ],
 };

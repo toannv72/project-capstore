@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { LanguageContext } from "../../contexts/LanguageContext";
+import ComNotification from "../../Components/ComNotification/ComNotification";
 
 function Admin() {
   const {
@@ -11,7 +12,8 @@ function Admin() {
 
   return (
     <>
-      <p>{Login.pageTitle}</p>
+      <p> {Login.pageTitle}</p>
+      <ComNotification notificationType="success" />
       <p>
         Admin aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa
