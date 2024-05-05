@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Affix } from "antd";
@@ -6,6 +6,8 @@ import { Link, useLocation } from "react-router-dom";
 import ComInput from "../ComInput/ComInput";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { LanguageIcon } from "@heroicons/react/20/solid";
+import { LanguageContext } from "../../contexts/LanguageContext";
 
 const user = {
   name: "Tom Cook",
@@ -25,6 +27,10 @@ const userNavigation = [
   { name: "Settings", href: "/" },
   { name: "Sign out", href: "/" },
 ];
+const language = [
+  { name: "Việt Nam", href: "vn" },
+  { name: "English", href: "en" },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -34,6 +40,13 @@ export default function ComHeader({ children }) {
   const [headerNavigation, setheaderNavigation] = useState(navigation);
   const location = useLocation();
   const currentPath = location.pathname;
+   const {
+     text: {
+       Login,
+       common: { button },
+     },
+     setLanguage,
+   } = useContext(LanguageContext);
   const methods = useForm({
     resolver: yupResolver(),
     defaultValues: {
@@ -41,7 +54,7 @@ export default function ComHeader({ children }) {
     },
   });
 
-    const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
   useEffect(() => {
     changeNavigation2(currentPath);
@@ -58,7 +71,9 @@ export default function ComHeader({ children }) {
       })
     );
   };
-
+  const changeLanguage = (Language) => {
+    setLanguage(Language);
+  };
   const changeNavigation = (itemName) => {
     setheaderNavigation((prevNavigation) =>
       prevNavigation.map((item) => {
@@ -130,9 +145,49 @@ export default function ComHeader({ children }) {
                         >
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">View notifications</span>
-                          <BellIcon className="h-6 w-6" aria-hidden="true" />
+                          <BellIcon
+                            className="h-6 w-6 text-white"
+                            aria-hidden="true"
+                          />
                         </button>
 
+                        <Menu as="div" className="relative ml-3">
+                          <div>
+                            <Menu.Button className="relative flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                              <LanguageIcon
+                                className="h-6 w-6 text-white"
+                                aria-hidden="true"
+                              />
+                            </Menu.Button>
+                          </div>
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                          >
+                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                              {language.map((item) => (
+                                <Menu.Item key={item.name}>
+                                  {({ active }) => (
+                                    <button
+                                      onClick={() => changeLanguage(item.href)}
+                                      className={classNames(
+                                        active ? "bg-gray-100" : "",
+                                        "block px-4 py-2 text-sm text-gray-700 w-full"
+                                      )}
+                                    >
+                                      {item.name}
+                                    </button>
+                                  )}
+                                </Menu.Item>
+                              ))}
+                            </Menu.Items>
+                          </Transition>
+                        </Menu>
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
                           <div>

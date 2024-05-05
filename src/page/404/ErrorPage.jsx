@@ -31,7 +31,6 @@ function ErrorPage({ goTo, statusCode }) {
     navigate(goTo);
   };
   const error = ErrorPage.find((item) => item.code === statusCode);
-  console.log(error);
   return (
     <section className="relative bg-white py-10 font-serif">
       <div className="flex justify-center">
