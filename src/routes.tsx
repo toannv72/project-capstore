@@ -13,7 +13,7 @@ export const routers = createBrowserRouter([
     path: "*",
     element: (
       <ComHeader>
-        <ErrorPage />
+        <ErrorPage goTo={"/"} statusCode={"404"} />
       </ComHeader>
     ),
   },

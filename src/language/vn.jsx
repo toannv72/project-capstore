@@ -105,4 +105,15 @@ export const vn = {
       description: "Đây là thông báo cảnh cáo",
     },
   ],
+  ErrorPage: [
+    {
+      code: "404",
+      title: "Ôi! Lỗi 404",
+      message: "Không tìm thấy trang",
+      description:
+        "Trang bạn đang tìm kiếm có thể đã bị xóa tên hoặc tạm thời không khả dụng.",
+      nameButton: "Về trang Home",
+    },
+    { code: "500", message: "bcd" },
+  ],
 };

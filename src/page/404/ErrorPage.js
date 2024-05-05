@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import ComButton from "../../Components/ComButton/ComButton";
 import bg from "../../assets/bg.jpg";
 import gif from "../../assets/dribbble_1.gif";
-function ErrorPage() {
+import { useContext } from "react";
+import { LanguageContext } from "../../contexts/LanguageContext";
+function ErrorPage({ goTo, statusCode }) {
+  const navigate = useNavigate();
+  const {
+    text: { ErrorPage },
+  } = useContext(LanguageContext);
   const bgImageStyle = {
     background: `url(${bg})`,
     backgroundSize: "cover",
@@ -19,8 +27,13 @@ function ErrorPage() {
     backgroundColor: "rgba(255, 255, 255, 0.5)", // Set color and opacity here
     zIndex: -1, // Set z-index to place behind the text
   };
+  const onClick = (goTo) => {
+    navigate(goTo);
+  };
+  const error = ErrorPage.find((item) => item.code === statusCode);
+  console.log(error);
   return (
-    <section className="relative page_404 bg-white py-10 font-serif">
+    <section className="relative bg-white py-10 font-serif">
       <div className="flex justify-center">
         <div className="w-full max-w-3xl text-center">
           <div className="relative">
@@ -29,7 +42,7 @@ function ErrorPage() {
               className=" text-80 font-montserrat font-black bg-no-repeat bg-center"
               style={bgImageStyle}
             >
-              Oops!
+              {error.title}
             </h1>
           </div>
           <img
@@ -39,17 +52,14 @@ function ErrorPage() {
           />
 
           <div className="mb-6">
-            <h3 className="text-6xl">Looks like you are lost</h3>
-            <p className="font-sans">
-              The page you are looking for is not available!
-            </p>
+            <h3 className="text-3xl font-black font-montserrat uppercase">
+              {error.message}
+            </h3>
+            <p className="font-sans">{error.description}</p>
           </div>
-          <a
-            href="/"
-            className="text-white px-4 py-2 bg-green-500 hover:bg-green-600 inline-block"
-          >
-            Go to Home
-          </a>
+          <ComButton onClick={() => onClick(goTo)}>
+            {error.nameButton}
+          </ComButton>
         </div>
       </div>
     </section>
