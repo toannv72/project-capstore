@@ -6,6 +6,7 @@ import Admin1 from "./page/admin/Admin copy";
 import ComHeader from "./Components/ComHeader/ComHeader";
 import React from "react";
 import ComLogin from "./Components/ComLogin/ComLogin";
+import ErrorPage from "./page/404/ErrorPage";
 
 export const routers = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const routers = createBrowserRouter([
         element: <ComLogin />,
       },
     ],
+  },
+  {
+    path: "/error",
+    element: <ErrorPage />,
   },
   {
     path: "/admin",

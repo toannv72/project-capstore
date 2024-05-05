@@ -88,4 +88,21 @@ export const en = {
     { name: "Watch demo", href: "/ccc", icon: PlayCircleIcon },
     { name: "Contact sales", href: "/ccc", icon: PhoneIcon },
   ],
+  Notification: [
+    {
+      name: "success",
+      message: "Success",
+      description: "This is a success notification.",
+    },
+    {
+      name: "info",
+      message: "Info",
+      description: "This is an info notification.",
+    },
+    {
+      name: "warning",
+      message: "Warning",
+      description: "This is a warning notification.",
+    },
+  ],
 };
