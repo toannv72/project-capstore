@@ -25,7 +25,7 @@ const navigation = [
 const userNavigation = [
   { name: "Your Profile", href: "/" },
   { name: "Settings", href: "/" },
-  { name: "Sign out", href: "/" },
+  { name: "Sign out", href: "/login" },
 ];
 const language = [
   { name: "Việt Nam", href: "vn" },

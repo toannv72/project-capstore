@@ -34,7 +34,7 @@ export default function ComLogin(props) {
 
 
     const loginMessenger = yup.object({
-        username: yup.string().trim().required("textApp.Login.message.username"),
+        // username: yup.string().trim().required("textApp.Login.message.username"),
         password: yup.string().required(Login.message.password),
         email: yup.string().trim().email(Login.message.emailInvalid).required(Login.message.emailRequired),
     })
@@ -53,6 +53,7 @@ export default function ComLogin(props) {
     })
     const { handleSubmit, register, setFocus, watch, setValue } = methods
     const onSubmit = (data) => {
+        console.log(data);
         setLoginError(false)
 
         setLogin(false)
@@ -115,7 +116,7 @@ export default function ComLogin(props) {
                                     placeholder={Login.label.email}
                                     label={Login.label.email}
                                     type="text"
-                                    maxLength={15}
+                                    // maxLength={15}
                                     {...register("email")}
                                     required
                                 />

@@ -29,7 +29,7 @@ export default function ComRegister(props) {
     const defaultColor = "bg-cyan-600";
 
     const registerMessenger = yup.object({
-        username: yup.string().required("textApp.Register.message.username"),
+        // username: yup.string().required("textApp.Register.message.username"),
         name: yup.string().trim().required(Register.message.name).min(2, Register.message.nameTooShort),
         phone: yup.string().trim().matches(/^\d{10}$/, Register.message.phoneInvalid).required(Register.message.phoneRequired),
         password: yup.string().required(Register.message.password).min(8, Register.message.passwordTooShort)
@@ -61,6 +61,7 @@ export default function ComRegister(props) {
     })
     const { handleSubmit, register, setFocus, watch, setValue } = methods
     const onSubmit = (data) => {
+        console.log(data);
         setRegisterError(false)
 
         setRegister(false)
@@ -126,7 +127,7 @@ export default function ComRegister(props) {
                                     placeholder={Register.label.email}
                                     label={Register.label.email}
                                     type="text"
-                                    maxLength={15}
+                                    // maxLength={15}
                                     {...register("email")}
                                     required
                                 />
