@@ -13,7 +13,7 @@ export const routers = createBrowserRouter([
     path: "*",
     element: (
       <ComHeader>
-        <Home />
+        <ErrorPage />
       </ComHeader>
     ),
   },
@@ -30,10 +30,6 @@ export const routers = createBrowserRouter([
         element: <ComLogin />,
       },
     ],
-  },
-  {
-    path: "/error",
-    element: <ErrorPage />,
   },
   {
     path: "/admin",
