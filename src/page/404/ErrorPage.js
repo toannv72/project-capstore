@@ -1,6 +1,8 @@
+import ComButton from "../../Components/ComButton/ComButton";
 import bg from "../../assets/bg.jpg";
 import gif from "../../assets/dribbble_1.gif";
-function ErrorPage() {
+function ErrorPage({ goTo,error }) {
+  
   const bgImageStyle = {
     background: `url(${bg})`,
     backgroundSize: "cover",
@@ -50,6 +52,10 @@ function ErrorPage() {
           >
             Go to Home
           </a>
+          <ComButton>
+            sadsa
+          </ComButton>
+
         </div>
       </div>
     </section>

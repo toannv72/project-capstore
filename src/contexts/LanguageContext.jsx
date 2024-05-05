@@ -1,5 +1,4 @@
 import React, { createContext } from "react";
-import { RouteDef, RouteItem, routs_en, routs_vn } from "../constants/ROUT"; // Make sure to import ROUT or define routs_en and routs_vn
 import { vn } from "./../language/vn";
 import { en } from "./../language/en";
 import { useStorage } from "./../hooks/useLocalStorage";
