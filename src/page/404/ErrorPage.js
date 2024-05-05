@@ -1,17 +1,30 @@
+import bg from "../../assets/bg.jpg";
+import gif from "../../assets/dribbble_1.gif";
 function ErrorPage() {
   const bgImageStyle = {
-    background:
-      "url('https://colorlib.com/etc/404/colorlib-error-404-10/img/bg.jpg')",
+    background: `url(${bg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
+    position: "relative",
+    overflow: "hidden",
+  };
+  const overlayStyle = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.5)", // Set color and opacity here
+    zIndex: -1, // Set z-index to place behind the text
   };
   return (
     <section className="relative page_404 bg-white py-10 font-serif">
       <div className="flex justify-center">
         <div className="w-full max-w-3xl text-center">
           <div className="relative">
+            <div style={overlayStyle}></div>
             <h1
               className=" text-80 font-montserrat font-black bg-no-repeat bg-center"
               style={bgImageStyle}
@@ -20,7 +33,7 @@ function ErrorPage() {
             </h1>
           </div>
           <img
-            src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
+            src={gif}
             alt="404 background"
             className="w-full h-82 object-cover"
           />
