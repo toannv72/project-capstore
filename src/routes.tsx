@@ -7,6 +7,9 @@ import ComHeader from "./Components/ComHeader/ComHeader";
 import React from "react";
 import ComLogin from "./Components/ComLogin/ComLogin";
 import ErrorPage from "./page/404/ErrorPage";
+import ComLoading from "./Components/ComLoading/ComLoading";
+import ComPost from "./Components/ComPost/ComPost";
+import ComRegister from "./Components/ComRegister/ComRegister";
 
 export const routers = createBrowserRouter([
   {
@@ -26,9 +29,13 @@ export const routers = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        path: "/login",
         element: <ComLogin />,
       },
+      {
+        path: "/register",
+        element: <ComRegister  />,
+      }
     ],
   },
   {
