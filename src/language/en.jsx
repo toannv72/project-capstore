@@ -105,4 +105,15 @@ export const en = {
       description: "This is a warning notification.",
     },
   ],
+  ErrorPage: [
+    {
+      code: "404",
+      title: "Oops! 404 Error",
+      message: "Page Not Found",
+      description:
+        "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+      nameButton: "Back to Home Page",
+    },
+    { code: "500", message: "bcd" },
+  ],
 };
