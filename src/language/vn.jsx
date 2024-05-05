@@ -17,17 +17,67 @@ export const vn = {
   },
   Login: {
     pageTitle: "Đăng Nhập",
+    pageSubTitle: "Chào mừng đến với Viện Dưỡng Lão...!",
     label: {
-      username: "Tên tài khoản",
+      username: "Tên người dùng",
+      email: "Email",
       password: "Mật khẩu",
     },
     placeholder: {
-      username: "Vui lòng Nhập tên tài khoản",
-      password: "Vui lòng nhập mật khẩu",
+      username: "Tên người dùng",
+      email: "Email",
+      password: "Mật khẩu",
     },
     message: {
-      username: "Login ID is required item",
-      password: "password is required item",
+      username: "Tên người dùng không được để trống",
+      emailRequired: "Email không được để trống",
+      emailInvalid: "Định dạng email không hợp lệ",
+      password: "Mật khẩu không được để trống",
+      invalidCredential: "Thông tin đăng nhập không hợp lệ. Vui lòng thử lại.",
+      loginError:"Đã có lỗi xảy ra. Vui lòng thử lại sau."
+    },
+    link: {
+      forgetPassword: "Quên mật khẩu?",
+      register: "Đăng ký tài khoản mới?",
+    },
+  },
+  Register: {
+    pageTitle: "Đăng ký",
+    pageSubTitle: "Chào mừng đến với Viện Dưỡng Lão...!",
+    label: {
+      username: "Tên người dùng",
+      email: "Email",
+      yourName: "Họ và Tên",
+      phone: "Số điện thoại",
+      password: "Mật khẩu",
+      confirmPassword: "Xác nhận mật khẩu"
+    },
+    placeholder: {
+      username: "Tên người dùng",
+      email: "Email",
+      yourName: "Họ và Tên",
+      phone: "Số điện thoại",
+      password: "Mật khẩu",
+      confirmPassword: "Xác nhận mật khẩu"
+    },
+    message: {
+      username: "Tên người dùng không được để trống",
+      emailRequired: "Email không được để trống",
+      emailInvalid: "Định dạng email không hợp lệ",
+      emailExisted: "Email đã được đăng ký",
+      name: "Họ và Tên không được để trống",
+      nameTooShort: "Họ và Tên phải có ít nhất 2 ký tự",
+      phoneRequired: "Số điện thoại không được để trống",
+      phoneInvalid: "Định dạng số điện thoại không hợp lệ",
+      password: "Mật khẩu không được để trống",
+      passwordTooShort: "Mật khẩu phải có ít nhất 8 ký tự",
+      passwordInvalid: "Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt",
+      passwordNotMatch: "Mật khẩu không trùng khớp",
+      confirmPassword: "Xác nhận mật khẩu không được để trống",
+      registerError:"Đã có lỗi xảy ra. Vui lòng thử lại sau."
+    },
+    link: {
+      login: "Login to your account",
     },
   },
   pages404: {

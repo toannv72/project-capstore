@@ -16,18 +16,66 @@ export const en = {
     },
   },
   Login: {
-    pageTitle: "login",
+    pageTitle: "Login",
+    pageSubTitle: "Welcome to ... nursing house!",
     label: {
-      username: "Login mail",
-      password: "password",
+      username: "Username",
+      email: "Login mail",
+      password: "Password",
     },
     placeholder: {
-      username: "Please enter you Login ID",
-      password: "Please enter you password",
+      username: "Please enter your Login ID",
+      email: "Please enter your email",
+      password: "Please enter your password",
     },
     message: {
       username: "Login ID is required item",
-      password: "password is required item",
+      emailRequired: "Email is required item",
+      emailInvalid: "Invalid format email",
+      password: "Password is required item",
+      invalidCredential: "Invalid credentials. Please try again.",
+      loginError:"An error occurred while processing your request. Please try again later."
+    },
+    link: {
+      forgetPassword: "Forget password?",
+      register: "Register new account?",
+    },
+  },
+  Register: {
+    pageTitle: "Register",
+    pageSubTitle: "Welcome to ... nursing house!",
+    label: {
+      username: "Username",
+      yourName: "Your name",
+      email: "Email",
+      phone: "Phone",
+      password: "Password",
+      confirmPassword: "Confirm Password"
+    },
+    placeholder: {
+      username: "Please enter your Login ID",
+      email: "Please enter your email",
+      password: "Please enter your password",
+      confirmPassword: "Please enter confirm password",
+    },
+    message: {
+      username: "Username is required item",
+      name: "Name is required item",
+      nameTooShort: "Name must be at least 2 characters",
+      phoneRequired: "Phone is required item",
+      phoneInvalid: "Invalid format phone number",
+      emailRequired: "Email is required item",
+      emailInvalid: "Invalid format email",
+      emailExisted: "Email is already exist",
+      password: "Password is required item",
+      passwordTooShort: "Password must be at least 8 characters",
+      passwordInvalid: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+      passwordNotMatch: "Passwords does not match",
+      confirmPassword: "Confirm Password is required item",
+      registerError:"An error occurred while processing your request. Please try again later."
+    },
+    link: {
+      login: "Login to your account",
     },
   },
   pages404: {
