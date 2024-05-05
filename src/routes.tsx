@@ -10,7 +10,11 @@ import ComLogin from "./Components/ComLogin/ComLogin";
 export const routers = createBrowserRouter([
   {
     path: "*",
-    element: <Home />,
+    element: (
+      <ComHeader>
+        <Home />
+      </ComHeader>
+    ),
   },
   {
     path: "/",

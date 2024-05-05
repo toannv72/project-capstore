@@ -1,7 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Affix } from "antd";
+import { Link, useLocation } from "react-router-dom";
+import ComInput from "../ComInput/ComInput";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const user = {
   name: "Tom Cook",
@@ -10,16 +14,16 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
+  { name: "Dashboard", href: "/Dashboard", current: false },
+  { name: "Team", href: "/Team", current: false },
+  { name: "Projects", href: "/", current: false },
   { name: "Calendar", href: "#", current: false },
   { name: "Reports", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your Profile", href: "/" },
+  { name: "Settings", href: "/" },
+  { name: "Sign out", href: "/" },
 ];
 
 function classNames(...classes) {
@@ -27,22 +31,53 @@ function classNames(...classes) {
 }
 
 export default function ComHeader({ children }) {
+  const [headerNavigation, setheaderNavigation] = useState(navigation);
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const methods = useForm({
+    resolver: yupResolver(),
+    defaultValues: {
+      search: "",
+    },
+  });
+
+    const { handleSubmit, register, setFocus, watch, setValue } = methods;
+
+  useEffect(() => {
+    changeNavigation2(currentPath);
+  }, []);
+
+  const changeNavigation2 = (path) => {
+    setheaderNavigation((prevNavigation) =>
+      prevNavigation.map((item) => {
+        if (item.href === path) {
+          return { ...item, current: true };
+        } else {
+          return { ...item, current: false };
+        }
+      })
+    );
+  };
+
+  const changeNavigation = (itemName) => {
+    setheaderNavigation((prevNavigation) =>
+      prevNavigation.map((item) => {
+        if (item.name === itemName) {
+          return { ...item, current: true };
+        } else {
+          return { ...item, current: false };
+        }
+      })
+    );
+  };
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
-      <Affix offsetTop={0}>
+        <Affix offsetTop={0}>
           <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
               <>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto  px-4 sm:px-6 lg:px-8">
                   <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
@@ -54,10 +89,11 @@ export default function ComHeader({ children }) {
                       </div>
                       <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
-                          {navigation.map((item) => (
-                            <a
+                          {headerNavigation.map((item) => (
+                            <Link
                               key={item.name}
-                              href={item.href}
+                              to={item.href}
+                              onClick={() => changeNavigation(item.name)}
                               className={classNames(
                                 item.current
                                   ? "bg-gray-900 text-white"
@@ -67,13 +103,27 @@ export default function ComHeader({ children }) {
                               aria-current={item.current ? "page" : undefined}
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
                     </div>
                     <div className="hidden md:block">
-                      <div className="ml-4 flex items-center md:ml-6">
+                      <div className="ml-4 flex items-center md:ml-6 gap-2">
+                        <FormProvider {...methods}>
+                          <form
+                            className="flex flex-col gap-6"
+                            // onSubmit={handleSubmit(onSubmit)}
+                          >
+                            <ComInput
+                              // placeholder={"textApp.Login.placeholder.password"}
+                              // label={"textApp.Login.label.password"}
+                              search
+                              maxLength={16}
+                              {...register("search")}
+                            />
+                          </form>
+                        </FormProvider>
                         <button
                           type="button"
                           className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -82,7 +132,7 @@ export default function ComHeader({ children }) {
                           <span className="sr-only">View notifications</span>
                           <BellIcon className="h-6 w-6" aria-hidden="true" />
                         </button>
-        
+
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
                           <div>
@@ -109,15 +159,18 @@ export default function ComHeader({ children }) {
                               {userNavigation.map((item) => (
                                 <Menu.Item key={item.name}>
                                   {({ active }) => (
-                                    <a
-                                      href={item.href}
+                                    <Link
+                                      to={item.href}
+                                      onClick={() =>
+                                        changeNavigation(item.name)
+                                      }
                                       className={classNames(
                                         active ? "bg-gray-100" : "",
                                         "block px-4 py-2 text-sm text-gray-700"
                                       )}
                                     >
                                       {item.name}
-                                    </a>
+                                    </Link>
                                   )}
                                 </Menu.Item>
                               ))}
@@ -146,10 +199,9 @@ export default function ComHeader({ children }) {
                     </div>
                   </div>
                 </div>
-        
                 <Disclosure.Panel className="md:hidden">
                   <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                    {navigation.map((item) => (
+                    {headerNavigation.map((item) => (
                       <Disclosure.Button
                         key={item.name}
                         as="a"
@@ -192,6 +244,22 @@ export default function ComHeader({ children }) {
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </button>
                     </div>
+                    <div className="p-2">
+                      <FormProvider {...methods}>
+                        <form
+                          className="flex flex-col gap-6"
+                          // onSubmit={handleSubmit(onSubmit)}
+                        >
+                          <ComInput
+                            // placeholder={"textApp.Login.placeholder.password"}
+                            // label={"textApp.Login.label.password"}
+                            search
+                            maxLength={16}
+                            {...register("search")}
+                          />
+                        </form>
+                      </FormProvider>
+                    </div>
                     <div className="mt-3 space-y-1 px-2">
                       {userNavigation.map((item) => (
                         <Disclosure.Button
@@ -209,7 +277,7 @@ export default function ComHeader({ children }) {
               </>
             )}
           </Disclosure>
-      </Affix>
+        </Affix>
 
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
