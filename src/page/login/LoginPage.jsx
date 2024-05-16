@@ -2,18 +2,18 @@
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
-import ComInput from "../ComInput/ComInput";
-import ComButton from "../ComButton/ComButton";
-import { ComLink } from "../ComLink/ComLink";
+import ComInput from "../../Components/ComInput/ComInput";
+import ComButton from "../../Components/ComButton/ComButton";
+import { ComLink } from "../../Components/ComLink/ComLink";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FieldError } from "../FieldError/FieldError";
+import { FieldError } from "../../Components/FieldError/FieldError";
 import { useStorage } from "../../hooks/useLocalStorage";
 import { LanguageContext } from "../../contexts/LanguageContext";
-import loginImg from "./LoginImg.png";
+import loginImg from "../../assets/LoginImg.png";
 import { GoogleCircleFilled } from "@ant-design/icons";
 
-export default function ComLogin(props) {
+export default function LoginPage(props) {
     const { loginImgUrl, bgColor, loginGoogle, pageTitle } = props;
 
     const {
@@ -34,7 +34,7 @@ export default function ComLogin(props) {
 
 
     const loginMessenger = yup.object({
-        // username: yup.string().trim().required("textApp.Login.message.username"),
+        phone: yup.string().trim().matches(/^\d{10}$/, Login.message.phone).required(Login.message.phoneRequired),
         password: yup.string().required(Login.message.password),
         email: yup.string().trim().email(Login.message.emailInvalid).required(Login.message.emailRequired),
     })
@@ -46,7 +46,7 @@ export default function ComLogin(props) {
     const methods = useForm({
         resolver: yupResolver(loginMessenger),
         defaultValues: {
-            password: "",
+            phone: "",
             email: "",
         },
         values: LoginRequestDefault
@@ -113,16 +113,16 @@ export default function ComLogin(props) {
                             <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
 
                                 <ComInput
-                                    placeholder={Login.label.email}
-                                    label={Login.label.email}
+                                    placeholder={Login.placeholder.phone}
+                                    label={Login.label.phone}
                                     type="text"
-                                    // maxLength={15}
-                                    {...register("email")}
+                                    maxLength={10}
+                                    {...register("phone")}
                                     required
                                 />
 
                                 <ComInput
-                                    placeholder={Login.label.password}
+                                    placeholder={Login.placeholder.password}
                                     label={Login.label.password}
                                     type="password"
                                     maxLength={16}
@@ -160,11 +160,7 @@ export default function ComLogin(props) {
                                 </ComButton>
 
                             </>)}
-                        <div className="flex my-4 justify-center">
-
-                            <ComLink to="/register" className="flex gap-1" >  <p className="text-black font-normal ">Don't have an account?</p>  {Login.link.register}</ComLink>
-
-                        </div>
+                        
                     </div>
                 </div>
                 <div className={`w-1/2 ${bgColor? bgColor: defaultColor}  rounded-tr-3xl rounded-br-3xl shadow-lg md:flex hidden justify-center items-center  border-2 border-l-0`} >

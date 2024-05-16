@@ -20,12 +20,14 @@ export const en = {
     pageSubTitle: "Welcome to ... nursing house!",
     label: {
       username: "Username",
-      email: "Login mail",
+      phone: "Phone",
+      email: "Email",
       password: "Password",
     },
     placeholder: {
       username: "Please enter your Login ID",
       email: "Please enter your email",
+      phone: "Please enter your phone number",
       password: "Please enter your password",
     },
     message: {
@@ -33,6 +35,8 @@ export const en = {
       emailRequired: "Email is required item",
       emailInvalid: "Invalid format email",
       password: "Password is required item",
+      phoneRequired: "Phone number is required item",
+      phone: "Invalid format phone number",
       invalidCredential: "Invalid credentials. Please try again.",
       loginError:"An error occurred while processing your request. Please try again later."
     },
