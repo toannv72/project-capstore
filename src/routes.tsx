@@ -59,6 +59,10 @@ export const routers = createBrowserRouter([
         path: "/admin/institute",
         element: <InstituteManagement />,
       },
+      {
+        path: "/admin/institute2",
+        element: <InstituteManagement />,
+      },
       // Add other unprotected admin routes here (if any)
     ],
   },

@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -15,15 +15,15 @@ import {
   WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
   ClockIcon, // Quản lý thời gian (Ví dụ)
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const sortOptions = [
   { name: "vn", href: "#", current: true, lang: "vn" },
   { name: "lg", href: "#", current: false, lang: "en" },
 ];
 const subCategories = [
-  { name: "Quản lý viện", href: "#", icon: BuildingOffice2Icon },
-  { name: "Quản lý khách hàng", href: "#", icon: UserIcon },
+  { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
+  { name: "Quản lý khách hàng", href: "/admin/institute2", icon: UserIcon },
   { name: "Quản lý người lớn tuổi", href: "#", icon: UsersIcon },
   { name: "Quản lý nhân viên", href: "#", icon: BriefcaseIcon },
   { name: "Quản lý tài khoản", href: "#", icon: Cog6ToothIcon },
@@ -37,11 +37,37 @@ function classNames(...classes) {
 export default function ComHeaderAdmin({ children }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const { language, setLanguage } = useContext(LanguageContext);
+  const location = useLocation();
+  const currentPath = location.pathname;
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
-  console.log("====================================");
-  console.log(activeCategory);
-  console.log("====================================");
+  useEffect(() => {
+    setActiveCategory(currentPath);
+  }, [currentPath]);
+
+  function getAllCookies() {
+    const cookies = document.cookie.split("; ");
+    const cookieData = [];
+
+    for (const cookieString of cookies) {
+      const [name, value] = cookieString.split("=");
+      const cookie = { name, value };
+
+      // Lấy thêm thông tin domain, path, secure, httpOnly (nếu có)
+      const cookieAttributes = cookieString.split("; ").slice(1);
+      for (const attribute of cookieAttributes) {
+        const [attrName, attrValue] = attribute.split("=");
+        cookie[attrName] = attrValue;
+      }
+
+      cookieData.push(cookie);
+    }
+
+    return JSON.stringify(cookieData, null, 2); // Chuyển đổi sang JSON
+  }
+
+  const allCookiesJSON = getAllCookies();
+  console.log(allCookiesJSON);
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
@@ -51,18 +77,18 @@ export default function ComHeaderAdmin({ children }) {
               <div
                 key={category.name}
                 className={`${
-                  category === activeCategory
+                  category?.href === activeCategory
                     ? "bg-white rounded-r-full"
                     : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
                 } p-4 flex items-center cursor-pointer`}
                 onClick={() => {
-                  setActiveCategory(category);
+                  setActiveCategory(category.href);
                   navigate(category.href);
                 }}
               >
                 <category.icon
                   className={`h-6 w-6 mr-2 ${
-                    category === activeCategory
+                    category?.href === activeCategory
                       ? "text-[#0F296D]"
                       : "text-white"
                   }`}
@@ -70,7 +96,7 @@ export default function ComHeaderAdmin({ children }) {
                 />
                 <h1
                   className={`${
-                    category === activeCategory ? "text-[#0F296D]" : ""
+                    category?.href === activeCategory ? "text-[#0F296D]" : ""
                   } font-bold text-base`}
                 >
                   {category.name}
