@@ -10,6 +10,7 @@ import ErrorPage from "./page/404/ErrorPage";
 import ComLoading from "./Components/ComLoading/ComLoading";
 import ComPost from "./Components/ComPost/ComPost";
 import ComRegister from "./Components/ComRegister/ComRegister";
+import InstituteManagement from "./page/Manager/InstituteManagement/InstituteManagement";
 
 export const routers = createBrowserRouter([
   {
@@ -34,8 +35,8 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <ComRegister  />,
-      }
+        element: <ComRegister />,
+      },
     ],
   },
   {
@@ -55,8 +56,8 @@ export const routers = createBrowserRouter([
         element: <Admin1 />,
       },
       {
-        path: "/admin/abc",
-        element: <Admin1 />,
+        path: "/admin/institute",
+        element: <InstituteManagement />,
       },
       // Add other unprotected admin routes here (if any)
     ],
