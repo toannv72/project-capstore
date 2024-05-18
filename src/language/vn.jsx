@@ -20,12 +20,14 @@ export const vn = {
     pageSubTitle: "Chào mừng đến với Viện Dưỡng Lão...!",
     label: {
       username: "Tên người dùng",
+      phone: "Số điện thoại",
       email: "Email",
       password: "Mật khẩu",
     },
     placeholder: {
       username: "Tên người dùng",
       email: "Email",
+      phone: "Số điện thoại",
       password: "Mật khẩu",
     },
     message: {
@@ -33,6 +35,8 @@ export const vn = {
       emailRequired: "Email không được để trống",
       emailInvalid: "Định dạng email không hợp lệ",
       password: "Mật khẩu không được để trống",
+      phoneRequired: "Số điện thoại không được để trống",
+      phone: "Định dạng số điện thoại không hợp lệ",
       invalidCredential: "Thông tin đăng nhập không hợp lệ. Vui lòng thử lại.",
       loginError:"Đã có lỗi xảy ra. Vui lòng thử lại sau."
     },
