@@ -45,33 +45,13 @@ export default function ComHeaderAdmin({ children }) {
     setActiveCategory(currentPath);
   }, [currentPath]);
 
-  function getAllCookies() {
-    const cookies = document.cookie.split("; ");
-    const cookieData = [];
-
-    for (const cookieString of cookies) {
-      const [name, value] = cookieString.split("=");
-      const cookie = { name, value };
-
-      // Lấy thêm thông tin domain, path, secure, httpOnly (nếu có)
-      const cookieAttributes = cookieString.split("; ").slice(1);
-      for (const attribute of cookieAttributes) {
-        const [attrName, attrValue] = attribute.split("=");
-        cookie[attrName] = attrValue;
-      }
-
-      cookieData.push(cookie);
-    }
-
-    return JSON.stringify(cookieData, null, 2); // Chuyển đổi sang JSON
-  }
-
-  const allCookiesJSON = getAllCookies();
-  console.log(allCookiesJSON);
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
-        <div className="bg-[#0F296D] h-screen w-[300px] py-12 pr-6">
+        <div className="bg-[#0F296D] h-screen w-[300px]  pr-6">
+          <div className="text-white px-10 py-10 text-center text-3xl">
+            CareConnect
+          </div>
           <div className="text-white flex flex-col gap-5">
             {subCategories.map((category) => (
               <div
@@ -252,13 +232,11 @@ export default function ComHeaderAdmin({ children }) {
           </Affix>
 
           <section aria-labelledby="products-heading" className="pb-24 pt-6">
-            <h2 id="products-heading" className="sr-only">
-              Products
-            </h2>
-
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-              <div className="lg:col-span-5 overflow-y-auto h-full w-full ">
-                {children}
+              <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+                <div className="lg:w-[calc(100vw-400px)] w-[calc(100vw-70px)]">
+                  {children}
+                </div>
               </div>
             </div>
           </section>
