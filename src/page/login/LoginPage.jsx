@@ -12,6 +12,7 @@ import { LanguageContext } from "../../contexts/LanguageContext";
 import loginImg from "../../assets/LoginImg.png";
 import { GoogleCircleFilled } from "@ant-design/icons";
 import { postData } from "../../api/api";
+import { useAuth } from "../../Auth/useAuth";
 
 export default function LoginPage(props) {
   const { loginImgUrl, bgColor, loginGoogle, pageTitle } = props;
@@ -29,10 +30,9 @@ export default function LoginPage(props) {
   const [LoginError, setLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
   const defaultColor = "bg-cyan-600";
-console.log('====================================');
-console.log(111, token);
-console.log('====================================');
+
   const loginMessenger = yup.object({
     //   phone: yup
     //     .string()
@@ -57,22 +57,17 @@ console.log('====================================');
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
   const onSubmit = (data) => {
-    console.log(data);
     setLoginError(false);
-
     setLogin(false);
     setDisabled(true);
     postData("/auth/login", data, {})
       .then((data) => {
-        console.log('====================================');
-        console.log(data?.accessToken);
-        console.log('====================================');
+        login({ role: "admin" });
         setToken(data?.accessToken);
-
         // Chờ setToken hoàn thành trước khi navigate
         return new Promise((resolve) => {
           setTimeout(() => {
-            // navigate("/admin/institute2");
+            navigate("/admin/institute2");
             resolve(); // Báo hiệu Promise đã hoàn thành
           }, 0); // Thời gian chờ 0ms để đảm bảo setToken đã được thực hiện
         });

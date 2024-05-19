@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Affix } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { LanguageContext } from "../../contexts/LanguageContext";
-import { ComLink } from "../ComLink/ComLink";
+import { Can } from "@casl/react";
 import {
   BuildingOffice2Icon, // Quản lý viện (Ví dụ)
   UserIcon, // Quản lý khách hàng (Ví dụ)
@@ -16,6 +16,8 @@ import {
   ClockIcon, // Quản lý thời gian (Ví dụ)
 } from "@heroicons/react/24/outline";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Auth/useAuth";
+import ErrorPage from "../../page/404/ErrorPage";
 
 const sortOptions = [
   { name: "vn", href: "#", current: true, lang: "vn" },
@@ -41,9 +43,12 @@ export default function ComHeaderAdmin({ children }) {
   const currentPath = location.pathname;
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
   useEffect(() => {
     setActiveCategory(currentPath);
   }, [currentPath]);
+  console.log();
 
   return (
     <div className="bg-white flex">
@@ -235,7 +240,11 @@ export default function ComHeaderAdmin({ children }) {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
               <div className="lg:col-span-6 overflow-y-auto h-full w-full">
                 <div className="lg:w-[calc(100vw-400px)] w-[calc(100vw-70px)]">
-                  {children}
+                  {user?.role === "admin" ? (
+                    children
+                  ) : (
+                    <ErrorPage goTo={"/"} statusCode={"404"} />
+                  )}
                 </div>
               </div>
             </div>
