@@ -1,6 +1,6 @@
 import { Skeleton, Spin, Table } from "antd";
 
-export default function ComTable({ columns, dataSource, loading }) {
+export default function ComTable({ columns, dataSource, loading, ...props }) {
   return (
     <>
       <Table
@@ -17,6 +17,7 @@ export default function ComTable({ columns, dataSource, loading }) {
           pageSizeOptions: ["10", "20", "50", "100"],
         }}
         loading={loading}
+        {...props}
       />
     </>
   );
