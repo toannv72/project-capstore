@@ -1,9 +1,9 @@
 import React from "react";
 import { Modal } from "antd";
-function ComModal({ isOpen, onClose, children }) {
+function ComModal({ isOpen, onClose, children, title }) {
   return (
     <Modal
-      title="Chi tiết đơn hàng"
+      title={title}
       open={isOpen}
       width={500}
       onCancel={onClose}

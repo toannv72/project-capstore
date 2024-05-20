@@ -1,13 +1,13 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import Home from "./page/Home";
 import Admin from "./page/admin/Admin";
-import Admin1 from "./page/admin/Admin copy";
 import ComHeader from "./Components/ComHeader/ComHeader";
 import React from "react";
 import LoginPage from "./page/login/LoginPage";
 import ErrorPage from "./page/404/ErrorPage";
 import InstituteManagement from "./page/Manager/InstituteManagement/InstituteManagement";
 import ComHeaderAdmin from "./Components/ComHeaderAdmin/ComHeaderAdmin";
+import TableUser from "./page/admin/TableUser/TableUser";
 
 export const routers = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ export const routers = createBrowserRouter([
       <ComHeader>
         <ErrorPage goTo={"/"} statusCode={"404"} />
       </ComHeader>
-    ), 
+    ),
   },
   {
     path: "/",
@@ -50,15 +50,15 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/admin/abc",
-        element: <Admin1 />,
+        element: <TableUser />,
       },
       {
         path: "/admin/institute",
         element: <InstituteManagement />,
       },
       {
-        path: "/admin/institute2",
-        element: <InstituteManagement />,
+        path: "/admin/user",
+        element: <TableUser />,
       },
       // Add other unprotected admin routes here (if any)
     ],

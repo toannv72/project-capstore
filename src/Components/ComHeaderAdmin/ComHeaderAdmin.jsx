@@ -25,7 +25,7 @@ const sortOptions = [
 ];
 const subCategories = [
   { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
-  { name: "Quản lý khách hàng", href: "/admin/institute2", icon: UserIcon },
+  { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
   { name: "Quản lý người lớn tuổi", href: "#", icon: UsersIcon },
   { name: "Quản lý nhân viên", href: "#", icon: BriefcaseIcon },
   { name: "Quản lý tài khoản", href: "#", icon: Cog6ToothIcon },
@@ -236,7 +236,7 @@ export default function ComHeaderAdmin({ children }) {
             </div>
           </Affix>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <section aria-labelledby="products-heading" className="pb-24 pt-2">
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
               <div className="lg:col-span-6 overflow-y-auto h-full w-full">
                 <div className="lg:w-[calc(100vw-400px)] w-[calc(100vw-70px)]">
