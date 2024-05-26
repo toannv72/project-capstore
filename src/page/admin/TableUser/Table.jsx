@@ -20,7 +20,7 @@ export default function Table() {
     const datas = [];
     for (let i = 0; i < 46; i++) {
       datas.push({
-        key: i,
+        id: i,
         name: `Edward King ${i}`,
         phone: 32 + i,
         room: `${i}`,
@@ -113,7 +113,10 @@ export default function Table() {
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
       >
-        <EditUser selectedUser={selectedUser} />
+        <EditUser
+          selectedUser={selectedUser}
+          onClose={modalEdit?.handleClose}
+        />
       </ComModal>
     </div>
   );

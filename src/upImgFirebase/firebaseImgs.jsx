@@ -1,39 +1,18 @@
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { storage } from "../configs/firebase";
-
+import { v4 as uuidv4 } from "uuid";
 
 export const firebaseImgs = async (images) => {
-  console.log(1111111,images);
-    const imagePromises = [];
+  
+  const imageUrlPromises = images.map(async (image) => {
+    const fileExtension = image.name.split(".").pop();
+    const newImageName = `${uuidv4()}.${fileExtension}`;
+    const imageRef = ref(storage, `images/${newImageName}`);
+    await uploadBytes(imageRef, image);
 
-    for (const image of images) {
-      const imageRef = ref(storage, `images/${image.name}`);
-      const uploadTask = uploadBytes(imageRef, image);
-      console.log(image);
-      imagePromises.push(uploadTask);
-    }
+    return getDownloadURL(imageRef);
+  });
+  const urls = await Promise.all(imageUrlPromises);
 
-    await Promise.all(imagePromises);
-
-    const imageUrlPromises = images.map(async (image) => {
-      const imageRef = ref(storage, `images/${image.name}`);
-      return getDownloadURL(imageRef);
-    });
-
-    const urls = await Promise.all(imageUrlPromises);
-   
-    return urls;
+  return urls;
 };
-
-// const handleImageChanges = (e) => {
-//     const selectedImages = e.target.files;
-//     setImages([...images, ...selectedImages]);
-//   };
-
-// firebaseImgs(images)
-// .then((data) => {
-//     setImageUrls(data)
-// })
-// .catch((error) => {
-//     console.log(error)
-// });

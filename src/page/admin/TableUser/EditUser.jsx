@@ -1,25 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import ComButton from "./../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
+import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
+import { useNotification } from './../../../Notification/Notification';
 
-export default function EditUser({ selectedUser }) {
+export default function EditUser({ selectedUser, onClose }) {
+  const [image, setImages] = useState([]);
+  const { notificationApi } = useNotification();
+
   const CreateProductMessenger = yup.object({
     name: yup.string().required("textApp.CreateProduct.message.name"),
+    // phone: yup
+    //   .string()
+    //   .trim()
+    //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
+    //   .required("textApp.CreateProduct.message.name"),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
       name: "",
+      phone: "",
     },
     values: selectedUser,
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+    
+    firebaseImgs(image).then((dataImg) => {
+      console.log("ảnh nè : ", dataImg);
+      notificationApi("error", "tạo thành công", "đã tạo");
+      onClose();
+    });
+  };
+
+  const onChange = (data) => {
+    const selectedImages = data;
+    const newImages = selectedImages.map((file) => file.originFileObj);
+    setImages(newImages);
+  };
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -60,6 +86,7 @@ export default function EditUser({ selectedUser }) {
                 </div>
               </div>
             </div>
+            <ComUpImg onChange={onChange} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

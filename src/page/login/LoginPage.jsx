@@ -67,7 +67,7 @@ export default function LoginPage(props) {
         // Chờ setToken hoàn thành trước khi navigate
         return new Promise((resolve) => {
           setTimeout(() => {
-            navigate("/admin/institute2");
+            navigate("/admin/user");
             resolve(); // Báo hiệu Promise đã hoàn thành
           }, 0); // Thời gian chờ 0ms để đảm bảo setToken đã được thực hiện
         });
