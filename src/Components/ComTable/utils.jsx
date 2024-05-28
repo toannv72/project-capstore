@@ -20,7 +20,13 @@ const useColumnSearch = () => {
   };
 
   const getColumnSearchProps = (dataIndex, title) => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
       <div
         style={{
           padding: 8,
@@ -31,23 +37,28 @@ const useColumnSearch = () => {
           ref={searchInput}
           placeholder={`Tìm kiếm ${title}`}
           value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
-            display: 'block',
+            display: "block",
           }}
         />
         <Space>
           <Button
-           type="dashed" 
+            type="dashed"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             size="small"
             style={{
               width: 90,
             }}
           >
-            <div className='justify-center flex '><SearchOutlined />Tìm kiếm</div>
+            <div className="justify-center flex ">
+              <SearchOutlined />
+              Tìm kiếm
+            </div>
           </Button>
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
@@ -73,7 +84,7 @@ const useColumnSearch = () => {
     filterIcon: (filtered) => (
       <SearchOutlined
         style={{
-          color: filtered ? '#1677ff' : undefined,
+          color: filtered ? "#de1818" : undefined,
         }}
       />
     ),
@@ -88,12 +99,12 @@ const useColumnSearch = () => {
       searchedColumn === dataIndex ? (
         <Highlighter
           highlightStyle={{
-            backgroundColor: '#ffc069',
+            backgroundColor: "#ffc069",
             padding: 0,
           }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text ? text.toString() : ""}
         />
       ) : (
         text

@@ -9,7 +9,7 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 
 function InstituteManagement() {
-  const [order, setOrder] = useState([
+  const [data, setData] = useState([
     {
       id: 1,
       name: "toan",
@@ -23,45 +23,15 @@ function InstituteManagement() {
   const { getColumnSearchProps } = useColumnSearch();
   const {
     text: {
-      Login,
+      InstituteManagement,
       common: { button },
     },
   } = useContext(LanguageContext);
   const expandedRowRender = () => {
     const columns = [
       {
-        title: "Date",
-        dataIndex: "date",
+        title: "Name",
         fixed: "left",
-        width: 200,
-        key: "date",
-      },
-      {
-        title: "Name",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Name",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Name",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Name",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Name",
         width: 200,
         dataIndex: "name",
         key: "name",
@@ -73,23 +43,27 @@ function InstituteManagement() {
         render: () => <Badge status="success" text="Finished" />,
       },
       {
-        title: "Upgrade Status",
+        title: "Số giường",
         width: 200,
         dataIndex: "upgradeNum",
         key: "upgradeNum",
       },
       {
+        title: "Loại phòng",
         width: 200,
-        title: "Upgrade Status",
         dataIndex: "upgradeNum",
         key: "upgradeNum",
+        render: () => <div>
+          VIP 1
+        </div>,
       },
       {
-        title: "Upgrade Status",
         width: 200,
+        title: "Số giường trống",
         dataIndex: "upgradeNum",
         key: "upgradeNum",
       },
+
       {
         title: "Upgrade Status",
         dataIndex: "upgradeNum",
@@ -113,7 +87,7 @@ function InstituteManagement() {
       },
     ];
     const data = [];
-    for (let i = 0; i < 3; ++i) {
+    for (let i = 0; i < 10; ++i) {
       data.push({
         key: i.toString(),
         date: "2014-12-24 23:12:00",
@@ -125,42 +99,33 @@ function InstituteManagement() {
           x: 1520,
           y: "55vh",
         }}
-        bordered columns={columns} dataSource={data} pagination={false} />;
+        bdataed columns={columns} dataSource={data} pagination={false} />;
   };
 
   const columns = [
     {
-      title: "Mã đơn hàng",
-      dataIndex: "id",
-      width: 300,
-      key: "id",
+      title: InstituteManagement?.areaName,
+      width: 150,
       fixed: "left",
-
-      ...getColumnSearchProps("id", "Mã đơn hàng"),
-      // render: (_, record) => <div></div>,
-    },
-    {
-      title: "Tên Người đặt",
-      width: 200,
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps("name", "tên"),
+      ...getColumnSearchProps("name", InstituteManagement?.areaName),
     },
 
     {
-      title: "Số điện thoại",
+      title: InstituteManagement?.numberOfRooms,
       width: 200,
-      dataIndex: "phone",
-      key: "phone",
-      sorter: (a, b) => a.phone - b.phone,
-      ...getColumnSearchProps("phone", "phone"),
+      dataIndex: "totalFloor",
+      key: "totalFloor",
+      // sorter: (a, b) => a.phone - b.phone,
+      ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
     },
     {
-      title: "Email",
+      title: InstituteManagement?.status,
       width: 200,
-      dataIndex: "email",
-      key: "email",
-      ...getColumnSearchProps("email", "email"),
+      dataIndex: "status",
+      key: "status",
+      ...getColumnSearchProps("status", InstituteManagement?.status),
     },
     {
       title: "Thông tin bổ sung",
@@ -182,7 +147,7 @@ function InstituteManagement() {
       title: "Action",
       key: "operation",
       fixed: "right",
-      width: 150,
+      width: 100,
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <div>
@@ -196,11 +161,12 @@ function InstituteManagement() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/devices")
+    getData("/block")
       .then((e) => {
         console.log("====================================");
         console.log(e);
         console.log("====================================");
+        setData(e?.data?.contends);
         table.handleCloseLoading();
       })
       .catch((error) => {
@@ -216,7 +182,7 @@ function InstituteManagement() {
           defaultExpandedRowKeys: ["0"],
         }}
         columns={columns}
-        dataSource={order}
+        dataSource={data}
         loading={table.loading}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>

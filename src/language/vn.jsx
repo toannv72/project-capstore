@@ -38,7 +38,7 @@ export const vn = {
       phoneRequired: "Số điện thoại không được để trống",
       phone: "Định dạng số điện thoại không hợp lệ",
       invalidCredential: "Thông tin đăng nhập không hợp lệ. Vui lòng thử lại.",
-      loginError:"Đã có lỗi xảy ra. Vui lòng thử lại sau."
+      loginError: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
     },
     link: {
       forgetPassword: "Quên mật khẩu?",
@@ -54,7 +54,7 @@ export const vn = {
       yourName: "Họ và Tên",
       phone: "Số điện thoại",
       password: "Mật khẩu",
-      confirmPassword: "Xác nhận mật khẩu"
+      confirmPassword: "Xác nhận mật khẩu",
     },
     placeholder: {
       username: "Tên người dùng",
@@ -62,7 +62,7 @@ export const vn = {
       yourName: "Họ và Tên",
       phone: "Số điện thoại",
       password: "Mật khẩu",
-      confirmPassword: "Xác nhận mật khẩu"
+      confirmPassword: "Xác nhận mật khẩu",
     },
     message: {
       username: "Tên người dùng không được để trống",
@@ -75,10 +75,11 @@ export const vn = {
       phoneInvalid: "Định dạng số điện thoại không hợp lệ",
       password: "Mật khẩu không được để trống",
       passwordTooShort: "Mật khẩu phải có ít nhất 8 ký tự",
-      passwordInvalid: "Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt",
+      passwordInvalid:
+        "Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt",
       passwordNotMatch: "Mật khẩu không trùng khớp",
       confirmPassword: "Xác nhận mật khẩu không được để trống",
-      registerError:"Đã có lỗi xảy ra. Vui lòng thử lại sau."
+      registerError: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
     },
     link: {
       login: "Login to your account",
@@ -170,4 +171,9 @@ export const vn = {
     },
     { code: "500", message: "bcd" },
   ],
+  InstituteManagement: {
+    areaName: "Tên khu",
+    numberOfRooms: "Số lượng phòng",
+    status: "Trạng thái",
+  },
 };
