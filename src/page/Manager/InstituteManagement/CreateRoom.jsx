@@ -34,8 +34,7 @@ export default function CreateRoom({ isOpen, onClose }) {
     console.log(data);
     postData(`/room?blockId=${data?.blockId}`, data)
       .then((e) => {
-  
-        notificationApi("success", "tạo thành công", "đã tạo");
+        notificationApi("success", "tạo thành công", "đã tạo phòng!");
         onClose()
       })
       .catch((error) => {

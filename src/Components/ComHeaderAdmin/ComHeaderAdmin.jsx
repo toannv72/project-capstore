@@ -53,7 +53,7 @@ export default function ComHeaderAdmin({ children }) {
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
-        <div className="bg-[#0F296D] h-screen w-[300px]  pr-6">
+        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2">
           <div className="text-white px-10 py-10 text-center text-3xl">
             CareConnect
           </div>
@@ -65,7 +65,7 @@ export default function ComHeaderAdmin({ children }) {
                   category?.href === activeCategory
                     ? "bg-white rounded-r-full"
                     : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
-                } p-4 flex items-center cursor-pointer`}
+                } p-3 flex items-center cursor-pointer`}
                 onClick={() => {
                   setActiveCategory(category.href);
                   navigate(category.href);
@@ -239,7 +239,7 @@ export default function ComHeaderAdmin({ children }) {
           <section aria-labelledby="products-heading" className="pb-24 pt-2">
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
               <div className="lg:col-span-6 overflow-y-auto h-full w-full">
-                <div className="lg:w-[calc(100vw-400px)] w-[calc(100vw-70px)]">
+                <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                   {user?.role === "admin" ? (
                     children
                   ) : (

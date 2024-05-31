@@ -7,6 +7,7 @@ import { Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailUser from "./DetailUser";
 import EditUser from "./EditUser";
+import { getData } from "../../../api/api";
 
 export default function Table() {
   const [data, setData] = useState([]);
@@ -15,23 +16,18 @@ export default function Table() {
   const modalDetail = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
-
+console.log('====================================');
+console.log(data);
+console.log('====================================');
   useEffect(() => {
-    const datas = [];
-    for (let i = 0; i < 46; i++) {
-      datas.push({
-        id: i,
-        name: `Edward King ${i}`,
-        phone: 32 + i,
-        room: `${i}`,
-        day: `${i}`,
+    getData("/users")
+      .then((e) => {
+        setData(e?.data?.contends);
+        table.handleCloseLoading();
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
       });
-    }
-    setData(datas);
-    table.handleOpenLoading();
-    table.handleCloseLoading();
-
-    return () => {};
   }, []);
 
   const showModal = (record) => {
@@ -45,11 +41,11 @@ export default function Table() {
   const columns = [
     {
       title: "Họ và tên",
-      dataIndex: "name",
+      dataIndex: "fullName",
       width: 100,
-      key: "name",
+      key: "fullName",
       fixed: "left",
-      ...getColumnSearchProps("name", "Họ và tên"),
+      ...getColumnSearchProps("fullName", "Họ và tên"),
       render: (record) => (
         <Tooltip placement="topLeft" title={"Chi tiết"}>
           {record}
@@ -59,23 +55,23 @@ export default function Table() {
     {
       title: "Số điện thoại",
       width: 100,
-      dataIndex: "phone",
-      key: "phone",
-      ...getColumnSearchProps("phone", "Số điện thoại"),
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+      ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
     },
     {
-      title: "Phòng",
+      title: "Gmail",
       width: 100,
-      dataIndex: "room",
-      key: "room",
-      ...getColumnSearchProps("room", "room"),
+      dataIndex: "email",
+      key: "email",
+      ...getColumnSearchProps("email", "Gmail"),
     },
     {
-      title: "Thời hạn",
+      title: "Giới tính",
       width: 100,
-      dataIndex: "day",
-      key: "day",
-      ...getColumnSearchProps("day", "Thời hạn"),
+      dataIndex: "gender",
+      key: "gender",
+      ...getColumnSearchProps("gender", "Giới tính"),
     },
     {
       title: "Action",
@@ -100,6 +96,7 @@ export default function Table() {
       ),
     },
   ];
+
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />

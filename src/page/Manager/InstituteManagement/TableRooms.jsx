@@ -71,11 +71,18 @@ export default function TableRooms() {
   const columns = [
     {
       title: "Tên phòng",
-      width: 150,
+      width: 100,
       fixed: "left",
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name", InstituteManagement?.areaName),
+    },
+    {
+      title: "Khu",
+      dataIndex: "type",
+      key: "type",
+      width: 100,
+      ...getColumnSearchProps("type", "Khu"),
     },
     {
       title: "Loại phòng",
@@ -109,7 +116,7 @@ export default function TableRooms() {
       title: "Action",
       key: "operation",
       fixed: "right",
-      width: 100,
+      width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <div>
