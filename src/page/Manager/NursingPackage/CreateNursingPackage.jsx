@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import ComButton from "./../../../Components/ComButton/ComButton";
+import ComButton from "../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
-import ComInput from "./../../../Components/ComInput/ComInput";
+import ComInput from "../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
-import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
-import { useNotification } from "./../../../Notification/Notification";
+import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
+import { useNotification } from "../../../Notification/Notification";
 
-export default function CreateBlock({ isOpen, onClose }) {
+export default function CreateNursingPackage({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
@@ -43,13 +43,10 @@ export default function CreateBlock({ isOpen, onClose }) {
   return (
     <div>
       <div className="  bg-white ">
-     
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
             <div className=" overflow-y-auto p-4">
-              <div
-                className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-              >
+              <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput

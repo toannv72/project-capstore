@@ -1,11 +1,10 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, CalendarDaysIcon, QueueListIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Affix } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { LanguageContext } from "../../contexts/LanguageContext";
-import { Can } from "@casl/react";
 import {
   BuildingOffice2Icon, // Quản lý viện (Ví dụ)
   UserIcon, // Quản lý khách hàng (Ví dụ)
@@ -15,7 +14,7 @@ import {
   WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
   ClockIcon, // Quản lý thời gian (Ví dụ)
 } from "@heroicons/react/24/outline";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
@@ -26,11 +25,16 @@ const sortOptions = [
 const subCategories = [
   { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
   { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
-  { name: "Quản lý người lớn tuổi", href: "#", icon: UsersIcon },
-  { name: "Quản lý nhân viên", href: "#", icon: BriefcaseIcon },
-  { name: "Quản lý tài khoản", href: "#", icon: Cog6ToothIcon },
-  { name: "Quản lý dịch vụ", href: "#", icon: WrenchScrewdriverIcon },
-  { name: "Quản lý thời gian", href: "#", icon: ClockIcon },
+  { name: "Quản lý người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
+  { name: "Quản lý nhân viên", href: "/admin/staff", icon: BriefcaseIcon },
+  { name: "Lịch hẹn", href: "#", icon: CalendarDaysIcon },
+  { name: "Danh sách dịch vụ", href: "#", icon: Bars3Icon },
+  {
+    name: "Danh sách gói dưỡng lão",
+    href: "/admin/nursingPackage",
+    icon: QueueListIcon,
+  },
+  { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -48,7 +52,12 @@ export default function ComHeaderAdmin({ children }) {
   useEffect(() => {
     setActiveCategory(currentPath);
   }, [currentPath]);
-  console.log();
+  function findNameByPathname() {
+    const matchingCategory = subCategories.find(
+      (category) => category.href === currentPath
+    );
+    return matchingCategory ? matchingCategory.name : null;
+  }
 
   return (
     <div className="bg-white flex">
@@ -144,9 +153,9 @@ export default function ComHeaderAdmin({ children }) {
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
+                          <Link to={category.href} className="block px-2 py-3">
                             {category.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -161,7 +170,8 @@ export default function ComHeaderAdmin({ children }) {
           <Affix offsetTop={0}>
             <div className="bg-white flex items-baseline justify-between border-b border-gray-200 pb-6 pt-2">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                New Arrivalsss
+                {/* đổi Tên */}
+                {findNameByPathname()}
               </h1>
 
               <div className="flex items-center">

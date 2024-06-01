@@ -8,6 +8,9 @@ import ErrorPage from "./page/404/ErrorPage";
 import InstituteManagement from "./page/Manager/InstituteManagement/InstituteManagement";
 import ComHeaderAdmin from "./Components/ComHeaderAdmin/ComHeaderAdmin";
 import TableUser from "./page/admin/TableUser/TableUser";
+import TableElder from "./page/admin/TableElder/TableElder";
+import TableStaff from "./page/admin/TableStaff/TableStaff";
+import NursingPackage from "./page/Manager/NursingPackage/NursingPackage";
 
 export const routers = createBrowserRouter([
   {
@@ -59,6 +62,18 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/user",
         element: <TableUser />,
+      },
+      {
+        path: "/admin/elder",
+        element: <TableElder />,
+      },
+      {
+        path: "/admin/staff",
+        element: <TableStaff />,
+      },
+      {
+        path: "/admin/nursingPackage",
+        element: <NursingPackage />,
       },
       // Add other unprotected admin routes here (if any)
     ],
