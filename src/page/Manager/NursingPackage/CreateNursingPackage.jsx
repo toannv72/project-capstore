@@ -7,6 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "../../../Notification/Notification";
+import ComTextArea from "./../../../Components/ComInput/ComTextArea";
+import ComNumber from "./../../../Components/ComInput/ComNumber";
+import { postData } from "../../../api/api";
 
 export default function CreateNursingPackage({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
@@ -29,20 +32,53 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
-
+  function formatPriceToNumber(priceString) {
+    const cleanedString = priceString.replace(/[^0-9]/g, "");
+    return parseInt(cleanedString, 10);
+  }
+  const onChange = (data) => {
+    const selectedImages = data;
+    const newImages = selectedImages.map((file) => file.originFileObj);
+    setImages(newImages);
+  };
   const onSubmit = (data) => {
     console.log(data);
-
+    console.log(formatPriceToNumber(data.price));
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      notificationApi("error", "tạo thành công", "đã tạo");
+
+      const dataPost = {
+        ...data,
+        price: formatPriceToNumber(data.price),
+        imagePackage: dataImg[0],
+      };
+      postData(`/package-register`, dataPost)
+        .then((e) => {
+          notificationApi(
+            "success",
+            "tạo thành công",
+            "đã tạo gói dịch vụ thành công!"
+          );
+          onClose();
+        })
+        .catch((error) => {
+          console.log(error);
+          notificationApi(
+            "error",
+            "tạo không thành công",
+            "tạo gói dịch vụ không thành công!"
+          );
+        });
       onClose();
     });
   };
 
   return (
     <div>
-      <div className="  bg-white ">
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        Tạo mới khu,phòng
+      </h2>
+      <div className="bg-white ">
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
             <div className=" overflow-y-auto p-4">
@@ -58,14 +94,50 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      min={1}
+                      label={"Số lượng người "}
+                      placeholder={"Vui lòng nhập số lượng"}
+                      {...register("numberBed")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      money
+                      defaultValue={1000}
+                      min={1000}
+                      label={"Số tiền"}
+                      placeholder={"Vui lòng nhập số tiền"}
+                      {...register("price")}
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComInput
+                    <ComTextArea
                       type="text"
-                      label={"description"}
+                      rows={5}
+                      label={"Chi tiết gói "}
                       placeholder={"description"}
                       {...register("description")}
                       required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComUpImg
+                      onChange={onChange}
+                      numberImg={1}
+                      multiple={false}
                     />
                   </div>
                 </div>

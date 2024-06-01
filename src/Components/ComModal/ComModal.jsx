@@ -9,7 +9,7 @@ function ComModal({ isOpen, onClose, children, title }) {
       onCancel={onClose}
       footer={null}
     >
-      {children}
+      <div className="">{children}</div>
     </Modal>
   );
 }
