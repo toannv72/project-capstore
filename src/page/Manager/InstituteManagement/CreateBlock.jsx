@@ -7,18 +7,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
+import { postData } from "../../../api/api";
+import ComTextArea from "../../../Components/ComInput/ComTextArea";
 
 export default function CreateBlock({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("textApp.CreateProduct.message.name"),
-    // phone: yup
-    //   .string()
-    //   .trim()
-    //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
-    //   .required("textApp.CreateProduct.message.name"),
+    name: yup.string().required("Vui lòng nhâp tên"),
   });
 
   const methods = useForm({
@@ -33,23 +30,23 @@ export default function CreateBlock({ isOpen, onClose }) {
   const onSubmit = (data) => {
     console.log(data);
 
-    firebaseImgs(image).then((dataImg) => {
-      console.log("ảnh nè : ", dataImg);
-      notificationApi("error", "tạo thành công", "đã tạo");
-      onClose();
-    });
+    postData(`/block`, { ...data, totalFloor: 0 })
+      .then((e) => {
+        notificationApi("success", "tạo thành công", "đã tạo phòng!");
+        onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <div>
       <div className="  bg-white ">
-     
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
             <div className=" overflow-y-auto p-4">
-              <div
-                className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-              >
+              <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
@@ -63,10 +60,11 @@ export default function CreateBlock({ isOpen, onClose }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComInput
+                    <ComTextArea
                       type="text"
-                      label={"description"}
-                      placeholder={"description"}
+                      rows={5}
+                      label={"Thông tin bổ sung"}
+                      placeholder={"Thông tin bổ sung"}
                       {...register("description")}
                       required
                     />
@@ -74,7 +72,6 @@ export default function CreateBlock({ isOpen, onClose }) {
                 </div>
               </div>
             </div>
-
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

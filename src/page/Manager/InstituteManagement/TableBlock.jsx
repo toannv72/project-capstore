@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Badge, Table, Tooltip, Typography } from "antd";
@@ -9,7 +9,6 @@ import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 export default function TableBlock() {
-    
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
@@ -100,11 +99,12 @@ export default function TableBlock() {
 
     {
       title: InstituteManagement?.numberOfRooms,
-      width: 200,
-      dataIndex: "totalFloor",
-      key: "totalFloor",
+      width: 100,
+      dataIndex: "rooms",
+      key: "rooms",
       // sorter: (a, b) => a.phone - b.phone,
-      ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
+      render: (record) => <div>{record?.length}</div>,
+      // ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
     },
     {
       title: InstituteManagement?.status,

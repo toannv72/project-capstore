@@ -9,6 +9,7 @@ import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import { getData, postData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
+import ComTextArea from "../../../Components/ComInput/ComTextArea";
 
 export default function CreateRoom({ isOpen, onClose }) {
   const [dataBlock, setDataBlock] = useState([]);
@@ -104,9 +105,10 @@ export default function CreateRoom({ isOpen, onClose }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComInput
+                    <ComTextArea
                       type="text"
-                      label={"description"}
+                      rows={5}
+                      label={"Chi tiết gói "}
                       placeholder={"description"}
                       {...register("description")}
                       required
