@@ -12,6 +12,7 @@ import TableElder from "./page/admin/TableElder/TableElder";
 import TableStaff from "./page/admin/TableStaff/TableStaff";
 import NursingPackage from "./page/Manager/NursingPackage/NursingPackage";
 import AppointmentSchedule from "./page/Manager/AppointmentSchedule/AppointmentSchedule";
+import ServicePackage from './page/Manager/ServicePackage/ServicePackage';
 
 export const routers = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/appointmentSchedule",
         element: <AppointmentSchedule />,
+      },
+      {
+        path: "/admin/servicePackage",
+        element: <ServicePackage />,
       },
       // Add other unprotected admin routes here (if any)
     ],

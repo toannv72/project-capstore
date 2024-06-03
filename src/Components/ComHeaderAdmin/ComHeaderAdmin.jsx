@@ -32,7 +32,7 @@ const subCategories = [
     href: "/admin/appointmentSchedule",
     icon: CalendarDaysIcon,
   },
-  { name: "Danh sách dịch vụ", href: "#", icon: Bars3Icon },
+  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
   {
     name: "Danh sách gói dưỡng lão",
     href: "/admin/nursingPackage",

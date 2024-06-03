@@ -6,10 +6,9 @@ import CreateRoom from "./TableVisitation";
 export default function CreateAll({ onClose }) {
   const [value, setValue] = useState(1);
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  const viewTable = () => {
+  const viewCreate = () => {
     switch (value) {
       case 1:
         return <CreateBlock onClose={onClose} />;
@@ -31,7 +30,7 @@ export default function CreateAll({ onClose }) {
         <Radio value={1}>Tạo khu </Radio>
         <Radio value={2}>Tạo phòng</Radio>
       </Radio.Group>
-      {viewTable()}
+      {viewCreate()}
     </div>
   );
 }
