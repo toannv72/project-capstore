@@ -12,80 +12,13 @@ export default function TableNursingPackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
-
+  console.log("====================================");
+  console.log(data);
+  console.log("====================================");
   const { getColumnSearchProps } = useColumnSearch();
   const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
+    text: { InstituteManagement },
   } = useContext(LanguageContext);
-  const expandedRowRender = (record) => {
-    const columns = [
-      {
-        title: "Tên phòng",
-        fixed: "left",
-        width: 100,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Status",
-        width: 100,
-        dataIndex: "status",
-        key: "status",
-      },
-      {
-        title: "Số giường",
-        width: 100,
-        dataIndex: "userBed",
-        key: "userBed",
-      },
-      {
-        title: "Loại phòng",
-        width: 100,
-        dataIndex: "type",
-        key: "type",
-      },
-      {
-        width: 100,
-        title: "Số giường trống",
-        dataIndex: "unusedBed",
-        key: "unusedBed",
-      },
-      {
-        title: "Action",
-        key: "operation",
-        fixed: "right",
-        width: 50,
-        render: (_, record) => (
-          <div className="flex items-center flex-col">
-            <div>
-              <Typography.Link onClick={() => modal?.handleOpen(record)}>
-                Chấp nhận
-              </Typography.Link>
-            </div>
-          </div>
-        ),
-      },
-    ];
-    return (
-      <Table
-        scroll={{
-          x: 1520,
-          y: "55vh",
-        }}
-        bdataed
-        bordered
-        columns={columns}
-        dataSource={record?.rooms}
-        pagination={{
-          showSizeChanger: true,
-          pageSizeOptions: ["10", "20", "50", "100"],
-        }}
-      />
-    );
-  };
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -96,18 +29,18 @@ export default function TableNursingPackage() {
       });
     }
   }
-  
+
   const columns = [
     {
-      title: InstituteManagement?.areaName,
+      title: "Tên gói",
       width: 150,
       fixed: "left",
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps("name", InstituteManagement?.areaName),
+      ...getColumnSearchProps("name", "Tên gói"),
     },
     {
-      title: "Ảnh sản phẩm",
+      title: "Ảnh gói",
       dataIndex: "imagePackage",
       key: "imagePackage",
       width: 100,

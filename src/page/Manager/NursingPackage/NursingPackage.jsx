@@ -9,10 +9,6 @@ import CreateNursingPackage from "./CreateNursingPackage";
 export default function NursingPackage() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const modal = useModalState();
-  const cardData = [
-    { title: "Số lượng khu", value: "10.678" },
-    { title: "Số lượng phòng", value: "1.000" },
-  ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
   };
@@ -20,14 +16,7 @@ export default function NursingPackage() {
   return (
     <>
       <div className="grid grid-cols-3 gap-4 pb-2">
-        {cardData.map((card, index) => (
-          <ComCard
-            key={index} // Sử dụng index làm key
-            onClick={() => handleCardClick(index)}
-            isSelected={selectedCardIndex === index}
-            {...card}
-          />
-        ))}
+       
       </div>
       <div className="flex items-end pb-2">
         <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>

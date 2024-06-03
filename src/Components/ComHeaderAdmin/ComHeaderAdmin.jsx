@@ -27,7 +27,11 @@ const subCategories = [
   { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
   { name: "Quản lý người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
   { name: "Quản lý nhân viên", href: "/admin/staff", icon: BriefcaseIcon },
-  { name: "Lịch hẹn", href: "#", icon: CalendarDaysIcon },
+  {
+    name: "Lịch hẹn",
+    href: "/admin/appointmentSchedule",
+    icon: CalendarDaysIcon,
+  },
   { name: "Danh sách dịch vụ", href: "#", icon: Bars3Icon },
   {
     name: "Danh sách gói dưỡng lão",
