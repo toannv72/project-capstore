@@ -8,6 +8,7 @@ import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
+import ComDateConverter from '../../../Components/ComDateConverter/ComDateConverter';
 export default function TableRooms() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -25,14 +26,48 @@ export default function TableRooms() {
         title: "Tên người bệnh",
         fixed: "left",
         width: 100,
-        dataIndex: "name",
-        key: "name",
+        dataIndex: "fullName",
+        key: "fullName",
       },
       {
-        title: "Status",
-        width: 200,
-        dataIndex: "status",
-        key: "status",
+        title: "Giới tính",
+        width: 100,
+        dataIndex: "gender",
+        key: "gender",
+      },
+      {
+        title: "Ngày có hiệu lực",
+        width: 100,
+        dataIndex: "effectiveDate",
+        key: "effectiveDate",
+        render: (_, render) => (
+          <div>
+            <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+          </div>
+        ),
+      },
+      {
+        title: "Ngày hết hạn",
+        width: 100,
+        dataIndex: "expiryDate",
+        key: "expiryDate",
+        render: (_, render) => (
+          <div>
+            <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+          </div>
+        ),
+      },
+      {
+        title: "Địa chỉ",
+        width: 100,
+        dataIndex: "address",
+        key: "address",
+      },
+      {
+        title: "Ghi chú",
+        width: 100,
+        dataIndex: "notes",
+        key: "notes",
       },
       {
         title: "Action",
@@ -79,10 +114,10 @@ export default function TableRooms() {
     },
     {
       title: "Khu",
-      dataIndex: "type",
-      key: "type",
       width: 100,
-      ...getColumnSearchProps("type", "Khu"),
+      dataIndex: "block",
+      key: "block",
+      render: (render) => <div>{render?.name}</div>,
     },
     {
       title: "Loại phòng",

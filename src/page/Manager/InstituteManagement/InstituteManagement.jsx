@@ -5,7 +5,6 @@ import TableRooms from "./TableRooms";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
-import CreateRoom from "./CreateRoom";
 import CreateAll from "./CreateAll";
 
 function InstituteManagement() {

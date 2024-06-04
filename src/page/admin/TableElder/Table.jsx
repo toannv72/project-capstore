@@ -8,7 +8,6 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import DetailElder from "./DetailElder";
 import EditElder from "./EditElder";
 import { getData } from "../../../api/api";
-import { render } from "@testing-library/react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
 export default function Table() {
@@ -54,20 +53,7 @@ export default function Table() {
       //   </Tooltip>
       // ),
     },
-    // {
-    //   title: "Số điện thoại",
-    //   width: 100,
-    //   dataIndex: "phoneNumber",
-    //   key: "phoneNumber",
-    //   ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
-    // },
-    // {
-    //   title: "Gmail",
-    //   width: 100,
-    //   dataIndex: "email",
-    //   key: "email",
-    //   ...getColumnSearchProps("email", "Gmail"),
-    // },
+   
     {
       title: "Ảnh người lớn tuổi",
       dataIndex: "imageUrl",
