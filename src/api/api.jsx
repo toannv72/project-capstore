@@ -7,6 +7,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken"); // Lấy token từ localStorage (hoặc nơi bạn lưu trữ)
+
     if (accessToken) {
       const Token = accessToken.replace(/"/g, ""); // Loại bỏ tất cả dấu ngoặc kép
       config.headers["Authorization"] = `Bearer ${Token}`;
@@ -21,29 +22,46 @@ api.interceptors.request.use(
 // Đặt cookies vào tiêu đề yêu cầu (nếu có)
 
 export const getData = async (endpoint, params = {}, headers = {}) => {
+
+
   try {
     const response = await api.get(endpoint, { params, headers });
-    return response; // Trả về toàn bộ phản hồi từ API
+    return response;
   } catch (error) {
-    throw error;
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+      throw error; 
+      
+    } else {
+      throw error; 
+    }
   }
 };
-
 export const postData = async (endpoint, data, headers = {}) => {
   try {
     const response = await api.post(endpoint, data, { headers });
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.response && error.response.status === 401) {
+      // window.location.href = "/login";
+      throw error;
+    } else {
+      throw error;
+    }
   }
 };
+
 
 export const putData = async (endpoint, id, data, headers = {}) => {
   try {
     const response = await api.put(`${endpoint}/${id}`, data, { headers });
     return response.data;
   } catch (error) {
-    throw error;
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+    } else {
+      throw error;
+    }
   }
 };
 
@@ -52,60 +70,10 @@ export const deleteData = async (endpoint, id, headers = {}) => {
     const response = await api.delete(`${endpoint}/${id}`, { headers });
     return response.data;
   } catch (error) {
-    throw error;
-  }
-};
-
-export const unblockData = async (endpoint, id, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}/unblock/${id}`, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const acceptProduct = async (endpoint, id, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}/accept/${id}`, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const rejectProduct = async (endpoint, id, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}/reject/${id}`, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const postFeedback = async (endpoint, data, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}`, data, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const hideArtwork = async (endpoint, data, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}`, data, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const unhideArtwork = async (endpoint, id, data, headers = {}) => {
-  try {
-    const response = await api.post(`${endpoint}/${id}`, data, { headers });
-    return response.data;
-  } catch (error) {
-    throw error;
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+    } else {
+      throw error;
+    }
   }
 };

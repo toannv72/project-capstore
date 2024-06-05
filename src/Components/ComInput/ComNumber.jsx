@@ -107,6 +107,8 @@ const ComNumber = React.forwardRef(
       }
       setValue(props.name, e);
       onChangeValue?.(props.name, value);
+         console.log(value);
+
     };
 
     return (

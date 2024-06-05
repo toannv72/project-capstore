@@ -1,10 +1,13 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, CalendarDaysIcon, QueueListIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Affix } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
-import { LanguageContext } from "../../contexts/LanguageContext";
+import {
+  Bars3Icon,
+  CalendarDaysIcon,
+  QueueListIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import { Affix, Badge, Space } from "antd";
+import { BellOutlined, MenuOutlined } from "@ant-design/icons";
 import {
   BuildingOffice2Icon, // Quản lý viện (Ví dụ)
   UserIcon, // Quản lý khách hàng (Ví dụ)
@@ -19,8 +22,9 @@ import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
 const sortOptions = [
-  { name: "vn", href: "#", current: true, lang: "vn" },
-  { name: "lg", href: "#", current: false, lang: "en" },
+  { name: "Thông tin", href: "#" },
+  { name: "Thay đổi mật khẩu", href: "#" },
+  { name: "Đăng xuất", href: "/login" },
 ];
 const subCategories = [
   { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
@@ -40,19 +44,14 @@ const subCategories = [
   },
   { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
 ];
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function ComHeaderAdmin({ children }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { language, setLanguage } = useContext(LanguageContext);
   const location = useLocation();
   const currentPath = location.pathname;
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
   const { user } = useAuth();
-
   useEffect(() => {
     setActiveCategory(currentPath);
   }, [currentPath]);
@@ -62,7 +61,21 @@ export default function ComHeaderAdmin({ children }) {
     );
     return matchingCategory ? matchingCategory.name : null;
   }
+  const handSend = (option) => {
+    switch (option) {
+      case "/login":
+        localStorage.removeItem("accessToken");
+        // localStorage.clear(); // xóa tất cả
+        setTimeout(() => {
+          navigate("/login");
+        }, 0);
+        break;
 
+      default:
+        navigate(option);
+        break;
+    }
+  };
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
@@ -104,7 +117,7 @@ export default function ComHeaderAdmin({ children }) {
           </div>
         </div>
       </Affix>
-      <div>
+      <div className="w-full">
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -169,23 +182,26 @@ export default function ComHeaderAdmin({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
+        <Affix offsetTop={0} className="w-full">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+              {/* đổi Tên */}
+              {findNameByPathname()}
+            </h1>
 
-        <main className="mx-auto  px-4 sm:px-6 lg:px-8">
-          <Affix offsetTop={0}>
-            <div className="bg-white flex items-baseline justify-between border-b border-gray-200 pb-6 pt-2">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                {/* đổi Tên */}
-                {findNameByPathname()}
-              </h1>
-
-              <div className="flex items-center">
+            <div className="flex items-center">
+              <Space size="large">
+                <Badge count={0} overflowCount={9}>
+                  <BellOutlined style={{ fontSize: "30px" }} />
+                </Badge>
+                <div className="text-lg">Xin chào! Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      Language
-                      <ChevronDownIcon
-                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true"
+                      <img
+                        className="h-11 w-11 rounded-full border border-gray-400"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
                       />
                     </Menu.Button>
                   </div>
@@ -199,27 +215,16 @@ export default function ComHeaderAdmin({ children }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div className="py-1">
+                    <Menu.Items className="absolute right-0 z-10 w-40 origin-top-right rounded-lg bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border-b-slate-300 border">
+                      <div>
                         {sortOptions.map((option) => (
                           <Menu.Item key={option.name}>
-                            {({ active }) => (
-                              <a
-                                href={option.href}
-                                onClick={() => {
-                                  setLanguage(option.lang);
-                                }}
-                                className={classNames(
-                                  option.current
-                                    ? "font-medium text-gray-900"
-                                    : "text-gray-500",
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                {option.name}
-                              </a>
-                            )}
+                            <div
+                              onClick={() => handSend(option.href)}
+                              className="block px-4 py-2 text-sm cursor-pointer text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rounded-lg"
+                            >
+                              {option.name}
+                            </div>
                           </Menu.Item>
                         ))}
                       </div>
@@ -227,13 +232,6 @@ export default function ComHeaderAdmin({ children }) {
                   </Transition>
                 </Menu>
 
-                {/* <button
-                  type="button"
-                  className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-                >
-                  <span className="sr-only">View grid</span>
-                  <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                </button> */}
                 <button
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -246,24 +244,28 @@ export default function ComHeaderAdmin({ children }) {
                     aria-hidden="true"
                   />
                 </button>
-              </div>
+              </Space>
             </div>
-          </Affix>
+          </div>
+        </Affix>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-2">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-              <div className="lg:col-span-6 overflow-y-auto h-full w-full">
-                <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
-                  {user?.role === "admin" ? (
-                    children
-                  ) : (
-                    <ErrorPage goTo={"/"} statusCode={"404"} />
-                  )}
-                </div>
+        <section
+          aria-labelledby="products-heading"
+          className="px-4 pt-4 sm:px-6 lg:px-8 "
+        >
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
+            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
+                {/* {user?.role === "admin" ? (
+                  children
+                ) : (
+                  <ErrorPage goTo={"/"} statusCode={"404"} />
+                )} */}
+                {children}
               </div>
             </div>
-          </section>
-        </main>
+          </div>
+        </section>
       </div>
     </div>
   );

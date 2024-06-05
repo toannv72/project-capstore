@@ -43,13 +43,12 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
   };
   const onSubmit = (data) => {
     console.log(data);
-    console.log(formatPriceToNumber(data.price));
+    // console.log(formatPriceToNumber(data.price));
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-
       const dataPost = {
         ...data,
-        price: formatPriceToNumber(data.price),
+        // price: formatPriceToNumber(data.price),
         imagePackage: dataImg[0],
       };
       postData(`/package-register`, dataPost)
@@ -102,6 +101,9 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                       label={"Số lượng người "}
                       placeholder={"Vui lòng nhập số lượng"}
                       {...register("numberBed")}
+                      onChangeValue={(e) => {
+                        console.log(e);
+                      }}
                       required
                     />
                   </div>
@@ -111,11 +113,15 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                     <ComNumber
                       type="text"
                       money
+                      onChangeValue={(e, data) => {
+                     
+                        setValue("price", data);
+                      }}
                       defaultValue={1000}
                       min={1000}
                       label={"Số tiền"}
                       placeholder={"Vui lòng nhập số tiền"}
-                      {...register("price")}
+                      {...register("price1")}
                       required
                     />
                   </div>

@@ -1,156 +1,272 @@
-import { useEffect, useState } from 'react'
-import { Dialog} from '@headlessui/react'
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  PresentationChartBarIcon,
-  PowerIcon,
+  CalendarDaysIcon,
+  QueueListIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, } from '@heroicons/react/20/solid'
-import { ComLink } from '../ComLink/ComLink'
-import { Link, useNavigate } from 'react-router-dom'
-import { getData } from '../../../api/api'
-import { Affix } from 'antd'
-import { useCookies } from 'react-cookie'
-import images from '../../../img'
-import { routs } from '../../../constants/ROUT'
-import { textApp } from '../../../TextContent/textApp'
-import { AccordionBody, AccordionHeader, ListItem, ListItemPrefix, Typography } from '@material-tailwind/react'
-import React from "react";
+} from "@heroicons/react/24/outline";
+import { Affix, Badge, Space } from "antd";
+import { BellOutlined, MenuOutlined } from "@ant-design/icons";
 import {
-  Card,
-  List,
-  ListItemSuffix,
-  Chip,
-  Accordion,
-} from "@material-tailwind/react";
+  BuildingOffice2Icon, // Quản lý viện (Ví dụ)
+  UserIcon, // Quản lý khách hàng (Ví dụ)
+  UsersIcon, // Quản lý người lớn tuổi (Ví dụ)
+  BriefcaseIcon, // Quản lý nhân viên (Ví dụ)
+  Cog6ToothIcon, // Quản lý tài khoản (Ví dụ)
+  WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
+  ClockIcon, // Quản lý thời gian (Ví dụ)
+} from "@heroicons/react/24/outline";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Auth/useAuth";
+import ErrorPage from "../../page/404/ErrorPage";
 
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { useStorage } from '../../../hooks/useLocalStorage'
+const sortOptions = [
+  { name: "Thông tin", href: "#" },
+  { name: "Thay đổi mật khẩu", href: "#" },
+  { name: "Đăng xuất", href: "/login" },
+];
+const subCategories = [
+  { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
+  { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
+  { name: "Quản lý người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
+  { name: "Quản lý nhân viên", href: "/admin/staff", icon: BriefcaseIcon },
+  {
+    name: "Lịch hẹn",
+    href: "/admin/appointmentSchedule",
+    icon: CalendarDaysIcon,
+  },
+  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
+  {
+    name: "Danh sách gói dưỡng lão",
+    href: "/admin/nursingPackage",
+    icon: QueueListIcon,
+  },
+  { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
+];
 
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
-export default function ComHeaderManager() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [user, setUser] = useStorage('user', {})
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
+export default function ComHeaderManager({ children }) {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(0);
-
-  const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value);
-  };
-
+  const { user } = useAuth();
   useEffect(() => {
-    if (!(user?._doc?.role === 'manager')) {
+    setActiveCategory(currentPath);
+  }, [currentPath]);
+  function findNameByPathname() {
+    const matchingCategory = subCategories.find(
+      (category) => category.href === currentPath
+    );
+    return matchingCategory ? matchingCategory.name : null;
+  }
+  const handSend = (option) => {
+    switch (option) {
+      case "/login":
+        localStorage.removeItem("accessToken");
+        // localStorage.clear(); // xóa tất cả
+        setTimeout(() => {
+          navigate("/login");
+        }, 0);
+        break;
 
-      navigate('/login')
+      default:
+        navigate(option);
+        break;
     }
-  }, []);
+  };
   return (
-    <Affix offsetTop={0}>
-      <header className="bg-white border-b border-gray-200  ">
-        <nav className="mx-auto flex  items-center justify-between px-6  bg-teal-100" aria-label="Global">
-          <div className="flex ">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
+    <div className="bg-white flex">
+      <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
+        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2">
+          <div className="text-white px-10 py-10 text-center text-3xl">
+            CareConnect
+          </div>
+          <div className="text-white flex flex-col gap-5">
+            {subCategories.map((category) => (
+              <div
+                key={category.name}
+                className={`${
+                  category?.href === activeCategory
+                    ? "bg-white rounded-r-full"
+                    : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
+                } p-3 flex items-center cursor-pointer`}
+                onClick={() => {
+                  setActiveCategory(category.href);
+                  navigate(category.href);
+                }}
+              >
+                <category.icon
+                  className={`h-6 w-6 mr-2 ${
+                    category?.href === activeCategory
+                      ? "text-[#0F296D]"
+                      : "text-white"
+                  }`}
+                  aria-hidden="true"
+                />
+                <h1
+                  className={`${
+                    category?.href === activeCategory ? "text-[#0F296D]" : ""
+                  } font-bold text-base`}
+                >
+                  {category.name}
+                </h1>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Affix>
+      <div className="w-full">
+        <Transition.Root show={mobileFiltersOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-40 lg:hidden"
+            onClose={setMobileFiltersOpen}
+          >
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity ease-linear duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
             >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="flex flex-1 justify-center">
-            <img className="h-16 w-auto" src={images.logo} alt="" />
-          </div>
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
 
-
-        </nav>
-        <Dialog as="div" className="" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-          <div className="fixed inset-0 z-10 " />
-          <Dialog.Panel className="fixed inset-y-0 left-0 z-10 w-full overflow-y-auto px-0 py-0 sm:max-w-xs sm:ring-1 sm:ring-gray-900/10">
-
-            <Card className="h-[calc(100vh)]  w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-teal-100">
-              <div className="mb-2 p-4">
-                <Typography variant="h5" color="blue-gray">
-                  <div className='flex justify-between'>
-                    ADMIN
+            <div className="fixed inset-0 z-40 flex">
+              <Transition.Child
+                as={Fragment}
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+                  <div className="flex items-center justify-between px-4">
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Filters
+                    </h2>
                     <button
                       type="button"
-                      className="relative -m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-                      onClick={() => setMobileMenuOpen(false)}
+                      className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                      onClick={() => setMobileFiltersOpen(false)}
                     >
-                      <span className="absolute -inset-0.5" />
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
-                </Typography>
-              </div>
-              <List>
-                <Accordion
-                  open={open === 1}
-                  icon={
-                    <ChevronDownIcon
-                      strokeWidth={2.5}
-                      className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
-                    />
-                  }
-                >
-                  <ListItem className="p-0 " selected={open === 1}>
-                    <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
-                      <ListItemPrefix>
-                        <PresentationChartBarIcon className="h-5 w-5" />
-                      </ListItemPrefix>
-                      <Typography color="blue-gray" className="mr-auto font-normal">
-                        Thống kê
-                      </Typography>
-                    </AccordionHeader>
-                  </ListItem>
-                  <AccordionBody className="py-1">
-                    <List className="p-0">
-                      <Link to={'/manager/dashboard'}>
-                        <ListItem>
-                          <ListItemPrefix>
-                            <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                          </ListItemPrefix>
-                          Phân tích
-                        </ListItem>
-                      </Link>
-                      {/* <ListItem>
-                        <ListItemPrefix>
-                          <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                        </ListItemPrefix>
-                        Reporting
-                      </ListItem>
-                      <ListItem>
-                        <ListItemPrefix>
-                          <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                        </ListItemPrefix>
-                        Projects
-                      </ListItem> */}
-                    </List>
-                  </AccordionBody>
-                </Accordion>
-                <hr className="my-2 border-blue-gray-50" />
 
-                <Link to={routs['/logout'].link}>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <PowerIcon className="h-5 w-5" />
-                    </ListItemPrefix>
-                    {routs['/logout'].name}
-                  </ListItem>
-                </Link>
-              </List>
-            </Card>
-          </Dialog.Panel>
-        </Dialog>
-      </header>
-    </Affix>
-  )
+                  {/* Filters */}
+                  <form className="mt-4 border-t border-gray-200">
+                    <h3 className="sr-only">Categories</h3>
+                    <ul
+                      role="list"
+                      className="px-2 py-3 font-medium text-gray-900"
+                    >
+                      {subCategories.map((category) => (
+                        <li key={category.name}>
+                          <Link to={category.href} className="block px-2 py-3">
+                            {category.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition.Root>
+        <Affix offsetTop={0} className="w-full">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+              {/* đổi Tên */}
+              {findNameByPathname()}
+            </h1>
+
+            <div className="flex items-center">
+              <Space size="large">
+                <Badge count={0} overflowCount={9}>
+                  <BellOutlined style={{ fontSize: "30px" }} />
+                </Badge>
+                <div className="text-lg">Xin chào! Gia Thành</div>
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                      <img
+                        className="h-11 w-11 rounded-full border border-gray-400"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 w-40 origin-top-right rounded-lg bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border-b-slate-300 border">
+                      <div>
+                        {sortOptions.map((option) => (
+                          <Menu.Item key={option.name}>
+                            <div
+                              onClick={() => handSend(option.href)}
+                              className="block px-4 py-2 text-sm cursor-pointer text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rounded-lg"
+                            >
+                              {option.name}
+                            </div>
+                          </Menu.Item>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+
+                <button
+                  type="button"
+                  className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                  onClick={() => setMobileFiltersOpen(true)}
+                >
+                  <span className="sr-only">Menu</span>
+                  {/* <MenuFoldOutlined /> */}
+                  <MenuOutlined
+                    className="h-7 w-7 text-black"
+                    aria-hidden="true"
+                  />
+                </button>
+              </Space>
+            </div>
+          </div>
+        </Affix>
+
+        <section
+          aria-labelledby="products-heading"
+          className="px-4 pt-4 sm:px-6 lg:px-8 "
+        >
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
+            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
+                {/* {user?.role === "admin" ? (
+                  children
+                ) : (
+                  <ErrorPage goTo={"/"} statusCode={"404"} />
+                )} */}
+                {children}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
 }
