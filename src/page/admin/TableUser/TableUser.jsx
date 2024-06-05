@@ -1,17 +1,22 @@
 import { useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
 import Table from "./Table";
+import ComButton from "../../../Components/ComButton/ComButton";
+import { useModalState } from "../../../hooks/useModalState";
+import ComModal from "../../../Components/ComModal/ComModal";
+import CreateUser from "./CreateUser";
 function TableUser() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const cardData = [
-    { title: "Tổng số người dùng", value: "10.678" },
-    { title: "Đăng ký gia hạn hợp đồng", value: "1.000" },
-    {
-      title: "Số lượng người lớn ",
-      value: "8.846",
-      // icon: <FaUserPlus />,
-    },
-  ];
+    const modal = useModalState();
+    const cardData = [
+      { title: "Tổng số người dùng", value: "10.678" },
+      { title: "Đăng ký gia hạn hợp đồng", value: "1.000" },
+      {
+        title: "Số lượng người lớn ",
+        value: "8.846",
+        // icon: <FaUserPlus />,
+      },
+    ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
   };
@@ -27,6 +32,12 @@ function TableUser() {
           />
         ))}
       </div>
+      <div className="flex items-end pb-2">
+        <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+      </div>
+      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+        <CreateUser isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
+      </ComModal>
       <Table />
     </div>
   );

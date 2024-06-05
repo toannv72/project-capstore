@@ -163,7 +163,7 @@ export default function ComHeaderAdmin({ children }) {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-                    <h3 className="sr-only">Categories</h3>
+                    <h3 className="sr-only">CareConnect</h3>
                     <ul
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
@@ -184,7 +184,7 @@ export default function ComHeaderAdmin({ children }) {
         </Transition.Root>
         <Affix offsetTop={0} className="w-full">
           <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-2">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
