@@ -14,23 +14,28 @@ import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 export default function CreateContract({ onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-const disabledDate = (current) => {
-  const yearsAgo120 = moment().subtract(120, "years");
-  const yearsLater120 = moment().add(120, "years");
+  const disabledDate = (current) => {
+    const yearsAgo120 = moment().subtract(120, "years");
+    const yearsLater120 = moment().add(120, "years");
 
-  return current && (current < yearsAgo120 || current > yearsLater120);
-};
+    return current && (current < yearsAgo120 || current > yearsLater120);
+  };
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập đủ họ và tên"),
     phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
-    day: yup.array().min(1, 'Vui lòng nhập ít nhất một ngày').required("Vui lòng nhập đủ họ và tên"),
+    day: yup
+      .array()
+      .min(1, "Vui lòng nhập ít nhất một ngày")
+      .required("Vui lòng nhập đủ họ và tên"),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
+    values: {
+      name: "1",
       phone: "",
+      day: ["2024-06-18", "2024-06-19"],
+      days: "2024-06-18",
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
@@ -105,7 +110,6 @@ const disabledDate = (current) => {
                       label="Chọn khoảng thời gian"
                       required
                       format="DD-MM-YYYY"
-                     
                       disabledDate={disabledDate}
                       {...register("days")}
                       // Các props khác của RangePicker

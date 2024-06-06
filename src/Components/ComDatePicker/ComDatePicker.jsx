@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { FieldError } from "../FieldError/FieldError";
 import { v4 as uuidv4 } from "uuid";
 import { isEmpty } from "lodash"; // Chỉ import isEmpty
+import dayjs from "dayjs";
 
 const ComDatePicker = forwardRef(
   (
@@ -29,6 +30,7 @@ const ComDatePicker = forwardRef(
     } = useFormContext();
 
     const valueWatch = watch(name);
+
     const error = errors[name];
     const inputId = uuidv4(); // Sử dụng uuidv4 để tạo ID duy nhất
 
@@ -40,29 +42,7 @@ const ComDatePicker = forwardRef(
       }
       onChangeValue?.(name, dateString);
     };
-    const monthNames = [
-      "Tháng một",
-      "Tháng hai",
-      "Tháng ba",
-      "Tháng tư",
-      "Tháng năm",
-      "Tháng sáu",
-      "Tháng bảy",
-      "Tháng tám",
-      "Tháng chín",
-      "Tháng mười",
-      "Tháng mười một",
-      "Tháng mười hai",
-    ];
-    const dayNames = [
-      "Chủ nhật",
-      "Thứ hai",
-      "Thứ ba",
-      "Thứ tư",
-      "Thứ năm",
-      "Thứ sáu",
-      "Thứ bảy",
-    ];
+
 
     return (
       <>
@@ -85,6 +65,7 @@ const ComDatePicker = forwardRef(
               id={inputId}
               size="large"
               value={props.value}
+              defaultValue={dayjs(valueWatch)}
               format={format}
               onChange={handleChange}
               status={error && "error"}

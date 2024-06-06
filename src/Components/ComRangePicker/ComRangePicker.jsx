@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { FieldError } from "../FieldError/FieldError";
 import { v4 } from "uuid";
 import { isEmpty, isNaN } from "lodash";
+import dayjs from "dayjs";
 const { RangePicker } = DatePicker;
 
 const ComRangePicker = forwardRef(
@@ -30,37 +31,19 @@ const ComRangePicker = forwardRef(
       setValue,
     } = useFormContext();
     const valueWatch = watch(name);
-        const error = errors[name];
-        console.log('====================================');
-        console.log(name);
-        console.log('====================================');
+    const error = errors[name];
     const inputId = v4();
     const handleChange = (dates, dateStrings) => {
-
       if (!dateStrings[0]) {
-          setValue(name, []);
-        } else {
-          setValue(name, dateStrings);
-          
+        setValue(name, []);
+      } else {
+        setValue(name, dateStrings);
       }
       onChangeValue?.(name, dateStrings);
       console.log(name);
       //   setValue(name, 1111);
     };
 
-    const checkValue = (value) => {
-      // Kiểm tra nếu value chưa được chọn hoặc không phải là một mảng
-      if (!Array.isArray(value) || value.length !== 2) return false;
-
-      // Kiểm tra xem các giá trị có thể chuyển thành Date object hợp lệ không
-      const startDate = moment(value[0], format, true); // Sử dụng moment để phân tích ngày
-      const endDate = moment(value[1], format, true);
-
-      if (!startDate.isValid() || !endDate.isValid()) return false;
-
-      // Kiểm tra xem ngày bắt đầu có sau ngày kết thúc không
-      return startDate.isAfter(endDate);
-    };
     return (
       <>
         <div className={`${className}`}>
@@ -83,6 +66,10 @@ const ComRangePicker = forwardRef(
               size="large"
               value={props.value}
               format={format}
+              defaultValue={[
+                dayjs(valueWatch[0], ),
+                dayjs(valueWatch[1], ),
+              ]}
               onChange={handleChange}
               status={error && "error"}
               disabledDate={disabledDate}
