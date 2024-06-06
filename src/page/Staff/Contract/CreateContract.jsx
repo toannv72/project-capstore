@@ -8,11 +8,17 @@ import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import ComRangePicker from "../../../Components/ComRangePicker/ComRangePicker";
+import moment from "moment";
 
 export default function CreateContract({ onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
+const disabledDate = (current) => {
+  const yearsAgo120 = moment().subtract(120, "years");
+  const yearsLater120 = moment().add(120, "years");
 
+  return current && (current < yearsAgo120 || current > yearsLater120);
+};
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập đủ họ và tên"),
     phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
@@ -95,17 +101,14 @@ export default function CreateContract({ onClose }) {
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComRangePicker
-                      name="dateRange" // Tên trường trong form state
                       label="Chọn khoảng thời gian"
                       required
                       format="DD-MM-YYYY"
                       onChangeValue={(e, data) => {
-                        console.log("====================================");
-                        console.log(data);
-                        console.log("====================================");
                         setValue("day1", data[0]);
                         setValue("day2", data[1]);
                       }}
+                      disabledDate={disabledDate}
                       {...register("day")}
                       // Các props khác của RangePicker
                     />
