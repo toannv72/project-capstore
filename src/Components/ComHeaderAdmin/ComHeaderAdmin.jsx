@@ -51,7 +51,6 @@ export default function ComHeaderAdmin({ children }) {
   const currentPath = location.pathname;
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
-  const { user } = useAuth();
   useEffect(() => {
     setActiveCategory(currentPath);
   }, [currentPath]);
@@ -79,7 +78,7 @@ export default function ComHeaderAdmin({ children }) {
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
-        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2">
+        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto">
           <div className="text-white px-10 py-10 text-center text-3xl">
             CareConnect
           </div>

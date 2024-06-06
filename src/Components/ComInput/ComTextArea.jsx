@@ -113,7 +113,6 @@ const ComTextArea = React.forwardRef(
             status={error && 'error'}
             onChange={onlyChangeWithCondition}
             maxLength={maxLength}
-
           />
 
           {error && <FieldError className="text-red-500">{error.message?.toString()}</FieldError>}

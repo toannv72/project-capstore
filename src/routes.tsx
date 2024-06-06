@@ -1,5 +1,4 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
-import Home from "./page/Home";
 import Admin from "./page/admin/Admin";
 import ComHeader from "./Components/ComHeader/ComHeader";
 import React from "react";
@@ -13,6 +12,8 @@ import TableStaff from "./page/admin/TableStaff/TableStaff";
 import NursingPackage from "./page/Manager/NursingPackage/NursingPackage";
 import AppointmentSchedule from "./page/Manager/AppointmentSchedule/AppointmentSchedule";
 import ServicePackage from './page/Manager/ServicePackage/ServicePackage';
+import ComHeaderStaff from "./Components/ComHeaderStaff/ComHeaderStaff";
+import Contract from "./page/Staff/Contract/Contract";
 
 export const routers = createBrowserRouter([
   {
@@ -83,6 +84,53 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/admin/servicePackage",
+        element: <ServicePackage />,
+      },
+      // Add other unprotected admin routes here (if any)
+    ],
+  },
+  {
+    path: "/staff",
+    element: (
+      <ComHeaderStaff>
+        <Outlet />
+      </ComHeaderStaff>
+    ),
+    children: [
+      {
+        path: "/staff",
+        element: <Admin />,
+      },
+      {
+        path: "/staff/contract",
+        element: <Contract />,
+      },
+      {
+        path: "/staff/institute",
+        element: <InstituteManagement />,
+      },
+      {
+        path: "/staff/user",
+        element: <TableUser />,
+      },
+      {
+        path: "/staff/elder",
+        element: <TableElder />,
+      },
+      {
+        path: "/staff/staff",
+        element: <TableStaff />,
+      },
+      {
+        path: "/staff/nursingPackage",
+        element: <NursingPackage />,
+      },
+      {
+        path: "/staff/appointmentSchedule",
+        element: <AppointmentSchedule />,
+      },
+      {
+        path: "/staff/servicePackage",
         element: <ServicePackage />,
       },
       // Add other unprotected admin routes here (if any)

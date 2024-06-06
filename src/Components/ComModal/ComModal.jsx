@@ -1,11 +1,11 @@
 import React from "react";
 import { Modal } from "antd";
-function ComModal({ isOpen, onClose, children, title }) {
+function ComModal({ isOpen, onClose, children, title, width }) {
   return (
     <Modal
       title={title}
       open={isOpen}
-      width={500}
+      width={width || 500}
       onCancel={onClose}
       footer={null}
     >

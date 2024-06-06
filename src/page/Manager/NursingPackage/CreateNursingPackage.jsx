@@ -114,7 +114,6 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                       type="text"
                       money
                       onChangeValue={(e, data) => {
-                     
                         setValue("price", data);
                       }}
                       defaultValue={1000}
