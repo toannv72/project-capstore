@@ -9,6 +9,7 @@ import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import ComRangePicker from "../../../Components/ComRangePicker/ComRangePicker";
 import moment from "moment";
+import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 
 export default function CreateContract({ onClose }) {
   const [image, setImages] = useState([]);
@@ -95,6 +96,19 @@ const disabledDate = (current) => {
                       placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
                       {...register("phone")}
                       required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComDatePicker
+                      label="Chọn khoảng thời gian"
+                      required
+                      format="DD-MM-YYYY"
+                     
+                      disabledDate={disabledDate}
+                      {...register("days")}
+                      // Các props khác của RangePicker
                     />
                   </div>
                 </div>
