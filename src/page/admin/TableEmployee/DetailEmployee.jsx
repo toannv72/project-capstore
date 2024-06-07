@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DetailStaff({ selectedUser }) {
+export default function DetailEmployee({ selectedUser }) {
   return (
     <div>
       <div className="p-4 bg-white ">

@@ -5,8 +5,8 @@ import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
 import { Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
-import DetailStaff from "./DetailStaff";
-import EditStaff from "./EditStaff";
+import DetailEmployee from "./DetailEmployee";
+import EditEmployee from "./EditEmployee";
 import { getData } from "../../../api/api";
 
 export default function Table() {
@@ -104,13 +104,13 @@ console.log('====================================');
         isOpen={modalDetail?.isModalOpen}
         onClose={modalDetail?.handleClose}
       >
-        <DetailStaff selectedUser={selectedUser} />
+        <DetailEmployee selectedUser={selectedUser} />
       </ComModal>
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
       >
-        <EditStaff
+        <EditEmployee
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
         />

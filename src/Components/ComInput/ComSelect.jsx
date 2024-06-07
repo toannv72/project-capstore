@@ -80,7 +80,6 @@ const ComSelect = React.forwardRef(
       setValue(props.name, "");
       
     }
-    console.log(e);
     onChangeValue?.(props.name, e);
     };
 

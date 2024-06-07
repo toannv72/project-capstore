@@ -8,7 +8,7 @@ import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from '../../../Notification/Notification';
 
-export default function EditStaff({ selectedUser, onClose }) {
+export default function EditEmployee({ selectedUser, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 

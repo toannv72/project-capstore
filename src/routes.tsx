@@ -8,12 +8,12 @@ import InstituteManagement from "./page/Manager/InstituteManagement/InstituteMan
 import ComHeaderAdmin from "./Components/ComHeaderAdmin/ComHeaderAdmin";
 import TableUser from "./page/admin/TableUser/TableUser";
 import TableElder from "./page/admin/TableElder/TableElder";
-import TableStaff from "./page/admin/TableStaff/TableStaff";
 import NursingPackage from "./page/Manager/NursingPackage/NursingPackage";
 import AppointmentSchedule from "./page/Manager/AppointmentSchedule/AppointmentSchedule";
 import ServicePackage from './page/Manager/ServicePackage/ServicePackage';
 import ComHeaderStaff from "./Components/ComHeaderStaff/ComHeaderStaff";
 import Contract from "./page/Staff/Contract/Contract";
+import TableEmployee from './page/admin/TableEmployee/TableEmployee';
 
 export const routers = createBrowserRouter([
   {
@@ -71,8 +71,8 @@ export const routers = createBrowserRouter([
         element: <TableElder />,
       },
       {
-        path: "/admin/staff",
-        element: <TableStaff />,
+        path: "/admin/employee",
+        element: <TableEmployee />,
       },
       {
         path: "/admin/nursingPackage",
@@ -118,8 +118,8 @@ export const routers = createBrowserRouter([
         element: <TableElder />,
       },
       {
-        path: "/staff/staff",
-        element: <TableStaff />,
+        path: "/staff/employee",
+        element: <TableEmployee />,
       },
       {
         path: "/staff/nursingPackage",

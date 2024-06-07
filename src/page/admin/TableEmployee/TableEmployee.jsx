@@ -1,8 +1,13 @@
 import { useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
 import Table from "./Table";
-function TableStaff() {
+import ComButton from "../../../Components/ComButton/ComButton";
+import ComModal from "../../../Components/ComModal/ComModal";
+import { useModalState } from "../../../hooks/useModalState";
+import CreateEmployee from "./CreateEmployee";
+function TableEmployee() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const modal = useModalState();
   const cardData = [
     { title: "Tổng số người dùng", value: "10.678" },
     { title: "Đăng ký gia hạn hợp đồng", value: "1.000" },
@@ -27,9 +32,15 @@ function TableStaff() {
           />
         ))}
       </div>
+      <div className="flex items-end pb-2">
+        <ComButton onClick={modal.handleOpen}>Tạo mới nhân viên</ComButton>
+      </div>
+      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+        <CreateEmployee isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
+      </ComModal>
       <Table />
     </div>
   );
 }
 
-export default TableStaff;
+export default TableEmployee;

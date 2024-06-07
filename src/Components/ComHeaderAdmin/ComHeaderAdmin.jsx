@@ -30,7 +30,7 @@ const subCategories = [
   { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
   { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
   { name: "Quản lý người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
-  { name: "Quản lý nhân viên", href: "/admin/staff", icon: BriefcaseIcon },
+  { name: "Quản lý nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
     href: "/admin/appointmentSchedule",
