@@ -14,6 +14,7 @@ import AppointmentSchedule from "./page/Manager/AppointmentSchedule/AppointmentS
 import ServicePackage from './page/Manager/ServicePackage/ServicePackage';
 import ComHeaderStaff from "./Components/ComHeaderStaff/ComHeaderStaff";
 import Contract from "./page/Staff/Contract/Contract";
+import ProfilePage from "./page/Profile/ProfilePage";
 
 export const routers = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/servicePackage",
         element: <ServicePackage />,
+      },
+      {
+        path: "/admin/profile",
+        element: <ProfilePage />,
       },
       // Add other unprotected admin routes here (if any)
     ],

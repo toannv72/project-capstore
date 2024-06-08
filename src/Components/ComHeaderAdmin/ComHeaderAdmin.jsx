@@ -22,7 +22,7 @@ import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
 const sortOptions = [
-  { name: "Thông tin", href: "#" },
+  { name: "Thông tin", href: "/admin/profile" },
   { name: "Thay đổi mật khẩu", href: "#" },
   { name: "Đăng xuất", href: "/login" },
 ];
@@ -64,12 +64,15 @@ export default function ComHeaderAdmin({ children }) {
     switch (option) {
       case "/login":
         localStorage.removeItem("accessToken");
-        // localStorage.clear(); // xóa tất cả
+        localStorage.removeItem("use");
+        //localStorage.clear(); // xóa tất cả
         setTimeout(() => {
           navigate("/login");
         }, 0);
         break;
-
+      case "/admin/profile":
+        navigate("/admin/profile");
+        break;
       default:
         navigate(option);
         break;
@@ -182,8 +185,8 @@ export default function ComHeaderAdmin({ children }) {
           </Dialog>
         </Transition.Root>
         <Affix offsetTop={0} className="w-full">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-2">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
@@ -250,7 +253,7 @@ export default function ComHeaderAdmin({ children }) {
 
         <section
           aria-labelledby="products-heading"
-          className="px-4 pt-4 sm:px-6 lg:px-8 "
+          className="px-4 pt-2 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
             <div className="lg:col-span-6 overflow-y-auto h-full w-full">
