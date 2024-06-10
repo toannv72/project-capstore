@@ -9,7 +9,9 @@ module.exports = {
       fontSize: {
         80: "80px",
       },
+      width: { 25: "100px" },
       height: {
+        25: "100px",
         82: "390px",
       },
       colors: {

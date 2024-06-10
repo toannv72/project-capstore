@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import * as yup from "yup";
-import { LogoutOutlined } from "@ant-design/icons";
+import { CloseOutlined, LogoutOutlined, MoreOutlined } from "@ant-design/icons";
 import { Modal, Radio, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import doctor from "../../assets/doctor.png";
@@ -12,12 +12,15 @@ import ComButton from "../../Components/ComButton/ComButton";
 import { firebaseImg } from "../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../Components/ComDatePicker/ComDatePicker";
 import moment from "moment";
+import { Menu, Transition } from "@headlessui/react";
+const sortOptions = [{ name: "Chỉnh sửa", type: "edit" }];
 export default function ProfilePage() {
   const [image, setImages] = useState([]);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
   const [formData, setFormData] = useState(null);
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
   const inputMessenger = yup.object({
     // fullname: yup.string().required("Vui lòng nhập họ và tên"),
     address: yup.string().required("Vui lòng nhập địa chỉ"),
@@ -78,19 +81,21 @@ export default function ProfilePage() {
     setImages([selectedImages]);
     // setFileList(data);
   };
-  const onChangeGender = (e) => {
-    console.log("radio checked", e.target.value);
-    setValue("gender", e.target.value);
-  };
   const disabledDate = (current) => {
     const yearsAgo120 = moment().subtract(120, "years");
     const yearsLater120 = moment().add(120, "years");
 
     return current && (current < yearsAgo120 || current > yearsLater120);
   };
+  const handSend = (option) => {
+    if (option === "edit") {
+      setIsEditing(true);
+    }
+  };
+  console.log(isEditing);
   return (
     <div className="flex flex-col space-y-5 font-montserrat mb-1">
-      <div className="bg-fade flex justify-between p-3 rounded-md">
+      <div className="flex justify-between p-3 rounded-md border border-fade">
         <div className="font-bold text-base">Cài đặt người dùng</div>
         <Space
           size="small"
@@ -101,15 +106,61 @@ export default function ProfilePage() {
         </Space>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-fade p-3 rounded-md col-span-2">
-          <div>Thông tin người dùng</div>
+        <div className="border border-fade p-3 rounded-md col-span-2">
+          <div className="flex justify-between">
+            <div>Thông tin người dùng</div>
+            {isEditing ? (
+              <CloseOutlined onClick={() => setIsEditing(!isEditing)} />
+            ) : (
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <MoreOutlined />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 z-10 w-40 origin-top-right rounded-lg bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border-b-slate-300 border">
+                    <div>
+                      {sortOptions.map((option) => (
+                        <Menu.Item key={option.name}>
+                          <div
+                            onClick={() => handSend(option.type)}
+                            className="block px-4 py-2 text-sm cursor-pointer text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rounded-lg"
+                          >
+                            {option.name}
+                          </div>
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+            )}
+          </div>
           <FormProvider {...methods}>
             <form
               className="grid grid-cols-6 gap-4"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="col-span-6">
-                <ComUpImgOne onChange={onChange} required />
+                {!isEditing ? (
+                  <img
+                    className="h-25 w-25 rounded-full border border-gray-400"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                  />
+                ) : (
+                  <ComUpImgOne onChange={onChange} required />
+                )}
               </div>
 
               <div className="col-span-3">
@@ -123,19 +174,7 @@ export default function ProfilePage() {
                   disabled
                 />
               </div>
-              <div className="col-span-3">
-                <div className="text-paragraph font-bold mb-6 md:mb-6 lg:mb-3 destop:mb-6 2xl:mb-6">
-                  Giới tính
-                </div>
-                <Radio.Group
-                  onChange={onChangeGender}
-                  value={methods.watch("gender")}
-                  disabled
-                >
-                  <Radio value="male">Male</Radio>
-                  <Radio value="female">Female</Radio>
-                </Radio.Group>
-              </div>
+
               <div className="col-span-3">
                 <ComDatePicker
                   label="Ngày sinh"
@@ -153,6 +192,7 @@ export default function ProfilePage() {
                   type="numbers"
                   maxLength={10}
                   {...register("phone")}
+                  disabled={!isEditing}
                 />
               </div>
               <div className="col-span-3">
@@ -161,6 +201,7 @@ export default function ProfilePage() {
                   label="Email"
                   type="text"
                   {...register("mail")}
+                  disabled={!isEditing}
                 />
               </div>
               <div className="col-span-3">
@@ -179,19 +220,24 @@ export default function ProfilePage() {
                   label="Địa chỉ"
                   type="text"
                   {...register("address")}
+                  disabled={!isEditing}
                 />
               </div>
-              <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
-                <ComButton htmlType="submit" type="primary">
-                  Cập nhật
-                </ComButton>
-              </div>
+              {!isEditing ? (
+                <></>
+              ) : (
+                <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
+                  <ComButton htmlType="submit" type="primary">
+                    Cập nhật
+                  </ComButton>
+                </div>
+              )}
             </form>
           </FormProvider>
         </div>
-        <div className="flex flex-col justify-between bg-fade p-3 rounded-md col-span-1">
+        <div className="flex flex-col justify-between border border-fade p-3 rounded-md col-span-1">
           <div>
-            <div className="text-center border-b-4 border-white text-base font-semibold">
+            <div className="text-center border-b-2 border-gray-300 text-base font-semibold">
               Xin chào! Gia Thành
             </div>
             <div className="text-base text-center text-gray-500">
