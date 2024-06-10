@@ -16,6 +16,7 @@ import {
   Cog6ToothIcon, // Quản lý tài khoản (Ví dụ)
   WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
   ClockIcon, // Quản lý thời gian (Ví dụ)
+  BellIcon, //Thông báo (Ví dụ)
 } from "@heroicons/react/24/outline";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
@@ -27,10 +28,10 @@ const sortOptions = [
   { name: "Đăng xuất", href: "/login" },
 ];
 const subCategories = [
-  { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
-  { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
-  { name: "Quản lý người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
-  { name: "Quản lý nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
+  { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
+  { name: "Khách hàng", href: "/admin/user", icon: UserIcon },
+  { name: "Người lớn tuổi", href: "/admin/elder", icon: UsersIcon },
+  { name: "Nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
     href: "/admin/appointmentSchedule",
@@ -42,7 +43,16 @@ const subCategories = [
     href: "/admin/nursingPackage",
     icon: QueueListIcon,
   },
+<<<<<<< HEAD
   { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
+=======
+  { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
+  {
+    name: "Trung tâm thông báo",
+    href: "/admin/createNotification",
+    icon: BellIcon,
+  },
+>>>>>>> Notification
 ];
 
 export default function ComHeaderAdmin({ children }) {
@@ -168,7 +178,7 @@ export default function ComHeaderAdmin({ children }) {
                     <h3 className="sr-only">CareConnect</h3>
                     <ul
                       role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
+                      className="px-2 py-3 font-medium text-gray-900 scrollbar scrollbar-thin"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -194,7 +204,10 @@ export default function ComHeaderAdmin({ children }) {
             <div className="flex items-center">
               <Space size="large">
                 <Badge count={0} overflowCount={9}>
-                  <BellOutlined style={{ fontSize: "30px" }} />
+                  <BellOutlined
+                    style={{ fontSize: "30px" }}
+                    onClick={() => navigate("/admin/notification")}
+                  />
                 </Badge>
                 <div className="text-lg">Xin chào! Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
@@ -256,7 +269,7 @@ export default function ComHeaderAdmin({ children }) {
           className="px-4 pt-2 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+            <div className="lg:col-span-6 overflow-y-auto h-full w-full ">
               <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                 {/* {user?.role === "admin" ? (
                   children
