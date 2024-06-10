@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { useFormContext } from "react-hook-form";
@@ -37,13 +37,11 @@ const ComDatePicker = forwardRef(
     const handleChange = (date, dateString) => {
       if (isEmpty(dateString)) {
         setValue(name, null); // Đặt giá trị về null khi trống
-        
       } else {
         setValue(name, dateString);
       }
       onChangeValue?.(name, dateString);
     };
-
 
     return (
       <>
@@ -65,7 +63,7 @@ const ComDatePicker = forwardRef(
               ref={ref}
               id={inputId}
               size="large"
-              value={props.value}
+              // value={props.value}
               defaultValue={valueWatch ? dayjs(valueWatch) : false}
               format={format}
               onChange={handleChange}

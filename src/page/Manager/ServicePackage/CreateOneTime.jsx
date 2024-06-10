@@ -9,11 +9,11 @@ import * as yup from "yup";
 import ComInput from "../../../Components/ComInput/ComInput";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import ComRangePicker from "../../../Components/ComRangePicker/ComRangePicker";
 import moment from "moment";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
+import { Checkbox } from "antd";
 
 export default function CreateOneTime({ onClose }) {
   const [image, setImages] = useState([]);
@@ -21,16 +21,10 @@ export default function CreateOneTime({ onClose }) {
   const [selectedBlock, setSelectedBlock] = useState();
   const [category, setCategory] = useState([]);
   const [endDate, setEndDate] = useState(false);
-  const [valueendDate, setValueEndDate] = useState(null);
-
+  const [checkbox, setCheckbox] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     endDay: yup.string().required("Vui lòng nhập tên dịch vụ"),
-    // phone: yup
-    //   .string()
-    //   .trim()
-    //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
-    //   .required("textApp.CreateProduct.message.name"),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
@@ -43,33 +37,20 @@ export default function CreateOneTime({ onClose }) {
   });
   const { handleSubmit, register, setFocus, watch, setValue, reset, trigger } =
     methods;
-  const disabledDate = (current) => {
-    const yearsAgo120 = moment().subtract(120, "years");
-    const yearsLater120 = moment().add(120, "years");
-    return current && (current < yearsAgo120 || current > yearsLater120);
-  };
-
   const disabledDate3Day6m = (current) => {
     const daysLater3 = moment().add(3, "days");
     const monthsLater6 = moment().add(6, "months");
     return current && (current < daysLater3 || current > monthsLater6);
   };
-
   const disabledDateEnd = (current) => {
     const daysLater3 = moment().add(3, "days");
     const fixedFutureDate = moment(watch("days"), "DD-MM-YYYY");
     return current && (current < daysLater3 || current > fixedFutureDate);
   };
-  useEffect(() => {
-    if (watch("days")) {
-      setEndDate(false);
-    } else {
-      setEndDate(true);
-    }
 
-    setValue("name", "");
-    setValue("endDay", "");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("endDay", null);
   }, [watch("days")]);
   const onChange = (data) => {
     const selectedImages = data;
@@ -91,14 +72,9 @@ export default function CreateOneTime({ onClose }) {
   }, []);
   const onSubmit = (data) => {
     console.log(data);
-    // console.log(formatPriceToNumber(data.price));
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      const dataPost = {
-        ...data,
-        // price: formatPriceToNumber(data.price),
-        imagePackage: dataImg[0],
-      };
+      const dataPost = { ...data, imagePackage: dataImg[0] };
       postData(`/package-register`, dataPost)
         .then((e) => {
           notificationApi(
@@ -109,7 +85,6 @@ export default function CreateOneTime({ onClose }) {
           onClose();
         })
         .catch((error) => {
-          console.log(error);
           notificationApi(
             "error",
             "tạo không thành công",
@@ -192,11 +167,49 @@ export default function CreateOneTime({ onClose }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         format="DD-MM-YYYY"
-                        
                         disabledDate={disabledDateEnd}
                         {...register("endDay")}
                         required
-                        // Các props khác của RangePicker
+                      />
+                    </div>
+                  </div>
+                )}
+                {!endDate || (
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComDatePicker
+                        label="Thời gian kết thúc đăng ký"
+                        format="DD-MM-YYYY"
+                        disabledDate={disabledDateEnd}
+                        {...register("endDay")}
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <Checkbox onChange={(e) => setCheckbox(e.target.checked)}>
+                      Dịch vụ có giới hạn số người đăng ký
+                    </Checkbox>
+                  </div>
+                </div>
+                {!checkbox || (
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComNumber
+                        type="text"
+                      
+                        onChangeValue={(e, data) => {
+                          setValue("number", data);
+                        }}
+                        defaultValue={1}
+                        min={1}
+                        max={10000}
+                        label={"Số lượng người "}
+                        placeholder={"Vui lòng nhập số lượng"}
+                        {...register("number")}
+                        required
                       />
                     </div>
                   </div>
@@ -229,7 +242,6 @@ export default function CreateOneTime({ onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
-                // type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
