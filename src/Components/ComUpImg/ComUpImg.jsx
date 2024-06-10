@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { Upload, message } from 'antd';
 import { PlusOutlined } from "@ant-design/icons";
-const ComUpImg = ({ onChange, numberImg, listType, multiple }) => {
+const ComUpImg = ({
+  onChange,
+  numberImg,
+  listType,
+  multiple,
+  inputId,
+  required,
+  label,
+}) => {
   const [fileList, setFileList] = useState([]);
   const maxImages = numberImg || 5;
   const isImageFile = (file) => {
@@ -30,6 +38,18 @@ const ComUpImg = ({ onChange, numberImg, listType, multiple }) => {
   };
   return (
     <>
+      {label && (
+        <div className="mb-4 flex justify-between">
+          <label htmlFor={inputId} className="text-paragraph font-bold">
+            {label}
+            {required && (
+              <span className="text-paragraph font-bold text-error-7 text-red-500">
+                *
+              </span>
+            )}
+          </label>
+        </div>
+      )}
       <Upload
         fileList={fileList}
         listType={listType || "picture-card"}

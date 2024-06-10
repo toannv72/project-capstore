@@ -20,7 +20,7 @@ export default function ServicePackage() {
         <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
       </div>
       <TableServicePackage />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal width={800} isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <CreateServicePackage
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}

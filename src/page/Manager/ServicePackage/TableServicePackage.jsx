@@ -32,15 +32,15 @@ export default function TableServicePackage() {
 
   const columns = [
     {
-      title: "Tên gói",
+      title: "Tên dịch vụ",
       width: 150,
       fixed: "left",
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps("name", "Tên gói"),
+      ...getColumnSearchProps("name", "Tên dịch vụ"),
     },
     {
-      title: "Ảnh gói",
+      title: "Ảnh dịch vụ",
       dataIndex: "imagePackage",
       key: "imagePackage",
       width: 100,

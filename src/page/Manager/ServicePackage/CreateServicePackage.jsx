@@ -23,10 +23,8 @@ export default function CreateServicePackage({ isOpen, onClose }) {
     switch (value) {
       case 1:
         return <CreateOneTime onClose={onClose} />;
-
       case 2:
         return <CreateDaily onClose={onClose} />;
-
       default:
         break;
     }
@@ -37,22 +35,24 @@ export default function CreateServicePackage({ isOpen, onClose }) {
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Tạo gói dưỡng lão
       </h2>
-      <Radio.Group onChange={onChange} value={value}>
-        <div className="grid grid-cols-2 gap-2 p-4 items-center">
-          <Radio value={1}>
-            Dịch vụ 1 ngày duy nhất
-          </Radio>
-          <Radio  value={2}>
-            Dịch vụ lập lại theo ngày
-          </Radio>
-          <Radio value={3}>
-            Dịch vụ lập lại theo tuần
-          </Radio>
-          <Radio value={4}>
-            Dịch vụ không giới hạn thời gian
-          </Radio>
-        </div>
-      </Radio.Group>
+     <div className="flex justify-center">
+        <Radio.Group onChange={onChange} value={value}>
+          <div className="grid grid-cols-2 gap-2 p-4 items-center ">
+            <Radio value={1}>
+              Dịch vụ 1 ngày duy nhất
+            </Radio>
+            <Radio  value={2}>
+              Dịch vụ lập lại theo ngày
+            </Radio>
+            <Radio value={3}>
+              Dịch vụ lập lại theo tuần
+            </Radio>
+            <Radio value={4}>
+              Dịch vụ không giới hạn thời gian
+            </Radio>
+          </div>
+        </Radio.Group>
+     </div>
       {viewCreate()}
     </div>
   );

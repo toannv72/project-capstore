@@ -17,7 +17,6 @@ export default function CreateContract({ onClose }) {
   const disabledDate = (current) => {
     const yearsAgo120 = moment().subtract(120, "years");
     const yearsLater120 = moment().add(120, "years");
-
     return current && (current < yearsAgo120 || current > yearsLater120);
   };
   const CreateProductMessenger = yup.object({
@@ -139,7 +138,7 @@ export default function CreateContract({ onClose }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
-                className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
               </ComButton>

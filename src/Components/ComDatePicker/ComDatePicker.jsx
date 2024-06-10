@@ -37,6 +37,7 @@ const ComDatePicker = forwardRef(
     const handleChange = (date, dateString) => {
       if (isEmpty(dateString)) {
         setValue(name, null); // Đặt giá trị về null khi trống
+        
       } else {
         setValue(name, dateString);
       }
@@ -65,7 +66,7 @@ const ComDatePicker = forwardRef(
               id={inputId}
               size="large"
               value={props.value}
-              defaultValue={dayjs(valueWatch)}
+              defaultValue={valueWatch ? dayjs(valueWatch) : false}
               format={format}
               onChange={handleChange}
               status={error && "error"}
