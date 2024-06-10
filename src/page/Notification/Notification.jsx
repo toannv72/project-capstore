@@ -1,8 +1,9 @@
 import { Pagination } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function Notification() {
   // const [notifications, setNotifications] = useState([]);
+  const contentRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const [notifications] = useState([
@@ -59,11 +60,15 @@ export default function Notification() {
     setCurrentPage(page);
   };
   useEffect(() => {
+    // Cuộn lên đầu khi currentPage thay đổi
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+  useEffect(() => {
     //Call api get data
   });
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div ref={contentRef} className="flex flex-col gap-4">
         {currentNotifications.map((notification, index) => (
           <div key={index} className="p-4 rounded-xl border border-gray-200">
             <div className="flex justify-between border-b-2">
@@ -79,7 +84,6 @@ export default function Notification() {
       </div>
       <div className="w-full bg-white p-4 self-end text-right">
         <Pagination
-          showQuickJumper
           defaultCurrent={2}
           total={notifications.length}
           pageSize={pageSize}
