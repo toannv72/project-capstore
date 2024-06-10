@@ -43,16 +43,12 @@ const subCategories = [
     href: "/admin/nursingPackage",
     icon: QueueListIcon,
   },
-<<<<<<< HEAD
   { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
-=======
-  { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
   {
     name: "Trung tâm thông báo",
     href: "/admin/createNotification",
     icon: BellIcon,
   },
->>>>>>> Notification
 ];
 
 export default function ComHeaderAdmin({ children }) {
