@@ -25,7 +25,7 @@ export default function CreateEmployee({ onClose }) {
     },
   ];
   const CreateProductMessenger = yup.object({
-    // name: yup.string().required("Vui lòng nhập đủ họ và tên"),
+    days: yup.string().required("Vui lòng nhập đủ họ và tên"),
     // phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
   });
   const disabledDate = (current) => {
@@ -40,6 +40,7 @@ export default function CreateEmployee({ onClose }) {
       name: "",
       phone: "",
       role: "",
+      days: "1-1-2000",
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
@@ -133,8 +134,8 @@ export default function CreateEmployee({ onClose }) {
                       type="numbers"
                       disabledDate={disabledDate}
                       format="DD-MM-YYYY"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Ngày tháng năm sinh"}
+                      placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("days")}
                       required
                     />
