@@ -171,7 +171,7 @@ export default function ComHeaderAdmin({ children }) {
                     <h3 className="sr-only">CareConnect</h3>
                     <ul
                       role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
+                      className="px-2 py-3 font-medium text-gray-900 scrollbar scrollbar-thin"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -262,7 +262,7 @@ export default function ComHeaderAdmin({ children }) {
           className="px-4 pt-4 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+            <div className="lg:col-span-6 overflow-y-auto h-full w-full ">
               <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                 {/* {user?.role === "admin" ? (
                   children

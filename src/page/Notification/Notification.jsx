@@ -17,13 +17,15 @@ export default function Notification() {
       chuDe: "Thông báo bảo trì hệ thống",
       thoiDiem: "2023-11-15 08:00",
       thoiGianThucHien: "15/11/2023",
-      noiDung: "Hệ thống sẽ tạm ngừng hoạt động để bảo trì.",
+      noiDung:
+        "Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới.",
     },
     {
       chuDe: "Sự kiện ra mắt sản phẩm mới",
       thoiDiem: "2023-10-20 14:00",
       thoiGianThucHien: "20/10/2023",
-      noiDung: "Mời bạn tham dự sự kiện ra mắt sản phẩm mới của chúng tôi.",
+      noiDung:
+        "Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới. Giảm giá 50% cho tất cả sản phẩm mới.",
     },
     {
       chuDe: "Sự kiện ra mắt sản phẩm mới",
@@ -60,7 +62,7 @@ export default function Notification() {
     //Call api get data
   });
   return (
-    <div className="overflow-hidden">
+    <>
       <div className="flex flex-col gap-4">
         {currentNotifications.map((notification, index) => (
           <div key={index} className="p-4 rounded-xl border border-gray-200">
@@ -75,7 +77,7 @@ export default function Notification() {
           </div>
         ))}
       </div>
-      <div className="fixed bottom-0  w-full bg-white p-4 border-t">
+      <div className="w-full bg-white p-4 self-end text-right">
         <Pagination
           showQuickJumper
           defaultCurrent={2}
@@ -85,6 +87,6 @@ export default function Notification() {
           current={currentPage}
         />
       </div>
-    </div>
+    </>
   );
 }
