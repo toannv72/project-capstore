@@ -21,8 +21,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
+
 const sortOptions = [
-  { name: "Thông tin", href: "#" },
+  { name: "Thông tin", href: "/admin/profile" },
   { name: "Thay đổi mật khẩu", href: "#" },
   { name: "Đăng xuất", href: "/login" },
 ];
@@ -47,7 +48,7 @@ const subCategories = [
 ];
 
 export default function ComHeaderStaff({ children }) {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileHeadersOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
   const [activeCategory, setActiveCategory] = useState(null);
@@ -80,13 +81,14 @@ export default function ComHeaderStaff({ children }) {
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
-        <div className="bg-[#0F296D] h-screen w-[260px] pb-4 pr-2 overflow-y-auto ">
-          <div className="text-white px-10 py-10 text-center text-3xl">
+        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
+          <div className="text-white px-10 py-4 text-center text-3xl">
             CareConnect
           </div>
           <div className="text-white flex flex-col gap-5">
             {subCategories.map((category) => (
-              <div
+              <Link
+                to={category.href}
                 key={category.name}
                 className={`${
                   category?.href === activeCategory
@@ -94,8 +96,8 @@ export default function ComHeaderStaff({ children }) {
                     : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
                 } p-3 flex items-center cursor-pointer`}
                 onClick={() => {
-                  setActiveCategory(category.href);
-                  navigate(category.href);
+                  // setActiveCategory(category.href);
+                  // navigate(category.href);
                 }}
               >
                 <category.icon
@@ -113,7 +115,7 @@ export default function ComHeaderStaff({ children }) {
                 >
                   {category.name}
                 </h1>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -123,7 +125,7 @@ export default function ComHeaderStaff({ children }) {
           <Dialog
             as="div"
             className="relative z-40 lg:hidden"
-            onClose={setMobileFiltersOpen}
+            onClose={setMobileHeadersOpen}
           >
             <Transition.Child
               as={Fragment}
@@ -150,24 +152,24 @@ export default function ComHeaderStaff({ children }) {
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
                     <h2 className="text-lg font-medium text-gray-900">
-                      Filters
+                      CareConnect
                     </h2>
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                      onClick={() => setMobileFiltersOpen(false)}
+                      onClick={() => setMobileHeadersOpen(false)}
                     >
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
 
-                  {/* Filters */}
+                  {/* Header */}
                   <form className="mt-4 border-t border-gray-200">
-                    <h3 className="sr-only">Categories</h3>
+                    <h3 className="sr-only">CareConnect</h3>
                     <ul
                       role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
+                      className="px-2 py-3 font-medium text-gray-900 scrollbar scrollbar-thin"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -184,8 +186,8 @@ export default function ComHeaderStaff({ children }) {
           </Dialog>
         </Transition.Root>
         <Affix offsetTop={0} className="w-full">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
@@ -193,7 +195,10 @@ export default function ComHeaderStaff({ children }) {
             <div className="flex items-center">
               <Space size="large">
                 <Badge count={0} overflowCount={9}>
-                  <BellOutlined style={{ fontSize: "30px" }} />
+                  <BellOutlined
+                    style={{ fontSize: "30px" }}
+                    onClick={() => navigate("/admin/notification")}
+                  />
                 </Badge>
                 <div className="text-lg">Xin chào! Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
@@ -236,7 +241,7 @@ export default function ComHeaderStaff({ children }) {
                 <button
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                  onClick={() => setMobileFiltersOpen(true)}
+                  onClick={() => setMobileHeadersOpen(true)}
                 >
                   <span className="sr-only">Menu</span>
                   {/* <MenuFoldOutlined /> */}
@@ -252,10 +257,10 @@ export default function ComHeaderStaff({ children }) {
 
         <section
           aria-labelledby="products-heading"
-          className="px-4 pt-4 sm:px-6 lg:px-8 "
+          className="px-4 pt-2 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+            <div className="lg:col-span-6 overflow-y-auto h-full w-full ">
               <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                 {/* {user?.role === "admin" ? (
                   children
