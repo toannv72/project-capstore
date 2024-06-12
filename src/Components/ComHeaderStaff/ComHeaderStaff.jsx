@@ -30,8 +30,8 @@ const sortOptions = [
 const subCategories = [
   { name: "Phân công", href: "/staff/institute", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
-  { name: "khách hàng", href: "/staff/elder", icon: UsersIcon },
-  { name: "Người lớn tuổi", href: "/staff/staff", icon: BriefcaseIcon },
+  { name: "khách hàng", href: "/staff/user", icon: UsersIcon },
+  { name: "Người lớn tuổi", href: "/staff/elder", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
     href: "/staff/appointmentSchedule",

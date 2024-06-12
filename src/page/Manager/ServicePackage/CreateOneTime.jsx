@@ -58,7 +58,7 @@ export default function CreateOneTime({ onClose }) {
     setImages(newImages);
   };
   useEffect(() => {
-    getData("/block")
+    getData("/package-categories")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,

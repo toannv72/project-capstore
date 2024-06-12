@@ -8,13 +8,14 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
+import CreateServicePackage from "./CreateServicePackage";
+import ComButton from "../../../Components/ComButton/ComButton";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
-  console.log("====================================");
-  console.log(data);
-  console.log("====================================");
+  const modalDetail = useModalState();
+
   const { getColumnSearchProps } = useColumnSearch();
   const {
     text: { InstituteManagement },
@@ -109,7 +110,7 @@ export default function TableServicePackage() {
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <div>
-            <Typography.Link onClick={() => modal?.handleOpen(record)}>
+            <Typography.Link onClick={() => modalDetail?.handleOpen(record)}>
               Chấp nhận
             </Typography.Link>
           </div>
@@ -130,6 +131,19 @@ export default function TableServicePackage() {
   }, []);
   return (
     <div>
+      <div className="flex items-end pb-2">
+        <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton>
+      </div>
+      <ComModal
+        width={800}
+        isOpen={modal?.isModalOpen}
+        onClose={modal?.handleClose}
+      >
+        <CreateServicePackage
+          isOpen={modal?.isModalOpen}
+          onClose={modal?.handleClose}
+        />
+      </ComModal>
       <ComTable
         // expandable={{
         //   expandedRowRender,
@@ -139,7 +153,10 @@ export default function TableServicePackage() {
         dataSource={data}
         loading={table.loading}
       />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal
+        isOpen={modalDetail?.isModalOpen}
+        onClose={modalDetail?.handleClose}
+      >
         <div key={2}>heloo</div>
       </ComModal>
     </div>

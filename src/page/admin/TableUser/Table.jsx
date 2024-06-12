@@ -3,11 +3,12 @@ import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
-import { Tooltip, Typography } from "antd";
+import { Image, Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailUser from "./DetailUser";
 import EditUser from "./EditUser";
 import { getData } from "../../../api/api";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
 export default function Table() {
   const [data, setData] = useState([]);
@@ -53,6 +54,36 @@ console.log('====================================');
       ),
     },
     {
+      title: "Ảnh ",
+      dataIndex: "avatarUrl",
+      key: "avatarUrl",
+      width: 50,
+      // fixed: "left",
+      render: (_, record) => (
+        <div className="flex items-center justify-center">
+          {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
+          <Image.PreviewGroup items={[record.avatarUrl]}>
+            <Image
+              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+              src={record.avatarUrl}
+              alt={record.avatarUrl}
+            />
+          </Image.PreviewGroup>
+        </div>
+      ),
+    },
+    {
+      title: "Năm sinh",
+      width: 100,
+      dataIndex: "dateOfBirth",
+      key: "dateOfBirth",
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
       title: "Số điện thoại",
       width: 100,
       dataIndex: "phoneNumber",
@@ -60,11 +91,25 @@ console.log('====================================');
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
     },
     {
+      title: "CMND or CCCD",
+      width: 100,
+      dataIndex: "cccd",
+      key: "cccd",
+      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+    },
+    {
       title: "Gmail",
       width: 100,
       dataIndex: "email",
       key: "email",
       ...getColumnSearchProps("email", "Gmail"),
+    },
+    {
+      title: "Địa chỉ",
+      width: 100,
+      dataIndex: "address",
+      key: "address",
+      ...getColumnSearchProps("address", "Địa chỉ"),
     },
     {
       title: "Giới tính",
