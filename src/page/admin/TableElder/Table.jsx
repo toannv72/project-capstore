@@ -61,15 +61,17 @@ export default function Table() {
       width: 100,
       fixed: "left",
       render: (_, record) => (
-        <div className="flex items-center justify-center">
-          {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-
-          <Image
-            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-            src={record.imageUrl}
-            preview={{ mask: "Xem ảnh" }}
-            alt={record.imageAlt}
-          />
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+          {record?.avatarUrl ? (
+            <Image
+              wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
+              src={record?.avatarUrl}
+              alt={record?.avatarUrl}
+              preview={{ mask: "Xem ảnh" }}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       ),
     },

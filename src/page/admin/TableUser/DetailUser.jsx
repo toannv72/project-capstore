@@ -18,12 +18,14 @@ export default function DetailUser({ selectedUser }) {
               </td>
               <td className="px-4 py-2">
                 {selectedUser?.avatarUrl ? (
-                  <Image
-                    wrapperClassName="w-24 object-cover object-center "
-                    src={selectedUser?.avatarUrl}
-                    alt={selectedUser?.avatarUrl}
-                    preview={{ mask: "Xem ảnh" }}
-                  />
+                  <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+                    <Image
+                      wrapperClassName=" w-full h-full object-cover object-center flex items-center justify-center "
+                      src={selectedUser?.avatarUrl}
+                      alt={selectedUser?.avatarUrl}
+                      preview={{ mask: "Xem ảnh" }}
+                    />
+                  </div>
                 ) : (
                   <></>
                 )}

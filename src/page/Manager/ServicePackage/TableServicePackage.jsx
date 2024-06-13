@@ -47,7 +47,7 @@ export default function TableServicePackage() {
       width: 100,
       fixed: "left",
       render: (_, record) => (
-        <div className="flex items-center justify-center">
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
           <Image.PreviewGroup items={[record?.imageUrl]}>
             <Image

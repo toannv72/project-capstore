@@ -15,7 +15,7 @@ import EditUser from "./EditUser";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
-import ComCccdOrCmndConverter from './../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter';
+import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 
 export const Table = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -71,16 +71,14 @@ export const Table = forwardRef((props, ref) => {
       width: 100,
       // fixed: "left",
       render: (_, record) => (
-        <div className="flex items-center justify-center">
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {record?.avatarUrl ? (
-            <Image.PreviewGroup items={[record?.avatarUrl]}>
-              <Image
-                wrapperClassName="w-full h-1 object-cover object-center lg:h-full  "
-                src={record?.avatarUrl}
-                alt={record?.avatarUrl}
-                preview={{ mask: "Xem ảnh" }}
-              />
-            </Image.PreviewGroup>
+            <Image
+              wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
+              src={record?.avatarUrl}
+              alt={record?.avatarUrl}
+              preview={{ mask: "Xem ảnh" }}
+            />
           ) : (
             <></>
           )}
