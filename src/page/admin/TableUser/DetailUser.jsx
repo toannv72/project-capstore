@@ -1,4 +1,7 @@
 import React from "react";
+import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+import { Image } from "antd";
 
 export default function DetailUser({ selectedUser }) {
   return (
@@ -10,24 +13,53 @@ export default function DetailUser({ selectedUser }) {
         <table className="w-full">
           <tbody>
             <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium ">
+                Hình ảnh:
+              </td>
+              <td className="px-4 py-2">
+                {selectedUser?.avatarUrl ? (
+                  <Image
+                    wrapperClassName="w-24 object-cover object-center "
+                    src={selectedUser?.avatarUrl}
+                    alt={selectedUser?.avatarUrl}
+                    preview={{ mask: "Xem ảnh" }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </td>
+            </tr>
+            <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{selectedUser?.name}</td>
+              <td className="px-4 py-2">{selectedUser?.fullName}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Số điện thoại:
               </td>
-              <td className="px-4 py-2">{selectedUser?.phone}</td>
+              <td className="px-4 py-2">
+                <ComPhoneConverter>
+                  {selectedUser?.phoneNumber}
+                </ComPhoneConverter>
+              </td>
             </tr>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{selectedUser?.room}</td>
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                CCCD or CMND:
+              </td>
+              <td className="px-4 py-2">
+                <ComCccdOrCmndConverter>
+                  {selectedUser?.cccd}
+                </ComCccdOrCmndConverter>
+              </td>
             </tr>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{selectedUser?.day}</td>
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Ngày sinh:
+              </td>
+              <td className="px-4 py-2">{selectedUser?.dateOfBirth}</td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>

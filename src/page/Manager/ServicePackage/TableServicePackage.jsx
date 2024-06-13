@@ -42,18 +42,19 @@ export default function TableServicePackage() {
     },
     {
       title: "Ảnh dịch vụ",
-      dataIndex: "imagePackage",
-      key: "imagePackage",
+      dataIndex: "imageUrl",
+      key: "imageUrl",
       width: 100,
       fixed: "left",
       render: (_, record) => (
         <div className="flex items-center justify-center">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record.imagePackage]}>
+          <Image.PreviewGroup items={[record?.imageUrl]}>
             <Image
               maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record.imagePackage}
-              alt={record.imageAlt}
+              src={record?.imageUrl}
+              alt={record?.imageUrl}
+              preview={{ mask: "Xem ảnh" }}
             />
           </Image.PreviewGroup>
         </div>
@@ -120,7 +121,7 @@ export default function TableServicePackage() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/package-register")
+    getData("/packages")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

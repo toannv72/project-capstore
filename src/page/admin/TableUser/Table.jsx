@@ -14,6 +14,8 @@ import DetailUser from "./DetailUser";
 import EditUser from "./EditUser";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComCccdOrCmndConverter from './../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter';
 
 export const Table = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -73,9 +75,10 @@ export const Table = forwardRef((props, ref) => {
           {record?.avatarUrl ? (
             <Image.PreviewGroup items={[record?.avatarUrl]}>
               <Image
-                rootClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+                wrapperClassName="w-full h-1 object-cover object-center lg:h-full  "
                 src={record?.avatarUrl}
                 alt={record?.avatarUrl}
+                preview={{ mask: "Xem ảnh" }}
               />
             </Image.PreviewGroup>
           ) : (
@@ -101,6 +104,11 @@ export const Table = forwardRef((props, ref) => {
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
+      render: (phone) => (
+        <div>
+          <ComPhoneConverter>{phone}</ComPhoneConverter>
+        </div>
+      ),
     },
     {
       title: "CMND or CCCD",
@@ -108,6 +116,11 @@ export const Table = forwardRef((props, ref) => {
       dataIndex: "cccd",
       key: "cccd",
       ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      render: (cccd) => (
+        <div>
+          <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
+        </div>
+      ),
     },
     {
       title: "Gmail",

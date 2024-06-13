@@ -21,7 +21,7 @@ export default function Table() {
   console.log(data);
   console.log("====================================");
   useEffect(() => {
-    getData("/elder")
+    getData("/elders")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -53,7 +53,7 @@ export default function Table() {
       //   </Tooltip>
       // ),
     },
-   
+
     {
       title: "Ảnh người lớn tuổi",
       dataIndex: "imageUrl",
@@ -63,22 +63,22 @@ export default function Table() {
       render: (_, record) => (
         <div className="flex items-center justify-center">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record.imageUrl]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record.imageUrl}
-              alt={record.imageAlt}
-            />
-          </Image.PreviewGroup>
+
+          <Image
+            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            src={record.imageUrl}
+            preview={{ mask: "Xem ảnh" }}
+            alt={record.imageAlt}
+          />
         </div>
       ),
     },
     {
       title: "Người đại diện",
       width: 100,
-      dataIndex: "gender",
-      key: "gender",
-      render: (_, render) => <div>{render?.users[0]?.name}</div>,
+      dataIndex: "userId",
+      key: "userId",
+      render: (_, render) => <div>{render?.userId}</div>,
     },
     {
       title: "Năm sinh",

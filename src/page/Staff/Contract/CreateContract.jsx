@@ -108,7 +108,7 @@ export default function CreateContract({ onClose }) {
                     <ComDatePicker
                       label="Chọn khoảng thời gian"
                       required
-                      format="DD-MM-YYYY"
+                       
                       disabledDate={disabledDate}
                       {...register("days")}
                       // Các props khác của RangePicker
@@ -120,7 +120,7 @@ export default function CreateContract({ onClose }) {
                     <ComRangePicker
                       label="Chọn khoảng thời gian"
                       required
-                      format="DD-MM-YYYY"
+                       
                       onChangeValue={(e, data) => {
                         setValue("day1", data[0]);
                         setValue("day2", data[1]);

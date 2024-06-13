@@ -8,12 +8,19 @@ import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import { postData } from "../../../api/api";
+import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
+import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
+import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
+import { disabledDate } from "../../../Components/ComDateDisabled";
+import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
 
 export default function CreateUser({ onClose, tableRef }) {
-  const [image, setImages] = useState([]);
+  const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
   const cccdRegex = /^(?:\d{9}|\d{12})$/;
-  const addressRegex = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+  const addressRegex =
+    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
+
   const nameRegex =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
@@ -45,7 +52,6 @@ export default function CreateUser({ onClose, tableRef }) {
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
-      name: "",
       phoneNumber: "",
     },
   });
@@ -55,25 +61,27 @@ export default function CreateUser({ onClose, tableRef }) {
   const onSubmit = (data) => {
     console.log(data);
 
-    firebaseImgs(image).then((dataImg) => {
+    firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      postData("/users/customer-register", data)
+      postData("/users/customer-register", { ...data, avatarUrl: dataImg })
         .then((e) => {
           notificationApi("success", "tạo thành công", "đã tạo");
-           setTimeout(() => {
-             if (tableRef.current) {
-               // Kiểm tra xem ref đã được gắn chưa
-               tableRef.current.reloadData();
-             }
-           }, 100);
+          setTimeout(() => {
+            if (tableRef.current) {
+              // Kiểm tra xem ref đã được gắn chưa
+              tableRef.current.reloadData();
+            }
+          }, 100);
           onClose();
         })
         .catch((e) => {
           console.log("====================================");
           console.log(e);
-          setError("phoneNumber", {
-            message: "Đã có số điện thoại này",
-          });
+          if (e.status === 409) {
+            setError("phoneNumber", {
+              message: "Đã có số điện thoại này",
+            });
+          }
           console.log("====================================");
         });
     });
@@ -81,8 +89,13 @@ export default function CreateUser({ onClose, tableRef }) {
 
   const onChange = (data) => {
     const selectedImages = data;
-    const newImages = selectedImages.map((file) => file.originFileObj);
-    setImages(newImages);
+
+    // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
+    // const newImages = selectedImages.map((file) => file.originFileObj);
+    // Cập nhật trạng thái 'image' bằng danh sách tệp mới
+    console.log([selectedImages]);
+    setImages(selectedImages);
+    // setFileList(data);
   };
   return (
     <div>
@@ -135,6 +148,19 @@ export default function CreateUser({ onClose, tableRef }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
+                    <ComDatePicker
+                      type="numbers"
+                      disabledDate={DateOfBirth}
+                       
+                      label={"Ngày tháng năm sinh"}
+                      placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
+                      {...register("dateOfBirth")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
                     <ComInput
                       type="text"
                       label={"Địa chỉ"}
@@ -146,7 +172,7 @@ export default function CreateUser({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImg onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

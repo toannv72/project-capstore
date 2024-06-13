@@ -44,9 +44,9 @@ export const postData = async (endpoint, data, headers = {}) => {
   } catch (error) {
     if (error.response && error.response.status === 401) {
       // window.location.href = "/login";
-      throw error;
+      throw error.response || error;
     } else {
-      throw error;
+      throw error.response || error;
     }
   }
 };

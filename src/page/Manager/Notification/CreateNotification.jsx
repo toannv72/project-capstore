@@ -93,7 +93,7 @@ export default function CreateNotification() {
                 <ComDatePicker
                   type="numbers"
                   disabledDate={disabledDate}
-                  format="DD-MM-YYYY"
+                   
                   label={"Ngày thực hiện"}
                   placeholder={"Vui lòng chọn ngày"}
                   {...register("date")}

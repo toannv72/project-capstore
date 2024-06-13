@@ -10,6 +10,7 @@ import { useNotification } from "./../../../Notification/Notification";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import moment from "moment";
+import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
 
 export default function CreateEmployee({ onClose }) {
   const [image, setImages] = useState([]);
@@ -28,12 +29,7 @@ export default function CreateEmployee({ onClose }) {
     days: yup.string().required("Vui lòng nhập đủ họ và tên"),
     // phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
   });
-  const disabledDate = (current) => {
-    const yearsAgo120 = moment().subtract(120, "years");
-    const yearsLater120 = moment().add(120, "years");
 
-    return current && (current < yearsAgo120 || current > yearsLater120);
-  };
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
@@ -132,8 +128,8 @@ export default function CreateEmployee({ onClose }) {
                   <div className="mt-2.5">
                     <ComDatePicker
                       type="numbers"
-                      disabledDate={disabledDate}
-                      format="DD-MM-YYYY"
+                      disabledDate={DateOfBirth}
+                       
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("days")}

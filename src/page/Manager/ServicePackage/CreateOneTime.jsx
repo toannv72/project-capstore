@@ -154,7 +154,7 @@ export default function CreateOneTime({ onClose }) {
                     <ComDatePicker
                       label="Chọn khoảng thời gian diễn ra"
                       required
-                      format="DD-MM-YYYY"
+                       
                       disabledDate={disabledDate3Day6m}
                       {...register("days")}
                       // Các props khác của RangePicker
@@ -166,7 +166,7 @@ export default function CreateOneTime({ onClose }) {
                     <div className="mt-2.5">
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
-                        format="DD-MM-YYYY"
+                         
                         disabledDate={disabledDateEnd}
                         {...register("endDay")}
                         required
@@ -179,7 +179,7 @@ export default function CreateOneTime({ onClose }) {
                     <div className="mt-2.5">
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
-                        format="DD-MM-YYYY"
+                         
                         disabledDate={disabledDateEnd}
                         {...register("endDay")}
                         required

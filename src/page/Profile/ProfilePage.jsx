@@ -179,7 +179,7 @@ export default function ProfilePage() {
                 <ComDatePicker
                   label="Ngày sinh"
                   required
-                  format="DD-MM-YYYY"
+                   
                   disabledDate={disabledDate}
                   {...register("birth")}
                   disabled

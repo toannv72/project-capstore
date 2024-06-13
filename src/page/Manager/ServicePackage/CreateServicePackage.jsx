@@ -33,7 +33,7 @@ export default function CreateServicePackage({ isOpen, onClose }) {
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Tạo gói dưỡng lão
+        Tạo gói dịch vụ
       </h2>
      <div className="flex justify-center">
         <Radio.Group onChange={onChange} value={value}>
