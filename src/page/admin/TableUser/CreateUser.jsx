@@ -7,32 +7,75 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
+import { postData } from "../../../api/api";
 
-export default function CreateUser({ onClose }) {
+export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-
+  const cccdRegex = /^(?:\d{9}|\d{12})$/;
+  const addressRegex = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+  const nameRegex =
+    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhập đủ họ và tên"),
-    phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
+    fullName: yup
+      .string()
+      .matches(
+        nameRegex,
+        "Vui lòng nhập tên hợp lệ (chỉ chứa chữ cái và dấu cách)"
+      )
+      .required("Vui lòng nhập tên")
+      .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
+      .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
+    phoneNumber: yup.string().required("Vui lòng nhập đủ họ và tên"),
+    cccd: yup
+      .string()
+      .matches(
+        cccdRegex,
+        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
+      )
+      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+    address: yup
+      .string()
+      .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
+      .required("Vui lòng nhập địa chỉ")
+      .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
+      .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
       name: "",
-      phone: "",
+      phoneNumber: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
   const onSubmit = (data) => {
     console.log(data);
 
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      notificationApi("success", "tạo thành công", "đã tạo");
-      onClose();
+      postData("/users/customer-register", data)
+        .then((e) => {
+          notificationApi("success", "tạo thành công", "đã tạo");
+           setTimeout(() => {
+             if (tableRef.current) {
+               // Kiểm tra xem ref đã được gắn chưa
+               tableRef.current.reloadData();
+             }
+           }, 100);
+          onClose();
+        })
+        .catch((e) => {
+          console.log("====================================");
+          console.log(e);
+          setError("phoneNumber", {
+            message: "Đã có số điện thoại này",
+          });
+          console.log("====================================");
+        });
     });
   };
 
@@ -63,7 +106,7 @@ export default function CreateUser({ onClose }) {
                       type="text"
                       label={"Họ và Tên"}
                       placeholder={"Vui lòng nhập Họ và Tên"}
-                      {...register("name")}
+                      {...register("fullName")}
                       required
                     />
                   </div>
@@ -74,7 +117,7 @@ export default function CreateUser({ onClose }) {
                       type="numbers"
                       label={"Số điện thoại"}
                       placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phone")}
+                      {...register("phoneNumber")}
                       required
                     />
                   </div>
@@ -85,7 +128,7 @@ export default function CreateUser({ onClose }) {
                       type="numbers"
                       label={"Số CMND hoặc CCCD "}
                       placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
-                      {...register("phone")}
+                      {...register("cccd")}
                       required
                     />
                   </div>
@@ -96,14 +139,14 @@ export default function CreateUser({ onClose }) {
                       type="text"
                       label={"Địa chỉ"}
                       placeholder={"Vui lòng nhập Địa chỉ"}
-                      {...register("name")}
+                      {...register("address")}
                       required
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <ComUpImg onChange={onChange} />
+            <ComUpImg onChange={onChange} label={"Hình ảnh"} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

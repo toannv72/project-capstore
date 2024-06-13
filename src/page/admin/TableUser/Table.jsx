@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
@@ -10,18 +15,21 @@ import EditUser from "./EditUser";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
-export default function Table() {
+export const Table = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
-console.log('====================================');
-console.log(data);
-console.log('====================================');
+  console.log("====================================");
+  console.log(data);
+  console.log("====================================");
   useEffect(() => {
-    getData("/users")
+    reloadData();
+  }, []);
+  const reloadData = () =>
+    getData("/users?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -29,8 +37,9 @@ console.log('====================================');
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
-
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
   const showModal = (record) => {
     modalDetail.handleOpen();
     setSelectedUser(record);
@@ -57,18 +66,21 @@ console.log('====================================');
       title: "Ảnh ",
       dataIndex: "avatarUrl",
       key: "avatarUrl",
-      width: 50,
+      width: 100,
       // fixed: "left",
       render: (_, record) => (
         <div className="flex items-center justify-center">
-          {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record.avatarUrl]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record.avatarUrl}
-              alt={record.avatarUrl}
-            />
-          </Image.PreviewGroup>
+          {record?.avatarUrl ? (
+            <Image.PreviewGroup items={[record?.avatarUrl]}>
+              <Image
+                rootClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+                src={record?.avatarUrl}
+                alt={record?.avatarUrl}
+              />
+            </Image.PreviewGroup>
+          ) : (
+            <></>
+          )}
         </div>
       ),
     },
@@ -162,4 +174,4 @@ console.log('====================================');
       </ComModal>
     </div>
   );
-}
+});

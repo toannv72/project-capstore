@@ -12,7 +12,6 @@ import ComNumber from "./../../../Components/ComInput/ComNumber";
 import { postData } from "../../../api/api";
 
 export  function CreateServicePackageCategories({
-  isOpen,
   onClose,
   tableRef,
 }) {
@@ -40,7 +39,7 @@ export  function CreateServicePackageCategories({
           "tạo thành công",
           "đã tạo thể loại dịch vụ thành công!"
         );
-        console.log(tableRef);
+     
         setTimeout(() => {
           if (tableRef.current) {
             // Kiểm tra xem ref đã được gắn chưa
