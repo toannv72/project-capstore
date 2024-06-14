@@ -52,8 +52,8 @@ export default function CreateNotification() {
   };
   return (
     <>
-      <div className="grid grid-cols-6">
-        <div className="col-start-2 col-span-4 bg-slate-200 rounded-md p-4">
+      <div className="grid grid-cols-6 mt-14">
+        <div className="col-start-2 col-span-4 bg-slate-100 rounded-md p-4 border border-gray-300">
           <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
             Tạo thông báo
           </h2>

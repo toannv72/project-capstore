@@ -29,9 +29,15 @@ export default function ProfilePage() {
     phone: yup.string().required("Vui lòng nhập số điện thoại"),
     mail: yup.string().required("Vui lòng nhập địa chỉ email"),
   });
+  const [initialValues, setInitialValues] = useState({
+    address: "",
+    birth: "",
+    phone: "",
+    mail: "",
+  });
   const methods = useForm({
     resolver: yupResolver(inputMessenger),
-    values: {
+    defaultValues: {
       avatar: "",
       fullname: "",
       address: "",
@@ -42,7 +48,13 @@ export default function ProfilePage() {
       gender: "",
     },
   });
-  const { handleSubmit, register, setValue } = methods;
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    reset,
+    formState: { errors },
+  } = methods;
   const onSubmit = (data) => {
     // firebaseImg(image[0]).then((e) => {
     //   setValue("avatar", e);
@@ -58,11 +70,13 @@ export default function ProfilePage() {
 
       // Hide the confirmation modal after update
       setIsConfirmationModalVisible(false);
+      setIsEditing(false);
     });
   };
 
   const handleCancelUpdate = () => {
     setIsConfirmationModalVisible(false);
+    reset();
   };
   const handLogout = () => {
     localStorage.removeItem("accessToken");
@@ -90,150 +104,167 @@ export default function ProfilePage() {
   const handSend = (option) => {
     if (option === "edit") {
       setIsEditing(true);
+      reset();
+      setInitialValues({
+        // Store initial values
+        address: methods.getValues("address"),
+        birth: methods.getValues("birth"),
+        phone: methods.getValues("phone"),
+        mail: methods.getValues("mail"),
+      });
     }
   };
   console.log(isEditing);
   return (
     <div className="flex flex-col space-y-5 font-montserrat mb-1">
-      <div className="flex justify-between p-3 rounded-md border border-fade">
-        <div className="font-bold text-base">Cài đặt người dùng</div>
-        <Space
-          size="small"
-          className="flex cursor-pointer text-red-600 text-base hidden"
-        >
-          <div onClick={() => handLogout()}>Đăng xuất</div>
-          <LogoutOutlined />
-        </Space>
-      </div>
       <div className="grid grid-cols-3 gap-4">
-        <div className="border border-fade p-3 rounded-md col-span-2">
-          <div className="flex justify-between">
-            <div>Thông tin người dùng</div>
-            {isEditing ? (
-              <CloseOutlined onClick={() => setIsEditing(!isEditing)} />
-            ) : (
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    <MoreOutlined />
-                  </Menu.Button>
-                </div>
-
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 z-10 w-40 origin-top-right rounded-lg bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border-b-slate-300 border">
-                    <div>
-                      {sortOptions.map((option) => (
-                        <Menu.Item key={option.name}>
-                          <div
-                            onClick={() => handSend(option.type)}
-                            className="block px-4 py-2 text-sm cursor-pointer text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rounded-lg"
-                          >
-                            {option.name}
-                          </div>
-                        </Menu.Item>
-                      ))}
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            )}
-          </div>
-          <FormProvider {...methods}>
-            <form
-              className="grid grid-cols-6 gap-4"
-              onSubmit={handleSubmit(onSubmit)}
+        <div className="grid col-span-2 gap-4">
+          <div className="p-3 rounded-md border border-fade">
+            <div className="font-bold text-base">Cài đặt người dùng</div>
+            <Space
+              size="small"
+              className="flex cursor-pointer text-red-600 text-base hidden"
             >
-              <div className="col-span-6">
-                {!isEditing ? (
-                  <img
-                    className="h-25 w-25 rounded-full border border-gray-400"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                ) : (
-                  <ComUpImgOne onChange={onChange} required />
-                )}
-              </div>
-
-              <div className="col-span-3">
-                <ComInput
-                  placeholder="Nhập họ và tên"
-                  label="Họ và tên"
-                  type="text"
-                  // maxLength={10}
-                  {...register("fullname")}
-                  required
-                  disabled
+              <div onClick={() => handLogout()}>Đăng xuất</div>
+              <LogoutOutlined />
+            </Space>
+          </div>
+          <div className="border border-fade p-3 rounded-md ">
+            <div className="flex justify-between">
+              <div>Thông tin người dùng</div>
+              {isEditing ? (
+                <CloseOutlined
+                  onClick={() => {
+                    setIsEditing(false);
+                    setValue("address", initialValues.address);
+                    setValue("birth", initialValues.birth);
+                    setValue("phone", initialValues.phone);
+                    setValue("mail", initialValues.mail);
+                  }}
                 />
-              </div>
-
-              <div className="col-span-3">
-                <ComDatePicker
-                  label="Ngày sinh"
-                  required
-                   
-                  disabledDate={disabledDate}
-                  {...register("birth")}
-                  disabled
-                />
-              </div>
-              <div className="col-span-3">
-                <ComInput
-                  placeholder="Nhập số điện thoại"
-                  label="Số điện thoại"
-                  type="numbers"
-                  maxLength={10}
-                  {...register("phone")}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="col-span-3">
-                <ComInput
-                  placeholder="Nhập email"
-                  label="Email"
-                  type="text"
-                  {...register("mail")}
-                  disabled={!isEditing}
-                />
-              </div>
-              <div className="col-span-3">
-                <ComInput
-                  placeholder="Nhập số Cccd/Cmnd"
-                  label="Cccd"
-                  type="numbers"
-                  maxLength={12}
-                  {...register("cccd")}
-                  disabled
-                />
-              </div>
-              <div className="col-span-6">
-                <ComInput
-                  placeholder="Nhập địa chỉ"
-                  label="Địa chỉ"
-                  type="text"
-                  {...register("address")}
-                  disabled={!isEditing}
-                />
-              </div>
-              {!isEditing ? (
-                <></>
               ) : (
-                <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
-                  <ComButton htmlType="submit" type="primary">
-                    Cập nhật
-                  </ComButton>
-                </div>
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                      <MoreOutlined />
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 w-40 origin-top-right rounded-lg bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none border-b-slate-300 border">
+                      <div>
+                        {sortOptions.map((option) => (
+                          <Menu.Item key={option.name}>
+                            <div
+                              onClick={() => handSend(option.type)}
+                              className="block px-4 py-2 text-sm cursor-pointer text-gray-500 hover:bg-gray-200 hover:text-gray-900 hover:rounded-lg"
+                            >
+                              {option.name}
+                            </div>
+                          </Menu.Item>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               )}
-            </form>
-          </FormProvider>
+            </div>
+            <FormProvider {...methods}>
+              <form
+                className="grid grid-cols-6 gap-4"
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <div className="col-span-6">
+                  {!isEditing ? (
+                    <img
+                      className="h-25 w-25 rounded-full border border-gray-400"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
+                    />
+                  ) : (
+                    <ComUpImgOne onChange={onChange} required />
+                  )}
+                </div>
+
+                <div className="col-span-3">
+                  <ComInput
+                    placeholder="Nhập họ và tên"
+                    label="Họ và tên"
+                    type="text"
+                    // maxLength={10}
+                    {...register("fullname")}
+                    required
+                    disabled
+                  />
+                </div>
+
+                <div className="col-span-3">
+                  <ComDatePicker
+                    label="Ngày sinh"
+                    required
+                    disabledDate={disabledDate}
+                    {...register("birth")}
+                    disabled
+                  />
+                </div>
+                <div className="col-span-3">
+                  <ComInput
+                    placeholder="Nhập số điện thoại"
+                    label="Số điện thoại"
+                    type="numbers"
+                    maxLength={10}
+                    {...register("phone")}
+                    disabled={!isEditing}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <ComInput
+                    placeholder="Nhập email"
+                    label="Email"
+                    type="text"
+                    {...register("mail")}
+                    disabled={!isEditing}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <ComInput
+                    placeholder="Nhập số Cccd/Cmnd"
+                    label="Cccd"
+                    type="numbers"
+                    maxLength={12}
+                    {...register("cccd")}
+                    disabled
+                  />
+                </div>
+                <div className="col-span-6">
+                  <ComInput
+                    placeholder="Nhập địa chỉ"
+                    label="Địa chỉ"
+                    type="text"
+                    {...register("address")}
+                    disabled={!isEditing}
+                  />
+                </div>
+                {!isEditing ? (
+                  <></>
+                ) : (
+                  <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
+                    <ComButton htmlType="submit" type="primary">
+                      Cập nhật
+                    </ComButton>
+                  </div>
+                )}
+              </form>
+            </FormProvider>
+          </div>
         </div>
         <div className="flex flex-col justify-between border border-fade p-3 rounded-md col-span-1">
           <div>
