@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import Table from "./Table";
+import Table from "./Tables";
 export default function TableElder() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const cardData = [

@@ -8,7 +8,7 @@ import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
-import { Image, Tooltip, Typography } from "antd";
+import { Image, Table, Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailUser from "./DetailUser";
 import EditUser from "./EditUser";
@@ -16,20 +16,22 @@ import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+import DetailElder from "./../TableElder/DetailElder";
 
-export const Table = forwardRef((props, ref) => {
+export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();
-  const modalDetail = useModalState();
+  const modalDetailUser = useModalState();
+  const modalDetailElder = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log("====================================");
-  console.log(data);
-  console.log("====================================");
+  const [selectedElder, setSelectedElder] = useState(null);
+
   useEffect(() => {
     reloadData();
   }, []);
+
   const reloadData = () =>
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -42,13 +44,99 @@ export const Table = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
+  const showModaldElder = (record) => {
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
+  };
   const showModal = (record) => {
-    modalDetail.handleOpen();
+    modalDetailUser.handleOpen();
     setSelectedUser(record);
   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
     setSelectedUser(record);
+  };
+  const expandedRowRender = (record) => {
+    const columnsElders = [
+      {
+        title: "Tên người thân",
+        fixed: "left",
+        width: 100,
+        dataIndex: "name",
+        key: "name",
+      },
+      {
+        title: "Giới tính",
+        width: 100,
+        dataIndex: "gender",
+        key: "gender",
+      },
+      {
+        title: "Ngày có hiệu lực",
+        width: 100,
+        dataIndex: "effectiveDate",
+        key: "effectiveDate",
+        render: (_, render) => (
+          <div>
+            <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+          </div>
+        ),
+      },
+      {
+        title: "Ngày hết hạn",
+        width: 100,
+        dataIndex: "expiryDate",
+        key: "expiryDate",
+        render: (_, render) => (
+          <div>
+            <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+          </div>
+        ),
+      },
+      {
+        title: "Địa chỉ",
+        width: 100,
+        dataIndex: "address",
+        key: "address",
+      },
+      {
+        title: "Ghi chú",
+        width: 100,
+        dataIndex: "notes",
+        key: "notes",
+      },
+      {
+        title: "Action",
+        key: "operation",
+        fixed: "right",
+        width: 50,
+        render: (_, record) => (
+          <div className="flex items-center flex-col">
+            <div>
+              <Typography.Link onClick={() => showModaldElder(record)}>
+                Chi tiết
+              </Typography.Link>
+            </div>
+          </div>
+        ),
+      },
+    ];
+    return (
+      <Table
+        scroll={{
+          x: 1520,
+          y: "55vh",
+        }}
+        bdataed
+        bordered
+        columns={columnsElders}
+        dataSource={record.elders}
+        pagination={{
+          showSizeChanger: true,
+          pageSizeOptions: ["10", "20", "50", "100"],
+        }}
+      />
+    );
   };
   const columns = [
     {
@@ -167,13 +255,30 @@ export const Table = forwardRef((props, ref) => {
 
   return (
     <div>
-      <ComTable columns={columns} dataSource={data} loading={table.loading} />
+      <ComTable
+        expandable={{
+          expandedRowRender,
+          defaultExpandedRowKeys: ["0"],
+        }}
+        columns={columns}
+        dataSource={data}
+        loading={table.loading}
+      />
+      {/* chi tiêt của user  */}
       <ComModal
-        isOpen={modalDetail?.isModalOpen}
-        onClose={modalDetail?.handleClose}
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
       >
         <DetailUser selectedUser={selectedUser} />
       </ComModal>
+      {/* chi tiết của người già  */}
+      <ComModal
+        isOpen={modalDetailElder?.isModalOpen}
+        onClose={modalDetailElder?.handleClose}
+      >
+        <DetailElder selectedUser={selectedElder} />
+      </ComModal>
+      {/* chỉnh sửa user */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

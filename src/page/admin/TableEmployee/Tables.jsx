@@ -9,7 +9,7 @@ import DetailEmployee from "./DetailEmployee";
 import EditEmployee from "./EditEmployee";
 import { getData } from "../../../api/api";
 
-export default function Table() {
+export default function Tables() {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();

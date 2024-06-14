@@ -14,7 +14,7 @@ export default function DetailElder({ selectedUser }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{selectedUser?.fullName}</td>
+              <td className="px-4 py-2">{selectedUser?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">

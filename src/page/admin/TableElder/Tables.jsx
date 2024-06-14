@@ -9,14 +9,18 @@ import DetailElder from "./DetailElder";
 import EditElder from "./EditElder";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import DetailUser from "./../TableUser/DetailUser";
 
-export default function Table() {
+export default function Tables() {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();
-  const modalDetail = useModalState();
+  const modalDetailUser = useModalState();
+  const modalDetailElder = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedElder, setSelectedElder] = useState(null);
+
   console.log("====================================");
   console.log(data);
   console.log("====================================");
@@ -31,9 +35,14 @@ export default function Table() {
       });
   }, []);
 
-  const showModal = (record) => {
-    modalDetail.handleOpen();
+  const showModaldUser = (record) => {
+    console.log(record);
+    modalDetailUser.handleOpen();
     setSelectedUser(record);
+  };
+  const showModalElder = (record) => {
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
@@ -42,11 +51,11 @@ export default function Table() {
   const columns = [
     {
       title: "Họ và tên người lớn tuổi",
-      dataIndex: "fullName",
+      dataIndex: "name",
       width: 150,
-      key: "fullName",
+      key: "name",
       fixed: "left",
-      ...getColumnSearchProps("fullName", "Họ và tên"),
+      ...getColumnSearchProps("name", "Họ và tên"),
       // render: (record) => (
       //   <Tooltip placement="topLeft" title={"Chi tiết"}>
       //     {record}
@@ -78,9 +87,13 @@ export default function Table() {
     {
       title: "Người đại diện",
       width: 100,
-      dataIndex: "userId",
-      key: "userId",
-      render: (_, render) => <div>{render?.userId}</div>,
+      dataIndex: "user",
+      key: "user",
+      render: (user) => (
+        <Typography.Link onClick={() => showModaldUser(user)}>
+          {user?.fullName}
+        </Typography.Link>
+      ),
     },
     {
       title: "Năm sinh",
@@ -157,7 +170,7 @@ export default function Table() {
         <div className="flex items-center flex-col">
           <div>
             <div>
-              <Typography.Link onClick={() => showModal(record)}>
+              <Typography.Link onClick={() => showModalElder(record)}>
                 Chi tiết
               </Typography.Link>
             </div>
@@ -177,10 +190,10 @@ export default function Table() {
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       {/* chi tiết người lớn tuôi */}
       <ComModal
-        isOpen={modalDetail?.isModalOpen}
-        onClose={modalDetail?.handleClose}
+        isOpen={modalDetailElder?.isModalOpen}
+        onClose={modalDetailElder?.handleClose}
       >
-        <DetailElder selectedUser={selectedUser} />
+        <DetailElder selectedUser={selectedElder} />
       </ComModal>
       {/* chỉnh sửa người lớn tuổi */}
       <ComModal
@@ -191,6 +204,13 @@ export default function Table() {
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
         />
+      </ComModal>
+      {/* chi tiết người thân  */}
+      <ComModal
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
+      >
+        <DetailUser selectedUser={selectedUser} />
       </ComModal>
     </div>
   );

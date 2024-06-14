@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import Table from "./Table";
+import Tables from "./Tables";
 import ComButton from "../../../Components/ComButton/ComButton";
 import ComModal from "../../../Components/ComModal/ComModal";
 import { useModalState } from "../../../hooks/useModalState";
@@ -38,7 +38,7 @@ function TableEmployee() {
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <CreateEmployee isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
       </ComModal>
-      <Table />
+      <Tables />
     </div>
   );
 }

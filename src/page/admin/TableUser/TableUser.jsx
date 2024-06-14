@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import { Table } from "./Table";
+import {  Tables } from "./Table";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -43,7 +43,7 @@ function TableUser() {
           tableRef={tableRef}
         />
       </ComModal>
-      <Table ref={tableRef} />
+      <Tables ref={tableRef} />
     </div>
   );
 }
