@@ -29,9 +29,15 @@ export default function ProfilePage() {
     phone: yup.string().required("Vui lòng nhập số điện thoại"),
     mail: yup.string().required("Vui lòng nhập địa chỉ email"),
   });
+  const [initialValues, setInitialValues] = useState({
+    address: "",
+    birth: "",
+    phone: "",
+    mail: "",
+  });
   const methods = useForm({
     resolver: yupResolver(inputMessenger),
-    values: {
+    defaultValues: {
       avatar: "",
       fullname: "",
       address: "",
@@ -42,7 +48,13 @@ export default function ProfilePage() {
       gender: "",
     },
   });
-  const { handleSubmit, register, setValue } = methods;
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    reset,
+    formState: { errors },
+  } = methods;
   const onSubmit = (data) => {
     // firebaseImg(image[0]).then((e) => {
     //   setValue("avatar", e);
@@ -58,11 +70,13 @@ export default function ProfilePage() {
 
       // Hide the confirmation modal after update
       setIsConfirmationModalVisible(false);
+      setIsEditing(false);
     });
   };
 
   const handleCancelUpdate = () => {
     setIsConfirmationModalVisible(false);
+    reset();
   };
   const handLogout = () => {
     localStorage.removeItem("accessToken");
@@ -90,6 +104,14 @@ export default function ProfilePage() {
   const handSend = (option) => {
     if (option === "edit") {
       setIsEditing(true);
+      reset();
+      setInitialValues({
+        // Store initial values
+        address: methods.getValues("address"),
+        birth: methods.getValues("birth"),
+        phone: methods.getValues("phone"),
+        mail: methods.getValues("mail"),
+      });
     }
   };
   console.log(isEditing);
@@ -110,7 +132,15 @@ export default function ProfilePage() {
           <div className="flex justify-between">
             <div>Thông tin người dùng</div>
             {isEditing ? (
-              <CloseOutlined onClick={() => setIsEditing(!isEditing)} />
+              <CloseOutlined
+                onClick={() => {
+                  setIsEditing(false);
+                  setValue("address", initialValues.address);
+                  setValue("birth", initialValues.birth);
+                  setValue("phone", initialValues.phone);
+                  setValue("mail", initialValues.mail);
+                }}
+              />
             ) : (
               <Menu as="div" className="relative inline-block text-left">
                 <div>

@@ -52,8 +52,8 @@ export default function CreateNotification() {
   };
   return (
     <>
-      <div className="grid grid-cols-6">
-        <div className="col-start-2 col-span-4 bg-slate-200 rounded-md p-4">
+      <div className="grid grid-cols-6 mt-14">
+        <div className="col-start-2 col-span-4 bg-slate-100 rounded-md p-4 border border-gray-300">
           <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">
             Tạo thông báo
           </h2>
@@ -114,7 +114,7 @@ export default function CreateNotification() {
                 <ComButton
                   htmlType="submit"
                   type="primary"
-                  className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="block w-full rounded-md bg-indigo-600 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Tạo thông báo
                 </ComButton>

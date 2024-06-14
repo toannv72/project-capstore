@@ -44,6 +44,11 @@ const subCategories = [
     icon: QueueListIcon,
   },
   { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
+  {
+    name: "Trung tâm thông báo",
+    href: "/admin/createNotification",
+    icon: BellIcon,
+  },
 ];
 
 export default function ComHeaderAdmin({ children }) {
