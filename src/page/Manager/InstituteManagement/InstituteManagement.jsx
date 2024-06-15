@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import TableBlock from "./TableBlock";
-import TableRooms from "./TableRooms";
+import { TableBlock } from "./TableBlock";
+import { TableRooms } from "./TableRooms";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -9,7 +9,9 @@ import CreateAll from "./CreateAll";
 
 function InstituteManagement() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-    const modal = useModalState();
+  const modal = useModalState();
+  const tableRef = useRef(null);
+
   const cardData = [
     { title: "Số lượng khu", value: "10.678" },
     { title: "Số lượng phòng", value: "1.000" },
@@ -20,11 +22,9 @@ function InstituteManagement() {
   const viewTable = () => {
     switch (selectedCardIndex) {
       case 0:
-        return <TableBlock />;
-
+        return <TableBlock ref={tableRef} />;
       case 1:
-        return <TableRooms />;
-
+        return <TableRooms ref={tableRef} />;
       default:
         break;
     }
@@ -47,7 +47,11 @@ function InstituteManagement() {
       </div>
       {viewTable()}
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <CreateAll isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
+        <CreateAll
+          isOpen={modal?.isModalOpen}
+          onClose={modal?.handleClose}
+          tableRef={tableRef}
+        />
       </ComModal>
     </>
   );

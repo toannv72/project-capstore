@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef, useImperativeHandle } from "react";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Badge, Table, Tooltip, Typography } from "antd";
@@ -8,7 +8,8 @@ import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
-export default function TableBlock() {
+
+export const TableBlock = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
@@ -90,8 +91,8 @@ export default function TableBlock() {
   const columns = [
     {
       title: InstituteManagement?.areaName,
-      width: 150,
-      fixed: "left",
+      width: 100,
+      // fixed: "left",
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name", InstituteManagement?.areaName),
@@ -106,34 +107,34 @@ export default function TableBlock() {
       render: (record) => <div>{record?.length}</div>,
       // ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
     },
-    {
-      title: InstituteManagement?.status,
-      width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
-    },
-    {
-      title: "Thông tin bổ sung",
-      dataIndex: "description",
-      key: "description",
-      width: 300,
-      ...getColumnSearchProps("description", "chi tiết"),
+    // {
+    //   title: InstituteManagement?.status,
+    //   width: 200,
+    //   dataIndex: "status",
+    //   key: "status",
+    //   ...getColumnSearchProps("status", InstituteManagement?.status),
+    // },
+    // {
+    //   title: "Thông tin bổ sung",
+    //   dataIndex: "description",
+    //   key: "description",
+    //   width: 300,
+    //   ...getColumnSearchProps("description", "chi tiết"),
 
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (record) => (
-        <Tooltip placement="topLeft" title={record}>
-          {record}
-        </Tooltip>
-      ),
-    },
+    //   ellipsis: {
+    //     showTitle: false,
+    //   },
+    //   render: (record) => (
+    //     <Tooltip placement="topLeft" title={record}>
+    //       {record}
+    //     </Tooltip>
+    //   ),
+    // },
     {
       title: "Action",
       key: "operation",
-      fixed: "right",
-      width: 100,
+      // fixed: "right",
+      width: 40,
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <div>
@@ -145,9 +146,9 @@ export default function TableBlock() {
       ),
     },
   ];
-  useEffect(() => {
+  const reloadData = () => {
     table.handleOpenLoading();
-    getData("/block")
+    getData("/block?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -155,7 +156,13 @@ export default function TableBlock() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+  };
+  useEffect(() => {
+    reloadData();
   }, []);
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
   return (
     <div>
       <ComTable
@@ -166,10 +173,14 @@ export default function TableBlock() {
         columns={columns}
         dataSource={data}
         loading={table.loading}
+        scroll={{
+          x: 1020,
+          y: "55vh",
+        }}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <div key={2}>heloo</div>
       </ComModal>
     </div>
   );
-}
+});

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef, useImperativeHandle } from "react";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Badge, Table, Tooltip, Typography } from "antd";
@@ -8,8 +8,9 @@ import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
-import ComDateConverter from '../../../Components/ComDateConverter/ComDateConverter';
-export default function TableRooms() {
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+
+export const TableRooms = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
@@ -20,14 +21,18 @@ export default function TableRooms() {
       common: { button },
     },
   } = useContext(LanguageContext);
+  console.log(data);
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
   const expandedRowRender = (record) => {
     const columns = [
       {
         title: "Tên người bệnh",
         fixed: "left",
         width: 100,
-        dataIndex: "fullName",
-        key: "fullName",
+        dataIndex: "name",
+        key: "name",
       },
       {
         title: "Giới tính",
@@ -163,9 +168,10 @@ export default function TableRooms() {
       ),
     },
   ];
-  useEffect(() => {
+
+  const reloadData = () => {
     table.handleOpenLoading();
-    getData("/room")
+    getData("/room?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -173,6 +179,9 @@ export default function TableRooms() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+  };
+  useEffect(() => {
+    reloadData();
   }, []);
   return (
     <div>
@@ -190,4 +199,4 @@ export default function TableRooms() {
       </ComModal>
     </div>
   );
-}
+});

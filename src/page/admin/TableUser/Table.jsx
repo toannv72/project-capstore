@@ -32,7 +32,7 @@ export const Tables = forwardRef((props, ref) => {
     reloadData();
   }, []);
 
-  const reloadData = () =>
+  const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
@@ -41,6 +41,7 @@ export const Tables = forwardRef((props, ref) => {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+  };
   useImperativeHandle(ref, () => ({
     reloadData,
   }));

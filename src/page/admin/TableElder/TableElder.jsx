@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import Table from "./Tables";
+import { Tables } from "./Tables";
+import ComModal from "../../../Components/ComModal/ComModal";
+import CreateElder from "./CreateElder";
+import { useModalState } from "../../../hooks/useModalState";
+import ComButton from "../../../Components/ComButton/ComButton";
+
 export default function TableElder() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
+  const modal = useModalState();
+  const tableRef = useRef(null);
   const cardData = [
     { title: "Tổng số người dùng", value: "10.678" },
     { title: "Đăng ký gia hạn hợp đồng", value: "1.000" },
@@ -27,7 +34,17 @@ export default function TableElder() {
           />
         ))}
       </div>
-      <Table />
+      <div className="flex items-end pb-2">
+        <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+      </div>
+      <ComModal width={800} isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+        <CreateElder
+          isOpen={modal?.isModalOpen}
+          onClose={modal?.handleClose}
+          tableRef={tableRef}
+        />
+      </ComModal>
+      <Tables ref={tableRef} />
     </div>
   );
 }

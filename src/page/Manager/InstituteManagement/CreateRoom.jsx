@@ -11,15 +11,14 @@ import { getData, postData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 
-export default function CreateRoom({ isOpen, onClose }) {
+export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const [dataBlock, setDataBlock] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState();
-
-  const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng"),
+    blockId: yup.string().required("Vui chọn khu"),
   });
 
   const methods = useForm({
@@ -29,17 +28,24 @@ export default function CreateRoom({ isOpen, onClose }) {
       description: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
   const onSubmit = (data) => {
     console.log(data);
     postData(`/room?blockId=${data?.blockId}`, data)
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
-        onClose()
+        getDataApi();
+        onClose();
       })
       .catch((error) => {
         console.log(error);
+        if (error?.data?.status === 409) {
+          setError("name", {
+            message: "Đã có phòng này rồi",
+          });
+        }
       });
   };
 

@@ -10,7 +10,7 @@ import { useNotification } from "./../../../Notification/Notification";
 import { postData } from "../../../api/api";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 
-export default function CreateBlock({ isOpen, onClose }) {
+export default function CreateBlock({ isOpen, onClose, getDataApi }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
@@ -25,7 +25,8 @@ export default function CreateBlock({ isOpen, onClose }) {
       description: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
   const onSubmit = (data) => {
     console.log(data);
@@ -33,10 +34,16 @@ export default function CreateBlock({ isOpen, onClose }) {
     postData(`/block`, { ...data, totalFloor: 0 })
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
+        getDataApi();
         onClose();
       })
       .catch((error) => {
         console.log(error);
+        if (error?.data?.status === 409) {
+             setError("name", {
+               message: "Đã có khu này rồi",
+             });
+        }
       });
   };
 

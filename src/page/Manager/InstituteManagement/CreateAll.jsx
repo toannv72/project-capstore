@@ -3,25 +3,31 @@ import React, { useState } from "react";
 import CreateBlock from "./CreateBlock";
 import CreateRoom from "./CreateRoom";
 
-export default function CreateAll({ onClose }) {
+export default function CreateAll({ onClose, tableRef }) {
   const [value, setValue] = useState(1);
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
   const viewTable = () => {
     switch (value) {
       case 1:
-        return <CreateBlock onClose={onClose} />;
+        return <CreateBlock onClose={onClose} getDataApi={getDataApi} />;
 
       case 2:
-        return <CreateRoom onClose={onClose} />;
+        return <CreateRoom onClose={onClose} getDataApi={getDataApi} />;
 
       default:
         break;
     }
   };
-
+  const getDataApi = () => {
+    setTimeout(() => {
+      if (tableRef.current) {
+        // Kiểm tra xem ref đã được gắn chưa
+        tableRef.current.reloadData();
+      }
+    }, 100);
+  };
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">

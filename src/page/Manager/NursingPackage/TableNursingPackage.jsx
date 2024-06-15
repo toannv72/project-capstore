@@ -41,20 +41,19 @@ export default function TableNursingPackage() {
     },
     {
       title: "Ảnh gói",
-      dataIndex: "imagePackage",
-      key: "imagePackage",
+      dataIndex: "imageUrl",
+      key: "imageUrl",
       width: 100,
       fixed: "left",
       render: (_, record) => (
         <div className="flex items-center justify-center">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record.imagePackage]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record.imagePackage}
-              alt={record.imageAlt}
-            />
-          </Image.PreviewGroup>
+
+          <Image
+            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            src={record.imageUrl}
+            alt={record.imageAlt}
+          />
         </div>
       ),
     },
@@ -73,17 +72,10 @@ export default function TableNursingPackage() {
     {
       title: "Số người 1 phòng",
       width: 120,
-      dataIndex: "numberBed",
-      key: "numberBed",
+      dataIndex: "capacity",
+      key: "capacity",
       // // sorter: (a, b) => a.phone - b.phone,
       // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
-    },
-    {
-      title: InstituteManagement?.status,
-      width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
     },
     {
       title: "Thông tin bổ sung",
@@ -119,7 +111,7 @@ export default function TableNursingPackage() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/package-register")
+    getData("/packages?Type=NursingPackage")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

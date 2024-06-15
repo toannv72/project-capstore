@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
@@ -11,7 +16,7 @@ import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailUser from "./../TableUser/DetailUser";
 
-export default function Tables() {
+export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();
@@ -25,6 +30,12 @@ export default function Tables() {
   console.log(data);
   console.log("====================================");
   useEffect(() => {
+    reloadData();
+  }, []);
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
+  const reloadData = () => {
     getData("/elders")
       .then((e) => {
         setData(e?.data?.contends);
@@ -33,8 +44,7 @@ export default function Tables() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
-
+  };
   const showModaldUser = (record) => {
     console.log(record);
     modalDetailUser.handleOpen();
@@ -56,11 +66,6 @@ export default function Tables() {
       key: "name",
       fixed: "left",
       ...getColumnSearchProps("name", "Họ và tên"),
-      // render: (record) => (
-      //   <Tooltip placement="topLeft" title={"Chi tiết"}>
-      //     {record}
-      //   </Tooltip>
-      // ),
     },
 
     {
@@ -71,11 +76,11 @@ export default function Tables() {
       fixed: "left",
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
-          {record?.avatarUrl ? (
+          {record?.imageUrl ? (
             <Image
               wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
-              src={record?.avatarUrl}
-              alt={record?.avatarUrl}
+              src={record?.imageUrl}
+              alt={record?.imageUrl}
               preview={{ mask: "Xem ảnh" }}
             />
           ) : (
@@ -214,4 +219,4 @@ export default function Tables() {
       </ComModal>
     </div>
   );
-}
+});
