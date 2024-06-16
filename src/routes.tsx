@@ -18,6 +18,7 @@ import ActivityCalendar from "./page/Manager/ActivityCalendar/ActivityCalendar";
 import ProfilePage from "./page/Profile/ProfilePage";
 import CreateNotification from "./page/Manager/Notification/CreateNotification";
 import Notification from "./page/Notification/Notification";
+import ChangePassword from "./page/ChangePassword/ChangePassword";
 
 export const routers = createBrowserRouter([
   {
@@ -96,13 +97,17 @@ export const routers = createBrowserRouter([
       }, {
         path: "/admin/profile",
         element: <ProfilePage />
-      },{
+      }, {
         path: "/admin/createNotification",
         element: <CreateNotification />,
       },
       {
         path: "/admin/notification",
         element: <Notification />,
+      },
+      {
+        path: "/admin/changePassword",
+        element: <ChangePassword />,
       },
       // Add other unprotected admin routes here (if any)
     ],

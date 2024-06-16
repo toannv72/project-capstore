@@ -2,7 +2,7 @@ import { Pagination } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import ComDateConverter from "../../Components/ComDateConverter/ComDateConverter";
 import ComModal from "../../Components/ComModal/ComModal";
-import Icon from "@ant-design/icons/lib/components/Icon";
+import { CloseOutlined } from "@ant-design/icons";
 
 export default function Notification() {
   // const [notifications, setNotifications] = useState([]);
@@ -114,15 +114,10 @@ export default function Notification() {
         isOpen={isModalOpen}
         onClose={closeModal}
         title="Thông tin chi tiết"
+        width="45%"
       >
         {selectedNotification && (
           <div className="p-6 relative">
-            <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              <Icon name="x" className="h-5 w-5" />
-            </button>
             <h2 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text mb-4">
               {selectedNotification.chuDe}
             </h2>
