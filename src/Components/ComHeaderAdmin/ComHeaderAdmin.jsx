@@ -23,9 +23,9 @@ import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
 const sortOptions = [
-  { name: "Thông tin", href: "/admin/profile" },
-  { name: "Thay đổi mật khẩu", href: "#" },
-  { name: "Đăng xuất", href: "/login" },
+  { name: "Thông tin", href: "profile" },
+  { name: "Thay đổi mật khẩu", href: "password" },
+  { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
   { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
@@ -68,7 +68,7 @@ export default function ComHeaderAdmin({ children }) {
   }
   const handSend = (option) => {
     switch (option) {
-      case "/login":
+      case "login":
         localStorage.removeItem("accessToken");
         localStorage.removeItem("use");
         //localStorage.clear(); // xóa tất cả
@@ -76,8 +76,11 @@ export default function ComHeaderAdmin({ children }) {
           navigate("/login");
         }, 0);
         break;
-      case "/admin/profile":
+      case "profile":
         navigate("/admin/profile");
+        break;
+      case "password":
+        navigate("/admin/changePassword");
         break;
       default:
         navigate(option);
