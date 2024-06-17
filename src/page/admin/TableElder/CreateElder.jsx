@@ -239,7 +239,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
-                      // required
+                      required
                     />
                   </div>
                 </div>

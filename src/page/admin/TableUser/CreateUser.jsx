@@ -146,15 +146,25 @@ export default function CreateUser({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComDatePicker
                       type="numbers"
                       disabledDate={DateOfBirth}
-                       
                       label={"Ngày tháng năm sinh"}
-                      placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
+                      placeholder={"VD:17/12/2000"}
                       {...register("dateOfBirth")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Gmail"}
+                      placeholder={"Vui lòng nhập Gmail"}
+                      {...register("email")}
                       // required
                     />
                   </div>

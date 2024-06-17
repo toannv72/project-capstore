@@ -36,7 +36,7 @@ function TableUser() {
       <div className="flex items-end pb-2">
         <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
       </div>
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal width={800} isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <CreateUser
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
