@@ -13,11 +13,12 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { cccdRegex, phoneNumberRegex } from "../../../regexPatterns";
 
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
-  const cccdRegex = /^(?:\d{9}|\d{12})$/;
+
   const addressRegex =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
 
@@ -33,7 +34,10 @@ export default function CreateUser({ onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
-    phoneNumber: yup.string().required("Vui lòng nhập đủ họ và tên"),
+    phoneNumber: yup
+      .string()
+      .required("Vui lòng nhập đủ số điện thoại")
+      .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
     cccd: yup
       .string()
       .matches(
@@ -47,6 +51,7 @@ export default function CreateUser({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
+    dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
   });
 
   const methods = useForm({
@@ -152,7 +157,7 @@ export default function CreateUser({ onClose, tableRef }) {
                       type="numbers"
                       disabledDate={DateOfBirth}
                       label={"Ngày tháng năm sinh"}
-                      placeholder={"VD:17/12/2000"}
+                      placeholder={"VD:17-12-2000"}
                       {...register("dateOfBirth")}
                       // required
                     />

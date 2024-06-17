@@ -15,6 +15,7 @@ import EditElder from "./EditElder";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailUser from "./../TableUser/DetailUser";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -58,6 +59,16 @@ export const Tables = forwardRef((props, ref) => {
     modalEdit.handleOpen();
     setSelectedUser(record);
   };
+
+  // const order = ["Thêm mới", "edit", "delete", "details"];
+  const extraMenuItems = [
+    {
+      label: "Thêm mới",
+      onClick: () => {
+        console.log("Thêm mới clicked");
+      },
+    },
+  ];
   const columns = [
     {
       title: "Họ và tên người lớn tuổi",
@@ -67,7 +78,6 @@ export const Tables = forwardRef((props, ref) => {
       fixed: "left",
       ...getColumnSearchProps("name", "Họ và tên"),
     },
-
     {
       title: "Ảnh người lớn tuổi",
       dataIndex: "imageUrl",
@@ -131,7 +141,6 @@ export const Tables = forwardRef((props, ref) => {
       key: "room",
       render: (_, render) => <div>{render?.room?.type}</div>,
     },
-
     {
       title: "Ngày có hiệu lực",
       width: 100,
@@ -139,7 +148,7 @@ export const Tables = forwardRef((props, ref) => {
       key: "effectiveDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+          <ComDateConverter>{render?.contract?.startDate}</ComDateConverter>
         </div>
       ),
     },
@@ -150,7 +159,19 @@ export const Tables = forwardRef((props, ref) => {
       key: "expiryDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+          <ComDateConverter>{render?.contract?.endDate}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Ngày đăng ký",
+      width: 100,
+      dataIndex: "signingDate",
+      key: "signingDate",
+      render: (_, render) => (
+        <div>
+          {render?.contract?.signingDate}
+          <ComDateConverter>{render?.contract?.signingDate}</ComDateConverter>
         </div>
       ),
     },
@@ -173,23 +194,19 @@ export const Tables = forwardRef((props, ref) => {
       width: 80,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <div>
-              <Typography.Link onClick={() => showModalElder(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
-            <div>
-              <Typography.Link onClick={() => showModalEdit(record)}>
-                Chỉnh sửa
-              </Typography.Link>
-            </div>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModalElder(record)}
+            showModalEdit={showModalEdit}
+            // extraMenuItems={extraMenuItems}
+            showModalDelete={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+            // order={order}
+          />
         </div>
       ),
     },
   ];
-
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />

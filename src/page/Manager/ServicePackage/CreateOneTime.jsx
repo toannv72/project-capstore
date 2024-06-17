@@ -58,7 +58,7 @@ export default function CreateOneTime({ onClose }) {
     setImages(newImages);
   };
   useEffect(() => {
-    getData("/package-categories")
+    getData("/service-package-categories")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
@@ -141,7 +141,13 @@ export default function CreateOneTime({ onClose }) {
                       label="Chọn thể loại"
                       placeholder="Thể loại"
                       value={selectedBlock}
-                      // mode="tags"
+                      filterOption={(inputValue, option) =>
+                        option.label
+                          .toLowerCase()
+                          .includes(inputValue.toLowerCase())
+                      }
+                      showSearch
+                      seach
                       mode="default"
                       options={category}
                       required
@@ -154,7 +160,6 @@ export default function CreateOneTime({ onClose }) {
                     <ComDatePicker
                       label="Chọn khoảng thời gian diễn ra"
                       required
-                       
                       disabledDate={disabledDate3Day6m}
                       {...register("days")}
                       // Các props khác của RangePicker
@@ -166,7 +171,6 @@ export default function CreateOneTime({ onClose }) {
                     <div className="mt-2.5">
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
-                         
                         disabledDate={disabledDateEnd}
                         {...register("endDay")}
                         required
@@ -179,7 +183,6 @@ export default function CreateOneTime({ onClose }) {
                     <div className="mt-2.5">
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
-                         
                         disabledDate={disabledDateEnd}
                         {...register("endDay")}
                         required
@@ -199,7 +202,6 @@ export default function CreateOneTime({ onClose }) {
                     <div className="mt-2.5">
                       <ComNumber
                         type="text"
-                      
                         onChangeValue={(e, data) => {
                           setValue("number", data);
                         }}

@@ -17,6 +17,7 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import DetailElder from "./../TableElder/DetailElder";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -113,11 +114,14 @@ export const Tables = forwardRef((props, ref) => {
         width: 50,
         render: (_, record) => (
           <div className="flex items-center flex-col">
-            <div>
-              <Typography.Link onClick={() => showModaldElder(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModaldElder(record)}
+              showModalEdit={showModalEdit}
+              // extraMenuItems={extraMenuItems}
+              excludeDefaultItems={["delete"]}
+              // order={order}
+            />
           </div>
         ),
       },
@@ -237,18 +241,15 @@ export const Tables = forwardRef((props, ref) => {
       width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <div>
-              <Typography.Link onClick={() => showModal(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
-            <div>
-              <Typography.Link onClick={() => showModalEdit(record)}>
-                Chỉnh sửa
-              </Typography.Link>
-            </div>
-          </div>
+         
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModal(record)}
+            showModalEdit={showModalEdit}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+            // order={order}
+          />
         </div>
       ),
     },

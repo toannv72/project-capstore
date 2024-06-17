@@ -60,16 +60,37 @@ export default function CreateElder({ onClose, tableRef }) {
     bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
     weight: yup
       .number()
+      .typeError("Vui lòng nhập cân nặng")
       .required("Vui lòng nhập cân nặng")
       .min(10, "Cân nặng phải lớn hơn 10")
       .max(220, "Cân nặng phải nhỏ hơn hoặc bằng 500"),
     height: yup
       .number()
+      .typeError("Vui lòng nhập chiều cao")
       .required("Vui lòng nhập chiều cao")
       .min(20, "Chiều cao phải lớn hơn 20 cm")
       .max(120, "Chiều cao phải nhỏ hơn hoặc bằng 120 cm"),
     underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
     note: yup.string().required("Vui lòng nhập ghi chú"),
+
+    // trường hợp đồng
+    contract: yup.object({
+      name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+      signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
+      startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
+      endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
+      price: yup
+        .number()
+        .required("Vui lòng nhập giá")
+        .min(0, "Giá không hợp lệ"),
+      content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
+      imageUrl: yup
+        .string()
+        .url("Vui lòng nhập URL hợp lệ")
+        .required("Vui lòng nhập URL hình ảnh"),
+      notes: yup.string().required("Vui lòng nhập ghi chú"),
+      description: yup.string().required("Vui lòng nhập mô tả"),
+    }),
   });
 
   const methods = useForm({
@@ -121,9 +142,10 @@ export default function CreateElder({ onClose, tableRef }) {
           console.log("====================================");
           console.log(e);
           if (e.status === 409) {
-            setError("phoneNumber", {
-              message: "Đã có số điện thoại này",
+            setError("cccd", {
+              message: "Đã có cccd này rồi",
             });
+            setFocus("cccd")
           }
           console.log("====================================");
         });
@@ -259,8 +281,8 @@ export default function CreateElder({ onClose, tableRef }) {
                           .toLowerCase()
                           .includes(inputValue.toLowerCase())
                       }
-                      mode="default"
                       showSearch
+                      mode="default"
                       options={dataUser}
                       required
                       {...register("userId")}
@@ -287,6 +309,97 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
+
+                <div className="sm:col-span-2">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    Thông tin hợp đồng
+                  </h3>
+                </div>
+                <div className="sm:col-span-2">
+                  <ComInput
+                    type="text"
+                    label="Tên hợp đồng"
+                    placeholder="Vui lòng nhập tên hợp đồng"
+                    {...register("contract.name")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComDatePicker
+                    label="Ngày ký hợp đồng"
+                    type="numbers"
+                    name={"contract.signingDate"}
+                    placeholder="Vui lòng nhập ngày ký hợp đồng"
+                    {...register("contract.signingDate")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComDatePicker
+                    label="Ngày bắt đầu hợp đồng"
+                    placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                    {...register("contract.startDate")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComDatePicker
+                    label="Ngày kết thúc hợp đồng"
+                    placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                    {...register("contract.endDate")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComNumber
+                    label="Giá hợp đồng"
+                    placeholder="Vui lòng nhập giá"
+                    {...register("contract.price")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComInput
+                    type="text"
+                    label="Nội dung hợp đồng"
+                    placeholder="Vui lòng nhập nội dung hợp đồng"
+                    {...register("contract.content")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComInput
+                    type="text"
+                    label="URL hình ảnh"
+                    placeholder="Vui lòng nhập URL hình ảnh"
+                    {...register("contract.imageUrl")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Ghi chú hợp đồng"
+                    placeholder="Vui lòng nhập ghi chú"
+                    rows={5}
+                    {...register("contract.notes")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Mô tả hợp đồng"
+                    placeholder="Vui lòng nhập mô tả"
+                    rows={5}
+                    name="contract"
+                    {...register("contract.description")}
+                    required
+                  />
+                </div>
+
+                {/* tạo bệnh án  */}
+                <h3 className="text-lg font-semibold text-red-600 mb-2">
+                  Thông tin bệnh án
+                </h3>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput

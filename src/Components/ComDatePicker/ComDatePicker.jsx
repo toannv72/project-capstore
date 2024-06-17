@@ -4,7 +4,7 @@ import moment from "moment";
 import { useFormContext } from "react-hook-form";
 import { FieldError } from "../FieldError/FieldError";
 import { v4 as uuidv4 } from "uuid";
-import { isEmpty } from "lodash"; // Chỉ import isEmpty
+import { isEmpty, get } from "lodash"; // Chỉ import isEmpty
 import dayjs from "dayjs";
 
 const ComDatePicker = forwardRef(
@@ -14,7 +14,7 @@ const ComDatePicker = forwardRef(
       label,
       required,
       className,
-      format = "DD/MM/YYYY",
+      format = "DD-MM-YYYY",
       rules,
       onChangeValue,
       onChange,
@@ -27,22 +27,34 @@ const ComDatePicker = forwardRef(
       watch,
       formState: { errors },
       setValue,
+      trigger,
     } = useFormContext();
 
     const valueWatch = watch(name);
 
-    const error = errors[name];
-    const inputId = uuidv4(); // Sử dụng uuidv4 để tạo ID duy nhất
+    // const error = errors[name];
+    const error = get(errors, name);
+    const inputId = uuidv4();
 
+    // const handleChange = (date, dateString) => {
+    //   if (isEmpty(dateString)) {
+    //     setValue(name, null);
+    //   } else {
+    //     const parsedDate = dayjs(dateString, format);
+    //     if (parsedDate.isValid()) {
+    //       const formattedDate = parsedDate.format("YYYY-MM-DD");
+    //       setValue(name, formattedDate);
+    //       onChangeValue?.(name, formattedDate);
+    //     } else {
+    //       setValue(name, null);
+    //     }
+    //   }
+    // };
     const handleChange = (date, dateString) => {
-      if (isEmpty(dateString)) {
-        setValue(name, null); // Đặt giá trị về null khi trống
-      } else {
-        setValue(name, dateString);
-      }
-      onChangeValue?.(name, dateString);
+        const formattedDate = dayjs(dateString, format).format("YYYY-MM-DD");
+        setValue(name, formattedDate);
+        onChangeValue?.(name, formattedDate);
     };
-
     return (
       <>
         <div className={`${className}`}>
@@ -63,8 +75,7 @@ const ComDatePicker = forwardRef(
               ref={ref}
               id={inputId}
               size="large"
-              // value={props.value}
-              defaultValue={valueWatch ? dayjs(valueWatch) : false}
+              value={valueWatch ? dayjs(valueWatch, "YYYY-MM-DD") : null}
               format={format}
               onChange={handleChange}
               status={error && "error"}
@@ -72,9 +83,7 @@ const ComDatePicker = forwardRef(
               {...props}
             />
             {error && (
-              <FieldError className="text-red-500">
-                {error.message?.toString()}
-              </FieldError>
+              <div className="text-red-500">{error.message?.toString()}</div>
             )}
           </div>
         </div>

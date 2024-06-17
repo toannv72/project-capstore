@@ -32,14 +32,14 @@ export  function CreateServicePackageCategories({
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
   const onSubmit = (data) => {
-    postData(`/package-categories`, data)
+    postData(`/service-package-categories`, data)
       .then((e) => {
         notificationApi(
           "success",
           "tạo thành công",
           "đã tạo thể loại dịch vụ thành công!"
         );
-     
+
         setTimeout(() => {
           if (tableRef.current) {
             // Kiểm tra xem ref đã được gắn chưa

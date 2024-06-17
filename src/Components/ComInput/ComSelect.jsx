@@ -3,7 +3,7 @@ import { Input, InputNumber, Select } from "antd";
 import React from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import { v4 } from "uuid";
-import { isEmpty, isNaN } from "lodash";
+import { isEmpty, isNaN, get } from "lodash";
 import { FieldError } from "../FieldError/FieldError";
 import BigNumber from "bignumber.js";
 
@@ -69,7 +69,8 @@ const ComSelect = React.forwardRef(
   ) => {
     const { watch, formState: { errors }, setValue } = useFormContext();
     const valueWatch = watch(props.name);
-    const error = errors[props.name];
+    // const error = errors[props.name];
+        const error = get(errors, props.name);
     const inputId = v4();
 
     const onlyChangeWithCondition = (e) => {

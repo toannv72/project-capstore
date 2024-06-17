@@ -17,7 +17,7 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
   
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/package-categories?SortDir=Desc")
+    getData("/service-package-categories?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

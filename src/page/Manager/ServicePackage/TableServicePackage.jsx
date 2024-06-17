@@ -121,7 +121,7 @@ export default function TableServicePackage() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/packages")
+    getData("/service-package")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
