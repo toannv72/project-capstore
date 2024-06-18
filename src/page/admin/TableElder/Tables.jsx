@@ -57,7 +57,7 @@ export const Tables = forwardRef((props, ref) => {
   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
-    setSelectedUser(record);
+    setSelectedElder(record);
   };
 
   // const order = ["Thêm mới", "edit", "delete", "details"];
@@ -221,10 +221,12 @@ export const Tables = forwardRef((props, ref) => {
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
+        width={800}
       >
         <EditElder
-          selectedUser={selectedUser}
+          selectedData={selectedElder}
           onClose={modalEdit?.handleClose}
+          tableRef={reloadData}
         />
       </ComModal>
       {/* chi tiết người thân  */}

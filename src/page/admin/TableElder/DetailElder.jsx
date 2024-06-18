@@ -6,7 +6,7 @@ export default function DetailElder({ selectedUser }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết người người lớn tuổi
+          Chi tiết người người lớn tuổi 
         </h2>
         <table className="w-full">
           <tbody>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "../../../Components/ComInput/ComInput";
@@ -20,7 +20,9 @@ export default function EditContract({ selectedUser, onClose }) {
     //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
     //   .required("textApp.CreateProduct.message.name"),
   });
-
+ useEffect(() => {
+   setImages([]);
+ }, [selectedUser]);
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {

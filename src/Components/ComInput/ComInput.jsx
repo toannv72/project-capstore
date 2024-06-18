@@ -102,6 +102,13 @@ const ComInput = React.forwardRef(
           const numericValue = value.replace(/[^0-9]/g, "");
           value = numericValue;
           break;
+        case "numberFloat":
+          // if (!checkValidType(positiveIntegerStr, value)) {
+          //   return;
+          // }
+          const numericFloatValue = value.replace(/[^0-9.]/g, "");
+          value = numericFloatValue;
+          break;
         default:
           break;
       }

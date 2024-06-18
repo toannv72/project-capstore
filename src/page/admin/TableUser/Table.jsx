@@ -32,7 +32,7 @@ export const Tables = forwardRef((props, ref) => {
   useEffect(() => {
     reloadData();
   }, []);
-
+console.log(data);
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -288,6 +288,7 @@ export const Tables = forwardRef((props, ref) => {
         <EditUser
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
+          tableRef={reloadData}
         />
       </ComModal>
     </div>

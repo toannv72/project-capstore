@@ -8,6 +8,16 @@ import {
   PhoneIcon,
 } from "@heroicons/react/24/outline";
 
+export const error = {
+  1000: {
+    message: "khoong tìm thấy",
+    reissue: "Đăng Ký",
+  },
+  1001: {
+    message: "số lượng ko đủ",
+    reissue: "Đăng Ký",
+  },
+};
 export const vn = {
   common: {
     button: {

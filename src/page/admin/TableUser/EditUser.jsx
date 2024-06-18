@@ -13,18 +13,17 @@ import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
 import dayjs from "dayjs";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import { postData, putData } from "../../../api/api";
-import { cccdRegex, phoneNumberRegex } from "../../../regexPatterns";
+import {
+  addressRegex,
+  cccdRegex,
+  emailRegex,
+  nameRegex,
+  phoneNumberRegex,
+} from "../../../regexPatterns";
 
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-
-  const addressRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
-
-  const nameRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
@@ -35,11 +34,11 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
-    phoneNumber: yup
-      .string()
-      // .required("Vui lòng nhập đủ số điện thoại")
-      .nullable()
-      .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
+    // phoneNumber: yup
+    //   .string()
+    //   // .required("Vui lòng nhập đủ số điện thoại")
+    //   .nullable()
+    //   .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
     cccd: yup
       .string()
       .matches(
@@ -71,33 +70,48 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
-
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      putData(`/users/${selectedUser.id}`, { ...data, avatarUrl: dataImg })
-        .then((e) => {
-          notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
-          setTimeout(() => {
-            if (tableRef.current) {
-              // Kiểm tra xem ref đã được gắn chưa
-              tableRef.current.reloadData();
+      if (dataImg) {
+        const dataPut = { ...data, avatarUrl: dataImg };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((e) => {
+            if (e.status === 409) {
+              setError("phoneNumber", {
+                message: "Đã có số điện thoại này",
+              });
+              setFocus("phoneNumber");
             }
-          }, 100);
-          onClose();
-        })
-        .catch((e) => {
-          console.log("====================================");
-          console.log(e);
-          if (e.status === 409) {
-            setError("phoneNumber", {
-              message: "Đã có số điện thoại này",
-            });
-          }
-          console.log("====================================");
-        });
+          });
+      } else {
+        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((e) => {
+            if (e.status === 409) {
+              setError("phoneNumber", {
+                message: "Đã có số điện thoại này",
+              });
+              setFocus("phoneNumber");
+            }
+          });
+      }
     });
   };
-
+  useEffect(() => {
+    setImages([]);
+  }, [selectedUser]);
   const onChange = (data) => {
     const selectedImages = data;
 
@@ -135,7 +149,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                {/* <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
@@ -145,7 +159,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -169,7 +183,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
@@ -193,7 +207,11 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne
+              imgUrl={selectedUser.avatarUrl}
+              onChange={onChange}
+              label={"Hình ảnh"}
+            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
