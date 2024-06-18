@@ -20,7 +20,6 @@ import CreateNotification from "./page/Manager/Notification/CreateNotification";
 import Notification from "./page/Notification/Notification";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
 import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer";
-import Feedback from "./page/Staff/Feedback/Feedback";
 
 export const routers = createBrowserRouter([
   {
@@ -175,10 +174,6 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/changePassword",
         element: <ChangePassword />,
-      },
-      {
-        path: "/staff/feedback",
-        element: <Feedback />,
       },
       // Add other unprotected admin routes here (if any)
     ],
