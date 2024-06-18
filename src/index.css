@@ -16,13 +16,13 @@ code {
     monospace;
 }
 :root {
-  --scrollbar-width: 10px; /* Độ rộng thanh cuộn */
+  --scrollbar-width: 2px; /* Độ rộng thanh cuộn */
   --scrollbar-height: 8px; /* Độ cao thanh cuộn (cho thanh cuộn ngang) */
   --scrollbar-thumb-color: #ccc; /* Màu nền của thanh trượt */
   --scrollbar-thumb-hover-color: #aaa; /* Màu nền khi hover */
-  --scrollbar-thumb-radius: 4px; /* Bo góc thanh trượt */
+  --scrollbar-thumb-radius: 0px; /* Bo góc thanh trượt */
   --scrollbar-track-color: #f5f5f5; /* Màu nền của track */
-  --scrollbar-track-radius: 4px; /* Bo góc track */
+  --scrollbar-track-radius: 0px; /* Bo góc track */
   --scrollbar-border-radius: 9999px;
 }
 ::selection {

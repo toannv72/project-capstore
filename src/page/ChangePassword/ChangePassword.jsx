@@ -12,10 +12,10 @@ const passwordSchema = yup.object({
   password: yup.string().required("Mật khẩu hiện tại là bắt buộc"),
   newPassword: yup
     .string()
-    .min(9, "Mật khẩu mới phải có ít nhất 9 ký tự")
+    .min(8, "Mật khẩu mới phải có ít nhất 8 ký tự")
     .matches(/[A-Z]/, "Phải chứa ít nhất 1 chữ cái in hoa")
     .matches(/[a-z]/, "Phải chứa ít nhất 1 chữ cái in thường")
-    .matches(/[0-9]/, "Phải chứa ít nhất 1 chữ số")
+    .matches(/[0-8]/, "Phải chứa ít nhất 1 chữ số")
     .notOneOf([yup.ref("password")], "Không được trùng với mật khẩu cũ")
     .required("Mật khẩu mới là bắt buộc"),
   confirmPassword: yup
@@ -44,17 +44,16 @@ export default function ChangePassword() {
   } = methods;
 
   const newPassword = watch("newPassword");
+  const confirmPassword = watch("confirmPassword");
   const passwordStrength = {
-    length: newPassword.length >= 9,
+    length: newPassword.length >= 8,
     uppercase: /[A-Z]/.test(newPassword),
     lowercase: /[a-z]/.test(newPassword),
-    number: /[0-9]/.test(newPassword),
+    number: /[0-8]/.test(newPassword),
   };
 
   useEffect(() => {
-    if (
-      methods.getValues("newPassword") !== methods.getValues("confirmPassword")
-    ) {
+    if (newPassword !== confirmPassword) {
       setError("confirmPassword", {
         type: "manual",
         message: "Mật khẩu phải khớp",
@@ -62,7 +61,7 @@ export default function ChangePassword() {
     } else {
       clearErrors("confirmPassword");
     }
-  }, [newPassword]);
+  }, [newPassword, confirmPassword, setError, clearErrors]);
 
   const onSubmit = (data) => {
     if (data.password !== oldPassword) {
@@ -98,7 +97,7 @@ export default function ChangePassword() {
             ) : (
               <CheckOutlined style={{ color: "blue", marginRight: "5px" }} />
             )}
-            At least 9 characters
+            At least 8 characters
           </div>
           <div
             className={`text-lg ${
@@ -188,7 +187,7 @@ export default function ChangePassword() {
                 Thay đổi mật khẩu
               </ComButton>
               <ComButton
-                className="w-full bg-transparent border-none text-faded shadow-none"
+                className="w-full bg-transparent border-none text-white shadow-none"
                 onClick={handleCancelClick}
               >
                 Hủy

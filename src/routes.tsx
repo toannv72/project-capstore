@@ -10,15 +10,17 @@ import TableUser from "./page/admin/TableUser/TableUser";
 import TableElder from "./page/admin/TableElder/TableElder";
 import NursingPackage from "./page/Manager/NursingPackage/NursingPackage";
 import AppointmentSchedule from "./page/Manager/AppointmentSchedule/AppointmentSchedule";
-import ServicePackage from './page/Manager/ServicePackage/ServicePackage';
+import ServicePackage from "./page/Manager/ServicePackage/ServicePackage";
 import ComHeaderStaff from "./Components/ComHeaderStaff/ComHeaderStaff";
 import Contract from "./page/Staff/Contract/Contract";
-import TableEmployee from './page/admin/TableEmployee/TableEmployee';
+import TableEmployee from "./page/admin/TableEmployee/TableEmployee";
 import ActivityCalendar from "./page/Manager/ActivityCalendar/ActivityCalendar";
 import ProfilePage from "./page/Profile/ProfilePage";
 import CreateNotification from "./page/Manager/Notification/CreateNotification";
 import Notification from "./page/Notification/Notification";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
+import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer";
+import Feedback from "./page/Staff/Feedback/Feedback";
 
 export const routers = createBrowserRouter([
   {
@@ -93,11 +95,13 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/admin/activitie",
-        element: <ActivityCalendar />
-      }, {
+        element: <ActivityCalendar />,
+      },
+      {
         path: "/admin/profile",
-        element: <ProfilePage />
-      }, {
+        element: <ProfilePage />,
+      },
+      {
         path: "/admin/createNotification",
         element: <CreateNotification />,
       },
@@ -155,6 +159,26 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/servicePackage",
         element: <ServicePackage />,
+      },
+      {
+        path: "/staff/potentialCustomer",
+        element: <PotentialCustomer />,
+      },
+      {
+        path: "/staff/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/staff/notification",
+        element: <Notification />,
+      },
+      {
+        path: "/staff/changePassword",
+        element: <ChangePassword />,
+      },
+      {
+        path: "/staff/feedback",
+        element: <Feedback />,
       },
       // Add other unprotected admin routes here (if any)
     ],

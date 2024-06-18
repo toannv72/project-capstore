@@ -16,21 +16,21 @@ import {
   Cog6ToothIcon, // Quản lý tài khoản (Ví dụ)
   WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
   ClockIcon, // Quản lý thời gian (Ví dụ)
+  StarIcon, // Khách hàng tiềm năng (Ví dụ)
 } from "@heroicons/react/24/outline";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
-
 const sortOptions = [
-  { name: "Thông tin", href: "/admin/profile" },
-  { name: "Thay đổi mật khẩu", href: "#" },
-  { name: "Đăng xuất", href: "/login" },
+  { name: "Thông tin", href: "profile" },
+  { name: "Thay đổi mật khẩu", href: "password" },
+  { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
   { name: "Phân công", href: "/staff/institute", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
-  { name: "khách hàng", href: "/staff/user", icon: UsersIcon },
+  { name: "Khách hàng", href: "/staff/user", icon: UsersIcon },
   { name: "Người lớn tuổi", href: "/staff/elder", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
@@ -45,6 +45,11 @@ const subCategories = [
   },
   { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
   { name: "Danh sách hóa đơn", href: "#", icon: Cog6ToothIcon },
+  {
+    name: "Khách hàng tiềm năng",
+    href: "/staff/potentialCustomer",
+    icon: StarIcon,
+  },
 ];
 
 export default function ComHeaderStaff({ children }) {
@@ -65,14 +70,20 @@ export default function ComHeaderStaff({ children }) {
   }
   const handSend = (option) => {
     switch (option) {
-      case "/login":
+      case "login":
         localStorage.removeItem("accessToken");
-        // localStorage.clear(); // xóa tất cả
+        localStorage.removeItem("use");
+        //localStorage.clear(); // xóa tất cả
         setTimeout(() => {
           navigate("/login");
         }, 0);
         break;
-
+      case "profile":
+        navigate("/staff/profile");
+        break;
+      case "password":
+        navigate("/staff/changePassword");
+        break;
       default:
         navigate(option);
         break;

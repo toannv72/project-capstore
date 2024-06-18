@@ -202,7 +202,8 @@ export default function ProfilePage() {
                     // maxLength={10}
                     {...register("fullname")}
                     required
-                    disabled
+                    disabled={isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
 
@@ -212,7 +213,9 @@ export default function ProfilePage() {
                     required
                     disabledDate={disabledDate}
                     {...register("birth")}
-                    disabled
+                    disabled={isEditing}
+                    inputReadOnly={!isEditing}
+                    open={isEditing}
                   />
                 </div>
                 <div className="col-span-3">
@@ -222,7 +225,7 @@ export default function ProfilePage() {
                     type="numbers"
                     maxLength={10}
                     {...register("phone")}
-                    disabled={!isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 <div className="col-span-3">
@@ -231,7 +234,7 @@ export default function ProfilePage() {
                     label="Email"
                     type="text"
                     {...register("mail")}
-                    disabled={!isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 <div className="col-span-3">
@@ -241,7 +244,8 @@ export default function ProfilePage() {
                     type="numbers"
                     maxLength={12}
                     {...register("cccd")}
-                    disabled
+                    disabled={isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 <div className="col-span-6">
@@ -250,7 +254,7 @@ export default function ProfilePage() {
                     label="Địa chỉ"
                     type="text"
                     {...register("address")}
-                    disabled={!isEditing}
+                    readOnly={!isEditing}
                   />
                 </div>
                 {!isEditing ? (

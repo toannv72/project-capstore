@@ -17,6 +17,7 @@ module.exports = {
       colors: {
         fade: "#E2E2E2",
         faded: "#BEBEBE",
+        main: "#A3A3A3",
       },
       screens: {
         destop: "1137px",
