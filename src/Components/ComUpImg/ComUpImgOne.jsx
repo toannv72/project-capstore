@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Upload, message } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Upload, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from "@ant-design/icons";
 const ComUpImgOne = ({
   onChange,
   numberImg,
@@ -10,11 +10,19 @@ const ComUpImgOne = ({
   inputId,
   required,
   label,
+  imgUrl,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState(imgUrl);
   const [fileList, setFileList] = useState([]);
   const maxImages = numberImg || 5;
+  useEffect(() => {
+    if (imgUrl) {
+      setImageUrl(imgUrl);
+    } else {
+      setImageUrl("");
+    }
+  }, [imgUrl]);
   const isImageFile = (file) => {
     const acceptedFormats = [".jpeg", ".jpg", ".png", ".gif"];
     const fileExtension = file.name.toLowerCase();

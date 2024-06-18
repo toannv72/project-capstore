@@ -1,26 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
-import { Tooltip, Typography } from "antd";
+import { Image, Table, Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailEmployee from "./DetailEmployee";
 import EditEmployee from "./EditEmployee";
 import { getData } from "../../../api/api";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
-export default function Tables() {
+export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps } = useColumnSearch();
   const table = useTableState();
-  const modalDetail = useModalState();
+  const modalDetailUser = useModalState();
+  const modalDetailElder = useModalState();
   const modalEdit = useModalState();
-  const [selectedUser, setSelectedUser] = useState(null);
-console.log('====================================');
-console.log(data);
-console.log('====================================');
+  const [selectedData, setSelectedData] = useState(null);
+  const [selectedElder, setSelectedElder] = useState(null);
+
   useEffect(() => {
-    getData("/users")
+    reloadData();
+  }, []);
+  console.log(data);
+  const reloadData = () => {
+    getData("/users?RoleName=Staff&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -28,15 +36,21 @@ console.log('====================================');
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
-
+  };
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
+  const showModaldElder = (record) => {
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
+  };
   const showModal = (record) => {
-    modalDetail.handleOpen();
-    setSelectedUser(record);
+    modalDetailUser.handleOpen();
+    setSelectedData(record);
   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
-    setSelectedUser(record);
+    setSelectedData(record);
   };
   const columns = [
     {
@@ -53,11 +67,67 @@ console.log('====================================');
       ),
     },
     {
+      title: "Ảnh ",
+      dataIndex: "avatarUrl",
+      key: "avatarUrl",
+      width: 100,
+      // fixed: "left",
+      render: (_, record) => (
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+          {record?.avatarUrl ? (
+            <Image
+              wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
+              src={record?.avatarUrl}
+              alt={record?.avatarUrl}
+              preview={{ mask: "Xem ảnh" }}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      ),
+    },
+    {
+      title: "Chứ vụ",
+      width: 100,
+      dataIndex: "roles",
+      key: "roles",
+      render: (_, render) => <div>{render?.roles[0]?.name}</div>,
+    },
+    {
+      title: "Năm sinh",
+      width: 100,
+      dataIndex: "dateOfBirth",
+      key: "dateOfBirth",
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
       title: "Số điện thoại",
       width: 100,
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
+      render: (phone) => (
+        <div>
+          <ComPhoneConverter>{phone}</ComPhoneConverter>
+        </div>
+      ),
+    },
+    {
+      title: "CMND or CCCD",
+      width: 100,
+      dataIndex: "cccd",
+      key: "cccd",
+      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      render: (cccd) => (
+        <div>
+          <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
+        </div>
+      ),
     },
     {
       title: "Gmail",
@@ -65,6 +135,13 @@ console.log('====================================');
       dataIndex: "email",
       key: "email",
       ...getColumnSearchProps("email", "Gmail"),
+    },
+    {
+      title: "Địa chỉ",
+      width: 100,
+      dataIndex: "address",
+      key: "address",
+      ...getColumnSearchProps("address", "Địa chỉ"),
     },
     {
       title: "Giới tính",
@@ -80,18 +157,14 @@ console.log('====================================');
       width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <div>
-              <Typography.Link onClick={() => showModal(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
-            <div>
-              <Typography.Link onClick={() => showModalEdit(record)}>
-                Chỉnh sửa
-              </Typography.Link>
-            </div>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModal(record)}
+            showModalEdit={showModalEdit}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+            // order={order}
+          />
         </div>
       ),
     },
@@ -100,21 +173,25 @@ console.log('====================================');
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
+      {/* chi tiêt của user  */}
       <ComModal
-        isOpen={modalDetail?.isModalOpen}
-        onClose={modalDetail?.handleClose}
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
       >
-        <DetailEmployee selectedUser={selectedUser} />
+        <DetailEmployee selectedData={selectedData} />
       </ComModal>
+
+      {/* chỉnh sửa nhân viên */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
       >
         <EditEmployee
-          selectedUser={selectedUser}
+          selectedData={selectedData}
           onClose={modalEdit?.handleClose}
+          tableRef={reloadData}
         />
       </ComModal>
     </div>
   );
-}
+});

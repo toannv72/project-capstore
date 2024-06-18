@@ -16,6 +16,12 @@ import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
+import {
+  addressRegex,
+  cccdRegex,
+  nameRegex,
+  weightRegex,
+} from "./../../../regexPatterns";
 
 export default function CreateElder({ onClose, tableRef }) {
   const [image, setImages] = useState({});
@@ -24,12 +30,12 @@ export default function CreateElder({ onClose, tableRef }) {
   const [selectedUser, setSelectedUser] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState();
-  const cccdRegex = /^(?:\d{9}|\d{12})$/;
-  const addressRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
+  // const cccdRegex = /^(?:\d{9}|\d{12})$/;
+  // const addressRegex =
+  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
 
-  const nameRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
+  // const nameRegex =
+  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     name: yup
       .string()
@@ -57,22 +63,40 @@ export default function CreateElder({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
-    bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
-    weight: yup
-      .number()
-      .typeError("Vui lòng nhập cân nặng")
-      .required("Vui lòng nhập cân nặng")
-      .min(10, "Cân nặng phải lớn hơn 10")
-      .max(220, "Cân nặng phải nhỏ hơn hoặc bằng 500"),
-    height: yup
-      .number()
-      .typeError("Vui lòng nhập chiều cao")
-      .required("Vui lòng nhập chiều cao")
-      .min(20, "Chiều cao phải lớn hơn 20 cm")
-      .max(120, "Chiều cao phải nhỏ hơn hoặc bằng 120 cm"),
-    underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-    note: yup.string().required("Vui lòng nhập ghi chú"),
-
+    medicalRecord: yup.object({
+      bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
+      weight: yup
+        .string()
+        .typeError("Vui lòng nhập cân nặng")
+        .required("Vui lòng nhập cân nặng")
+        .matches(weightRegex, "Cân nặng phải là số")
+        .test(
+          "min",
+          "Cân nặng phải lớn hơn 10",
+          (value) => parseFloat(value) > 10
+        )
+        .test(
+          "max",
+          "Cân nặng phải nhỏ hơn hoặc bằng 220",
+          (value) => parseFloat(value) <= 220
+        ),
+      height: yup
+        .string()
+        .typeError("Vui lòng nhập chiều cao")
+        .required("Vui lòng nhập chiều cao")
+        .test(
+          "min",
+          "Chiều cao phải lớn hơn 20 cm",
+          (value) => parseFloat(value) > 20
+        )
+        .test(
+          "max",
+          "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
+          (value) => parseFloat(value) <= 200
+        ),
+      underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+      note: yup.string().required("Vui lòng nhập ghi chú"),
+    }),
     // trường hợp đồng
     contract: yup.object({
       name: yup.string().required("Vui lòng nhập tên hợp đồng"),
@@ -81,6 +105,7 @@ export default function CreateElder({ onClose, tableRef }) {
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
       price: yup
         .number()
+        .typeError("Vui lòng nhập giá")
         .required("Vui lòng nhập giá")
         .min(0, "Giá không hợp lệ"),
       content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
@@ -95,7 +120,7 @@ export default function CreateElder({ onClose, tableRef }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
+    values: {
       phoneNumber: "",
       height: 20,
       weight: 20,
@@ -109,24 +134,10 @@ export default function CreateElder({ onClose, tableRef }) {
       console.log("ảnh nè : ", {
         ...data,
         imageUrl: dataImg,
-        medicalRecord: {
-          bloodType: data.bloodType,
-          weight: data.weight,
-          height: data.height,
-          underlyingDisease: data.underlyingDisease,
-          note: data.note,
-        },
       });
       postData("/elders", {
         ...data,
         imageUrl: dataImg,
-        medicalRecord: {
-          bloodType: data.bloodType,
-          weight: `${data.weight}`,
-          height: `${data.height}`,
-          underlyingDisease: data.underlyingDisease,
-          note: data.note,
-        },
       })
         .then((e) => {
           notificationApi("success", "tạo thành công", "đã tạo");
@@ -145,7 +156,7 @@ export default function CreateElder({ onClose, tableRef }) {
             setError("cccd", {
               message: "Đã có cccd này rồi",
             });
-            setFocus("cccd")
+            setFocus("cccd");
           }
           console.log("====================================");
         });
@@ -417,33 +428,29 @@ export default function CreateElder({ onClose, tableRef }) {
                       type="text"
                       label={"Nhóm máu"}
                       placeholder={"Vui lòng nhập Nhóm máu"}
-                      {...register("bloodType")}
+                      {...register("medicalRecord.bloodType")}
                       required
                     />
                   </div>
                 </div>
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
-                    <ComNumber
-                      type="text"
-                      min={1}
+                    <ComInput
+                      type="numberFloat"
                       label={"Cân nặng(KG)"}
                       placeholder={"Vui lòng nhập Cân nặng"}
-                      {...register("weight")}
+                      {...register("medicalRecord.weight")}
                       required
                     />
                   </div>
                 </div>
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
-                    <ComNumber
-                      type="text"
-                      defaultValue={1}
-                      min={1}
-                      // max={120}
+                    <ComInput
+                      type="numberFloat"
                       label={"Chiều cao(Cm)"}
                       placeholder={"Vui lòng nhập Chiều cao"}
-                      {...register("height")}
+                      {...register("medicalRecord.height")}
                       required
                     />
                   </div>
@@ -455,7 +462,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       label={"Bệnh lý trước đó"}
                       placeholder={"Vui lòng nhập Bệnh lý"}
                       rows={5}
-                      {...register("underlyingDisease")}
+                      {...register("medicalRecord.underlyingDisease")}
                       required
                     />
                   </div>
@@ -467,7 +474,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       label={"Ghi chú"}
                       placeholder={"Vui lòng nhập Ghi chú"}
                       rows={5}
-                      {...register("note")}
+                      {...register("medicalRecord.note")}
                       required
                     />
                   </div>

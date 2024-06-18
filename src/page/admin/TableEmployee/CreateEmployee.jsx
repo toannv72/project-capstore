@@ -36,7 +36,7 @@ export default function CreateEmployee({ onClose }) {
       name: "",
       phone: "",
       role: "",
-      days: "1-1-2000",
+      // days: "2000-1-1",
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
@@ -113,8 +113,8 @@ export default function CreateEmployee({ onClose }) {
                       style={{
                         width: "100%",
                       }}
-                      label="Chọn khu"
-                      placeholder="Khu"
+                      label="Chọn chức vụ"
+                      placeholder="Chức vụ"
                       // mode="tags"
                       onChangeValue={(e, data) => setValue(e, data)}
                       mode="default"
@@ -129,7 +129,6 @@ export default function CreateEmployee({ onClose }) {
                     <ComDatePicker
                       type="numbers"
                       disabledDate={DateOfBirth}
-                       
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("days")}
