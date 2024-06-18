@@ -183,6 +183,7 @@ export const Tables = forwardRef((props, ref) => {
 
       {/* chỉnh sửa nhân viên */}
       <ComModal
+        width={800}
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
       >

@@ -11,50 +11,147 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import moment from "moment";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
+import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
+import {
+  phoneNumberRegex,
+  cccdRegex,
+  nameRegex,
+  addressRegex,
+  usernameRegex,
+} from "./../../../regexPatterns";
+import { postData } from "../../../api/api";
 
-export default function CreateEmployee({ onClose }) {
-  const [image, setImages] = useState([]);
+export default function CreateEmployee({ onClose, tableRef }) {
+  const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
-  const dataBlock = [
-    {
-      label: "y tá",
-      value: "y tá",
-    },
-    {
-      label: "nhân viên",
-      value: "nhân viên",
-    },
-  ];
+
+  // const nameRegex =
+  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
-    days: yup.string().required("Vui lòng nhập đủ họ và tên"),
-    // phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
+    fullName: yup
+      .string()
+      .matches(
+        nameRegex,
+        "Vui lòng nhập tên hợp lệ (chỉ chứa chữ cái và dấu cách)"
+      )
+      .required("Vui lòng nhập tên")
+      .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
+      .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
+    userName: yup
+      .string()
+      .required("Vui lòng nhập tên đăng nhập")
+      .matches(
+        usernameRegex,
+        "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      )
+      .min(7, "Tên quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
+      .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
+    password: yup
+      .string()
+      .required("Vui lòng nhập mật khẩu")
+      .matches(
+        usernameRegex,
+        "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      )
+      .min(7, "Mật khẩu quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
+      .max(50, "Mật khẩu quá dài, vui lòng nhập tối đa 50 ký tự"),
+    role: yup.string().required("Vui lòng chọn chức vụ"),
+    gender: yup.string().required("Vui lòng chọn giới tinh"),
+    phoneNumber: yup
+      .string()
+      .required("Vui lòng nhập đủ số điện thoại")
+      .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
+    cccd: yup
+      .string()
+      .matches(
+        cccdRegex,
+        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
+      )
+      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+    address: yup
+      .string()
+      .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
+      .required("Vui lòng nhập địa chỉ")
+      .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
+      .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
+    dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
-      name: "",
-      phone: "",
-      role: "",
-      // days: "2000-1-1",
+      phoneNumber: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
-
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
+  const dataRole = [
+    {
+      label: "y tá",
+      value: "Nurse",
+    },
+    {
+      label: "nhân viên",
+      value: "Staff",
+    },
+  ];
+    const dataGender = [
+      {
+        label: "Nam",
+        value: "Male",
+      },
+      {
+        label: "Nữ",
+        value: "Female",
+      },
+    ];
   const onSubmit = (data) => {
-    console.log(data);
-
-    firebaseImgs(image).then((dataImg) => {
+    firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      notificationApi("success", "tạo thành công", "đã tạo");
-      onClose();
+      postData(`/users/system-register?roleRegister=${data.role}`, {
+        ...data,
+        avatarUrl: dataImg,
+      })
+        .then((e) => {
+          notificationApi("success", "tạo thành công", "đã tạo");
+          setTimeout(() => {
+            if (tableRef.current) {
+              // Kiểm tra xem ref đã được gắn chưa
+              tableRef.current.reloadData();
+            }
+          }, 100);
+          onClose();
+        })
+        .catch((e) => {
+          console.log("====================================");
+          console.log(e);
+          if (e.status === 409) {
+            setFocus("phoneNumber")
+            setError("phoneNumber", {
+              message: "Đã có số điện thoại này",
+            });
+          }
+           if (e.status === 400) {
+             setFocus("userName");
+             setError("userName", {
+               message: "Đã có tên tài khoản này ",
+             });
+           }
+          console.log("====================================");
+        });
     });
   };
 
   const onChange = (data) => {
     const selectedImages = data;
-    const newImages = selectedImages.map((file) => file.originFileObj);
-    setImages(newImages);
+
+    // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
+    // const newImages = selectedImages.map((file) => file.originFileObj);
+    // Cập nhật trạng thái 'image' bằng danh sách tệp mới
+    console.log([selectedImages]);
+    setImages(selectedImages);
+    // setFileList(data);
   };
   return (
     <div>
@@ -78,29 +175,29 @@ export default function CreateEmployee({ onClose }) {
                       type="text"
                       label={"Họ và Tên"}
                       placeholder={"Vui lòng nhập Họ và Tên"}
-                      {...register("name")}
+                      {...register("fullName")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
-                      type="numbers"
-                      label={"Số điện thoại"}
-                      placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phone")}
+                      type="text"
+                      label={"Tên đăng nhập"}
+                      placeholder={"Vui lòng nhập Tên đăng nhập"}
+                      {...register("userName")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
-                      type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
-                      {...register("phone")}
+                      type="password"
+                      label={"Mật khẩu"}
+                      placeholder={"Vui lòng nhập Tên mật khẩu"}
+                      {...register("password")}
                       required
                     />
                   </div>
@@ -118,9 +215,31 @@ export default function CreateEmployee({ onClose }) {
                       // mode="tags"
                       onChangeValue={(e, data) => setValue(e, data)}
                       mode="default"
-                      options={dataBlock}
+                      options={dataRole}
                       required
                       {...register("role")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="numbers"
+                      label={"Số điện thoại"}
+                      placeholder={"Vui lòng nhập số điện thoại"}
+                      {...register("phoneNumber")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="numbers"
+                      label={"Số CMND hoặc CCCD "}
+                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      {...register("cccd")}
+                      required
                     />
                   </div>
                 </div>
@@ -130,9 +249,39 @@ export default function CreateEmployee({ onClose }) {
                       type="numbers"
                       disabledDate={DateOfBirth}
                       label={"Ngày tháng năm sinh"}
-                      placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
-                      {...register("days")}
+                      placeholder={"VD:17-12-2000"}
+                      {...register("dateOfBirth")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Gmail"}
+                      placeholder={"Vui lòng nhập Gmail"}
+                      {...register("email")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      type="role"
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      // mode="tags"
+                      onChangeValue={(e, data) => setValue(e, data)}
+                      mode="default"
+                      options={dataGender}
                       required
+                      {...register("gender")}
                     />
                   </div>
                 </div>
@@ -142,14 +291,14 @@ export default function CreateEmployee({ onClose }) {
                       type="text"
                       label={"Địa chỉ"}
                       placeholder={"Vui lòng nhập Địa chỉ"}
-                      {...register("name")}
+                      {...register("address")}
                       required
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <ComUpImg onChange={onChange} />
+            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
