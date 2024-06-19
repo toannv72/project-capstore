@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useModalState } from "../../../hooks/useModalState";
+import React, { useRef, useState } from "react";
+//import { useModalState } from "../../../hooks/useModalState";
 import UnresponeTable from "./UnresponeTable";
 import ResponedTable from "./ResponedTable";
 import ComCard from "../../../Components/ComCard/ComCard";
-import ComButton from "../../../Components/ComButton/ComButton";
 
 export default function PotentialCustomer() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const modal = useModalState();
+  //const modal = useModalState();
+  const tableRef = useRef(null);
   const cardData = [
     { title: "Thông tin chưa phản hồi", value: "10.678" },
     { title: "Thông tin đã phản hồi", value: "10.678" },
@@ -18,9 +18,9 @@ export default function PotentialCustomer() {
   const viewTable = () => {
     switch (selectedCardIndex) {
       case 0:
-        return <UnresponeTable />;
+        return <UnresponeTable ref={tableRef} />;
       case 1:
-        return <ResponedTable />;
+        return <ResponedTable ref={tableRef} />;
       default:
         break;
     }

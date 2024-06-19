@@ -1,13 +1,13 @@
-import React, { useEffect, useImperativeHandle, useState } from "react";
-import useColumnSearch from "../../../Components/ComTable/utils";
-import ComTable from "../../../Components/ComTable/ComTable";
-import ComModal from "../../../Components/ComModal/ComModal";
+import React, { useEffect, useState } from "react";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
+import useColumnSearch from "../../../Components/ComTable/utils";
 import { Typography } from "antd";
-import DetailPotentialCustomer from "./DetailPotentialCustomer";
+import ComTable from "../../../Components/ComTable/ComTable";
+import ComModal from "../../../Components/ComModal/ComModal";
+import DetailFeedback from "./DetailFeedback";
 
-export default function UnresponeTable({ ref }) {
+const UnrespondedFeedback = () => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modalDetail = useModalState();
@@ -19,40 +19,40 @@ export default function UnresponeTable({ ref }) {
   };
   const columns = [
     {
-      title: "Họ và tên",
+      title: "Người đánh giá",
       dataIndex: "fullName",
-      width: 90,
+      width: 40,
       key: "fullName",
       fixed: "left",
       ...getColumnSearchProps("fullName", "Họ và tên"),
     },
     {
       title: "Số điện thoại",
-      width: 50,
       dataIndex: "phoneNumber",
+      width: 40,
       key: "phoneNumber",
-      ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
+      ...getColumnSearchProps("phoneNumbe", "Số điện thoại"),
     },
     {
-      title: "Email",
-      width: 100,
-      dataIndex: "email",
-      key: "email",
-      ...getColumnSearchProps("email", "Email"),
+      title: "Dịch vụ",
+      width: 50,
+      dataIndex: "service",
+      key: "service",
+      ...getColumnSearchProps("service", "Dịch vụ"),
     },
     {
-      title: "Chủ đề",
-      width: 100,
-      dataIndex: "title",
-      key: "title",
-      ...getColumnSearchProps("title", "Chủ đề"),
+      title: "Người thực hiện",
+      width: 40,
+      dataIndex: "nurseName",
+      key: "nurseName",
+      ...getColumnSearchProps("nurseName", "Người thực hiện"),
     },
     {
-      title: "Địa chỉ",
-      width: 100,
-      dataIndex: "address",
-      key: "address",
-      ...getColumnSearchProps("address", "Địa chỉ"),
+      title: "Ngày thực hiện",
+      width: 30,
+      dataIndex: "serviceDate",
+      key: "serviceDate",
+      ...getColumnSearchProps("serviceDate", "Ngày thực hiện"),
     },
     {
       key: "operation",
@@ -72,14 +72,8 @@ export default function UnresponeTable({ ref }) {
     },
   ];
   useEffect(() => {
-    reloadData();
+    //call api
   }, []);
-  const reloadData = () => {
-    //call API Here
-  };
-  useImperativeHandle(ref, () => ({
-    reloadData,
-  }));
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
@@ -88,11 +82,13 @@ export default function UnresponeTable({ ref }) {
         onClose={modalDetail?.handleClose}
         width={"50%"}
       >
-        <DetailPotentialCustomer
+        <DetailFeedback
           selectedUser={selectedUser}
           onClose={modalDetail?.handleClose}
         />
       </ComModal>
     </div>
   );
-}
+};
+
+export default UnrespondedFeedback;

@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useImperativeHandle, useState } from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailPotentialCustomer from "./DetailPotentialCustomer";
-import { getData } from "../../../api/api";
 import { Typography } from "antd";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
 import useColumnSearch from "../../../Components/ComTable/utils";
 
-export default function ResponedTable() {
+export default function ResponedTable({ ref }) {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modalDetail = useModalState();
@@ -39,21 +38,21 @@ export default function ResponedTable() {
       width: 100,
       dataIndex: "email",
       key: "email",
-      ...getColumnSearchProps("email", "Gmail"),
+      ...getColumnSearchProps("email", "Email"),
     },
     {
       title: "Chủ đề",
       width: 100,
       dataIndex: "title",
       key: "title",
-      ...getColumnSearchProps("email", "Gmail"),
+      ...getColumnSearchProps("title", "Chủ đề"),
     },
     {
       title: "Địa chỉ",
       width: 100,
       dataIndex: "address",
       key: "address",
-      ...getColumnSearchProps("email", "Gmail"),
+      ...getColumnSearchProps("address", "Địa chỉ"),
     },
     {
       key: "operation",
@@ -73,8 +72,14 @@ export default function ResponedTable() {
     },
   ];
   useEffect(() => {
-    //call api
+    reloadData();
   }, []);
+  const reloadData = () => {
+    //Call API
+  };
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />

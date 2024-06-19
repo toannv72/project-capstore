@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import * as yup from "yup";
 import { CloseOutlined, LogoutOutlined, MoreOutlined } from "@ant-design/icons";
-import { Modal, Radio, Space } from "antd";
+import { Modal, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import doctor from "../../assets/doctor.png";
 import { FormProvider, useForm } from "react-hook-form";
@@ -48,13 +48,7 @@ export default function ProfilePage() {
       gender: "",
     },
   });
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    reset,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, register, setValue, reset } = methods;
   const onSubmit = (data) => {
     // firebaseImg(image[0]).then((e) => {
     //   setValue("avatar", e);
@@ -121,13 +115,6 @@ export default function ProfilePage() {
         <div className="grid col-span-2 gap-4">
           <div className="p-3 rounded-md border border-fade">
             <div className="font-bold text-base">Cài đặt người dùng</div>
-            <Space
-              size="small"
-              className="flex cursor-pointer text-red-600 text-base hidden"
-            >
-              <div onClick={() => handLogout()}>Đăng xuất</div>
-              <LogoutOutlined />
-            </Space>
           </div>
           <div className="border border-fade p-3 rounded-md ">
             <div className="flex justify-between">

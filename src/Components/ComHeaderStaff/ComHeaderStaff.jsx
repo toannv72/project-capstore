@@ -40,7 +40,7 @@ const subCategories = [
   { name: "Thắc mắc", href: "/staff/servicePackage", icon: Bars3Icon },
   {
     name: "Danh sách đánh giá",
-    href: "/staff/nursingPackage",
+    href: "/staff/feedback",
     icon: QueueListIcon,
   },
   { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },

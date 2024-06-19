@@ -81,7 +81,9 @@ export default function DetailPotentialCustomer({ onClose, selectedUser }) {
           {" "}
           {/* Điều chỉnh layout cho nút */}
           {selectedUser.isChecked ? (
-            <ComButton className="mx-auto">Xác nhận</ComButton> // Nằm giữa khi isChecked là true
+            <div onClick={() => onClose()}>
+              <ComButton className="mx-auto">Xác nhận</ComButton>{" "}
+            </div> // Nằm giữa khi isChecked là true
           ) : (
             <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div onClick={() => onClose()}>
