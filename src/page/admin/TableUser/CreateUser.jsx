@@ -13,17 +13,14 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
-import { cccdRegex, phoneNumberRegex } from "../../../regexPatterns";
+import { addressRegex, cccdRegex, nameRegex, phoneNumberRegex } from "../../../regexPatterns";
 
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
 
-  const addressRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
-
-  const nameRegex =
-    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
+  // const nameRegex =
+  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
