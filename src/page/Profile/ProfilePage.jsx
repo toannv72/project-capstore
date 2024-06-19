@@ -1,7 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import * as yup from "yup";
-import { CloseOutlined, LogoutOutlined, MoreOutlined } from "@ant-design/icons";
-import { Modal, Space } from "antd";
+import { CloseOutlined, MoreOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import doctor from "../../assets/doctor.png";
 import { FormProvider, useForm } from "react-hook-form";
@@ -13,12 +13,14 @@ import { firebaseImg } from "../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../Components/ComDatePicker/ComDatePicker";
 import moment from "moment";
 import { Menu, Transition } from "@headlessui/react";
+import { getData } from "../../api/api";
 const sortOptions = [{ name: "Chỉnh sửa", type: "edit" }];
 export default function ProfilePage() {
   const [image, setImages] = useState([]);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
   const [formData, setFormData] = useState(null);
+  const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const inputMessenger = yup.object({
@@ -31,20 +33,20 @@ export default function ProfilePage() {
   });
   const [initialValues, setInitialValues] = useState({
     address: "",
-    birth: "",
-    phone: "",
-    mail: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    email: "",
   });
   const methods = useForm({
     resolver: yupResolver(inputMessenger),
-    defaultValues: {
-      avatar: "",
-      fullname: "",
+    defaultValues: profile || {
+      avatarUrl: "",
+      fullName: "",
       address: "",
       cccd: "",
-      birth: "",
-      phone: "",
-      mail: "",
+      dateOfBirth: "",
+      phoneNumber: "",
+      email: "",
       gender: "",
     },
   });
@@ -102,13 +104,25 @@ export default function ProfilePage() {
       setInitialValues({
         // Store initial values
         address: methods.getValues("address"),
-        birth: methods.getValues("birth"),
-        phone: methods.getValues("phone"),
-        mail: methods.getValues("mail"),
+        birth: methods.getValues("dateOfBirth"),
+        phone: methods.getValues("phoneNumber"),
+        mail: methods.getValues("email"),
       });
     }
   };
-  console.log(isEditing);
+  useEffect(() => {
+    getData("/users/profile")
+      .then((e) => {
+        setProfile(e?.data);
+        if (e?.data) {
+          reset(e?.data);
+          setValue("avatarUrl", e.data.avatarUrl);
+        }
+      })
+      .catch((er) => {
+        console.error("Error fetching items:", er);
+      });
+  }, [reset, setValue]);
   return (
     <div className="flex flex-col space-y-5 font-montserrat mb-1">
       <div className="grid grid-cols-3 gap-4">
@@ -124,9 +138,9 @@ export default function ProfilePage() {
                   onClick={() => {
                     setIsEditing(false);
                     setValue("address", initialValues.address);
-                    setValue("birth", initialValues.birth);
-                    setValue("phone", initialValues.phone);
-                    setValue("mail", initialValues.mail);
+                    setValue("dateOfBirth", initialValues.dateOfBirth);
+                    setValue("phoneNumber", initialValues.phoneNumber);
+                    setValue("email", initialValues.email);
                   }}
                 />
               ) : (
@@ -173,7 +187,7 @@ export default function ProfilePage() {
                   {!isEditing ? (
                     <img
                       className="h-25 w-25 rounded-full border border-gray-400"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={methods.getValues("avatarUrl")}
                       alt=""
                     />
                   ) : (
@@ -187,8 +201,7 @@ export default function ProfilePage() {
                     label="Họ và tên"
                     type="text"
                     // maxLength={10}
-                    {...register("fullname")}
-                    required
+                    {...register("fullName")}
                     disabled={isEditing}
                     readOnly={!isEditing}
                   />
@@ -197,9 +210,8 @@ export default function ProfilePage() {
                 <div className="col-span-3">
                   <ComDatePicker
                     label="Ngày sinh"
-                    required
                     disabledDate={disabledDate}
-                    {...register("birth")}
+                    {...register("dateOfBirth")}
                     disabled={isEditing}
                     inputReadOnly={!isEditing}
                     open={isEditing}
@@ -211,8 +223,9 @@ export default function ProfilePage() {
                     label="Số điện thoại"
                     type="numbers"
                     maxLength={10}
-                    {...register("phone")}
+                    {...register("phoneNumber")}
                     readOnly={!isEditing}
+                    required={isEditing}
                   />
                 </div>
                 <div className="col-span-3">
@@ -220,8 +233,9 @@ export default function ProfilePage() {
                     placeholder="Nhập email"
                     label="Email"
                     type="text"
-                    {...register("mail")}
+                    {...register("email")}
                     readOnly={!isEditing}
+                    required={isEditing}
                   />
                 </div>
                 <div className="col-span-3">
@@ -242,6 +256,7 @@ export default function ProfilePage() {
                     type="text"
                     {...register("address")}
                     readOnly={!isEditing}
+                    required={isEditing}
                   />
                 </div>
                 {!isEditing ? (
