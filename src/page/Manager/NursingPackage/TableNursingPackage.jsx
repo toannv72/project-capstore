@@ -70,6 +70,14 @@ export default function TableNursingPackage() {
       ),
     },
     {
+      title: "Số lượng người tối đa trong 1 phòng",
+      width: 120,
+      dataIndex: "registrationLimit",
+      key: "registrationLimit",
+      // // sorter: (a, b) => a.phone - b.phone,
+      // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
+    },
+    {
       title: "Số người 1 phòng",
       width: 120,
       dataIndex: "capacity",
@@ -111,7 +119,7 @@ export default function TableNursingPackage() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/packages?Type=NursingPackage")
+    getData("/nursing-package")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

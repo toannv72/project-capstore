@@ -42,8 +42,8 @@ function InstituteManagement() {
           />
         ))}
       </div>
-      <div className="flex items-end pb-2">
-        <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+      <div className="flex justify-end pb-2">
+       <div> <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton></div>
       </div>
       {viewTable()}
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>

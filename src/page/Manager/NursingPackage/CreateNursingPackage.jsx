@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "../../../Components/ComInput/ComInput";
@@ -13,34 +13,42 @@ import { postData } from "../../../api/api";
 
 export default function CreateNursingPackage({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
+  const [mony, setMony] = useState(1000);
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("textApp.CreateProduct.message.name"),
-    // phone: yup
-    //   .string()
-    //   .trim()
-    //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
-    //   .required("textApp.CreateProduct.message.name"),
+    name: yup.string().required("Vui lòng nhập tên gói"),
+    description: yup.string().required("Vui lòng nhập chi tiết gói"),
+    price: yup
+      .number()
+      .typeError("Vui lòng nhập giá tiền")
+      .required("Vui lòng nhập giá tiền"),
+    registrationLimit: yup
+      .number()
+      .required("Vui lòng nhập số lượng ")
+      .typeError("Vui lòng nhập số lượng "),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
+    values: {
+      name: "aa",
+      description: "aa",
+      price: 100000,
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
-  function formatPriceToNumber(priceString) {
-    const cleanedString = priceString.replace(/[^0-9]/g, "");
-    return parseInt(cleanedString, 10);
-  }
+
   const onChange = (data) => {
     const selectedImages = data;
     const newImages = selectedImages.map((file) => file.originFileObj);
     setImages(newImages);
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setValue("price", mony);
+    }, 1);
+  }, [mony, watch("price")]);
   const onSubmit = (data) => {
     console.log(data);
     // console.log(formatPriceToNumber(data.price));
@@ -48,10 +56,9 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
       console.log("ảnh nè : ", dataImg);
       const dataPost = {
         ...data,
-        // price: formatPriceToNumber(data.price),
-        imagePackage: dataImg[0],
+        imageUrl: dataImg[0],
       };
-      postData(`/package-register`, dataPost)
+      postData(`/nursing-package`, dataPost)
         .then((e) => {
           notificationApi(
             "success",
@@ -96,14 +103,11 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComNumber
-                      type="text"
+                      // type="text"
                       min={1}
                       label={"Số lượng người "}
                       placeholder={"Vui lòng nhập số lượng"}
-                      {...register("numberBed")}
-                      onChangeValue={(e) => {
-                        console.log(e);
-                      }}
+                      {...register("registrationLimit")}
                       required
                     />
                   </div>
@@ -113,14 +117,15 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                     <ComNumber
                       type="text"
                       money
-                      onChangeValue={(e, data) => {
-                        setValue("price", data);
+                      // defaultValue={10000}
+                      // min={1000}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value);
+                        setMony(value);
                       }}
-                      defaultValue={1000}
-                      min={1000}
                       label={"Số tiền"}
                       placeholder={"Vui lòng nhập số tiền"}
-                      {...register("price1")}
+                      {...register("price")}
                       required
                     />
                   </div>
@@ -142,6 +147,8 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
                     <ComUpImg
                       onChange={onChange}
                       numberImg={1}
+                      label={"Hình ảnh gói"}
+                      required
                       multiple={false}
                     />
                   </div>

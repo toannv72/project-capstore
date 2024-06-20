@@ -20,6 +20,7 @@ import {
   nameRegex,
   phoneNumberRegex,
 } from "../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -55,7 +56,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
     email: yup
       .string()
       .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
-      .notRequired(),
+      .required("Vui lòng nhập đầy đủ email"),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
@@ -82,12 +83,10 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             onClose();
           })
           .catch((e) => {
-            if (e.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
+            console.log(e);
+            // set các trường hợp lỗi api 
+            handleErrors(e, setError, setFocus);
+            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
       } else {
         const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
@@ -99,12 +98,10 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             onClose();
           })
           .catch((e) => {
-            if (e.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
+            console.log(e);
+            // set các trường hợp lỗi api
+            handleErrors(e, setError, setFocus);
+            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
       }
     });
