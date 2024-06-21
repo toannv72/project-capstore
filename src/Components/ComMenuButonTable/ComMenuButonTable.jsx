@@ -23,7 +23,7 @@ const ComMenuButonTable = ({
     },
     {
       key: "edit",
-      label: "Chỉnh sửa",
+      label: "Cập nhật thông tin",
       onClick: () => showModalEdit(record),
       visible: !excludeDefaultItems.includes("edit"),
     },

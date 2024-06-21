@@ -18,7 +18,7 @@ export default function DetailElder({ selectedUser }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Số điện thoại:
+                Ngày tháng năm sinh:
               </td>
               <td className="px-4 py-2">
                 <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>

@@ -96,7 +96,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
 
   useEffect(() => {
     setSelectedUser(selectedData?.userId);
-    setSelectedRoom(selectedData?.room?.id);
+    setSelectedRoom(selectedData?.roomId);
   }, [selectedData]);
 
   const methods = useForm({
