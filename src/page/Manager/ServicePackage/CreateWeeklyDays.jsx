@@ -10,8 +10,6 @@ import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComInput from "../../../Components/ComInput/ComInput";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import moment from "moment";
-import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
@@ -19,7 +17,16 @@ import "tailwindcss/tailwind.css";
 
 const { Title } = Typography;
 
-export default function CreateDaily({ onClose }) {
+const daysOfWeek = [
+  { dayOfWeek: "Monday", vi: "Thứ Hai" },
+  { dayOfWeek: "Tuesday", vi: "Thứ Ba" },
+  { dayOfWeek: "Wednesday", vi: "Thứ Tư" },
+  { dayOfWeek: "Thursday", vi: "Thứ Năm" },
+  { dayOfWeek: "Friday", vi: "Thứ Sáu" },
+  { dayOfWeek: "Saturday", vi: "Thứ Bảy" },
+  { dayOfWeek: "Sunday", vi: "Chủ Nhật" },
+];
+export default function CreateWeeklyDays({ onClose }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
@@ -46,16 +53,7 @@ export default function CreateDaily({ onClose }) {
     },
   });
 
-  const {
-    handleSubmit,
-    register,
-    setFocus,
-    watch,
-    setValue,
-    setError,
-    trigger,
-  } = methods;
-
+  const { handleSubmit, register, setFocus, setValue, setError } = methods;
 
   const onChange = (data) => {
     const selectedImages = data;
@@ -104,13 +102,13 @@ export default function CreateDaily({ onClose }) {
       if (image) {
         firebaseImg(image).then((dataImg) => {
           const servicePackageDates = selectedDays.map((day) => ({
-            date: `2001-02-${day}`,
+            dayOfWeek: day,
           }));
           const dataPost = {
             ...data,
             imageUrl: dataImg,
             price: change,
-            type: "MultipleDays",
+            type: "WeeklyDays",
             servicePackageDates,
           };
           console.log(1111, dataPost);
@@ -131,7 +129,6 @@ export default function CreateDaily({ onClose }) {
                 "tạo gói dịch vụ không thành công!"
               );
             });
-       
         });
       } else {
         notificationApi(
@@ -203,22 +200,16 @@ export default function CreateDaily({ onClose }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <Title level={3}>Chọn ngày trong tháng</Title>
+                    <Title level={3}>Chọn ngày trong tuần</Title>
                     <Row gutter={[8, 8]}>
-                      {[...Array(31).keys()].map((day) => (
-                        <Col span={3} key={day + 1}>
+                      {daysOfWeek.map((day) => (
+                        <Col span={6} key={day.dayOfWeek}>
                           <Checkbox
-                            checked={selectedDays.includes(
-                              String(day + 1).padStart(2, "0")
-                            )}
-                            onChange={() =>
-                              handleCheckboxChange(
-                                String(day + 1).padStart(2, "0")
-                              )
-                            }
+                            checked={selectedDays.includes(day.dayOfWeek)}
+                            onChange={() => handleCheckboxChange(day.dayOfWeek)}
                             className="text-blue-600"
                           >
-                            {String(day + 1).padStart(2, "0")}
+                            {day.vi}
                           </Checkbox>
                         </Col>
                       ))}
