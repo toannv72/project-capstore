@@ -30,7 +30,7 @@ export default function TableServicePackage() {
       });
     }
   }
-
+console.log(data);
   const columns = [
     {
       title: "Tên dịch vụ",
@@ -49,14 +49,13 @@ export default function TableServicePackage() {
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record?.imageUrl]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record?.imageUrl}
-              alt={record?.imageUrl}
-              preview={{ mask: "Xem ảnh" }}
-            />
-          </Image.PreviewGroup>
+
+          <Image
+            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            src={record?.imageUrl}
+            alt={record?.imageUrl}
+            preview={{ mask: "Xem ảnh" }}
+          />
         </div>
       ),
     },
@@ -73,19 +72,26 @@ export default function TableServicePackage() {
       ),
     },
     {
-      title: "Số người 1 phòng",
+      title: "Thể loại dịch vụ",
       width: 120,
-      dataIndex: "numberBed",
-      key: "numberBed",
-      // // sorter: (a, b) => a.phone - b.phone,
-      // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
+      dataIndex: "servicePackageCategory",
+      key: "servicePackageCategory",
+      render: (data) => (
+        <div>
+          <h1>{data.name}</h1>
+        </div>
+      ),
     },
     {
-      title: InstituteManagement?.status,
+      title: "Dạng dịch vụ",
       width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
+      dataIndex: "type",
+      key: "type",
+      render: (data) => (
+        <div>
+          <h1>{data}</h1>
+        </div>
+      ),
     },
     {
       title: "Thông tin bổ sung",
@@ -121,7 +127,7 @@ export default function TableServicePackage() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/service-package")
+    getData("/service-package?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

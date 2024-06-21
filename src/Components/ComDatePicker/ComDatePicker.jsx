@@ -36,20 +36,6 @@ const ComDatePicker = forwardRef(
     const error = get(errors, name);
     const inputId = uuidv4();
 
-    // const handleChange = (date, dateString) => {
-    //   if (isEmpty(dateString)) {
-    //     setValue(name, null);
-    //   } else {
-    //     const parsedDate = dayjs(dateString, format);
-    //     if (parsedDate.isValid()) {
-    //       const formattedDate = parsedDate.format("YYYY-MM-DD");
-    //       setValue(name, formattedDate);
-    //       onChangeValue?.(name, formattedDate);
-    //     } else {
-    //       setValue(name, null);
-    //     }
-    //   }
-    // };
     const handleChange = (date, dateString) => {
         const formattedDate = dayjs(dateString, format).format("YYYY-MM-DD");
         setValue(name, formattedDate);
@@ -79,6 +65,7 @@ const ComDatePicker = forwardRef(
               format={format}
               onChange={handleChange}
               status={error && "error"}
+              allowClear={false}
               disabledDate={disabledDate}
               {...props}
             />

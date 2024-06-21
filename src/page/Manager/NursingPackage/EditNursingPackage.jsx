@@ -4,14 +4,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
-import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "../../../Notification/Notification";
 import ComTextArea from "./../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
-import { postData, putData } from "../../../api/api";
+import { putData } from "../../../api/api";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
 export default function EditNursingPackage({
   selectedData,
@@ -22,7 +21,7 @@ export default function EditNursingPackage({
   const [mony, setMony] = useState(selectedData.price);
   const [limit, setLimit] = useState(selectedData.registrationLimit);
   const { notificationApi } = useNotification();
-  console.log(selectedData);
+  // console.log(selectedData);
   useEffect(() => {
     setMony(selectedData.price);
     setLimit(selectedData.registrationLimit);
@@ -31,7 +30,7 @@ export default function EditNursingPackage({
     name: yup.string().required("Vui lòng nhập tên gói"),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
     price: yup
-      .number()
+      .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
     registrationLimit: yup
@@ -44,71 +43,76 @@ export default function EditNursingPackage({
     resolver: yupResolver(CreateProductMessenger),
     values: selectedData,
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
   const onChange = (data) => {
     const selectedImages = data;
     setImages(selectedImages);
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setValue("price", mony);
-    }, 1);
-  }, [mony, watch("price")]);
-  console.log(watch("price"));
-  const onSubmit = (data) => {
-    console.log(data);
-    firebaseImg(image).then((dataImg) => {
-      if (dataImg) {
-        const dataPut = {
-          ...data,
-          imageUrl: dataImg,
-        };
-        putData(`/nursing-package`, selectedData.id, dataPut)
-          .then((e) => {
-            notificationApi(
-              "success",
-              "cập nhật thành công",
-              "đã cập nhật gói dịch vụ thành công!"
-            );
-            tableRef();
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            notificationApi(
-              "error",
-              "tạo không thành công",
-              "tạo gói dịch vụ không thành công!"
-            );
-          });
-      } else {
-        const dataPut = {
-          ...data,
-          imageUrl: selectedData.imageUrl,
-        };
-        putData(`/nursing-package`, selectedData.id, dataPut)
-          .then((e) => {
-            notificationApi(
-              "success",
-              "cập nhật thành công",
-              "đã cập nhật gói dịch vụ thành công!"
-            );
-            tableRef();
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            notificationApi(
-              "error",
-              "tạo không thành công",
-              "tạo gói dịch vụ không thành công!"
-            );
-          });
-      }
 
-      onClose();
-    });
+  const onSubmit = (data) => {
+    const change = MonyNumber(
+      data.price,
+      (message) => setError("price", { message }), // Đặt lỗi nếu có
+      () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
+    );
+    console.log(data);
+    if (change !== null) {
+      firebaseImg(image).then((dataImg) => {
+        if (dataImg) {
+          const dataPut = {
+            ...data,
+            price: change,
+            imageUrl: dataImg,
+          };
+          putData(`/nursing-package`, selectedData.id, dataPut)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "cập nhật thành công",
+                "đã cập nhật gói dịch vụ thành công!"
+              );
+              tableRef();
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              notificationApi(
+                "error",
+                "tạo không thành công",
+                "tạo gói dịch vụ không thành công!"
+              );
+            });
+        } else {
+          const dataPut = {
+            ...data,
+            price: change,
+            imageUrl: selectedData.imageUrl,
+          };
+          putData(`/nursing-package`, selectedData.id, dataPut)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "cập nhật thành công",
+                "đã cập nhật gói dịch vụ thành công!"
+              );
+              tableRef();
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              notificationApi(
+                "error",
+                "tạo không thành công",
+                "tạo gói dịch vụ không thành công!"
+              );
+            });
+        }
+
+        onClose();
+      });
+    }
   };
 
   return (
@@ -159,7 +163,7 @@ export default function EditNursingPackage({
                       // min={1000}
                       value={mony}
                       onChangeValue={(e, value) => {
-                        setValue(e, value);
+                        setValue(e, value, { shouldValidate: true });
                         setMony(value);
                       }}
                       label={"Số tiền"}

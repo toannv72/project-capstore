@@ -1,7 +1,281 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { Checkbox, Col, Row, Typography } from "antd";
+import { FormProvider, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import ComButton from "../../../Components/ComButton/ComButton";
+import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
+import { getData, postData } from "../../../api/api";
+import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
+import ComInput from "../../../Components/ComInput/ComInput";
+import ComNumber from "../../../Components/ComInput/ComNumber";
+import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import moment from "moment";
+import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
+import ComSelect from "../../../Components/ComInput/ComSelect";
+import { useNotification } from "../../../Notification/Notification";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
+import "tailwindcss/tailwind.css";
 
-export default function CreateDaily() {
+const { Title } = Typography;
+
+export default function CreateDaily({ onClose }) {
+  const [image, setImages] = useState(null);
+  const { notificationApi } = useNotification();
+  const [selectedCategorie, setSelectedCategorie] = useState();
+  const [category, setCategory] = useState([]);
+  const [endDate, setEndDate] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const CreateProductMessenger = yup.object({
+    name: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    price: yup
+      .string()
+      .typeError("Vui lòng nhập giá tiền")
+      .required("Vui lòng nhập giá tiền"),
+    servicePackageCategoryId: yup
+      .string()
+      .required("Vui lòng chọn thể loại dịch vụ"),
+    description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+  });
+
+  const methods = useForm({
+    resolver: yupResolver(CreateProductMessenger),
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+  });
+
+  const {
+    handleSubmit,
+    register,
+    setFocus,
+    watch,
+    setValue,
+    setError,
+    trigger,
+  } = methods;
+
+
+  const onChange = (data) => {
+    const selectedImages = data;
+    setImages(selectedImages);
+  };
+
+  useEffect(() => {
+    getData("/service-package-categories")
+      .then((e) => {
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+        setCategory(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  }, []);
+
+  const handleChange = (e, value) => {
+    console.log(value);
+    setSelectedCategorie(value);
+    if (value.length === 0) {
+      setValue("servicePackageCategoryId", null, { shouldValidate: true });
+    } else {
+      setValue("servicePackageCategoryId", value, { shouldValidate: true });
+    }
+  };
+
+  const handleCheckboxChange = (day) => {
+    setSelectedDays((prevDays) =>
+      prevDays.includes(day)
+        ? prevDays.filter((d) => d !== day)
+        : [...prevDays, day]
+    );
+  };
+  const onSubmit = (data) => {
+    const change = MonyNumber(
+      data.price,
+      (message) => setError("price", { message }), // Đặt lỗi nếu có
+      () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
+    );
+
+    if (change !== null) {
+      if (image) {
+        firebaseImg(image).then((dataImg) => {
+          const servicePackageDates = selectedDays.map((day) => ({
+            date: `2001-02-${day}`,
+          }));
+          const dataPost = {
+            ...data,
+            imageUrl: dataImg,
+            price: change,
+            type: "MultipleDays",
+            servicePackageDates,
+          };
+          console.log(1111, dataPost);
+          postData(`/service-package`, dataPost)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "tạo thành công",
+                "đã tạo gói dịch vụ thành công!"
+              );
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              notificationApi(
+                "error",
+                "tạo không thành công",
+                "tạo gói dịch vụ không thành công!"
+              );
+            });
+       
+        });
+      } else {
+        notificationApi(
+          "error",
+          "Chọn ảnh gói dưỡng lão",
+          "Vui lòng chọn ảnh!"
+        );
+      }
+    }
+  };
+
   return (
-    <div>CreateDaily</div>
-  )
+    <div>
+      <div className="bg-white">
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl">
+            <div className="overflow-y-auto p-4">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Tên"}
+                      placeholder={"Tên"}
+                      {...register("name")}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      money
+                      defaultValue={1000}
+                      min={1000}
+                      label={"Số tiền"}
+                      placeholder={"Vui lòng nhập số tiền"}
+                      {...register("price")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn thể loại"
+                      placeholder="Thể loại"
+                      value={selectedCategorie}
+                      onChangeValue={handleChange}
+                      filterOption={(inputValue, option) =>
+                        option.label
+                          .toLowerCase()
+                          .includes(inputValue.toLowerCase())
+                      }
+                      showSearch
+                      seach
+                      mode="default"
+                      options={category}
+                      required
+                      {...register("servicePackageCategoryId")}
+                    />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      rows={5}
+                      label={"Chi tiết gói "}
+                      placeholder={"description"}
+                      {...register("description")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComUpImgOne
+                      onChange={onChange}
+                      multiple={false}
+                      label={"Hình ảnh"}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <Title level={3}>Chọn ngày trong tháng</Title>
+                    <Row gutter={[8, 8]}>
+                      {[...Array(31).keys()].map((day) => (
+                        <Col span={3} key={day + 1}>
+                          <Checkbox
+                            checked={selectedDays.includes(
+                              String(day + 1).padStart(2, "0")
+                            )}
+                            onChange={() =>
+                              handleCheckboxChange(
+                                String(day + 1).padStart(2, "0")
+                              )
+                            }
+                            className="text-blue-600"
+                          >
+                            {String(day + 1).padStart(2, "0")}
+                          </Checkbox>
+                        </Col>
+                      ))}
+                    </Row>
+                    <div className="mt-6">
+                      <Title level={4}>Ngày đã chọn:</Title>
+                      <ul className="list-none p-0">
+                        {selectedDays.map((day) => (
+                          <li
+                            key={day}
+                            className="inline-block m-1 p-2 bg-gray-200 rounded-lg border border-gray-400"
+                          >
+                            {day}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-10">
+              <ComButton
+                htmlType="submit"
+                className="block w-full rounded-md bg-indigo-600 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Tạo mới
+              </ComButton>
+            </div>
+          </form>
+        </FormProvider>
+      </div>
+    </div>
+  );
 }
