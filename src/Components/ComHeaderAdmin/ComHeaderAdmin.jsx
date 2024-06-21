@@ -58,7 +58,6 @@ export default function ComHeaderAdmin({ children }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -91,19 +90,17 @@ export default function ComHeaderAdmin({ children }) {
         break;
     }
   };
-  useEffect(() => {
-    setIsLoading(true);
+  const getAPI = () => {
     getData("/users/profile")
       .then((response) => {
-        console.log(response?.data);
         setUserData(response?.data);
       })
       .catch((er) => {
         console.error("Error fetching items:", er);
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
+  };
+  useEffect(() => {
+    getAPI();
   }, []);
   return (
     <div className="bg-white flex">
@@ -218,8 +215,7 @@ export default function ComHeaderAdmin({ children }) {
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
-
-            <div className="flex items-center">
+            <div className="flex justify-end">
               <Space size="large">
                 <Badge count={0} overflowCount={9}>
                   <BellOutlined
@@ -228,9 +224,9 @@ export default function ComHeaderAdmin({ children }) {
                   />
                 </Badge>
                 <div className="text-lg">Xin chào, {userData?.fullName}</div>
-                <Menu as="div" className="relative inline-block text-left">
+                <Menu as="div" className="inline-block text-left">
                   <Menu.Button className="h-11 w-11 group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-300">
-                    {userData ? (
+                    {userData && userData.avatarUrl ? (
                       <img
                         className="h-10 w-10 rounded-full border border-gray-400 items-center justify-center"
                         src={userData.avatarUrl}

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import * as yup from "yup";
 import { CloseOutlined, MoreOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
-import { useNavigate } from "react-router-dom";
 import doctor from "../../assets/doctor.png";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,21 +10,18 @@ import ComUpImgOne from "../../Components/ComUpImg/ComUpImgOne";
 import ComButton from "../../Components/ComButton/ComButton";
 import { firebaseImg } from "../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../Components/ComDatePicker/ComDatePicker";
-import moment from "moment";
 import { Menu, Transition } from "@headlessui/react";
 import { getData, putData } from "../../api/api";
 import { addressRegex, phoneNumberRegex } from "../../regexPatterns";
 import { useNotification } from "../../Notification/Notification";
 const sortOptions = [{ name: "Cập nhật thông tin", type: "edit" }];
 export default function ProfilePage() {
-  const [image, setImages] = useState([]);
+  const [image, setImages] = useState(null);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
   const { notificationApi } = useNotification();
-
   const [formData, setFormData] = useState(null);
   const [profile, setProfile] = useState(null);
-  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const inputMessenger = yup.object({
     // fullname: yup.string().required("Vui lòng nhập họ và tên"),
@@ -69,15 +65,17 @@ export default function ProfilePage() {
     setIsConfirmationModalVisible(true);
   };
   const handleConfirmUpdate = () => {
-    firebaseImg(image).then((dataImg) => {
-      if (dataImg) {
+    if (image) {
+      firebaseImg(image).then((dataImg) => {
         const dataPut = { ...formData, avatarUrl: dataImg };
+        console.log("1111", dataPut);
         putData(`/users`, "profile", dataPut)
           .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            notificationApi("success", "Chỉnh sửa thành công 456", "đã sửa");
             setTimeout(() => {}, 100);
             setIsConfirmationModalVisible(false);
             setIsEditing(false);
+            getAPI();
           })
           .catch((e) => {
             if (e.status === 409) {
@@ -87,40 +85,36 @@ export default function ProfilePage() {
               setFocus("phoneNumber");
             }
           });
-      } else {
-        const dataPut = {
-          ...formData,
-          avatarUrl: methods.getValues("avatarUrl"),
-        };
-        putData(`/users`, "profile", dataPut)
-          .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
-            setTimeout(() => {}, 100);
-            setIsConfirmationModalVisible(false);
-            setIsEditing(false);
-          })
-          .catch((e) => {
-            if (e.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
-          });
-      }
-      // Hide the confirmation modal after update
-    });
+      });
+    } else {
+      const dataPut = {
+        ...formData,
+        avatarUrl: methods.getValues("avatarUrl"),
+      };
+      console.log(dataPut);
+      putData(`/users`, "profile", dataPut)
+        .then((e) => {
+          notificationApi("success", "Chỉnh sửa thành công 123", "đã sửa");
+          setTimeout(() => {}, 100);
+          setIsConfirmationModalVisible(false);
+          setIsEditing(false);
+          getAPI();
+        })
+        .catch((e) => {
+          if (e.status === 409) {
+            setError("phoneNumber", {
+              message: "Đã có số điện thoại này",
+            });
+            setFocus("phoneNumber");
+          }
+        });
+    }
+    // Hide the confirmation modal after update
   };
 
   const handleCancelUpdate = () => {
     setIsConfirmationModalVisible(false);
-  };
-  const handLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("use");
-    setTimeout(() => {
-      navigate("/login");
-    }, 0);
+    scrollToTop();
   };
   const onChange = (data) => {
     const selectedImages = data;
@@ -128,8 +122,8 @@ export default function ProfilePage() {
     // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
     // const newImages = selectedImages.map((file) => file.originFileObj);
     // Cập nhật trạng thái 'image' bằng danh sách tệp mới
-    console.log([selectedImages]);
-    setImages([selectedImages]);
+    console.log(selectedImages);
+    setImages(selectedImages);
     // setFileList(data);
   };
 
@@ -144,9 +138,10 @@ export default function ProfilePage() {
         phone: methods.getValues("phoneNumber"),
         mail: methods.getValues("email"),
       });
+      scrollToTop();
     }
   };
-  useEffect(() => {
+  const getAPI = () => {
     getData("/users/profile")
       .then((response) => {
         setProfile(response?.data);
@@ -158,7 +153,16 @@ export default function ProfilePage() {
       .catch((er) => {
         console.error("Error fetching items:", er);
       });
+  };
+  useEffect(() => {
+    getAPI();
   }, [reset, setValue]);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <div className="flex flex-col space-y-5 font-montserrat mb-1">
       <div className="grid grid-cols-3 gap-4">
@@ -167,26 +171,31 @@ export default function ProfilePage() {
             <div className="font-bold text-base">Cài đặt người dùng</div>
           </div>
           <div className="border border-fade p-3 rounded-md ">
-            <div className="flex justify-between">
-              <div></div>
-              <div className="text-xl font-semibold">Thông tin người dùng</div>
-              {isEditing ? (
+            {isEditing ? (
+              <div className="flex justify-between">
+                <div></div>
+                <div className="text-xl font-semibold">Cập nhật thông tin</div>
                 <CloseOutlined
                   onClick={() => {
                     setIsEditing(false);
-                    setValue("address", initialValues.address);
-                    setValue("dateOfBirth", initialValues.dateOfBirth);
-                    setValue("phoneNumber", initialValues.phoneNumber);
-                    setValue("email", initialValues.email);
+                    setValue("address", profile.address);
+                    setValue("dateOfBirth", profile.dateOfBirth);
+                    setValue("phoneNumber", profile.phoneNumber);
+                    setValue("email", profile.email);
+                    scrollToTop();
                   }}
                 />
-              ) : (
+              </div>
+            ) : (
+              <div className="flex justify-between">
+                <div></div>
+                <div className="text-xl font-semibold">
+                  Thông tin người dùng
+                </div>
                 <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      <MoreOutlined />
-                    </Menu.Button>
-                  </div>
+                  <Menu.Button className="group inline-flex items-center justify-center font-medium p-1 text-gray-700 hover:text-gray-900">
+                    <MoreOutlined className="text-xl" />
+                  </Menu.Button>
 
                   <Transition
                     as={Fragment}
@@ -213,8 +222,8 @@ export default function ProfilePage() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              )}
-            </div>
+              </div>
+            )}
 
             <FormProvider {...methods}>
               <form
@@ -226,7 +235,7 @@ export default function ProfilePage() {
                     className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
                     // style={{ height: "65vh" }}
                   >
-                    <div className="">
+                    <div className="w-96">
                       {!isEditing ? (
                         <img
                           className="h-25 w-25 rounded-full border border-gray-400"
@@ -234,11 +243,15 @@ export default function ProfilePage() {
                           alt=""
                         />
                       ) : (
-                        <ComUpImgOne
-                          imgUrl={methods.getValues("avatarUrl")}
-                          onChange={onChange}
-                          required
-                        />
+                        <div className="flex flex-col sm:justify-center gap-2 md:items-center md:flex-row">
+                          <ComUpImgOne
+                            imgUrl={methods.getValues("avatarUrl")}
+                            onChange={onChange}
+                          />
+                          <span className="text-gray-400">
+                            Bấm vào ảnh để thay đổi ảnh đại diện
+                          </span>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -334,13 +347,14 @@ export default function ProfilePage() {
                       </div>
                       <div className="md:order-1">
                         <ComButton
-                          className="bg-gray-300"
+                          className="bg-slate-300"
                           onClick={() => {
                             setIsEditing(false);
-                            setValue("address", initialValues.address);
-                            setValue("dateOfBirth", initialValues.dateOfBirth);
-                            setValue("phoneNumber", initialValues.phoneNumber);
-                            setValue("email", initialValues.email);
+                            setValue("address", profile.address);
+                            setValue("dateOfBirth", profile.dateOfBirth);
+                            setValue("phoneNumber", profile.phoneNumber);
+                            setValue("email", profile.email);
+                            scrollToTop();
                           }}
                         >
                           Hủy
