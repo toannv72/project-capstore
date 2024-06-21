@@ -4,6 +4,7 @@ import {
   Bars3Icon,
   CalendarDaysIcon,
   QueueListIcon,
+  UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Affix, Badge, Space } from "antd";
@@ -21,6 +22,7 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
+import { getData } from "../../api/api";
 
 const sortOptions = [
   { name: "Thông tin", href: "profile" },
@@ -55,6 +57,8 @@ export default function ComHeaderAdmin({ children }) {
   const [mobileFiltersOpen, setMobileHeadersOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -87,6 +91,20 @@ export default function ComHeaderAdmin({ children }) {
         break;
     }
   };
+  useEffect(() => {
+    setIsLoading(true);
+    getData("/users/profile")
+      .then((response) => {
+        console.log(response?.data);
+        setUserData(response?.data);
+      })
+      .catch((er) => {
+        console.error("Error fetching items:", er);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
   return (
     <div className="bg-white flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
@@ -209,17 +227,21 @@ export default function ComHeaderAdmin({ children }) {
                     onClick={() => navigate("/admin/notification")}
                   />
                 </Badge>
-                <div className="text-lg">Xin chào! Gia Thành</div>
+                <div className="text-lg">Xin chào, {userData?.fullName}</div>
                 <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="h-11 w-11 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                  <Menu.Button className="h-11 w-11 group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-300">
+                    {userData ? (
                       <img
-                        className="h-11 w-11 rounded-full border border-gray-400"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="h-10 w-10 rounded-full border border-gray-400 items-center justify-center"
+                        src={userData.avatarUrl}
                         alt=""
                       />
-                    </Menu.Button>
-                  </div>
+                    ) : (
+                      <div className="bg-white">
+                        <UserCircleIcon className="h-10 w-10" />
+                      </div>
+                    )}
+                  </Menu.Button>
 
                   <Transition
                     as={Fragment}
