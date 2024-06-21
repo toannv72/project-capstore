@@ -9,15 +9,24 @@ import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "../../../Notification/Notification";
 import ComTextArea from "./../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
-import { postData } from "../../../api/api";
+import { postData, putData } from "../../../api/api";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 
-export default function CreateNursingPackage({ tableRef, onClose }) {
+export default function EditNursingPackage({
+  selectedData,
+  tableRef,
+  onClose,
+}) {
   const [image, setImages] = useState([]);
-  const [mony, setMony] = useState(1000);
+  const [mony, setMony] = useState(selectedData.price);
+  const [limit, setLimit] = useState(selectedData.registrationLimit);
   const { notificationApi } = useNotification();
-
+  console.log(selectedData);
+  useEffect(() => {
+    setMony(selectedData.price);
+    setLimit(selectedData.registrationLimit);
+  }, [selectedData]);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói"),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
@@ -33,58 +42,71 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    values: {
-      name: "aa",
-      description: "aa",
-      price: 100000,
-    },
+    values: selectedData,
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
   const onChange = (data) => {
     const selectedImages = data;
-
-    // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
-    // const newImages = selectedImages.map((file) => file.originFileObj);
-    // Cập nhật trạng thái 'image' bằng danh sách tệp mới
-    console.log([selectedImages]);
     setImages(selectedImages);
-    // setFileList(data);
   };
   useEffect(() => {
     setTimeout(() => {
       setValue("price", mony);
     }, 1);
   }, [mony, watch("price")]);
+  console.log(watch("price"));
   const onSubmit = (data) => {
-    // console.log(formatPriceToNumber(data.price));
+    console.log(data);
     firebaseImg(image).then((dataImg) => {
- 
-      const dataPost = {
-        ...data,
-        imageUrl: dataImg,
-      };
-      postData(`/nursing-package`, dataPost)
-        .then((e) => {
-          notificationApi(
-            "success",
-            "tạo thành công",
-            "đã tạo gói dịch vụ thành công!"
-          );
-         if (tableRef.current) {
-           // Kiểm tra xem ref đã được gắn chưa
-           tableRef.current.reloadData();
-         }
-          onClose();
-        })
-        .catch((error) => {
-          console.log(error);
-          notificationApi(
-            "error",
-            "tạo không thành công",
-            "tạo gói dịch vụ không thành công!"
-          );
-        });
+      if (dataImg) {
+        const dataPut = {
+          ...data,
+          imageUrl: dataImg,
+        };
+        putData(`/nursing-package`, selectedData.id, dataPut)
+          .then((e) => {
+            notificationApi(
+              "success",
+              "cập nhật thành công",
+              "đã cập nhật gói dịch vụ thành công!"
+            );
+            tableRef();
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            notificationApi(
+              "error",
+              "tạo không thành công",
+              "tạo gói dịch vụ không thành công!"
+            );
+          });
+      } else {
+        const dataPut = {
+          ...data,
+          imageUrl: selectedData.imageUrl,
+        };
+        putData(`/nursing-package`, selectedData.id, dataPut)
+          .then((e) => {
+            notificationApi(
+              "success",
+              "cập nhật thành công",
+              "đã cập nhật gói dịch vụ thành công!"
+            );
+            tableRef();
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            notificationApi(
+              "error",
+              "tạo không thành công",
+              "tạo gói dịch vụ không thành công!"
+            );
+          });
+      }
+
       onClose();
     });
   };
@@ -92,7 +114,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Tạo gói dưỡng lão
+        Cập nhật gói dưỡng lão
       </h2>
       <div className="bg-white ">
         <FormProvider {...methods}>
@@ -114,7 +136,13 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                   <div className="mt-2.5">
                     <ComNumber
                       // type="text"
+                      defaultValue={selectedData.registrationLimit}
+                      value={limit}
                       min={1}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value);
+                        setLimit(value);
+                      }}
                       label={"Số lượng người "}
                       placeholder={"Vui lòng nhập số lượng"}
                       {...register("registrationLimit")}
@@ -127,8 +155,9 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                     <ComNumber
                       type="text"
                       money
-                      // defaultValue={10000}
+                      defaultValue={mony}
                       // min={1000}
+                      value={mony}
                       onChangeValue={(e, value) => {
                         setValue(e, value);
                         setMony(value);
@@ -156,9 +185,10 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                   <div className="mt-2.5">
                     <ComUpImgOne
                       onChange={onChange}
-                      numberImg={1} 
+                      numberImg={1}
                       label={"Hình ảnh gói"}
                       required
+                      imgUrl={selectedData.imageUrl}
                       multiple={false}
                     />
                   </div>
