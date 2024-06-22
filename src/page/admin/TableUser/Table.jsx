@@ -18,6 +18,7 @@ import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneCon
 import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import DetailElder from "./../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -77,6 +78,11 @@ console.log(data);
           { text: "Nữ", value: "Female" },
         ],
         onFilter: (value, record) => record.gender === value,
+        render: (_, record) => (
+          <div>
+            <ComGenderConverter>{record?.gender}</ComGenderConverter>
+          </div>
+        ),
       },
       {
         title: "Ngày có hiệu lực",
@@ -242,6 +248,11 @@ console.log(data);
         { text: "Nữ", value: "Female" },
       ],
       onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Action",

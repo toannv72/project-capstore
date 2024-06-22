@@ -1,7 +1,7 @@
 import React from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
-export default function DetailElder({ selectedUser }) {
+export default function DetailElder({ selectedData }) {
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -14,27 +14,27 @@ export default function DetailElder({ selectedUser }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{selectedUser?.name}</td>
+              <td className="px-4 py-2">{selectedData?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày tháng năm sinh:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>
+                <ComDateConverter>{selectedData?.dateOfBirth}</ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{selectedUser?.room?.name}</td>
+              <td className="px-4 py-2">{selectedData?.room?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Loại phòng:</td>
-              <td className="px-4 py-2">{selectedUser?.room?.type}</td>
+              <td className="px-4 py-2">{selectedData?.room?.type}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{selectedUser?.dateOfBirth}</td>
+              <td className="px-4 py-2">{selectedData?.dateOfBirth}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
@@ -42,7 +42,7 @@ export default function DetailElder({ selectedUser }) {
               </td>
               <td className="px-4 py-2">
                 <ComDateConverter>
-                  {selectedUser?.effectiveDate}
+                  {selectedData?.effectiveDate}
                 </ComDateConverter>
               </td>
             </tr>
@@ -51,7 +51,7 @@ export default function DetailElder({ selectedUser }) {
                 Ngày hết hạn hợp đồng:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedUser?.expiryDate}</ComDateConverter>
+                <ComDateConverter>{selectedData?.expiryDate}</ComDateConverter>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}

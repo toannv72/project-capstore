@@ -22,6 +22,7 @@ import ChangePassword from "./page/ChangePassword/ChangePassword";
 import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer";
 import Feedback from "./page/Staff/Feedback/Feedback";
 import LearningPage from "./page/LearningPage/LearningPage";
+import Home from "./page/Home/Home";
 
 export const routers = createBrowserRouter([
   {
@@ -36,12 +37,16 @@ export const routers = createBrowserRouter([
     path: "/",
     element: (
       // <ComHeader>
-        <Outlet />
+      <Outlet />
       // </ComHeader>
     ),
     children: [
       {
         path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/Page",
         element: <LearningPage />,
       },
       {

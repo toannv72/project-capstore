@@ -12,6 +12,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -153,6 +154,11 @@ export const Tables = forwardRef((props, ref) => {
         { text: "Nữ", value: "Female" },
       ],
       onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Action",

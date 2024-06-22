@@ -10,6 +10,7 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const TableRooms = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -45,6 +46,11 @@ export const TableRooms = forwardRef((props, ref) => {
           { text: "Nữ", value: "Female" },
         ],
         onFilter: (value, record) => record.gender === value,
+        render: (_, record) => (
+          <div>
+            <ComGenderConverter>{record?.gender}</ComGenderConverter>
+          </div>
+        ),
       },
       {
         title: "Ngày có hiệu lực",

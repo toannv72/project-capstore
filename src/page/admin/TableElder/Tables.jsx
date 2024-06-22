@@ -16,6 +16,7 @@ import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -131,6 +132,11 @@ export const Tables = forwardRef((props, ref) => {
         { text: "Nữ", value: "Female" },
       ],
       onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Phòng hiện tại",
@@ -220,7 +226,7 @@ export const Tables = forwardRef((props, ref) => {
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}
       >
-        <DetailElder selectedUser={selectedElder} />
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
       {/* chỉnh sửa người lớn tuổi */}
       <ComModal
