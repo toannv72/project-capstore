@@ -72,6 +72,11 @@ console.log(data);
         width: 100,
         dataIndex: "gender",
         key: "gender",
+        filters: [
+          { text: "Nam", value: "Male" },
+          { text: "Nữ", value: "Female" },
+        ],
+        onFilter: (value, record) => record.gender === value,
       },
       {
         title: "Ngày có hiệu lực",
@@ -232,7 +237,11 @@ console.log(data);
       width: 100,
       dataIndex: "gender",
       key: "gender",
-      ...getColumnSearchProps("gender", "Giới tính"),
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
     },
     {
       title: "Action",
@@ -241,7 +250,6 @@ console.log(data);
       width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-         
           <ComMenuButonTable
             record={record}
             showModalDetails={() => showModal(record)}

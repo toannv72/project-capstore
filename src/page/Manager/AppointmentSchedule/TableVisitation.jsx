@@ -8,43 +8,70 @@ import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
+import ComPhoneConverter from './../../../Components/ComPhoneConverter/ComPhoneConverter';
+import ComDateConverter from './../../../Components/ComDateConverter/ComDateConverter';
 export default function TableVisitation() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
 
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox, getColumnApprox1 } =
+    useColumnSearch();
   const {
     text: {
       InstituteManagement,
       common: { button },
     },
   } = useContext(LanguageContext);
-
+console.log(data);
   const columns = [
     {
       title: "Người đăng ký",
       width: 150,
       fixed: "left",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name", "Người đăng ký"),
+      dataIndex: "user",
+      key: "user",
+      ...getColumnSearchProps("user.fullName", "Người đăng ký"),
+      render: (text, record) => text.fullName,
     },
 
     {
-      title: "Người lớn tuổi",
+      title: "Thời gian đăng ký",
       width: 200,
-      dataIndex: "totalFloor",
-      key: "totalFloor",
-      // sorter: (a, b) => a.phone - b.phone,
-      ...getColumnSearchProps("totalFloor", "Người lớn tuổi"),
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.createdAt}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Thời gian đến ",
+      width: 200,
+      dataIndex: "date",
+      key: "date",
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      ...getColumnApprox("date", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.date}</ComDateConverter>
+        </div>
+      ),
     },
     {
       title: "Số điện thoại",
       width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Số điện thoại"),
+      dataIndex: "user",
+      key: "user.phoneNumber",
+      ...getColumnSearchProps("user.phoneNumber", "Số điện thoại"),
+      render: (phone) => (
+        <div>
+          <ComPhoneConverter>{phone.phoneNumber}</ComPhoneConverter>
+        </div>
+      ),
     },
     {
       title: "Phòng",
@@ -85,7 +112,7 @@ export default function TableVisitation() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/block")
+    getData("/appointments")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

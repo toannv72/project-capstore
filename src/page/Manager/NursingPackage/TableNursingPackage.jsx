@@ -103,7 +103,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       title: "Action",
       key: "operation",
       fixed: "right",
-      width: 100,
+      width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <ComMenuButonTable

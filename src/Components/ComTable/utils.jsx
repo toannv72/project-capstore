@@ -1,22 +1,33 @@
-import { useState, useRef } from 'react';
-import { Input, Space, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import Highlighter from 'react-highlight-words';
+import { useState, useRef } from "react";
+import { Input, Space, Button, DatePicker } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+import moment from "moment";
 
-const useColumnSearch = () => {
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+const { RangePicker } = DatePicker;
+
+const useColumnFilters = () => {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
-    setSearchText(selectedKeys[0]);
+    if (dataIndex === "createdAt") {
+      setSearchText(selectedKeys);
+    } else {
+      setSearchText(selectedKeys[0]);
+    }
     setSearchedColumn(dataIndex);
   };
 
   const handleReset = (clearFilters) => {
     clearFilters();
-    setSearchText('');
+    setSearchText("");
+  };
+
+  const getNestedValue = (obj, path) => {
+    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
   };
 
   const getColumnSearchProps = (dataIndex, title) => ({
@@ -27,12 +38,7 @@ const useColumnSearch = () => {
       clearFilters,
       close,
     }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
         <Input
           ref={searchInput}
           placeholder={`Tìm kiếm ${title}`}
@@ -41,19 +47,14 @@ const useColumnSearch = () => {
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: "block",
-          }}
+          style={{ marginBottom: 8, display: "block" }}
         />
         <Space>
           <Button
             type="dashed"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             size="small"
-            style={{
-              width: 90,
-            }}
+            style={{ width: 90 }}
           >
             <div className="justify-center flex ">
               <SearchOutlined />
@@ -63,9 +64,7 @@ const useColumnSearch = () => {
           <Button
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{
-              width: 90,
-            }}
+            style={{ width: 90 }}
           >
             Đặt lại
           </Button>
@@ -82,36 +81,158 @@ const useColumnSearch = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? "#de1818" : undefined,
-        }}
-      />
+      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
     ),
-    onFilter: (value, record) =>
-      record[dataIndex]?.toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, record) => {
+      const nestedValue = getNestedValue(record, dataIndex);
+      return nestedValue
+        ? nestedValue
+            .toString()
+            .toLowerCase()
+            .includes(value.toString().toLowerCase())
+        : "";
+    },
     onFilterDropdownOpenChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.current?.select(), 100);
       }
     },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
+    render: (text, record) => {
+      const nestedValue = getNestedValue(record, dataIndex);
+      return searchedColumn === dataIndex ? (
         <Highlighter
-          highlightStyle={{
-            backgroundColor: "#ffc069",
-            padding: 0,
-          }}
+          highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ""}
+          textToHighlight={nestedValue ? nestedValue.toString() : ""}
         />
       ) : (
-        text
-      ),
+        nestedValue
+      );
+    },
   });
 
-  return { getColumnSearchProps, searchText, searchedColumn, handleSearch, handleReset };
+  const getColumnApprox = (dataIndex, title) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <RangePicker
+          onChange={(dates) => {
+            setSelectedKeys(
+              dates
+                ? [dates.map((date) => date.startOf("day").toISOString())]
+                : []
+            );
+          }}
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <Space>
+          <Button
+            type="dashed"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <div className="justify-center flex">
+              <SearchOutlined />
+              Tìm kiếm
+            </div>
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Đóng
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
+    ),
+    onFilter: (value, record) => {
+      if (!value.length) return true;
+      const recordDate = moment(record[dataIndex]).startOf("day");
+      const [start, end] = value;
+      return (
+        recordDate.isSameOrAfter(moment(start)) &&
+        recordDate.isSameOrBefore(moment(end))
+      );
+    },
+  });
+  const getColumnApprox1 = (dataIndex, title) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <RangePicker
+          value={
+            selectedKeys[0]
+              ? [moment(selectedKeys[0][0]), moment(selectedKeys[0][1])]
+              : []
+          }
+          onChange={(dates) => {
+            setSelectedKeys(
+              dates
+                ? [dates.map((date) => date.startOf("day").toISOString())]
+                : []
+            );
+          }}
+          style={{ marginBottom: 8, display: "block" }}
+        />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            type="dashed"
+            onClick={() => confirm()}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <div className="justify-center flex">
+              <SearchOutlined />
+              Tìm kiếm
+            </div>
+          </Button>
+
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Đóng
+          </Button>
+        </div>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
+    ),
+    onFilter: (value, record) => {
+      if (!value.length) return true;
+      const recordDate = moment(record[dataIndex]).startOf("day");
+      const [start, end] = value;
+      return (
+        recordDate.isSameOrAfter(moment(start)) &&
+        recordDate.isSameOrBefore(moment(end))
+      );
+    },
+  });
+  return {
+    getColumnSearchProps,
+    getColumnApprox,
+    searchText,
+    searchedColumn,
+    handleSearch,
+    handleReset,
+    getColumnApprox1,
+  };
 };
 
-export default useColumnSearch;
+export default useColumnFilters;

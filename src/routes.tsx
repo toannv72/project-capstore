@@ -21,6 +21,7 @@ import Notification from "./page/Notification/Notification";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
 import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer";
 import Feedback from "./page/Staff/Feedback/Feedback";
+import LearningPage from "./page/LearningPage/LearningPage";
 
 export const routers = createBrowserRouter([
   {
@@ -34,14 +35,14 @@ export const routers = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ComHeader>
+      // <ComHeader>
         <Outlet />
-      </ComHeader>
+      // </ComHeader>
     ),
     children: [
       {
         path: "/",
-        element: <LoginPage />,
+        element: <LearningPage />,
       },
       {
         path: "/login",

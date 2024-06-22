@@ -126,6 +126,11 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "gender",
       key: "gender",
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
     },
     {
       title: "Phòng hiện tại",

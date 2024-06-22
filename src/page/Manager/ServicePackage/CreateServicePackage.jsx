@@ -14,6 +14,7 @@ import { Radio } from "antd";
 import CreateOneTime from "./CreateOneTime";
 import CreateDaily from "./CreateDaily";
 import CreateWeeklyDays from "./CreateWeeklyDays";
+import CreateAnyDay from "./CreateAnyDay";
 
 export default function CreateServicePackage({ isOpen, onClose }) {
   const [value, setValue] = useState(1);
@@ -26,9 +27,10 @@ export default function CreateServicePackage({ isOpen, onClose }) {
         return <CreateOneTime onClose={onClose} />;
       case 2:
         return <CreateDaily onClose={onClose} />;
-
       case 3:
         return <CreateWeeklyDays onClose={onClose} />;
+      case 4:
+        return <CreateAnyDay onClose={onClose} />;
       default:
         break;
     }
