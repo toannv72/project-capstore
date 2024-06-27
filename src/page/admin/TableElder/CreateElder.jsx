@@ -30,12 +30,9 @@ export default function CreateElder({ onClose, tableRef }) {
   const [selectedUser, setSelectedUser] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState();
-  // const cccdRegex = /^(?:\d{9}|\d{12})$/;
-  // const addressRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
+  const [selectedPackage, setSelectedPackage] = useState();
+  const [dataPackage, setDataPackage] = useState([]);
 
-  // const nameRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     name: yup
       .string()
@@ -63,6 +60,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
+    notes: yup.string().required("Vui lòng nhập ghi chú"),
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup
@@ -150,8 +148,6 @@ export default function CreateElder({ onClose, tableRef }) {
           onClose();
         })
         .catch((e) => {
-          console.log("====================================");
-          console.log(e);
           if (e.status === 409) {
             setError("cccd", {
               message: "Đã có cccd này rồi",
@@ -183,6 +179,29 @@ export default function CreateElder({ onClose, tableRef }) {
       setValue("roomId", value, { shouldValidate: true });
     }
   };
+  const handleChange2 = (e, value) => {
+    console.log(value);
+    setSelectedPackage(value);
+    setSelectedRoom(null);
+    setValue("roomId", null);
+    getData(`/room?NursingPackageId=${value}`)
+      .then((e) => {
+        console.log(e?.data?.contends);
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Khu:${item.name}/Phòng:${item.name}`,
+        }));
+        setDataRoom(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+    if (value.length === 0) {
+      setValue("nursingPackageId", null, { shouldValidate: true });
+    } else {
+      setValue("nursingPackageId", value, { shouldValidate: true });
+    }
+  };
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -197,7 +216,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/room?SortDir=Desc")
+    getData(`/room?NursingPackageId=${selectedPackage}`)
       .then((e) => {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
@@ -209,12 +228,24 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+    getData("/nursing-package")
+      .then((e) => {
+        const dataForSelects = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+        setDataPackage(dataForSelects);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
   };
   const onChange = (data) => {
     const selectedImages = data;
     console.log([selectedImages]);
     setImages(selectedImages);
   };
+
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -307,6 +338,25 @@ export default function CreateElder({ onClose, tableRef }) {
                       style={{
                         width: "100%",
                       }}
+                      label="Chọn gói cho hợp đồng"
+                      placeholder="Gói"
+                      onChangeValue={handleChange2}
+                      value={selectedPackage}
+                      // mode="tags"
+                      mode="default"
+                      options={dataPackage}
+                      required
+                      {...register("nursingPackageId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
                       label="Chọn phòng"
                       placeholder="Phòng"
                       onChangeValue={handleChangeRoom}
@@ -320,7 +370,15 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Ghi chú người cao tuổi"
+                    placeholder="Vui lòng nhập ghi chú"
+                    rows={5}
+                    {...register("notes")}
+                    required
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Thông tin hợp đồng

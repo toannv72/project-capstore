@@ -138,18 +138,18 @@ export const TableRooms = forwardRef((props, ref) => {
     },
     {
       title: "Loại phòng",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "nursingPackage",
+      key: "nursingPackage",
       width: 100,
-      ...getColumnSearchProps("type", "Loại phòng"),
+      ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
     },
-    {
-      title: InstituteManagement?.status,
-      width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
-    },
+    // {
+    //   title: InstituteManagement?.status,
+    //   width: 100,
+    //   dataIndex: "status",
+    //   key: "status",
+    //   ...getColumnSearchProps("status", InstituteManagement?.status),
+    // },
     {
       title: "Số giường",
       dataIndex: "userBed",
