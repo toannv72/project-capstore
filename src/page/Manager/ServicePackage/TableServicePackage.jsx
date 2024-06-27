@@ -10,11 +10,13 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
 import CreateServicePackage from "./CreateServicePackage";
 import ComButton from "../../../Components/ComButton/ComButton";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const modalDetail = useModalState();
+  const [selectedData, setSelectedData] = useState(null);
 
   const { getColumnSearchProps } = useColumnSearch();
   const {
@@ -30,7 +32,7 @@ export default function TableServicePackage() {
       });
     }
   }
-console.log(data);
+  console.log(data);
   const columns = [
     {
       title: "Tên dịch vụ",
@@ -116,11 +118,16 @@ console.log(data);
       width: 100,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modalDetail?.handleOpen(record)}>
-              Chấp nhận
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            // showModalDetails={() => showModaldElder(record)}
+            showModalEdit={() => {
+              modalDetail.handleOpen();
+              setSelectedData(record);
+            }}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+          />
         </div>
       ),
     },
