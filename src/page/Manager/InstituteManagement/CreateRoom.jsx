@@ -8,6 +8,7 @@ import { useNotification } from "./../../../Notification/Notification";
 import { getData, postData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const [dataBlock, setDataBlock] = useState([]);
@@ -41,11 +42,12 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
       })
       .catch((error) => {
         console.log(error);
-        if (error?.data?.status === 409) {
-          setError("name", {
-            message: "Đã có phòng này rồi",
-          });
-        }
+        handleErrors(error, setError, setFocus);
+        // if (error?.data?.status === 409) {
+        //   setError("name", {
+        //     message: "Đã có phòng này rồi",
+        //   });
+        // }
       });
   };
 
@@ -163,7 +165,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
               </div>
             </div>
 
-            <div className="mt-10">
+            <div className="mt-10 ">
               <ComButton
                 htmlType="submit"
                 type="primary"

@@ -12,7 +12,7 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 
 export default function Table() {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
@@ -21,7 +21,7 @@ export default function Table() {
   console.log(data);
   console.log("====================================");
   useEffect(() => {
-    getData("/elder")
+    getData("/contract")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -41,90 +41,72 @@ export default function Table() {
   };
   const columns = [
     {
-      title: "Họ và tên ",
-      dataIndex: "fullName",
+      title: "Tên hợp đồng",
+      dataIndex: "name",
       width: 150,
-      key: "fullName",
+      key: "name",
       fixed: "left",
-      ...getColumnSearchProps("fullName", "Họ và tên"),
-      // render: (record) => (
-      //   <Tooltip placement="topLeft" title={"Chi tiết"}>
-      //     {record}
-      //   </Tooltip>
-      // ),
+      ...getColumnSearchProps("name", "Họ và tên"),
     },
-
     {
-      title: "Ảnh người lớn tuổi",
+      title: "Tên người lớn tuổi",
+      dataIndex: "elder.name",
+      width: 150,
+      key: "elder.name",
+      ...getColumnSearchProps("elder.name", "Họ và tên"),
+    },
+    {
+      title: "Tên người thân",
+      dataIndex: "user.fullName",
+      width: 150,
+      key: "user.fullName",
+      ...getColumnSearchProps("user.fullName", "Họ và tên"),
+    },
+    {
+      title: "Ảnh hợp đồng",
       dataIndex: "imageUrl",
       key: "imageUrl",
       width: 100,
-      fixed: "left",
       render: (_, record) => (
         <div className="flex items-center justify-center">
-          {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record.imageUrl]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record.imageUrl}
-              alt={record.imageAlt}
-            />
-          </Image.PreviewGroup>
+          <Image
+            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            src={record.imageUrl}
+            alt={record.imageAlt}
+          />
         </div>
       ),
-    },
-    {
-      title: "Số điện thoại",
-      width: 100,
-      dataIndex: "phone",
-      key: "phone",
-      ...getColumnSearchProps("fullName", "Họ và tên"),
-    },
-
-    {
-      title: "Phòng hiện tại",
-      width: 100,
-      dataIndex: "room",
-      key: "room",
-      render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
       title: "Gói dưỡng lão",
       width: 100,
-      dataIndex: "room",
-      key: "room",
-      render: (_, render) => <div>{render?.room?.type}</div>,
+      dataIndex: "nursingPackage.name",
+      key: "nursingPackage.name",
+      ...getColumnSearchProps("nursingPackage.name", "Gói"),
     },
-
-    {
-      title: "Loại phòng",
-      width: 100,
-      dataIndex: "room",
-      key: "room",
-      render: (_, render) => <div>{render?.room?.type}</div>,
-    },
-
     {
       title: "Ngày có hiệu lực",
       width: 100,
-      dataIndex: "effectiveDate",
-      key: "effectiveDate",
+      dataIndex: "startDate",
+      key: "startDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+          <ComDateConverter>{render?.startDate}</ComDateConverter>
         </div>
       ),
+      ...getColumnApprox("startDate", "Gói"),
     },
     {
       title: "Ngày hết hạn",
       width: 100,
-      dataIndex: "expiryDate",
-      key: "expiryDate",
+      dataIndex: "signingDate",
+      key: "signingDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+          <ComDateConverter>{render?.signingDate}</ComDateConverter>
         </div>
       ),
+      ...getColumnApprox("signingDate"),
     },
     {
       title: "Ghi chú",

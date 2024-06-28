@@ -22,9 +22,11 @@ import {
   nameRegex,
   weightRegex,
 } from "./../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateElder({ onClose, tableRef }) {
   const [image, setImages] = useState({});
+  const [image1, setImages1] = useState({});
   const { notificationApi } = useNotification();
   const [dataUser, setDataUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
@@ -101,16 +103,11 @@ export default function CreateElder({ onClose, tableRef }) {
       signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
       startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-      price: yup
-        .number()
-        .typeError("Vui lòng nhập giá")
-        .required("Vui lòng nhập giá")
-        .min(0, "Giá không hợp lệ"),
       content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
-      imageUrl: yup
-        .string()
-        .url("Vui lòng nhập URL hợp lệ")
-        .required("Vui lòng nhập URL hình ảnh"),
+      // imageUrl: yup
+      //   .string()
+      //   .url("Vui lòng nhập URL hợp lệ")
+      //   .required("Vui lòng nhập URL hình ảnh"),
       notes: yup.string().required("Vui lòng nhập ghi chú"),
       description: yup.string().required("Vui lòng nhập mô tả"),
     }),
@@ -128,34 +125,33 @@ export default function CreateElder({ onClose, tableRef }) {
     methods;
 
   const onSubmit = (data) => {
-    firebaseImg(image).then((dataImg) => {
-      console.log("ảnh nè : ", {
-        ...data,
-        imageUrl: dataImg,
-      });
-      postData("/elders", {
-        ...data,
-        imageUrl: dataImg,
-      })
-        .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo");
-          setTimeout(() => {
-            if (tableRef.current) {
-              // Kiểm tra xem ref đã được gắn chưa
-              tableRef.current.reloadData();
-            }
-          }, 100);
-          onClose();
-        })
-        .catch((e) => {
-          if (e.status === 409) {
-            setError("cccd", {
-              message: "Đã có cccd này rồi",
-            });
-            setFocus("cccd");
-          }
-          console.log("====================================");
+    firebaseImg(image1).then((dataImg1) => {
+      setValue("contract.imageUrl", dataImg1);
+      firebaseImg(image).then((dataImg) => {
+        console.log("ảnh nè : ", {
+          ...data,
+          imageUrl: dataImg,
         });
+        postData("/elders", {
+          ...data,
+          imageUrl: dataImg,
+        })
+          .then((e) => {
+            notificationApi("success", "tạo thành công", "đã tạo");
+            setTimeout(() => {
+              if (tableRef.current) {
+                // Kiểm tra xem ref đã được gắn chưa
+                tableRef?.current.reloadData();
+              }
+            }, 100);
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+            notificationApi("error", "tạo không thành công", "đã tạo");
+          });
+      });
     });
   };
 
@@ -244,6 +240,10 @@ export default function CreateElder({ onClose, tableRef }) {
     const selectedImages = data;
     console.log([selectedImages]);
     setImages(selectedImages);
+  };
+  const onChange1 = (data) => {
+    const selectedImages = data;
+    setImages1(selectedImages);
   };
 
   return (
@@ -419,14 +419,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-                <div className="sm:col-span-1">
-                  <ComNumber
-                    label="Giá hợp đồng"
-                    placeholder="Vui lòng nhập giá"
-                    {...register("contract.price")}
-                    required
-                  />
-                </div>
+
                 <div className="sm:col-span-2">
                   <ComInput
                     type="text"
@@ -436,7 +429,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComInput
                     type="text"
                     label="URL hình ảnh"
@@ -444,7 +437,13 @@ export default function CreateElder({ onClose, tableRef }) {
                     {...register("contract.imageUrl")}
                     required
                   />
-                </div>
+                </div> */}
+
+                <ComUpImgOne
+                  onChange={onChange1}
+                  label={"Hình ảnh hợp đồng"}
+                  required
+                />
                 <div className="sm:col-span-2">
                   <ComTextArea
                     label="Ghi chú hợp đồng"
@@ -464,7 +463,6 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-
                 {/* tạo bệnh án  */}
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Thông tin bệnh án
@@ -539,7 +537,7 @@ export default function CreateElder({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} required />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

@@ -6,7 +6,7 @@ export const handleErrors = (error, setError, setFocus) => {
     603: { field: "userName", message: "Đã có Tên đăng nhập này!" },
   };
 
-  const status = error.response.data.status;
+  const status = error?.response?.data?.status;
   if (errorMapping[status]) {
     const { field, message } = errorMapping[status];
     setError(field, { message });

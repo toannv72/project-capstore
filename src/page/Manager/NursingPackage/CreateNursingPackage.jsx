@@ -23,7 +23,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    registrationLimit: yup
+    capacity: yup
       .number()
       .required("Vui lòng nhập số lượng ")
       .typeError("Vui lòng nhập số lượng "),
@@ -49,50 +49,6 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
     setImages(selectedImages);
     // setFileList(data);
   };
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setValue("price", mony, { shouldValidate: true });
-  //   }, 10);
-  // }, [mony, watch("price")]);
-  // console.log(image);
-  // const onSubmit = (data) => {
-  //   const change = MonyNumber(
-  //     data.price,
-  //     setError("price", { message: "Số tiền không hợp lệ" }),
-  //     setFocus("price")
-  //   );
-
-  //   if (image) {
-  //     firebaseImg(image).then((dataImg) => {
-  //       const dataUp = { ...data, price: change, imageUrl: dataImg };
-  //       postData(`/nursing-package`, dataUp)
-  //         .then((e) => {
-  //           notificationApi(
-  //             "success",
-  //             "tạo thành công",
-  //             "đã tạo gói dịch vụ thành công!"
-  //           );
-  //           if (tableRef.current) {
-  //             // Kiểm tra xem ref đã được gắn chưa
-  //             tableRef.current.reloadData();
-  //           }
-  //           // onClose();
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //           notificationApi(
-  //             "error",
-  //             "tạo không thành công",
-  //             "tạo gói dịch vụ không thành công!"
-  //           );
-  //         });
-  //       onClose();
-  //     });
-  //   } else {
-  //     console.log(123);
-  //     notificationApi("error", "Chọn ảnh gói dưỡng lão", "Vui lòng chọn ảnh!");
-  //   }
-  // };
   const onSubmit = (data) => {
     const change = MonyNumber(
       data.price,
@@ -162,7 +118,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                       min={1}
                       label={"Số lượng người "}
                       placeholder={"Vui lòng nhập số lượng"}
-                      {...register("registrationLimit")}
+                      {...register("capacity")}
                       required
                     />
                   </div>

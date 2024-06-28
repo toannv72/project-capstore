@@ -9,6 +9,7 @@ import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import { postData } from "../../../api/api";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateBlock({ isOpen, onClose, getDataApi }) {
   const [image, setImages] = useState([]);
@@ -40,10 +41,11 @@ export default function CreateBlock({ isOpen, onClose, getDataApi }) {
       .catch((error) => {
         console.log(error);
         if (error?.data?.status === 409) {
-             setError("name", {
-               message: "Đã có khu này rồi",
-             });
+          setError("name", {
+            message: "Đã có khu này rồi",
+          });
         }
+        handleErrors(error, setError, setFocus);
       });
   };
 
