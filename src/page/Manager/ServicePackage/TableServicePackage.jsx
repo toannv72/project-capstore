@@ -11,6 +11,8 @@ import { useModalState } from "../../../hooks/useModalState";
 import CreateServicePackage from "./CreateServicePackage";
 import ComButton from "../../../Components/ComButton/ComButton";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComTypePackageConverter from "../../../Components/ComTypePackageConverter/ComTypePackageConverter";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -89,11 +91,36 @@ export default function TableServicePackage() {
       width: 100,
       dataIndex: "type",
       key: "type",
+      filters: [
+        { text: "Một ngày", value: "OneDay" },
+        { text: "Theo ngày", value: "MultipleDays" },
+        { text: "Theo tuần", value: "WeeklyDays" },
+        { text: "Mọi ngày", value: "AnyDay" },
+      ],
+      onFilter: (value, record) => record.type === value,
       render: (data) => (
         <div>
-          <h1>{data}</h1>
+          <ComTypePackageConverter>{data}</ComTypePackageConverter>
         </div>
       ),
+    },
+    {
+      title: "Giới hạn người đăng ký",
+      width: 100,
+      dataIndex: "registrationLimit",
+      key: "registrationLimit",
+      render: (data) => (
+        <div>
+          <h1>{data === 0 ? "Không có" : data}</h1>
+        </div>
+      ),
+    },
+    {
+      title: "Thời gian diễn ra",
+      width: 150,
+      dataIndex: "type",
+      key: "types",
+      render: (data, record) => <div>{showTypePackageDay(data, record)}</div>,
     },
     {
       title: "Thông tin bổ sung",
@@ -132,6 +159,37 @@ export default function TableServicePackage() {
       ),
     },
   ];
+
+  const showTypePackageDay = (type, data) => {
+    switch (type) {
+      case "OneDay":
+        return (
+          <div>
+            Ngày diễn ra:
+            <br />
+            <ComDateConverter>{data.endDate}</ComDateConverter>
+            <br />
+            Ngày kết thúc đăng ký:
+            <br />
+            <ComDateConverter>{data.endRegistrationStartDate}</ComDateConverter>
+          </div>
+        );
+      case "MultipleDays":
+        return (
+          <div>
+            Ngày diễn ra:
+            <br />
+          
+          </div>
+        );
+      case "WeeklyDays":
+        return "Theo tuần";
+      case "AnyDay":
+        return "Mọi ngày";
+      default:
+        return "Không xác định"; // Giá trị mặc định nếu không khớp
+    }
+  };
   useEffect(() => {
     table.handleOpenLoading();
     getData("/service-package?SortDir=Desc")

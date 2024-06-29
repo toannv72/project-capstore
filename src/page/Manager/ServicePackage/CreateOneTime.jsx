@@ -32,7 +32,7 @@ export default function CreateOneTime({ onClose }) {
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    endDate: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    endDate: yup.string().required("Vui lòng nhập thời gian"),
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),

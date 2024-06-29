@@ -31,7 +31,7 @@ export default function CreateAnyDay({ onClose }) {
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
-    description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    description: yup.string().required("Vui lòng nhập chi tiết dịch vụ"),
   });
 
   const methods = useForm({

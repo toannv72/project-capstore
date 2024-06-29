@@ -33,7 +33,7 @@ export default function CreateDaily({ onClose }) {
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
-    description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    description: yup.string().required("Vui lòng nhập chi tiết dịch vụ"),
   });
 
   const methods = useForm({
@@ -102,7 +102,8 @@ export default function CreateDaily({ onClose }) {
       if (image) {
         firebaseImg(image).then((dataImg) => {
           const servicePackageDates = selectedDays.map((day) => ({
-            date: `2001-02-${day}`,
+            // occurrenceDay: `2001-02-${day}`,
+            repetitionDay: day,
           }));
           const dataPost = {
             ...data,

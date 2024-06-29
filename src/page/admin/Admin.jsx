@@ -1,29 +1,17 @@
-import { useContext } from "react";
-import { LanguageContext } from "../../contexts/LanguageContext";
-import ComButton from "../../Components/ComButton/ComButton";
-import { useNotification } from "../../Notification/Notification";
+
+import ChartOne from "../../Components/Charts/ChartOne";
+import ChartTwo from './../../Components/Charts/ChartTwo';
+import ChartThree from './../../Components/Charts/ChartThree';
 
 function Admin() {
-  const {
-    text: {
-      Login,
-    },
-  } = useContext(LanguageContext);
-  const { notificationApi } = useNotification();
-  const show = () => {
-    notificationApi("error", "tạo thành công", "đã tạo");
 
-  }
   return (
     <>
-      <p> {Login.pageTitle}</p>
-      <ComButton onClick={show}>show</ComButton>
-      <ComButton onClick={show}>show</ComButton>
-      <p>
-        Admin aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa
-        aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa
-      </p>
+      <div className="grid grid-cols-12 gap-4 md:gap-6 2xl:gap-7.5">
+        <ChartOne />
+        <ChartTwo />
+        <ChartThree />
+      </div>
     </>
   );
 }

@@ -29,7 +29,9 @@ export const Tables = forwardRef((props, ref) => {
   }, []);
   console.log(data);
   const reloadData = () => {
-    getData("/users?RoleName=Staff&SortDir=Desc")
+    getData(
+      "/users?RoleNames=Staff&RoleNames=Nurse&SortDir=Desc"
+    )
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
