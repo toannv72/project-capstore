@@ -23,27 +23,28 @@ const options = {
     },
 
     toolbar: {
-      show: false,
+      show: true,
     },
+    
   },
-  responsive: [
-    {
-      breakpoint: 1024,
-      options: {
-        chart: {
-          height: 300,
-        },
-      },
-    },
-    {
-      breakpoint: 1366,
-      options: {
-        chart: {
-          height: 350,
-        },
-      },
-    },
-  ],
+  // responsive: [
+  //   {
+  //     breakpoint: 1024,
+  //     options: {
+  //       chart: {
+  //         height: 300,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 1366,
+  //     options: {
+  //       chart: {
+  //         height: 350,
+  //       },
+  //     },
+  //   },
+  // ],
   stroke: {
     width: [2, 2],
     curve: "straight",
@@ -60,7 +61,7 @@ const options = {
     },
     yaxis: {
       lines: {
-        show: true,
+        show: false,
       },
     },
   },
@@ -104,15 +105,15 @@ const options = {
       show: false,
     },
   },
-  yaxis: {
-    title: {
-      style: {
-        fontSize: "0px",
-      },
-    },
-    min: 0,
-    max: 100,
-  },
+  // yaxis: {
+  //   title: {
+  //     style: {
+  //       fontSize: "0px",
+  //     },
+  //   },
+  //   min: 0,
+  //   max: 100,
+  // },
 };
 
 const ChartOne = () => {
@@ -127,27 +128,22 @@ const ChartOne = () => {
         name: "Dịch vụ lập lại theo ngày",
         data: [15, 42, 38, 29, 14, 53, 27, 36, 21, 58, 33, 7],
       },
-      {
-        name: "Dịch vụ lập lại theo tuần",
-        data: [5, 23, 48, 12, 59, 30, 39, 46, 10, 24, 37, 41],
-      },
-      {
-        name: "Dịch vụ không giới hạn thời gian",
-        data: [50, 18, 25, 44, 9, 37, 31, 54, 3, 19, 43, 28],
-      },
+      // {
+      //   name: "Dịch vụ lập lại theo tuần",
+      //   data: [5, 23, 48, 12, 59, 30, 39, 46, 10, 24, 37, 41],
+      // },
+      // {
+      //   name: "Dịch vụ không giới hạn thời gian",
+      //   data: [50, 18, 25, 44, 9, 37, 31, 54, 3, 19, 43, 28],
+      // },
     ],
   });
 
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-    }));
-  };
-  // handleReset();
+
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-6">
-      <p className="text-xl font-semibold text-black dark:text-white">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-7">
+      <p className="text-xl font-semibold text-black ">
         Thống kê số lượng đăng ký dịch vụ
       </p>
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">

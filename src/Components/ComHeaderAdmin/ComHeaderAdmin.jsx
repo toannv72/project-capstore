@@ -89,7 +89,7 @@ export default function ComHeaderAdmin({ children }) {
   };
   return (
     <div className="bg-white flex">
-      <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
+      <Affix offsetTop={0} className="hidden lg:block fixed-sidebar ">
         <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
           <div className="text-white px-10 py-4 text-center text-3xl">
             CareConnect
@@ -194,8 +194,8 @@ export default function ComHeaderAdmin({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
-        <Affix offsetTop={0} className="w-full">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200">
+        <Affix offsetTop={0} className="w-full ">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 z-20">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}

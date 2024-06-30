@@ -25,24 +25,24 @@ const options = {
   dataLabels: {
     enabled: false,
   },
-  responsive: [
-    {
-      breakpoint: 2600,
-      options: {
-        chart: {
-          width: 380,
-        },
-      },
-    },
-    {
-      breakpoint: 640,
-      options: {
-        chart: {
-          width: 200,
-        },
-      },
-    },
-  ],
+  // responsive: [
+  //   {
+  //     breakpoint: 2600,
+  //     options: {
+  //       chart: {
+  //         width: 380,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 640,
+  //     options: {
+  //       chart: {
+  //         width: 200,
+  //       },
+  //     },
+  //   },
+  // ],
 };
 
 const ChartThree= () => {

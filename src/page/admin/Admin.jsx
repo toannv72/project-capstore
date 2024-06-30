@@ -2,6 +2,7 @@
 import ChartOne from "../../Components/Charts/ChartOne";
 import ChartTwo from './../../Components/Charts/ChartTwo';
 import ChartThree from './../../Components/Charts/ChartThree';
+import ChartFour from './../../Components/Charts/ChartFour';
 
 function Admin() {
 
@@ -11,6 +12,7 @@ function Admin() {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
+        <ChartFour />
       </div>
     </>
   );
