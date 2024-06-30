@@ -2,7 +2,7 @@ import React from "react";
 
 function ComGenderConverter({ children }) {
   const convertGender = (gender) => {
-    switch (gender.toLowerCase()) {
+    switch (gender?.toLowerCase()) {
       case "male":
         return "Nam";
       case "female":

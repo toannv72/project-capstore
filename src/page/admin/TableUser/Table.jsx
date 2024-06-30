@@ -162,11 +162,7 @@ console.log(data);
       key: "fullName",
       fixed: "left",
       ...getColumnSearchProps("fullName", "Họ và tên"),
-      render: (record) => (
-        <Tooltip placement="topLeft" title={"Chi tiết"}>
-          {record}
-        </Tooltip>
-      ),
+    
     },
     {
       title: "Ảnh ",
