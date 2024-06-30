@@ -44,12 +44,13 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       width: 100,
       fixed: "left",
       render: (_, record) => (
-        <div className="flex items-center justify-center">
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
 
           <Image
-            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            maskClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
             src={record.imageUrl}
+            preview={{ mask: "Xem ảnh" }}
             alt={record.imageAlt}
           />
         </div>

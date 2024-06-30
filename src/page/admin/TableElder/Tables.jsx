@@ -38,7 +38,7 @@ export const Tables = forwardRef((props, ref) => {
     reloadData,
   }));
   const reloadData = () => {
-    getData("/elders")
+    getData("/elders?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

@@ -91,13 +91,7 @@ export default function CreateUser({ onClose, tableRef }) {
 
   const onChange = (data) => {
     const selectedImages = data;
-
-    // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
-    // const newImages = selectedImages.map((file) => file.originFileObj);
-    // Cập nhật trạng thái 'image' bằng danh sách tệp mới
-    console.log([selectedImages]);
     setImages(selectedImages);
-    // setFileList(data);
   };
   return (
     <div>

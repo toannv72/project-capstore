@@ -21,7 +21,7 @@ export default function Table() {
   console.log(data);
   console.log("====================================");
   useEffect(() => {
-    getData("/contract")
+    getData("/contract?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -64,18 +64,26 @@ export default function Table() {
     },
     {
       title: "Ảnh hợp đồng",
-      dataIndex: "imageUrl",
-      key: "imageUrl",
+      dataIndex: "images",
+      key: "images",
       width: 100,
-      render: (_, record) => (
-        <div className="flex items-center justify-center">
-          <Image
-            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-            src={record.imageUrl}
-            alt={record.imageAlt}
-          />
-        </div>
-      ),
+      render: (data, record) => {
+        // Chuyển đổi dữ liệu ảnh từ mảng đối tượng sang mảng URL
+        const imageUrls = data.map((image) => image.imageUrl);
+
+        return (
+          <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+            <Image.PreviewGroup items={imageUrls}>
+              <Image
+                maskClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center"
+                src={imageUrls[0]}
+                alt={data[0]?.imageAlt}
+                preview={{ mask: "Xem ảnh" }}
+              />
+            </Image.PreviewGroup>
+          </div>
+        );
+      },
     },
     {
       title: "Gói dưỡng lão",

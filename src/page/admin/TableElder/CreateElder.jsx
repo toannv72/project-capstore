@@ -123,10 +123,14 @@ export default function CreateElder({ onClose, tableRef }) {
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-
+function convertUrlsToObjects(urls) {
+  return urls.map((url) => ({ imageUrl: url }));
+}
   const onSubmit = (data) => {
-    firebaseImg(image1).then((dataImg1) => {
-      setValue("contract.imageUrl", dataImg1);
+    firebaseImgs(image1).then((dataImg1) => {
+
+        console.log(dataImg1);
+      setValue("contract.images", convertUrlsToObjects(dataImg1));
       firebaseImg(image).then((dataImg) => {
         console.log("ảnh nè : ", {
           ...data,
@@ -159,7 +163,7 @@ export default function CreateElder({ onClose, tableRef }) {
     reloadData();
   }, []);
   const handleChange = (e, value) => {
-    console.log(value);
+
     setSelectedUser(value);
     if (value.length === 0) {
       setValue("userId", null, { shouldValidate: true });
@@ -176,7 +180,7 @@ export default function CreateElder({ onClose, tableRef }) {
     }
   };
   const handleChange2 = (e, value) => {
-    console.log(value);
+
     setSelectedPackage(value);
     setSelectedRoom(null);
     setValue("roomId", null);
@@ -241,11 +245,12 @@ export default function CreateElder({ onClose, tableRef }) {
     console.log([selectedImages]);
     setImages(selectedImages);
   };
+
   const onChange1 = (data) => {
     const selectedImages = data;
-    setImages1(selectedImages);
+    const newImages = selectedImages.map((file) => file.originFileObj);
+    setImages1(newImages);
   };
-
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -421,9 +426,10 @@ export default function CreateElder({ onClose, tableRef }) {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <ComInput
+                  <ComTextArea
                     type="text"
                     label="Nội dung hợp đồng"
+                    rows={5}
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("contract.content")}
                     required
@@ -439,11 +445,13 @@ export default function CreateElder({ onClose, tableRef }) {
                   />
                 </div> */}
 
-                <ComUpImgOne
-                  onChange={onChange1}
-                  label={"Hình ảnh hợp đồng"}
-                  required
-                />
+                <div className="sm:col-span-2">
+                  <ComUpImg
+                    onChange={onChange1}
+                    label={"Hình ảnh hợp đồng"}
+                    required
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <ComTextArea
                     label="Ghi chú hợp đồng"
