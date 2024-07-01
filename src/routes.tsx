@@ -21,6 +21,9 @@ import Notification from "./page/Notification/Notification";
 import ChangePassword from "./page/ChangePassword/ChangePassword";
 import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer";
 import Feedback from "./page/Staff/Feedback/Feedback";
+import LearningPage from "./page/LearningPage/LearningPage";
+import Home from "./page/Home/Home";
+import Bill from './page/Staff/Bill/Bill';
 
 export const routers = createBrowserRouter([
   {
@@ -34,14 +37,18 @@ export const routers = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ComHeader>
-        <Outlet />
-      </ComHeader>
+      // <ComHeader>
+      <Outlet />
+      // </ComHeader>
     ),
     children: [
       {
         path: "/",
-        element: <LoginPage />,
+        element: <Home />,
+      },
+      {
+        path: "/Page",
+        element: <LearningPage />,
       },
       {
         path: "/login",
@@ -179,6 +186,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/feedback",
         element: <Feedback />,
+      },
+      {
+        path: "/staff/bill",
+        element: <Bill />,
       },
       // Add other unprotected admin routes here (if any)
     ],

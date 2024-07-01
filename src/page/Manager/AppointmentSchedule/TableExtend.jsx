@@ -1,7 +1,5 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../../../contexts/LanguageContext";
-import { Badge, Table, Tooltip, Typography } from "antd";
+import { useEffect, useState } from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import ComModal from "./../../../Components/ComModal/ComModal";
@@ -14,12 +12,6 @@ export default function TableExtend() {
   const modal = useModalState();
 
   const { getColumnSearchProps } = useColumnSearch();
-  const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
-  } = useContext(LanguageContext);
 
   const columns = [
     {
@@ -36,7 +28,6 @@ export default function TableExtend() {
       width: 200,
       dataIndex: "totalFloor",
       key: "totalFloor",
-      // sorter: (a, b) => a.phone - b.phone,
       ...getColumnSearchProps("totalFloor", "Người lớn tuổi"),
     },
     {

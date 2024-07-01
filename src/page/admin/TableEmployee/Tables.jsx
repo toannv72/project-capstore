@@ -12,6 +12,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -28,7 +29,9 @@ export const Tables = forwardRef((props, ref) => {
   }, []);
   console.log(data);
   const reloadData = () => {
-    getData("/users?RoleName=Staff&SortDir=Desc")
+    getData(
+      "/users?RoleNames=Staff&RoleNames=Nurse&SortDir=Desc"
+    )
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -148,7 +151,16 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "gender",
       key: "gender",
-      ...getColumnSearchProps("gender", "Giới tính"),
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Action",

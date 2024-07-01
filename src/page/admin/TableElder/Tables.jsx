@@ -16,6 +16,7 @@ import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -37,7 +38,7 @@ export const Tables = forwardRef((props, ref) => {
     reloadData,
   }));
   const reloadData = () => {
-    getData("/elders")
+    getData("/elders?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -126,6 +127,16 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "gender",
       key: "gender",
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Phòng hiện tại",
@@ -135,11 +146,13 @@ export const Tables = forwardRef((props, ref) => {
       render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
-      title: "Loại phòng",
+      title: "Loại gói dưỡng lão",
       width: 100,
-      dataIndex: "room",
-      key: "room",
-      render: (_, render) => <div>{render?.room?.type}</div>,
+      dataIndex: "contractsInUse",
+      key: "contractsInUse",
+      render: (_, render) => (
+        <div>{render?.contractsInUse?.nursingPackage?.name}</div>
+      ),
     },
     {
       title: "Ngày có hiệu lực",
@@ -215,7 +228,7 @@ export const Tables = forwardRef((props, ref) => {
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}
       >
-        <DetailElder selectedUser={selectedElder} />
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
       {/* chỉnh sửa người lớn tuổi */}
       <ComModal

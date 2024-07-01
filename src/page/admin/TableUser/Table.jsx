@@ -18,6 +18,7 @@ import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneCon
 import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import DetailElder from "./../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -34,7 +35,7 @@ export const Tables = forwardRef((props, ref) => {
   }, []);
 console.log(data);
   const reloadData = () => {
-    getData("/users?SortDir=Desc")
+    getData("/users?RoleNames=Customer&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -72,6 +73,16 @@ console.log(data);
         width: 100,
         dataIndex: "gender",
         key: "gender",
+        filters: [
+          { text: "Nam", value: "Male" },
+          { text: "Nữ", value: "Female" },
+        ],
+        onFilter: (value, record) => record.gender === value,
+        render: (_, record) => (
+          <div>
+            <ComGenderConverter>{record?.gender}</ComGenderConverter>
+          </div>
+        ),
       },
       {
         title: "Ngày có hiệu lực",
@@ -151,11 +162,7 @@ console.log(data);
       key: "fullName",
       fixed: "left",
       ...getColumnSearchProps("fullName", "Họ và tên"),
-      render: (record) => (
-        <Tooltip placement="topLeft" title={"Chi tiết"}>
-          {record}
-        </Tooltip>
-      ),
+    
     },
     {
       title: "Ảnh ",
@@ -232,7 +239,16 @@ console.log(data);
       width: 100,
       dataIndex: "gender",
       key: "gender",
-      ...getColumnSearchProps("gender", "Giới tính"),
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Action",
@@ -241,7 +257,6 @@ console.log(data);
       width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-         
           <ComMenuButonTable
             record={record}
             showModalDetails={() => showModal(record)}

@@ -21,6 +21,7 @@ import { getData, putData } from "../../../api/api";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditElder({ selectedData, onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -29,6 +30,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const [selectedRoom, setSelectedRoom] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [dataUser, setDataUser] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState();
+  const [dataPackage, setDataPackage] = useState([]);
 
   const CreateProductMessenger = yup.object({
     name: yup
@@ -118,19 +121,14 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             tableRef();
             onClose();
           })
-          .catch((e) => {
-            console.log(e);
+          .catch((error) => {
+            console.log(error);
             notificationApi(
               "error",
               "Chỉnh sửa không thành công ",
               "Chỉnh sửa"
             );
-            if (e.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
+            handleErrors(error, setError, setFocus);
           });
       } else {
         const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
@@ -179,7 +177,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   };
   useEffect(() => {
     reloadData();
-  }, []);
+  }, [selectedData]);
+
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -194,7 +193,9 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/room?SortDir=Desc")
+    getData(
+      `/room?NursingPackageId=${selectedData.contractsInUse.nursingPackage.id}`
+    )
       .then((e) => {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({

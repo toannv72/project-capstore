@@ -10,11 +10,15 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
 import CreateServicePackage from "./CreateServicePackage";
 import ComButton from "../../../Components/ComButton/ComButton";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComTypePackageConverter from "../../../Components/ComTypePackageConverter/ComTypePackageConverter";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const modalDetail = useModalState();
+  const [selectedData, setSelectedData] = useState(null);
 
   const { getColumnSearchProps } = useColumnSearch();
   const {
@@ -30,7 +34,7 @@ export default function TableServicePackage() {
       });
     }
   }
-
+  console.log(data);
   const columns = [
     {
       title: "Tên dịch vụ",
@@ -49,14 +53,13 @@ export default function TableServicePackage() {
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-          <Image.PreviewGroup items={[record?.imageUrl]}>
-            <Image
-              maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
-              src={record?.imageUrl}
-              alt={record?.imageUrl}
-              preview={{ mask: "Xem ảnh" }}
-            />
-          </Image.PreviewGroup>
+
+          <Image
+            maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
+            src={record?.imageUrl}
+            alt={record?.imageUrl}
+            preview={{ mask: "Xem ảnh" }}
+          />
         </div>
       ),
     },
@@ -73,19 +76,51 @@ export default function TableServicePackage() {
       ),
     },
     {
-      title: "Số người 1 phòng",
+      title: "Thể loại dịch vụ",
       width: 120,
-      dataIndex: "numberBed",
-      key: "numberBed",
-      // // sorter: (a, b) => a.phone - b.phone,
-      // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
+      dataIndex: "servicePackageCategory",
+      key: "servicePackageCategory",
+      render: (data) => (
+        <div>
+          <h1>{data.name}</h1>
+        </div>
+      ),
     },
     {
-      title: InstituteManagement?.status,
+      title: "Dạng dịch vụ",
       width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
+      dataIndex: "type",
+      key: "type",
+      filters: [
+        { text: "Một ngày", value: "OneDay" },
+        { text: "Theo ngày", value: "MultipleDays" },
+        { text: "Theo tuần", value: "WeeklyDays" },
+        { text: "Mọi ngày", value: "AnyDay" },
+      ],
+      onFilter: (value, record) => record.type === value,
+      render: (data) => (
+        <div>
+          <ComTypePackageConverter>{data}</ComTypePackageConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Giới hạn người đăng ký",
+      width: 100,
+      dataIndex: "registrationLimit",
+      key: "registrationLimit",
+      render: (data) => (
+        <div>
+          <h1>{data === 0 ? "Không có" : data}</h1>
+        </div>
+      ),
+    },
+    {
+      title: "Thời gian diễn ra",
+      width: 150,
+      dataIndex: "type",
+      key: "types",
+      render: (data, record) => <div>{showTypePackageDay(data, record)}</div>,
     },
     {
       title: "Thông tin bổ sung",
@@ -110,18 +145,54 @@ export default function TableServicePackage() {
       width: 100,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modalDetail?.handleOpen(record)}>
-              Chấp nhận
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            // showModalDetails={() => showModaldElder(record)}
+            showModalEdit={() => {
+              modalDetail.handleOpen();
+              setSelectedData(record);
+            }}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+          />
         </div>
       ),
     },
   ];
+
+  const showTypePackageDay = (type, data) => {
+    switch (type) {
+      case "OneDay":
+        return (
+          <div>
+            Ngày diễn ra:
+            <br />
+            <ComDateConverter>{data.endDate}</ComDateConverter>
+            <br />
+            Ngày kết thúc đăng ký:
+            <br />
+            <ComDateConverter>{data.endRegistrationStartDate}</ComDateConverter>
+          </div>
+        );
+      case "MultipleDays":
+        return (
+          <div>
+            Ngày diễn ra:
+            <br />
+          
+          </div>
+        );
+      case "WeeklyDays":
+        return "Theo tuần";
+      case "AnyDay":
+        return "Mọi ngày";
+      default:
+        return "Không xác định"; // Giá trị mặc định nếu không khớp
+    }
+  };
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/service-package")
+    getData("/service-package?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

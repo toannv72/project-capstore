@@ -9,6 +9,8 @@ import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export const TableRooms = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -39,6 +41,16 @@ export const TableRooms = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "gender",
         key: "gender",
+        filters: [
+          { text: "Nam", value: "Male" },
+          { text: "Nữ", value: "Female" },
+        ],
+        onFilter: (value, record) => record.gender === value,
+        render: (_, record) => (
+          <div>
+            <ComGenderConverter>{record?.gender}</ComGenderConverter>
+          </div>
+        ),
       },
       {
         title: "Ngày có hiệu lực",
@@ -126,18 +138,18 @@ export const TableRooms = forwardRef((props, ref) => {
     },
     {
       title: "Loại phòng",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "nursingPackage",
+      key: "nursingPackage",
       width: 100,
-      ...getColumnSearchProps("type", "Loại phòng"),
+      ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
     },
-    {
-      title: InstituteManagement?.status,
-      width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", InstituteManagement?.status),
-    },
+    // {
+    //   title: InstituteManagement?.status,
+    //   width: 100,
+    //   dataIndex: "status",
+    //   key: "status",
+    //   ...getColumnSearchProps("status", InstituteManagement?.status),
+    // },
     {
       title: "Số giường",
       dataIndex: "userBed",
@@ -158,12 +170,22 @@ export const TableRooms = forwardRef((props, ref) => {
       fixed: "right",
       width: 50,
       render: (_, record) => (
+        // <div className="flex items-center flex-col">
+        //   <div>
+        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
+        //       Chấp nhận
+        //     </Typography.Link>
+        //   </div>
+        // </div>
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modal?.handleOpen(record)}>
-              Chấp nhận
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            // showModalDetails={() => showModaldElder(record)}
+            showModalEdit={() => modal?.handleOpen(record)}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+            // order={order}
+          />
         </div>
       ),
     },

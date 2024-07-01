@@ -4,16 +4,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
-import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import { getData, postData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const [dataBlock, setDataBlock] = useState([]);
+  const [dataPackage, setDataPackage] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState();
+  const [selectedPackage, setSelectedPackage] = useState();
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
@@ -41,11 +42,12 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
       })
       .catch((error) => {
         console.log(error);
-        if (error?.data?.status === 409) {
-          setError("name", {
-            message: "Đã có phòng này rồi",
-          });
-        }
+        handleErrors(error, setError, setFocus);
+        // if (error?.data?.status === 409) {
+        //   setError("name", {
+        //     message: "Đã có phòng này rồi",
+        //   });
+        // }
       });
   };
 
@@ -61,6 +63,17 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+    getData("/nursing-package")
+      .then((e) => {
+        const dataForSelects = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+        setDataPackage(dataForSelects);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
   }, []);
 
   const handleChange = (e, value) => {
@@ -70,6 +83,15 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
       setValue("blockId", null, { shouldValidate: true });
     } else {
       setValue("blockId", value, { shouldValidate: true });
+    }
+  };
+  const handleChange2 = (e, value) => {
+    console.log(value);
+    setSelectedPackage(value);
+    if (value.length === 0) {
+      setValue("nursingPackageId", null, { shouldValidate: true });
+    } else {
+      setValue("nursingPackageId", value, { shouldValidate: true });
     }
   };
   return (
@@ -111,6 +133,25 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn gói cho phòng"
+                      placeholder="Gói"
+                      onChangeValue={handleChange2}
+                      value={selectedPackage}
+                      // mode="tags"
+                      mode="default"
+                      options={dataPackage}
+                      required
+                      {...register("nursingPackageId")}
+                    />
+                  </div>
+                </div>
+                {/* <div className="sm:col-span-2">
+                  <div className="mt-2.5">
                     <ComTextArea
                       type="text"
                       rows={5}
@@ -120,11 +161,11 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
-            <div className="mt-10">
+            <div className="mt-10 ">
               <ComButton
                 htmlType="submit"
                 type="primary"

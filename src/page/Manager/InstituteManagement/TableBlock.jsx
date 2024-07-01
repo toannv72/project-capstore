@@ -8,6 +8,7 @@ import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 export const TableBlock = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -136,12 +137,23 @@ export const TableBlock = forwardRef((props, ref) => {
       // fixed: "right",
       width: 40,
       render: (_, record) => (
+        // <div className="flex items-center flex-col">
+        //   <div>
+        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
+        //       Chấp nhận
+        //     </Typography.Link>
+        //   </div>
+
+        // </div>
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modal?.handleOpen(record)}>
-              Chấp nhận
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            // showModalDetails={() => showModaldElder(record)}
+            showModalEdit={()=>modal?.handleOpen(record)}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete"]}
+            // order={order}
+          />
         </div>
       ),
     },

@@ -6,6 +6,7 @@ import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailFeedback from "./DetailFeedback";
+import { getData } from './../../../api/api';
 
 const Table = () => {
   const [data, setData] = useState([]);
@@ -17,28 +18,36 @@ const Table = () => {
     modalDetail.handleOpen();
     setSelectedUser(record);
   };
+  console.log(data);
   const columns = [
     {
       title: "Người đánh giá",
-      dataIndex: "fullName",
+      dataIndex: "user.fullName",
       width: 40,
-      key: "fullName",
+      key: "user.fullName",
       fixed: "left",
-      ...getColumnSearchProps("fullName", "Họ và tên"),
+      ...getColumnSearchProps("user.fullName", "Họ và tên"),
     },
     {
       title: "Dịch vụ",
       width: 50,
-      dataIndex: "service",
-      key: "service",
-      ...getColumnSearchProps("service", "Dịch vụ"),
+      dataIndex: "orderDetail.servicePackage.name",
+      key: "orderDetail.servicePackage.name",
+      ...getColumnSearchProps("orderDetail.servicePackage.name", "Dịch vụ"),
     },
     {
       title: "Đánh giá",
       width: 70,
-      dataIndex: "feedback",
-      key: "feedback",
-      ...getColumnSearchProps("feedback", "Đánh giá"),
+      dataIndex: "ratings",
+      key: "ratings",
+      ...getColumnSearchProps("ratings", "Đánh giá"),
+    },
+    {
+      title: "Chi tiết đánh giá",
+      width: 70,
+      dataIndex: "title",
+      key: "title",
+      ...getColumnSearchProps("title", "Chi tiết đánh giá"),
     },
     {
       title: "Ngày thực hiện",
@@ -64,8 +73,16 @@ const Table = () => {
       ),
     },
   ];
+
   useEffect(() => {
-    //call api
+    getData("/feedback?SortDir=Desc")
+      .then((e) => {
+        setData(e?.data?.contends);
+        table.handleCloseLoading();
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
   }, []);
   return (
     <div>

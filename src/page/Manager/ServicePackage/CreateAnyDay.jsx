@@ -13,16 +13,14 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
-import "tailwindcss/tailwind.css";
 
 const { Title } = Typography;
 
-export default function CreateDaily({ onClose }) {
+export default function CreateAnyDay({ onClose }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
   const [category, setCategory] = useState([]);
-  const [selectedDays, setSelectedDays] = useState([]);
 
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
@@ -54,7 +52,6 @@ export default function CreateDaily({ onClose }) {
     trigger,
   } = methods;
 
-
   const onChange = (data) => {
     const selectedImages = data;
     setImages(selectedImages);
@@ -84,13 +81,7 @@ export default function CreateDaily({ onClose }) {
     }
   };
 
-  const handleCheckboxChange = (day) => {
-    setSelectedDays((prevDays) =>
-      prevDays.includes(day)
-        ? prevDays.filter((d) => d !== day)
-        : [...prevDays, day]
-    );
-  };
+
   const onSubmit = (data) => {
     const change = MonyNumber(
       data.price,
@@ -101,16 +92,12 @@ export default function CreateDaily({ onClose }) {
     if (change !== null) {
       if (image) {
         firebaseImg(image).then((dataImg) => {
-          const servicePackageDates = selectedDays.map((day) => ({
-            // occurrenceDay: `2001-02-${day}`,
-            repetitionDay: day,
-          }));
+     
           const dataPost = {
             ...data,
             imageUrl: dataImg,
             price: change,
-            type: "MultipleDays",
-            servicePackageDates,
+            type: "AnyDay",
           };
           console.log(1111, dataPost);
           postData(`/service-package`, dataPost)
@@ -130,7 +117,6 @@ export default function CreateDaily({ onClose }) {
                 "tạo gói dịch vụ không thành công!"
               );
             });
-       
         });
       } else {
         notificationApi(
@@ -200,30 +186,7 @@ export default function CreateDaily({ onClose }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <Title level={3}>Chọn ngày trong tháng</Title>
-                    <Row gutter={[8, 8]}>
-                      {[...Array(31).keys()].map((day) => (
-                        <Col span={3} key={day + 1}>
-                          <Checkbox
-                            checked={selectedDays.includes(
-                              String(day + 1).padStart(2, "0")
-                            )}
-                            onChange={() =>
-                              handleCheckboxChange(
-                                String(day + 1).padStart(2, "0")
-                              )
-                            }
-                            className="text-blue-600"
-                          >
-                            {String(day + 1).padStart(2, "0")}
-                          </Checkbox>
-                        </Col>
-                      ))}
-                    </Row>
-                  </div>
-                </div>
+          
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea

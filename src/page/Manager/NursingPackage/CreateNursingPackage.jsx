@@ -4,28 +4,26 @@ import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
-import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "../../../Notification/Notification";
 import ComTextArea from "./../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
 import { postData } from "../../../api/api";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
 export default function CreateNursingPackage({ tableRef, onClose }) {
-  const [image, setImages] = useState([]);
-  const [mony, setMony] = useState(1000);
+  const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói"),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
     price: yup
-      .number()
+      .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    registrationLimit: yup
+    capacity: yup
       .number()
       .required("Vui lòng nhập số lượng ")
       .typeError("Vui lòng nhập số lượng "),
@@ -36,10 +34,10 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
     values: {
       name: "aa",
       description: "aa",
-      price: 100000,
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
   const onChange = (data) => {
     const selectedImages = data;
@@ -51,44 +49,47 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
     setImages(selectedImages);
     // setFileList(data);
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setValue("price", mony);
-    }, 1);
-  }, [mony, watch("price")]);
   const onSubmit = (data) => {
-    // console.log(formatPriceToNumber(data.price));
-    firebaseImg(image).then((dataImg) => {
- 
-      const dataPost = {
-        ...data,
-        imageUrl: dataImg,
-      };
-      postData(`/nursing-package`, dataPost)
-        .then((e) => {
-          notificationApi(
-            "success",
-            "tạo thành công",
-            "đã tạo gói dịch vụ thành công!"
-          );
-         if (tableRef.current) {
-           // Kiểm tra xem ref đã được gắn chưa
-           tableRef.current.reloadData();
-         }
-          onClose();
-        })
-        .catch((error) => {
-          console.log(error);
-          notificationApi(
-            "error",
-            "tạo không thành công",
-            "tạo gói dịch vụ không thành công!"
-          );
+    const change = MonyNumber(
+      data.price,
+      (message) => setError("price", { message }), // Đặt lỗi nếu có
+      () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
+    );
+    if (change !== null) {
+      // Kiểm tra xem change có giá trị hợp lệ không
+      if (image) {
+        firebaseImg(image).then((dataImg) => {
+          const dataUp = { ...data, price: change, imageUrl: dataImg };
+          postData(`/nursing-package`, dataUp)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "tạo thành công",
+                "đã tạo gói dịch vụ thành công!"
+              );
+              if (tableRef.current) {
+                tableRef.current.reloadData();
+              }
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              notificationApi(
+                "error",
+                "tạo không thành công",
+                "tạo gói dịch vụ không thành công!"
+              );
+            });
         });
-      onClose();
-    });
+      } else {
+        notificationApi(
+          "error",
+          "Chọn ảnh gói dưỡng lão",
+          "Vui lòng chọn ảnh!"
+        );
+      }
+    }
   };
-
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -117,7 +118,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                       min={1}
                       label={"Số lượng người "}
                       placeholder={"Vui lòng nhập số lượng"}
-                      {...register("registrationLimit")}
+                      {...register("capacity")}
                       required
                     />
                   </div>
@@ -127,12 +128,12 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                     <ComNumber
                       type="text"
                       money
-                      // defaultValue={10000}
+                      defaultValue={1000}
                       // min={1000}
-                      onChangeValue={(e, value) => {
-                        setValue(e, value);
-                        setMony(value);
-                      }}
+                      // onChangeValue={(e, value) => {
+                      //   setValue(e, value);
+                      //   setMony(value);
+                      // }}
                       label={"Số tiền"}
                       placeholder={"Vui lòng nhập số tiền"}
                       {...register("price")}
@@ -156,7 +157,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                   <div className="mt-2.5">
                     <ComUpImgOne
                       onChange={onChange}
-                      numberImg={1} 
+                      numberImg={1}
                       label={"Hình ảnh gói"}
                       required
                       multiple={false}

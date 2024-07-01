@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComButton from "./../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
@@ -7,20 +7,23 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
-import { postData } from "../../../api/api";
-import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
-import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
+import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
-import { disabledDate } from "../../../Components/ComDateDisabled";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
-import { addressRegex, cccdRegex, nameRegex, phoneNumberRegex } from "../../../regexPatterns";
+import dayjs from "dayjs";
+import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
+import { postData, putData } from "../../../api/api";
+import {
+  addressRegex,
+  cccdRegex,
+  emailRegex,
+  nameRegex,
+} from "../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
-export default function CreateUser({ onClose, tableRef }) {
-  const [image, setImages] = useState({});
+export default function EditBill({ selectedUser, onClose, tableRef }) {
+  const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-
-  // const nameRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
@@ -31,10 +34,11 @@ export default function CreateUser({ onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
-    phoneNumber: yup
-      .string()
-      .required("Vui lòng nhập đủ số điện thoại")
-      .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
+    // phoneNumber: yup
+    //   .string()
+    //   // .required("Vui lòng nhập đủ số điện thoại")
+    //   .nullable()
+    //   .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
     cccd: yup
       .string()
       .matches(
@@ -48,56 +52,77 @@ export default function CreateUser({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
-    dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
+    email: yup
+      .string()
+      .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
+      .required("Vui lòng nhập đầy đủ email"),
   });
-
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
+      name: "",
       phoneNumber: "",
+      dateOfBirth: selectedUser.dateOfBirth ? selectedUser.dateOfBirth : null,
     },
+    values: selectedUser,
   });
+
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-
   const onSubmit = (data) => {
-    console.log(data);
-
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      postData("/users/customer-register", { ...data, avatarUrl: dataImg })
-        .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo");
-          setTimeout(() => {
-            if (tableRef.current) {
-              // Kiểm tra xem ref đã được gắn chưa
-              tableRef.current.reloadData();
-            }
-          }, 100);
-          onClose();
-        })
-        .catch((e) => {
-          console.log("====================================");
-          console.log(e);
-          if (e.status === 409) {
-            setError("phoneNumber", {
-              message: "Đã có số điện thoại này",
-            });
-          }
-          console.log("====================================");
-        });
+      if (dataImg) {
+        const dataPut = { ...data, avatarUrl: dataImg };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((e) => {
+            console.log(e);
+            // set các trường hợp lỗi api
+            handleErrors(e, setError, setFocus);
+            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
+          });
+      } else {
+        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((e) => {
+            console.log(e);
+            // set các trường hợp lỗi api
+            handleErrors(e, setError, setFocus);
+            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
+          });
+      }
     });
   };
-
+  useEffect(() => {
+    setImages([]);
+  }, [selectedUser]);
   const onChange = (data) => {
     const selectedImages = data;
+
+    // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
+    // const newImages = selectedImages.map((file) => file.originFileObj);
+    // Cập nhật trạng thái 'image' bằng danh sách tệp mới
+    console.log([selectedImages]);
     setImages(selectedImages);
+    // setFileList(data);
   };
   return (
     <div>
       <div className="p-4 bg-white ">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">
-          Tạo tài khoản người dùng
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Chỉnh sửa người dùng
         </h2>
         <FormProvider {...methods}>
           <form
@@ -120,7 +145,7 @@ export default function CreateUser({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                {/* <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
@@ -130,7 +155,7 @@ export default function CreateUser({ onClose, tableRef }) {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -154,7 +179,7 @@ export default function CreateUser({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
@@ -178,14 +203,18 @@ export default function CreateUser({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne
+              imgUrl={selectedUser.avatarUrl}
+              onChange={onChange}
+              label={"Hình ảnh"}
+            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Chỉnh sửa
               </ComButton>
             </div>
           </form>

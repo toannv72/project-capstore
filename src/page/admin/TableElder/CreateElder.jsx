@@ -22,20 +22,19 @@ import {
   nameRegex,
   weightRegex,
 } from "./../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateElder({ onClose, tableRef }) {
   const [image, setImages] = useState({});
+  const [image1, setImages1] = useState({});
   const { notificationApi } = useNotification();
   const [dataUser, setDataUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState();
-  // const cccdRegex = /^(?:\d{9}|\d{12})$/;
-  // const addressRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý0-9\s,.'-]+$/;
+  const [selectedPackage, setSelectedPackage] = useState();
+  const [dataPackage, setDataPackage] = useState([]);
 
-  // const nameRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     name: yup
       .string()
@@ -63,6 +62,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
+    notes: yup.string().required("Vui lòng nhập ghi chú"),
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup
@@ -103,16 +103,11 @@ export default function CreateElder({ onClose, tableRef }) {
       signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
       startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-      price: yup
-        .number()
-        .typeError("Vui lòng nhập giá")
-        .required("Vui lòng nhập giá")
-        .min(0, "Giá không hợp lệ"),
       content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
-      imageUrl: yup
-        .string()
-        .url("Vui lòng nhập URL hợp lệ")
-        .required("Vui lòng nhập URL hình ảnh"),
+      // imageUrl: yup
+      //   .string()
+      //   .url("Vui lòng nhập URL hợp lệ")
+      //   .required("Vui lòng nhập URL hình ảnh"),
       notes: yup.string().required("Vui lòng nhập ghi chú"),
       description: yup.string().required("Vui lòng nhập mô tả"),
     }),
@@ -128,38 +123,39 @@ export default function CreateElder({ onClose, tableRef }) {
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-
+function convertUrlsToObjects(urls) {
+  return urls.map((url) => ({ imageUrl: url }));
+}
   const onSubmit = (data) => {
-    firebaseImg(image).then((dataImg) => {
-      console.log("ảnh nè : ", {
-        ...data,
-        imageUrl: dataImg,
-      });
-      postData("/elders", {
-        ...data,
-        imageUrl: dataImg,
-      })
-        .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo");
-          setTimeout(() => {
-            if (tableRef.current) {
-              // Kiểm tra xem ref đã được gắn chưa
-              tableRef.current.reloadData();
-            }
-          }, 100);
-          onClose();
-        })
-        .catch((e) => {
-          console.log("====================================");
-          console.log(e);
-          if (e.status === 409) {
-            setError("cccd", {
-              message: "Đã có cccd này rồi",
-            });
-            setFocus("cccd");
-          }
-          console.log("====================================");
+    firebaseImgs(image1).then((dataImg1) => {
+
+        console.log(dataImg1);
+      setValue("contract.images", convertUrlsToObjects(dataImg1));
+      firebaseImg(image).then((dataImg) => {
+        console.log("ảnh nè : ", {
+          ...data,
+          imageUrl: dataImg,
         });
+        postData("/elders", {
+          ...data,
+          imageUrl: dataImg,
+        })
+          .then((e) => {
+            notificationApi("success", "tạo thành công", "đã tạo");
+            setTimeout(() => {
+              if (tableRef.current) {
+                // Kiểm tra xem ref đã được gắn chưa
+                tableRef?.current.reloadData();
+              }
+            }, 100);
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+            notificationApi("error", "tạo không thành công", "đã tạo");
+          });
+      });
     });
   };
 
@@ -167,7 +163,7 @@ export default function CreateElder({ onClose, tableRef }) {
     reloadData();
   }, []);
   const handleChange = (e, value) => {
-    console.log(value);
+
     setSelectedUser(value);
     if (value.length === 0) {
       setValue("userId", null, { shouldValidate: true });
@@ -181,6 +177,29 @@ export default function CreateElder({ onClose, tableRef }) {
       setValue("roomId", null, { shouldValidate: true });
     } else {
       setValue("roomId", value, { shouldValidate: true });
+    }
+  };
+  const handleChange2 = (e, value) => {
+
+    setSelectedPackage(value);
+    setSelectedRoom(null);
+    setValue("roomId", null);
+    getData(`/room?NursingPackageId=${value}`)
+      .then((e) => {
+        console.log(e?.data?.contends);
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Khu:${item.name}/Phòng:${item.name}`,
+        }));
+        setDataRoom(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+    if (value.length === 0) {
+      setValue("nursingPackageId", null, { shouldValidate: true });
+    } else {
+      setValue("nursingPackageId", value, { shouldValidate: true });
     }
   };
   const reloadData = () => {
@@ -197,7 +216,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/room?SortDir=Desc")
+    getData(`/room?NursingPackageId=${selectedPackage}`)
       .then((e) => {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
@@ -209,11 +228,28 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+    getData("/nursing-package")
+      .then((e) => {
+        const dataForSelects = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+        setDataPackage(dataForSelects);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
   };
   const onChange = (data) => {
     const selectedImages = data;
     console.log([selectedImages]);
     setImages(selectedImages);
+  };
+
+  const onChange1 = (data) => {
+    const selectedImages = data;
+    const newImages = selectedImages.map((file) => file.originFileObj);
+    setImages1(newImages);
   };
   return (
     <div>
@@ -307,6 +343,25 @@ export default function CreateElder({ onClose, tableRef }) {
                       style={{
                         width: "100%",
                       }}
+                      label="Chọn gói cho hợp đồng"
+                      placeholder="Gói"
+                      onChangeValue={handleChange2}
+                      value={selectedPackage}
+                      // mode="tags"
+                      mode="default"
+                      options={dataPackage}
+                      required
+                      {...register("nursingPackageId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
                       label="Chọn phòng"
                       placeholder="Phòng"
                       onChangeValue={handleChangeRoom}
@@ -320,7 +375,15 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Ghi chú người cao tuổi"
+                    placeholder="Vui lòng nhập ghi chú"
+                    rows={5}
+                    {...register("notes")}
+                    required
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Thông tin hợp đồng
@@ -361,29 +424,31 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-                <div className="sm:col-span-1">
-                  <ComNumber
-                    label="Giá hợp đồng"
-                    placeholder="Vui lòng nhập giá"
-                    {...register("contract.price")}
-                    required
-                  />
-                </div>
+
                 <div className="sm:col-span-2">
-                  <ComInput
+                  <ComTextArea
                     type="text"
                     label="Nội dung hợp đồng"
+                    rows={5}
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("contract.content")}
                     required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComInput
                     type="text"
                     label="URL hình ảnh"
                     placeholder="Vui lòng nhập URL hình ảnh"
                     {...register("contract.imageUrl")}
+                    required
+                  />
+                </div> */}
+
+                <div className="sm:col-span-2">
+                  <ComUpImg
+                    onChange={onChange1}
+                    label={"Hình ảnh hợp đồng"}
                     required
                   />
                 </div>
@@ -406,7 +471,6 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-
                 {/* tạo bệnh án  */}
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Thông tin bệnh án
@@ -481,7 +545,7 @@ export default function CreateElder({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} required />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
