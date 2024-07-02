@@ -43,12 +43,11 @@ function Health() {
       </div>
       <div className="flex justify-end pb-2">
         <div>
-          {" "}
           <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
         </div>
       </div>
       {viewTable()}
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal isOpen={modal?.isModalOpen} width={800} onClose={modal?.handleClose}>
         <CreateAll
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}

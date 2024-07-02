@@ -71,13 +71,12 @@ export const TableHealthCategory = forwardRef((props, ref) => {
     return (
       <Table
         scroll={{
-    
           y: "55vh",
         }}
         bdataed
         bordered
         columns={columns}
-        dataSource={record?.measureUnits}
+        dataSource={record?.measureUnitsActive}
         pagination={{
           showSizeChanger: true,
           pageSizeOptions: ["10", "20", "50", "100"],
