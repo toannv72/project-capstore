@@ -83,7 +83,7 @@ export const Tables = forwardRef((props, ref) => {
       title: "Ảnh người lớn tuổi",
       dataIndex: "imageUrl",
       key: "imageUrl",
-      width: 100,
+      width: 120,
       fixed: "left",
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">

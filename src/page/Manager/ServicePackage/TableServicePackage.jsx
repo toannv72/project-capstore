@@ -13,6 +13,7 @@ import ComButton from "../../../Components/ComButton/ComButton";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComTypePackageConverter from "../../../Components/ComTypePackageConverter/ComTypePackageConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComWeekConverter from "../../../Components/ComWeekConverter/ComWeekConverter";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -105,6 +106,13 @@ export default function TableServicePackage() {
       ),
     },
     {
+      title: "Thời gian diễn ra",
+      width: 150,
+      dataIndex: "type",
+      key: "types",
+      render: (data, record) => <div>{showTypePackageDay(data, record)}</div>,
+    },
+    {
       title: "Giới hạn người đăng ký",
       width: 100,
       dataIndex: "registrationLimit",
@@ -115,13 +123,7 @@ export default function TableServicePackage() {
         </div>
       ),
     },
-    {
-      title: "Thời gian diễn ra",
-      width: 150,
-      dataIndex: "type",
-      key: "types",
-      render: (data, record) => <div>{showTypePackageDay(data, record)}</div>,
-    },
+
     {
       title: "Thông tin bổ sung",
       dataIndex: "description",
@@ -167,7 +169,7 @@ export default function TableServicePackage() {
           <div>
             Ngày diễn ra:
             <br />
-            <ComDateConverter>{data.endDate}</ComDateConverter>
+            <ComDateConverter>{data.eventDate}</ComDateConverter>
             <br />
             Ngày kết thúc đăng ký:
             <br />
@@ -183,7 +185,17 @@ export default function TableServicePackage() {
           </div>
         );
       case "WeeklyDays":
-        return "Theo tuần";
+        return (
+          <div>
+            Thứ diễn ra:
+            <br />
+            {data?.servicePackageDates.map((e, index) => (
+              <p key={index}>
+                <ComWeekConverter>{e.dayOfWeek}</ComWeekConverter>
+              </p>
+            ))}
+          </div>
+        );
       case "AnyDay":
         return "Mọi ngày";
       default:

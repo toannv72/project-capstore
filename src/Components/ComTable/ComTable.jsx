@@ -1,6 +1,6 @@
 import { Skeleton, Spin, Table } from "antd";
 
-export default function ComTable({ columns, dataSource, loading, ...props }) {
+export default function ComTable({ x,columns, dataSource, loading, ...props }) {
   return (
     <>
       <Table
@@ -8,7 +8,7 @@ export default function ComTable({ columns, dataSource, loading, ...props }) {
         columns={columns}
         dataSource={dataSource}
         scroll={{
-          x: 1520,
+          x: x||1520,
           y: "55vh",
         }}
         bordered
