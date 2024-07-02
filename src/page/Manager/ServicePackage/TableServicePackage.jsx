@@ -179,9 +179,13 @@ export default function TableServicePackage() {
       case "MultipleDays":
         return (
           <div>
-            Ngày diễn ra:
+            Ngày diễn ra hàng tháng:
             <br />
-          
+           <div className="flex flex-wrap">
+              {data?.servicePackageDates.map((e, index) => (
+                <h1 key={index}> {e.repetitionDay},</h1>
+              ))}
+           </div>
           </div>
         );
       case "WeeklyDays":
@@ -189,11 +193,16 @@ export default function TableServicePackage() {
           <div>
             Thứ diễn ra:
             <br />
-            {data?.servicePackageDates.map((e, index) => (
-              <p key={index}>
-                <ComWeekConverter>{e.dayOfWeek}</ComWeekConverter>
-              </p>
-            ))}
+            <div className="flex flex-wrap">
+              {data?.servicePackageDates.map((e, index) => (
+                <div key={index} className="flex flex-wrap">
+                  <div>
+                    <ComWeekConverter>{e.dayOfWeek}</ComWeekConverter>
+                  </div>
+                  ,
+                </div>
+              ))}
+            </div>
           </div>
         );
       case "AnyDay":
