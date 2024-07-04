@@ -24,6 +24,7 @@ import Feedback from "./page/Staff/Feedback/Feedback";
 import LearningPage from "./page/LearningPage/LearningPage";
 import Home from "./page/Home/Home";
 import Bill from './page/Staff/Bill/Bill';
+import Health from "./page/Manager/Health/Health";
 
 export const routers = createBrowserRouter([
   {
@@ -190,6 +191,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/bill",
         element: <Bill />,
+      },
+      {
+        path: "/staff/health",
+        element: <Health />,
       },
       // Add other unprotected admin routes here (if any)
     ],

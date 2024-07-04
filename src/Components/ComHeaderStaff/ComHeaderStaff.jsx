@@ -45,6 +45,7 @@ const subCategories = [
   },
   { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
   { name: "Danh sách hóa đơn", href: "/staff/bill", icon: Cog6ToothIcon },
+  { name: "Chỉ số sức khỏe", href: "/staff/health", icon: Cog6ToothIcon },
   {
     name: "Khách hàng tiềm năng",
     href: "/staff/potentialCustomer",

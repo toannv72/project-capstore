@@ -45,7 +45,7 @@ const ComUpImgOne = ({
       setLoading(false);
       setImageUrl(url);
     });
-    console.log(fileList.file.originFileObj);
+    // console.log(fileList.file.originFileObj);
     onChange(fileList.file.originFileObj);
     // setImageUrl(filteredFileList);
   };

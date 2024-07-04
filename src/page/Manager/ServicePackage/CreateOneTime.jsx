@@ -27,12 +27,12 @@ export default function CreateOneTime({ onClose }) {
   const [checkbox, setCheckbox] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
-    date: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    eventDate: yup.string().required("Vui lòng nhập thời gian"),
     price: yup
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    endDate: yup.string().required("Vui lòng nhập thời gian"),
+    endRegistrationStartDate: yup.string().required("Vui lòng nhập thời gian"),
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
@@ -62,14 +62,14 @@ export default function CreateOneTime({ onClose }) {
   };
   const disabledDateEnd = (current) => {
     const daysLater3 = moment().add(3, "days");
-    const fixedFutureDate = moment(watch("date"), "YYYY-MM-DD");
+    const fixedFutureDate = moment(watch("eventDate"), "YYYY-MM-DD");
     return current && (current < daysLater3 || current > fixedFutureDate);
   };
 
   useEffect(() => {
     setEndDate((e) => !e);
-    setValue("endDate", null);
-  }, [watch("date")]);
+    setValue("endRegistrationStartDate", null);
+  }, [watch("eventDate")]);
   const onChange = (data) => {
     const selectedImages = data;
     setImages(selectedImages);
@@ -111,7 +111,7 @@ export default function CreateOneTime({ onClose }) {
             ...data,
             imageUrl: dataImg,
             price: change,
-            servicePackageDates: [{ date: data.date}],
+            // servicePackageDates: [{ date: data.date}],
           };
           postData(`/service-package`, dataPost)
             .then((e) => {
@@ -205,7 +205,7 @@ export default function CreateOneTime({ onClose }) {
                       label="Chọn khoảng thời gian diễn ra"
                       required
                       disabledDate={disabledDate3Day6m}
-                      {...register("date")}
+                      {...register("eventDate")}
                       // Các props khác của RangePicker
                     />
                   </div>
@@ -216,7 +216,7 @@ export default function CreateOneTime({ onClose }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endDate")}
+                        {...register("endRegistrationStartDate")}
                         required
                       />
                     </div>
@@ -228,7 +228,7 @@ export default function CreateOneTime({ onClose }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endDate")}
+                        {...register("endRegistrationStartDate")}
                         required
                       />
                     </div>
@@ -276,7 +276,6 @@ export default function CreateOneTime({ onClose }) {
                   <div className="mt-2.5">
                     <ComUpImgOne
                       onChange={onChange}
-        
                       multiple={false}
                       label={"Hình ảnh"}
                       required
