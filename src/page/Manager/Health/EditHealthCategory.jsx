@@ -4,8 +4,6 @@ import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
-import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
 import { postData } from "../../../api/api";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
@@ -18,8 +16,8 @@ const uniqueMeasureUnitNames = (measureUnits) => {
   return new Set(names).size === names.length;
 };
 
-export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
-  const [image, setImages] = useState([]);
+export default function EditHealthCategory({dataSelect, isOpen, onClose, getDataApi }) {
+  const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhâp tên"),
@@ -70,13 +68,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
-      measureUnits: [
-        { name: "", unitType: "", description: "" },
-      ],
-    },
+    values: { ...dataSelect, measureUnits: dataSelect.measureUnitsActive },
   });
 
   const {
@@ -94,10 +86,27 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
     control,
     name: "measureUnits",
   });
+
   const onSubmit = (data) => {
     console.log(data);
-    firebaseImg(image).then((imageUrl) => {
-      postData(`/health-category`, { ...data, imageUrl })
+    if (image) {
+      console.log("có ảnh");
+        firebaseImg(image).then((imageUrl) => {
+          // postData(`/health-category`, { ...data, imageUrl })
+          //   .then((e) => {
+          //     notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
+          //     getDataApi();
+          //     onClose();
+          //   })
+          //   .catch((error) => {
+          //     console.log(error);
+          //     handleErrors(error, setError, setFocus);
+          //   });
+        });
+    } else {
+      console.log("ko có ảnh");
+
+      postData(`/health-categorys`, { ...data, imageUrl: dataSelect.imageUrl })
         .then((e) => {
           notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
           getDataApi();
@@ -107,7 +116,8 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
           console.log(error);
           handleErrors(error, setError, setFocus);
         });
-    });
+    }
+  
   };
   const onChange = (data) => {
     const selectedImages = data;
@@ -230,6 +240,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
                   <ComUpImgOne
                     onChange={onChange}
                     label={"Hình ảnh chỉ số"}
+                    imgUrl={dataSelect?.imageUrl}
                     required
                   />
                 </div>
@@ -241,7 +252,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Cập nhật
               </ComButton>
             </div>
           </form>

@@ -11,9 +11,11 @@ import { useModalState } from "./../../../hooks/useModalState";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import EditHealthCategory from "./EditHealthCategory";
 
 export const TableHealthCategory = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
+  const [dataSelect, setDataSelect] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
@@ -42,7 +44,31 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataIndex: "unitType",
         key: "unitType",
         width: 100,
-        ...getColumnSearchProps("unitType", "Chi tiết"),
+        ...getColumnSearchProps("unitType", "đơn vị"),
+      },
+      {
+        title: "Chỉ số mức nhỏ nhất bình thường của đơn vị",
+        dataIndex: "minValue",
+        key: "minValue",
+        width: 100,
+        render: (_, record) => (
+          <div className="flex items-center flex-col">
+            {record.minValue}
+            {record.unitType}
+          </div>
+        ),
+      },
+      {
+        title: "Chỉ số mức nhỏ nhất bình thường của đơn vị",
+        dataIndex: "maxValue",
+        key: "maxValue",
+        width: 100,
+        render: (_, record) => (
+          <div className="flex items-center flex-col">
+            {record.maxValue}
+            {record.unitType}
+          </div>
+        ),
       },
       {
         title: "Chi tiết",
@@ -52,21 +78,21 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         ...getColumnSearchProps("description", "Chi tiết"),
       },
 
-      {
-        title: "Action",
-        key: "operation",
-        fixed: "right",
-        width: 50,
-        render: (_, record) => (
-          <div className="flex items-center flex-col">
-            <div>
-              <Typography.Link onClick={() => modal?.handleOpen(record)}>
-                Chấp nhận
-              </Typography.Link>
-            </div>
-          </div>
-        ),
-      },
+      // {
+      //   title: "Action",
+      //   key: "operation",
+      //   fixed: "right",
+      //   width: 50,
+      //   render: (_, record) => (
+      //     <div className="flex items-center flex-col">
+      //       <div>
+      //         <Typography.Link onClick={() => modal?.handleOpen(record)}>
+      //           Chấp nhận
+      //         </Typography.Link>
+      //       </div>
+      //     </div>
+      //   ),
+      // },
     ];
     return (
       <Table
@@ -139,7 +165,10 @@ export const TableHealthCategory = forwardRef((props, ref) => {
           <ComMenuButonTable
             record={record}
             // showModalDetails={() => showModaldElder(record)}
-            showModalEdit={() => modal?.handleOpen(record)}
+            showModalEdit={() => {
+              modal?.handleOpen()
+              setDataSelect(record);
+            }}
             // extraMenuItems={extraMenuItems}
             excludeDefaultItems={["delete"]}
             // order={order}
@@ -175,8 +204,12 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataSource={data}
         loading={table.loading}
       />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+      <ComModal
+        width={800}
+        isOpen={modal?.isModalOpen}
+        onClose={modal?.handleClose}
+      >
+        <EditHealthCategory dataSelect={dataSelect} />
       </ComModal>
     </div>
   );
