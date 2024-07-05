@@ -1,12 +1,16 @@
 import React from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import { ComLink } from "./../../../Components/ComLink/ComLink";
+import { useLocation } from "react-router-dom";
 
 export default function DetailElder({ selectedData }) {
+  const location = useLocation();
+console.log(location);
   return (
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết người người lớn tuổi 
+          Chi tiết người người lớn tuổi
         </h2>
         <table className="w-full">
           <tbody>
@@ -29,7 +33,9 @@ export default function DetailElder({ selectedData }) {
               <td className="px-4 py-2">{selectedData?.room?.name}</td>
             </tr>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Loại phòng:</td>
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Loại phòng:
+              </td>
               <td className="px-4 py-2">{selectedData?.room?.type}</td>
             </tr>
             <tr className="border-b">
@@ -57,6 +63,11 @@ export default function DetailElder({ selectedData }) {
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
+        <div className="flex items-center justify-center">
+          <ComLink to={`${location.pathname}/${selectedData.id}`}>
+            Xem thêm
+          </ComLink>
+        </div>
       </div>
     </div>
   );

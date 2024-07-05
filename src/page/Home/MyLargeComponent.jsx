@@ -63,7 +63,7 @@ class MyLargeComponent extends React.Component {
                       to="/Login"
                       className="header__contact-cta button yellow header__contact-cta--mobile gtrackexternal"
                     >
-                      Enquire now
+                      Tìm hiểu ngay
                     </Link>
                     <nav
                       className="nav-mobile"
@@ -138,7 +138,7 @@ class MyLargeComponent extends React.Component {
                                       aria-expanded="false"
                                       className="nav__parent-link nav-mobile__parent-link"
                                     >
-                                      Programs
+                                      Chương trình
                                     </Link>
                                     <button
                                       className="nav-mobile__accordion-toggle"
@@ -223,7 +223,7 @@ class MyLargeComponent extends React.Component {
                                       aria-expanded="false"
                                       className="nav__parent-link nav-mobile__parent-link"
                                     >
-                                      Support
+                                      Hỗ trợ
                                     </Link>
                                     <button
                                       className="nav-mobile__accordion-toggle"
@@ -427,8 +427,8 @@ class MyLargeComponent extends React.Component {
                                               href="https://www.careconnect.org.au/services/home-care-gardening-lawn-mowing-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                               className="gtrackexternal"
                                             >
-                                              Gardening &amp; Lawn Mowing
-                                              Services
+                                              Gardening &amp; Lawn Mowing Dịch
+                                              vụ
                                             </Link>
                                           </li>
                                           <li
@@ -440,7 +440,7 @@ class MyLargeComponent extends React.Component {
                                               href="https://www.careconnect.org.au/services/home-care-house-cleaning-services-for-elderly/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                               className="gtrackexternal"
                                             >
-                                              Cleaning Services
+                                              Cleaning Dịch vụ
                                             </Link>
                                           </li>
                                           <li
@@ -717,7 +717,7 @@ class MyLargeComponent extends React.Component {
                                   aria-expanded="false"
                                   className="nav__parent-link"
                                 >
-                                  Programs
+                                  Chương trình
                                 </Link>
 
                                 <div
@@ -732,7 +732,7 @@ class MyLargeComponent extends React.Component {
                                         className="m-tx0 blue"
                                         id="menu-title-4203"
                                       >
-                                        Programs
+                                        Chương trình
                                       </h3>
                                       <p className="nav__menu-description">
                                         Receive expert guidance and advice to
@@ -839,7 +839,7 @@ class MyLargeComponent extends React.Component {
                                   aria-expanded="false"
                                   className="nav__parent-link"
                                 >
-                                  Support
+                                  Hỗ trợ
                                 </Link>
 
                                 <div
@@ -969,7 +969,7 @@ class MyLargeComponent extends React.Component {
                                   aria-expanded="false"
                                   className="nav__parent-link"
                                 >
-                                  Services
+                                  Dịch vụ
                                 </Link>
 
                                 <div
@@ -1141,7 +1141,7 @@ class MyLargeComponent extends React.Component {
                                   aria-expanded="false"
                                   className="nav__parent-link"
                                 >
-                                  About
+                                  Thông tin
                                 </Link>
 
                                 <div
@@ -1156,7 +1156,7 @@ class MyLargeComponent extends React.Component {
                                         className="m-tx0 blue"
                                         id="menu-title-7622"
                                       >
-                                        About
+                                        Thông tin
                                       </h3>
                                       <p className="nav__menu-description">
                                         Established in 1994, Care Connect is a
@@ -1243,7 +1243,7 @@ class MyLargeComponent extends React.Component {
                           to="/login"
                           className=" bg-sky-600 border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
                         >
-                          Enquire now
+                          Đăng nhập ngay
                         </Link>
                       </div>
                       <div className="header__desktop-top">
@@ -1263,7 +1263,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://www.careconnect.org.au/news/latest-news/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  News
+                                  Tin tức
                                 </Link>
                               </li>
                               <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8786">
@@ -1272,7 +1272,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://www.careconnect.org.au/careers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  Careers
+                                  Tuyển dụng
                                 </Link>
                               </li>
                               <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8955">
@@ -1281,7 +1281,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://www.careconnect.org.au/providers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  Providers
+                                  Nhà cung cấp
                                 </Link>
                               </li>
                               <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4201">
@@ -1301,7 +1301,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://www.careconnect.org.au/information-sheets/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  Resources
+                                  Nguồn lực
                                 </Link>
                               </li>
                               <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4199">
@@ -1312,7 +1312,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://myportal.careconnect.org.au/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  Login
+                                  Đăng nhập
                                 </Link>
                               </li>
                               <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8142">
@@ -1321,7 +1321,7 @@ class MyLargeComponent extends React.Component {
                                   href="https://www.careconnect.org.au/contact-us/feedback/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                                   className="gtrackexternal"
                                 >
-                                  Feedback
+                                  Phản hồi
                                 </Link>
                               </li>
                             </ul>
@@ -1331,7 +1331,6 @@ class MyLargeComponent extends React.Component {
                           className="header__call"
                           aria-label="Contact Number"
                         >
-                          Call
                           <Link
                             to="/"
                             href="tel:1800692464"
@@ -1477,12 +1476,13 @@ class MyLargeComponent extends React.Component {
                       data-animate=""
                     >
                       <h1 className="banner-module__title">
-                        Simplified, personalised care at home.
+                        ''Chăm sóc bằng cả trái tim - Nâng niu tuổi vàng, trọn
+                        vẹn yêu thương."
                       </h1>
                       <div className="banner-module__description">
-                        No matter where you are on your care journey, Care
-                        Connect's trusted and dedicated team is here to partner
-                        with you.
+                        Cho dù ba mẹ bạn đang ở giai đoạn nào trong hành trình
+                        chăm sóc sức khỏe, đội ngũ tận tâm và đáng tin cậy của
+                        Care Connect luôn sẵn sàng đồng hành cùng gia đình bạn.
                       </div>
 
                       <div className="banner-module__tag">
@@ -1491,7 +1491,7 @@ class MyLargeComponent extends React.Component {
                           className=" bg-sky-600 border-y rounded-lg text-white banner-module__cta button yellow button--icon button--large gtrackexternal"
                           href="/"
                         >
-                          Learn more
+                          Tìm hiểu thêm
                           <span className="button__icon">
                             <svg
                               data-name="Layer 1"
@@ -1529,8 +1529,8 @@ class MyLargeComponent extends React.Component {
                   <div className="wrap cf ">
                     <div className="intro__wrapper intro__wrapper--center ">
                       <h2 className="intro__title">
-                        Care Connect will connect you with the care you need so
-                        you can live the life you love.
+                        Care Connect - Vì một tuổi già an yên cho ba mẹ và sự an
+                        tâm cho bạn, hãy kết nối với chúng tôi ngay hôm nay.
                       </h2>
 
                       <img
@@ -1548,15 +1548,13 @@ class MyLargeComponent extends React.Component {
                       </noscript>
                       <div className="intro__description">
                         <p>
-                          Care Connect is a local, not-for-profit Home Care
-                          provider. We understand it is important for you to
-                          live at home and remain independent.
+                          Care Connect tạo ra một môi trường sống ấm áp, thân
+                          thiện và đầy tình yêu thương cho người cao tuổi.
                         </p>
                         <p>
-                          With access to one of Australia’s largest networks of
-                          care workers, Care Connect ensures a personalised and
-                          consistent quality of care, supporting you to maintain
-                          your independence, freedom and comfort at home.
+                          Viện dưỡng lão không chỉ cung cấp các dịch vụ chăm sóc
+                          cơ bản mà còn quan tâm đến đời sống tinh thần, giúp
+                          người cao tuổi cảm thấy được kết nối và yêu thương.
                         </p>
                       </div>
                     </div>
@@ -1566,7 +1564,7 @@ class MyLargeComponent extends React.Component {
                 <section className="tile-grid tile-grid--eggshell">
                   <div className="wrap cf">
                     <h2 className="tile-grid__title">
-                      How can Care Connect help you?
+                      Care Connect có thể giúp gì cho bạn?
                     </h2>
 
                     <ul className="tile-grid__row tile-grid__row--simple">
@@ -1593,7 +1591,8 @@ class MyLargeComponent extends React.Component {
                           </div>
 
                           <p className="tile-grid__tile-title">
-                            Provide clarity on all your home care options.
+                            Cung cấp sự rõ ràng về tất cả các lựa chọn chăm sóc
+                            cho người cao tuổi tại Care Connect
                           </p>
 
                           <p className="tile-grid__description"></p>
@@ -1622,7 +1621,8 @@ class MyLargeComponent extends React.Component {
                           </div>
 
                           <p className="tile-grid__tile-title">
-                            Support you to navigate the aged care system.
+                            Hỗ trợ bạn tìm hiểu và sử dụng hệ thống chăm sóc
+                            người cao tuổi.
                           </p>
 
                           <p className="tile-grid__description"></p>
@@ -1651,8 +1651,7 @@ class MyLargeComponent extends React.Component {
                           </div>
 
                           <p className="tile-grid__tile-title">
-                            Partner with you to achieve the best possible
-                            outcome.
+                            Hợp tác với bạn để đạt được kết quả tốt nhất có thể.
                           </p>
 
                           <p className="tile-grid__description"></p>
@@ -1665,7 +1664,7 @@ class MyLargeComponent extends React.Component {
                       className="tile-grid__button button yellow button--icon button--large gtrackexternal bg-sky-600 border-y rounded-lg text-white "
                       href=""
                     >
-                      Learn more
+                      Tìm hiểu thêm
                       <span className="button__icon">
                         <svg
                           data-name="Layer 1"
@@ -1715,7 +1714,7 @@ class MyLargeComponent extends React.Component {
                             />
                             <div className="video-play-button">
                               <i className="fa fa-play" aria-hidden="true"></i>
-                              <span>Play now</span>
+                              <span>Phát ngay</span>
                             </div>
                           </Link>
                         </div>
@@ -1723,21 +1722,21 @@ class MyLargeComponent extends React.Component {
 
                       <div className="quote__box quote__box--pale-blue">
                         <h3 className="quote__opening">
-                          My Care Manager takes the time to explain and advises
-                          me of any changes.
+                          Nhờ Care Connect, tôi luôn được thông báo kịp thời về
+                          mọi thay đổi trong chế độ chăm sóc của ba mẹ, đồng
+                          thời thấy được sự quan tâm và thấu hiểu của đội ngũ
+                          chăm sóc qua những thông tin chi tiết và hình ảnh được
+                          chia sẻ.
                         </h3>
 
-                        <p className="quote__closing">
-                          She is very understanding and considerate to all of my
-                          needs.
-                        </p>
+                        <p className="quote__closing"></p>
 
                         <Link
                           to="/"
                           className="quote__button button--icon button--large gtrackexternal"
                           href="https://www.careconnect.org.au/support/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                         >
-                          Learn how Care Connect can support you
+                          Tìm hiểu cách Care Connect hỗ trợ bạn
                           <span className="button__icon">
                             <svg
                               data-name="Layer 1"
@@ -1770,9 +1769,11 @@ class MyLargeComponent extends React.Component {
                   <div className="wrap cf">
                     <div className="intro__wrapper intro__wrapper--center">
                       <h2 className="intro__title">
-                        Care Connect has provided more than 85,000 people with
-                        the independent and personalised care they need to stay
-                        living at home.
+                        Care Connect là một nền tảng trực tuyến hoặc ứng dụng di
+                        động giúp kết nối người cao tuổi, gia đình họ và nhân
+                        viên viện dưỡng lão. Nền tảng này có thể cung cấp các
+                        tính năng như theo dõi sức khỏe, đặt lịch hẹn, chia sẻ
+                        thông tin và giao tiếp trực tuyến.
                       </h2>
 
                       <img
@@ -1846,7 +1847,7 @@ class MyLargeComponent extends React.Component {
                                 id="card-module-8-slide-1"
                                 role="paragraph"
                               >
-                                What is a Home Care Package?
+                                Gói chăm sóc tại viện dưỡng lão là gì?
                               </h2>
                             </span>
                           </button>
@@ -1862,7 +1863,7 @@ class MyLargeComponent extends React.Component {
                                 id="card-module-8-slide-2"
                                 role="paragraph"
                               >
-                                How does it work?
+                                Nó hoạt động như thế nào?
                               </h2>
                             </span>
                           </button>
@@ -1878,7 +1879,7 @@ class MyLargeComponent extends React.Component {
                                 id="card-module-8-slide-3"
                                 role="paragraph"
                               >
-                                How do I get started?
+                                Tôi sử dụng như thế nào?
                               </h2>
                             </span>
                           </button>
@@ -1893,17 +1894,15 @@ class MyLargeComponent extends React.Component {
                           <div className="col-left">
                             <div className="col-left__body">
                               <p className="tabbed-carousel__paragraph--lead">
-                                A Home Care Package is a flexible in-home
-                                support option designed to provide a wide
-                                variety of services and products for older
-                                people.
+                                Gói chăm sóc tại viện dưỡng lão là lựa chọn toàn
+                                diện, mang đến sự an tâm cho người lớn tuổi và
+                                gia đình. Chúng tôi cung cấp dịch vụ chăm sóc cá
+                                nhân, y tế, tinh thần và môi trường sống ấm
+                                cúng, tiện nghi. Người nhà dễ dàng theo dõi tình
+                                hình sức khỏe người thân qua ứng dụng, giúp kết
+                                nối mọi lúc mọi nơi.
                               </p>
-                              <p className="tabbed-carousel__paragraph">
-                                The Government offers Home Care Packages to
-                                support you to live at home. Your health,
-                                wellbeing, and circumstances determine
-                                eligibility for a Home Care Package.
-                              </p>
+                              <p className="tabbed-carousel__paragraph"></p>
                             </div>
                             <Link
                               to="/"
@@ -1911,7 +1910,7 @@ class MyLargeComponent extends React.Component {
                               className="button--tertiary button--icon button--large gtrackexternal"
                             >
                               <span className="hide-on-mobile--inline">
-                                Learn more about a Home Care Package
+                                Tìm hiểu thêm về Gói chăm sóc tại viện dưỡng lão
                               </span>
                               <span className="hide-on-desktop--inline">
                                 Learn more
@@ -1971,7 +1970,7 @@ class MyLargeComponent extends React.Component {
                             />
                             <div className="video-play-button">
                               <i className="fa fa-play" aria-hidden="true"></i>
-                              <span>Play now</span>
+                              <span>Phát ngay</span>
                             </div>
                           </Link>
                         </div>
@@ -1979,13 +1978,13 @@ class MyLargeComponent extends React.Component {
 
                       <div className="quote__box quote__box--green">
                         <h3 className="quote__opening">
-                          I was very pleased with the way Care Connect looked
-                          after me.
+                          Tôi rất hài lòng với cách Care Connect chăm sóc cho
+                          gia đình tôi
                         </h3>
 
                         <p className="quote__closing">
-                          They were very helpful and always looking to find the
-                          solutions to all my enquiries.
+                          Họ rất nhiệt tình và luôn tìm cách giải quyết mọi nhu
+                          cầu của gia đình tôi.
                         </p>
 
                         <Link
@@ -1993,7 +1992,7 @@ class MyLargeComponent extends React.Component {
                           className="quote__button button--icon button--large gtrackexternal"
                           href="https://www.careconnect.org.au/support/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                         >
-                          Learn how Care Connect can support you
+                          Tìm hiểu cách Care Connect có thể hỗ trợ bạn
                           <span className="button__icon">
                             <svg
                               data-name="Layer 1"
@@ -2025,7 +2024,7 @@ class MyLargeComponent extends React.Component {
                 <section className="latest-news">
                   <div className="wrap">
                     <div className="latest-news__inner">
-                      <h2 className="latest-news__title">Latest News</h2>
+                      <h2 className="latest-news__title">Tin tức mới nhất</h2>
                       <p className="latest-news__intro">&nbsp;</p>
 
                       <ul
@@ -2101,29 +2100,29 @@ class MyLargeComponent extends React.Component {
                                   className="card__title"
                                   id="card-title-9019"
                                 >
-                                  Staying connected and social
+                                  Duy trì kết nối và hòa nhập cộng đồng
                                 </h3>
                                 <div className="card__meta">
                                   <div className="card__tag tag tag--lightblue">
-                                    Health &amp; Wellbeing
+                                    Sức khỏe &amp; An sinh
                                   </div>
                                   <span className="card__timestamp">
-                                    3 June 2024
+                                    3 tháng 6 năm 2024
                                   </span>
                                 </div>
                                 <p
                                   className="card__excerpt"
                                   id="card-desc-9019"
                                 >
-                                  The cold and wet weather often causes us to
-                                  stay home, which can be very isolating and
-                                  lonely for some. It's crucial at any age, but
-                                  particularly as we get older, to remain
-                                  connected to others.
+                                  Thời tiết lạnh và ẩm ướt thường khiến chúng ta
+                                  ở nhà, điều này có thể gây ra sự cô lập và cô
+                                  đơn cho một số người. Việc duy trì kết nối với
+                                  người khác là vô cùng quan trọng ở mọi lứa
+                                  tuổi, đặc biệt khi chúng ta lớn tuổi hơn.
                                 </p>
                                 <div className="card__actions card__actions--no-border">
                                   <p className="card__fake-link">
-                                    Read more
+                                    Đọc thêm
                                     <span className="card__fake-link__arrow">
                                       <svg
                                         data-name="Layer 1"
@@ -2215,26 +2214,27 @@ class MyLargeComponent extends React.Component {
                                   className="card__title"
                                   id="card-title-8996"
                                 >
-                                  Stella’s book review
+                                  Bài đánh giá sách Stella
                                 </h3>
                                 <div className="card__meta">
                                   <div className="card__tag tag tag--lightblue">
-                                    Book Review
+                                    Đánh giá sách
                                   </div>
                                   <span className="card__timestamp">
-                                    19 April 2024
+                                    19 tháng 4 năm 2024
                                   </span>
                                 </div>
                                 <p
                                   className="card__excerpt"
                                   id="card-desc-8996"
                                 >
-                                  Time for a classNameic! The Aunt’s Story by
-                                  Patrick White.
+                                  Đến lúc thưởng thức một tác phẩm kinh điển!
+                                  Tiểu thuyết "Câu Chuyện Người Dì" của Patrick
+                                  White.
                                 </p>
                                 <div className="card__actions card__actions--no-border">
                                   <p className="card__fake-link">
-                                    Read more
+                                    Đọc thêm
                                     <span className="card__fake-link__arrow">
                                       <svg
                                         data-name="Layer 1"
@@ -2303,14 +2303,14 @@ class MyLargeComponent extends React.Component {
               >
                 <div className="wrap cf">
                   <section className="contact-cta__text-wrapper">
-                    <p className="subheading blue">If you have a question</p>
+                    <p className="subheading blue">Nếu bạn có một câu hỏi</p>
 
-                    <h2>Our support team will have the answer</h2>
+                    <h2>Đội ngũ hỗ trợ của chúng tôi sẽ có câu trả lời.</h2>
                     <p>
-                      For more information about the many ways Care Connect can
-                      enable you and your loved ones to continue to live safely
-                      and happily at home and in the community, get in touch
-                      today for friendly, expert advice.
+                      Để biết thêm thông tin về nhiều cách mà Care Connect có
+                      thể giúp bạn và những người thân yêu của bạn tiếp tục sống
+                      an toàn và hạnh phúc tại viện dưỡng lão, hãy liên hệ ngay
+                      hôm nay để được tư vấn thân thiện, chuyên nghiệp.
                     </p>
 
                     <Link
@@ -2318,7 +2318,7 @@ class MyLargeComponent extends React.Component {
                       href="https://www.careconnect.org.au/contact-us/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
                       className="button yellow button--medium gtrackexternal"
                     >
-                      Enquire now
+                      Liên hệ ngay
                     </Link>
                   </section>
                 </div>

@@ -89,7 +89,7 @@ export const Tables = forwardRef((props, ref) => {
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
           {record?.imageUrl ? (
             <Image
-              wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
+              wrapperClassName=" w-full h-full object-cover object-center flex items-center justify-center "
               src={record?.imageUrl}
               alt={record?.imageUrl}
               preview={{ mask: "Xem ảnh" }}
@@ -161,7 +161,9 @@ export const Tables = forwardRef((props, ref) => {
       key: "effectiveDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.contract?.startDate}</ComDateConverter>
+          <ComDateConverter>
+            {render?.contractsInUse?.startDate}
+          </ComDateConverter>
         </div>
       ),
     },
@@ -172,7 +174,7 @@ export const Tables = forwardRef((props, ref) => {
       key: "expiryDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.contract?.endDate}</ComDateConverter>
+          <ComDateConverter>{render?.contractsInUse?.endDate}</ComDateConverter>
         </div>
       ),
     },
@@ -184,7 +186,9 @@ export const Tables = forwardRef((props, ref) => {
       render: (_, render) => (
         <div>
           {render?.contract?.signingDate}
-          <ComDateConverter>{render?.contract?.signingDate}</ComDateConverter>
+          <ComDateConverter>
+            {render?.contractsInUse?.signingDate}
+          </ComDateConverter>
         </div>
       ),
     },

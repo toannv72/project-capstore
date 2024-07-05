@@ -16,7 +16,7 @@ function ComGenderConverter({ children }) {
 
   const translatedGender = convertGender(children);
 
-  return <div>{translatedGender}</div>;
+  return <>{translatedGender}</>;
 }
 
 export default ComGenderConverter;

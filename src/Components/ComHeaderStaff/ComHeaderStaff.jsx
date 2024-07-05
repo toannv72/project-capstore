@@ -91,7 +91,7 @@ export default function ComHeaderStaff({ children }) {
     }
   };
   return (
-    <div className="bg-white flex">
+    <div className="bg-[#f9fafb] flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
         <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
           <div className="text-white px-10 py-4 text-center text-3xl">

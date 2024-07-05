@@ -23,6 +23,6 @@ function ComCccdOrCmndConverter({ children }) {
     return children;
   };
 
-  return <div>{formatCccdOrCmnd(children)}</div>;
+  return <>{formatCccdOrCmnd(children)}</>;
 }
 export default ComCccdOrCmndConverter;
