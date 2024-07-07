@@ -53,6 +53,7 @@ export default function CreateElder({ onClose, tableRef }) {
     dateOfBirth: yup.string().required("Vui lòng nhập đủ ngày tháng năm sinh"),
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
+    gender: yup.string().required("Vui lòng chọn chọn giới tính"),
     cccd: yup
       .string()
       .matches(
@@ -120,7 +121,6 @@ export default function CreateElder({ onClose, tableRef }) {
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {
-      phoneNumber: "",
       height: 20,
       weight: 20,
     },
@@ -130,7 +130,10 @@ export default function CreateElder({ onClose, tableRef }) {
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
   }
+  // console.log(watch);
+
   const onSubmit = (data) => {
+    console.log(1111, data);
     firebaseImgs(image1).then((dataImg1) => {
       console.log(dataImg1);
       setValue("contract.images", convertUrlsToObjects(dataImg1));
@@ -166,7 +169,7 @@ export default function CreateElder({ onClose, tableRef }) {
     reloadData();
   }, []);
   const handleChange = (e, value) => {
-    setSelectedUser(value);
+    // setSelectedUser(value);
     if (value.length === 0) {
       setValue("userId", null, { shouldValidate: true });
     } else {
@@ -208,9 +211,9 @@ export default function CreateElder({ onClose, tableRef }) {
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Tên: ${item.fullName} \n Số Đt: ${item.phoneNumber} \n  CCCD: ${item.cccd}`,
-          searchString:
-            item.fullName + item.address + item.dateOfBirth + item.cccd,
+          label: `Tên: ${item.fullName} 
+          Số Đt: ${item.phoneNumber} 
+          CCCD: ${item.cccd}`,
         }));
         setDataUser(dataForSelect);
       })
@@ -303,7 +306,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -324,6 +327,39 @@ export default function CreateElder({ onClose, tableRef }) {
                       options={dataUser}
                       required
                       {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedUser}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
+                      required
+                      {...register("gender")}
                     />
                   </div>
                 </div>
@@ -415,6 +451,7 @@ export default function CreateElder({ onClose, tableRef }) {
                   <ComDatePicker
                     label="Ngày bắt đầu hợp đồng"
                     disabledDate={DateOfContract}
+                    name="contract"
                     placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
                     {...register("contract.startDate")}
                     required
@@ -424,6 +461,7 @@ export default function CreateElder({ onClose, tableRef }) {
                   <ComDatePicker
                     label="Ngày kết thúc hợp đồng"
                     disabledDate={DateOfContract}
+                    name="contract"
                     placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                     {...register("contract.endDate")}
                     required
@@ -435,6 +473,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     type="text"
                     label="Nội dung hợp đồng"
                     rows={5}
+                    name="contract"
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("contract.content")}
                     required
@@ -452,6 +491,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     label="Ghi chú hợp đồng"
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
+                    name="contract"
                     {...register("contract.notes")}
                     required
                   />
@@ -530,7 +570,11 @@ export default function CreateElder({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} required />
+            <ComUpImgOne
+              onChange={onChange}
+              label={"Hình ảnh người lớn tuổi"}
+              required
+            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
