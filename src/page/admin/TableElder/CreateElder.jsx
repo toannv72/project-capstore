@@ -12,7 +12,11 @@ import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
 import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
-import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import {
+  DateOfBirth,
+  DateOfContract,
+  DateOfLastDay,
+} from "../../../Components/ComDateDisabled/DateOfBirth";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
@@ -123,13 +127,12 @@ export default function CreateElder({ onClose, tableRef }) {
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-function convertUrlsToObjects(urls) {
-  return urls.map((url) => ({ imageUrl: url }));
-}
+  function convertUrlsToObjects(urls) {
+    return urls.map((url) => ({ imageUrl: url }));
+  }
   const onSubmit = (data) => {
     firebaseImgs(image1).then((dataImg1) => {
-
-        console.log(dataImg1);
+      console.log(dataImg1);
       setValue("contract.images", convertUrlsToObjects(dataImg1));
       firebaseImg(image).then((dataImg) => {
         console.log("ảnh nè : ", {
@@ -163,7 +166,6 @@ function convertUrlsToObjects(urls) {
     reloadData();
   }, []);
   const handleChange = (e, value) => {
-
     setSelectedUser(value);
     if (value.length === 0) {
       setValue("userId", null, { shouldValidate: true });
@@ -180,7 +182,6 @@ function convertUrlsToObjects(urls) {
     }
   };
   const handleChange2 = (e, value) => {
-
     setSelectedPackage(value);
     setSelectedRoom(null);
     setValue("roomId", null);
@@ -207,7 +208,7 @@ function convertUrlsToObjects(urls) {
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: item.fullName,
+          label: `Tên: ${item.fullName} \n Số Đt: ${item.phoneNumber} \n  CCCD: ${item.cccd}`,
           searchString:
             item.fullName + item.address + item.dateOfBirth + item.cccd,
         }));
@@ -278,17 +279,7 @@ function convertUrlsToObjects(urls) {
                     />
                   </div>
                 </div>
-                {/* <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số điện thoại"}
-                      placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phoneNumber")}
-                      required
-                    />
-                  </div>
-                </div> */}
+
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -325,8 +316,8 @@ function convertUrlsToObjects(urls) {
                       value={selectedUser}
                       filterOption={(inputValue, option) =>
                         option.searchString
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
                       }
                       showSearch
                       mode="default"
@@ -376,6 +367,17 @@ function convertUrlsToObjects(urls) {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Địa chỉ"}
+                      placeholder={"Vui lòng nhập Địa chỉ"}
+                      {...register("address")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
                   <ComTextArea
                     label="Ghi chú người cao tuổi"
                     placeholder="Vui lòng nhập ghi chú"
@@ -402,6 +404,7 @@ function convertUrlsToObjects(urls) {
                   <ComDatePicker
                     label="Ngày ký hợp đồng"
                     type="numbers"
+                    disabledDate={DateOfLastDay}
                     name={"contract.signingDate"}
                     placeholder="Vui lòng nhập ngày ký hợp đồng"
                     {...register("contract.signingDate")}
@@ -411,6 +414,7 @@ function convertUrlsToObjects(urls) {
                 <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày bắt đầu hợp đồng"
+                    disabledDate={DateOfContract}
                     placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
                     {...register("contract.startDate")}
                     required
@@ -419,6 +423,7 @@ function convertUrlsToObjects(urls) {
                 <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày kết thúc hợp đồng"
+                    disabledDate={DateOfContract}
                     placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                     {...register("contract.endDate")}
                     required
@@ -435,16 +440,6 @@ function convertUrlsToObjects(urls) {
                     required
                   />
                 </div>
-                {/* <div className="sm:col-span-2">
-                  <ComInput
-                    type="text"
-                    label="URL hình ảnh"
-                    placeholder="Vui lòng nhập URL hình ảnh"
-                    {...register("contract.imageUrl")}
-                    required
-                  />
-                </div> */}
-
                 <div className="sm:col-span-2">
                   <ComUpImg
                     onChange={onChange1}
@@ -475,17 +470,7 @@ function convertUrlsToObjects(urls) {
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Thông tin bệnh án
                 </h3>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Địa chỉ"}
-                      placeholder={"Vui lòng nhập Địa chỉ"}
-                      {...register("address")}
-                      required
-                    />
-                  </div>
-                </div>
+
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput

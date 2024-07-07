@@ -64,6 +64,7 @@ const ComSelect = React.forwardRef(
       value,
       max,
       money,
+      options,
       subLabel,
       decimalLength,
       defaultValue,
@@ -88,7 +89,12 @@ const ComSelect = React.forwardRef(
       }
       onChangeValue?.(props.name, e);
     };
-
+    const handleDisplayRender = (label) => {
+      if (Array.isArray(label)) {
+        return label.map((item) => item.split("\n")[0]).join(", ");
+      }
+      return label.split("\n")[0];
+    };
     return (
       <>
         <div className={`${className}`}>
@@ -114,11 +120,28 @@ const ComSelect = React.forwardRef(
               status={error && "error"}
               mode="multiple"
               value={value}
+              optionLabelProp="label"
               onChange={onlyChangeWithCondition}
               // status={error && 'error'}
               // // onChange={onlyChangeWithCondition}
+              dropdownRender={(menu) => <div>{menu}</div>}
               {...props}
-            ></Select>
+            >
+              {options.map((option) => (
+                <Select.Option
+                  key={option.value}
+                  value={option.value}
+                  label={option.label.split("\n")[0]}
+                >
+                  {option.label.split("\n").map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                </Select.Option>
+              ))}
+            </Select>
           }
 
           {error && (

@@ -12,9 +12,11 @@ import * as yup from "yup";
 import { weightRegex } from "../../../regexPatterns";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import ChartFour from "../../../Components/Charts/ChartFour";
+import ChartFour from "./ChartFour";
+import { Skeleton } from "antd";
+import ErrorPage from "../../404/ErrorPage";
 
-export default function DetailElderPage({}) {
+export default function DetailElderPage() {
   const { id } = useParams();
   const CreateProductMessenger = yup.object({
     medicalRecord: yup.object({
@@ -66,7 +68,8 @@ export default function DetailElderPage({}) {
       description: yup.string().required("Vui lòng nhập mô tả"),
     }),
   });
-
+  const [loading, setLoading] = useState(true);
+  const [error, setErrorApi] = useState(false);
   const [data, setData] = useState({});
   useEffect(() => {
     reloadData();
@@ -85,332 +88,285 @@ export default function DetailElderPage({}) {
         setData(e?.data);
       })
       .catch((error) => {
+        setErrorApi(true);
         console.error("Error fetching items:", error);
-
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
+
+  if (loading) {
+    return <Skeleton active />;
+  }
+  if (error) {
+    return <ErrorPage statusCode={"404"} />;
+  }
   return (
-    <div className="grid px-4 pt-6 grid-cols-3 xl:gap-4 dark:bg-gray-900">
-      <div className=" col-span-3  ">
-        <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
-            Thông tin người lớn tuổi
-          </h3>
+    <>
+      <div className="grid px-4 pt-6 grid-cols-3 xl:gap-4 dark:bg-gray-900">
+        <div className=" col-span-3  ">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+              Thông tin người lớn tuổi
+            </h3>
+          </div>
         </div>
-      </div>
-      <div className="col-span-3 2xl:col-span-1">
-        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
-            <img
-              class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
-              src={data?.imageUrl}
-              alt={data?.name}
-            />
+        <div className="col-span-3 2xl:col-span-1">
+          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+              <img
+                class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
+                src={data?.imageUrl}
+                alt={data?.name}
+              />
 
-            <div>
-              <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
-                Cụ: {data?.name}
-              </h3>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Năm sinh:{" "}
-                <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
-              </div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Giới tính:{" "}
-                <ComGenderConverter>{data?.gender}</ComGenderConverter>
-              </div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Phòng: {data?.room?.name}
-              </div>
-              <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                Gói đăng ký: {data?.room?.type}
+              <div>
+                <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+                  Cụ: {data?.name}
+                </h3>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Năm sinh:{" "}
+                  <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Giới tính:{" "}
+                  <ComGenderConverter>{data?.gender}</ComGenderConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Phòng: {data?.room?.name}
+                </div>
+                <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+                  Gói đăng ký: {data?.room?.type}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
-            <img
-              class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
-              src={data?.user?.avatarUrl}
-              alt={data?.user?.fullName}
-            />
+          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+              <img
+                class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
+                src={data?.user?.avatarUrl}
+                alt={data?.user?.fullName}
+              />
 
-            <div>
-              <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
-                Người thân: {data?.user?.fullName}
-              </h3>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Năm sinh:{" "}
-                <ComDateConverter>{data?.user?.dateOfBirth}</ComDateConverter>
-              </div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                Giới tính:{" "}
-                <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
-              </div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">
-                CMND or CCCD:{" "}
-                <ComCccdOrCmndConverter>
-                  {data?.user?.cccd}
-                </ComCccdOrCmndConverter>
-              </div>
-              <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
-                Gmail: {data?.user?.email}
+              <div>
+                <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+                  Người thân: {data?.user?.fullName}
+                </h3>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Năm sinh:{" "}
+                  <ComDateConverter>{data?.user?.dateOfBirth}</ComDateConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Giới tính:{" "}
+                  <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  CMND or CCCD:{" "}
+                  <ComCccdOrCmndConverter>
+                    {data?.user?.cccd}
+                  </ComCccdOrCmndConverter>
+                </div>
+                <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+                  Gmail: {data?.user?.email}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <div class="">
-            <ChartFour />
+          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="">
+              <ChartFour />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-span-3 sm:col-span-2">
-        <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-smdark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">
-            Chi tiết hợp đồng
-          </h3>
-          <FormProvider {...methods}>
-            <form
-              // onSubmit={handleSubmit(onSubmit)}
-              className="mx-auto mt-2 max-w-xl "
-            >
-              <div className=" p-2">
-                <div
-                  className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-                  // style={{ height: "65vh" }}
-                >
-                  <div className="sm:col-span-1">
+        <div className="col-span-3 2xl:col-span-2">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-smdark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <h3 class="mb-4 text-xl font-semibold dark:text-white">
+              Chi tiết hợp đồng
+            </h3>
+            <FormProvider {...methods}>
+              <form
+                // onSubmit={handleSubmit(onSubmit)}
+                className="mx-auto mt-2 max-w-xl "
+              >
+                <div className=" p-2">
+                  <div
+                    className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
+                    // style={{ height: "65vh" }}
+                  >
+                    <div className="sm:col-span-1">
+                      <ComInput
+                        type="text"
+                        label="Tên hợp đồng"
+                        placeholder="Vui lòng nhập tên hợp đồng"
+                        readOnly
+                        {...register("contractsInUse.name")}
+                        required
+                      />
+                    </div>
+                    <div className="sm:col-span-1">
+                      <ComDatePicker
+                        label="Ngày ký hợp đồng"
+                        type="numbers"
+                        name={"contractsInUse.signingDate"}
+                        placeholder="Vui lòng nhập ngày ký hợp đồng"
+                        disabled
+                        {...register("contractsInUse.signingDate")}
+                        required
+                      />
+                    </div>
+                    <div className="sm:col-span-1">
+                      <ComDatePicker
+                        label="Ngày bắt đầu hợp đồng"
+                        placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                        disabled
+                        {...register("contractsInUse.startDate")}
+                        required
+                      />
+                    </div>
+                    <div className="sm:col-span-1">
+                      <ComDatePicker
+                        label="Ngày kết thúc hợp đồng"
+                        placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                        disabled
+                        {...register("contractsInUse.endDate")}
+                        required
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <ComTextArea
+                        type="text"
+                        label="Nội dung hợp đồng"
+                        rows={5}
+                        placeholder="Vui lòng nhập nội dung hợp đồng"
+                        readOnly
+                        {...register("contractsInUse.content")}
+                        required
+                      />
+                    </div>
+                    {/* <div className="sm:col-span-2">
                     <ComInput
                       type="text"
-                      label="Tên hợp đồng"
-                      placeholder="Vui lòng nhập tên hợp đồng"
-                      readOnly
-                      {...register("contractsInUse.name")}
+                      label="URL hình ảnh"
+                      placeholder="Vui lòng nhập URL hình ảnh"
+                     readOnly 
+                      {...register("contractsInUse.imageUrl")}
                       required
                     />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <ComDatePicker
-                      label="Ngày ký hợp đồng"
-                      type="numbers"
-                      name={"contractsInUse.signingDate"}
-                      placeholder="Vui lòng nhập ngày ký hợp đồng"
-                      disabled
-                      {...register("contractsInUse.signingDate")}
-                      required
-                    />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <ComDatePicker
-                      label="Ngày bắt đầu hợp đồng"
-                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                      disabled
-                      {...register("contractsInUse.startDate")}
-                      required
-                    />
-                  </div>
-                  <div className="sm:col-span-1">
-                    <ComDatePicker
-                      label="Ngày kết thúc hợp đồng"
-                      placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
-                      disabled
-                      {...register("contractsInUse.endDate")}
-                      required
-                    />
-                  </div>
+                  </div> */}
 
-                  <div className="sm:col-span-2">
-                    <ComTextArea
-                      type="text"
-                      label="Nội dung hợp đồng"
-                      rows={5}
-                      placeholder="Vui lòng nhập nội dung hợp đồng"
-                      readOnly
-                      {...register("contractsInUse.content")}
-                      required
-                    />
-                  </div>
-                  {/* <div className="sm:col-span-2">
-                  <ComInput
-                    type="text"
-                    label="URL hình ảnh"
-                    placeholder="Vui lòng nhập URL hình ảnh"
-                   readOnly 
-                    {...register("contractsInUse.imageUrl")}
-                    required
-                  />
-                </div> */}
-
-                  <div className="sm:col-span-2">
-                    <ComTextArea
-                      label="Ghi chú hợp đồng"
-                      placeholder="Vui lòng nhập ghi chú"
-                      rows={5}
-                      readOnly
-                      {...register("contractsInUse.notes")}
-                      required
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <ComTextArea
-                      label="Mô tả hợp đồng"
-                      placeholder="Vui lòng nhập mô tả"
-                      rows={5}
-                      name="contractsInUse"
-                      readOnly
-                      {...register("contractsInUse.description")}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-            </form>
-          </FormProvider>
-        </div>
-        <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-          <h3 class="mb-4 text-xl font-semibold dark:text-white">
-            Thông tin sức khỏe
-          </h3>
-          <FormProvider {...methods}>
-            <form
-              // onSubmit={handleSubmit(onSubmit)}
-              className="mx-auto mt-2 max-w-xl "
-            >
-              <div className=" p-2">
-                <div
-                  className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-                  // style={{ height: "65vh" }}
-                >
-                  <div className="sm:col-span-2">
-                    <div className="mt-2.5">
-                      <ComInput
-                        type="text"
-                        label={"Nhóm máu"}
-                        placeholder={"Vui lòng nhập Nhóm máu"}
-                        readOnly
-                        {...register("medicalRecord.bloodType")}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="sm:col-span-1">
-                    <div className="mt-2.5">
-                      <ComInput
-                        type="numberFloat"
-                        label={"Cân nặng(KG)"}
-                        placeholder={"Vui lòng nhập Cân nặng"}
-                        readOnly
-                        {...register("medicalRecord.weight")}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="sm:col-span-1">
-                    <div className="mt-2.5">
-                      <ComInput
-                        type="numberFloat"
-                        label={"Chiều cao(Cm)"}
-                        placeholder={"Vui lòng nhập Chiều cao"}
-                        readOnly
-                        {...register("medicalRecord.height")}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <div className="mt-2.5">
+                    <div className="sm:col-span-2">
                       <ComTextArea
-                        type="text"
-                        label={"Bệnh lý trước đó"}
-                        placeholder={"Vui lòng nhập Bệnh lý"}
+                        label="Ghi chú hợp đồng"
+                        placeholder="Vui lòng nhập ghi chú"
                         rows={5}
                         readOnly
-                        {...register("medicalRecord.underlyingDisease")}
+                        {...register("contractsInUse.notes")}
                         required
                       />
                     </div>
-                  </div>
-                  <div className="sm:col-span-2">
-                    <div className="mt-2.5">
+                    <div className="sm:col-span-2">
                       <ComTextArea
-                        type="text"
-                        label={"Ghi chú"}
-                        placeholder={"Vui lòng nhập Ghi chú"}
+                        label="Mô tả hợp đồng"
+                        placeholder="Vui lòng nhập mô tả"
                         rows={5}
+                        name="contractsInUse"
                         readOnly
-                        {...register("medicalRecord.note")}
+                        {...register("contractsInUse.description")}
                         required
                       />
                     </div>
                   </div>
                 </div>
-              </div>
-            </form>
-          </FormProvider>
+              </form>
+            </FormProvider>
+          </div>
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-3 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <h3 class="mb-4 text-xl font-semibold dark:text-white">
+              Thông tin sức khỏe
+            </h3>
+            <FormProvider {...methods}>
+              <form
+                // onSubmit={handleSubmit(onSubmit)}
+                className="mx-auto mt-2 max-w-xl "
+              >
+                <div className=" p-2">
+                  <div
+                    className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
+                    // style={{ height: "65vh" }}
+                  >
+                    <div className="sm:col-span-2">
+                      <div className="mt-2.5">
+                        <ComInput
+                          type="text"
+                          label={"Nhóm máu"}
+                          placeholder={"Vui lòng nhập Nhóm máu"}
+                          readOnly
+                          {...register("medicalRecord.bloodType")}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="sm:col-span-1">
+                      <div className="mt-2.5">
+                        <ComInput
+                          type="numberFloat"
+                          label={"Cân nặng(KG)"}
+                          placeholder={"Vui lòng nhập Cân nặng"}
+                          readOnly
+                          {...register("medicalRecord.weight")}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="sm:col-span-1">
+                      <div className="mt-2.5">
+                        <ComInput
+                          type="numberFloat"
+                          label={"Chiều cao(Cm)"}
+                          placeholder={"Vui lòng nhập Chiều cao"}
+                          readOnly
+                          {...register("medicalRecord.height")}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <div className="mt-2.5">
+                        <ComTextArea
+                          type="text"
+                          label={"Bệnh lý trước đó"}
+                          placeholder={"Vui lòng nhập Bệnh lý"}
+                          rows={5}
+                          readOnly
+                          {...register("medicalRecord.underlyingDisease")}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <div className="mt-2.5">
+                        <ComTextArea
+                          type="text"
+                          label={"Ghi chú"}
+                          placeholder={"Vui lòng nhập Ghi chú"}
+                          rows={5}
+                          readOnly
+                          {...register("medicalRecord.note")}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </FormProvider>
+          </div>
         </div>
       </div>
-
-      <div className="p-4 bg-white ">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết người người lớn tuổi
-        </h2>
-        <table className="w-full">
-          <tbody>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Họ và tên:
-              </td>
-              <td className="px-4 py-2">{data?.name}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Ngày tháng năm sinh:
-              </td>
-              <td className="px-4 py-2">
-                <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{data?.room?.name}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Loại phòng:
-              </td>
-              <td className="px-4 py-2">{data?.room?.type}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{data?.dateOfBirth}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Ngày có hiệu lực:
-              </td>
-              <td className="px-4 py-2">
-                <ComDateConverter>
-                  {data?.contractsInUse?.startDate}
-                </ComDateConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Ngày hết hạn hợp đồng:
-              </td>
-              <td className="px-4 py-2">
-                <ComDateConverter>
-                  {data?.contractsInUse?.endDate}
-                </ComDateConverter>
-              </td>
-            </tr>
-            {/* Thêm các dòng khác cho thông tin chi tiết */}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </>
   );
 }

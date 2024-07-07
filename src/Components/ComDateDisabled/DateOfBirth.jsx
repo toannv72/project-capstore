@@ -9,3 +9,19 @@ export const DateOfBirth = (current) => {
 
   return current && (current < minDate || current > maxDate);
 };
+export const DateOfLastDay = (current) => {
+  const maxYearsPast = 80;
+  const minDate = moment().subtract(maxYearsPast, "years");
+  const maxDate = moment();
+
+  return current && (current < minDate || current > maxDate);
+};
+
+export const DateOfContract = (current) => {
+  const rangeYears = 10;
+
+  const minDate = moment().subtract(rangeYears, "years");
+  const maxDate = moment().add(rangeYears, "years");
+
+  return current && (current < minDate || current > maxDate);
+};

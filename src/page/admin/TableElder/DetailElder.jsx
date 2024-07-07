@@ -5,7 +5,12 @@ import { useLocation } from "react-router-dom";
 
 export default function DetailElder({ selectedData }) {
   const location = useLocation();
-console.log(location);
+  console.log(location);
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
+
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -64,7 +69,11 @@ console.log(location);
           </tbody>
         </table>
         <div className="flex items-center justify-center">
-          <ComLink to={`${location.pathname}/${selectedData.id}`}>
+          <ComLink
+            to={`/${getRoleFromPath(location.pathname)}/elder/${
+              selectedData?.id
+            }`}
+          >
             Xem thêm
           </ComLink>
         </div>

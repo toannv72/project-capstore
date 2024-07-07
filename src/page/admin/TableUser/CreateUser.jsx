@@ -13,7 +13,7 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
-import { addressRegex, cccdRegex, nameRegex, phoneNumberRegex } from "../../../regexPatterns";
+import { addressRegex, cccdRegex, emailRegex, nameRegex, phoneNumberRegex } from "../../../regexPatterns";
 
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
@@ -49,6 +49,10 @@ export default function CreateUser({ onClose, tableRef }) {
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
+    email: yup
+      .string()
+      .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
+      .required("Vui lòng nhập đầy đủ email"),
   });
 
   const methods = useForm({
@@ -150,7 +154,7 @@ export default function CreateUser({ onClose, tableRef }) {
                       label={"Ngày tháng năm sinh"}
                       placeholder={"VD:17-12-2000"}
                       {...register("dateOfBirth")}
-                      // required
+                      required
                     />
                   </div>
                 </div>
@@ -161,7 +165,7 @@ export default function CreateUser({ onClose, tableRef }) {
                       label={"Gmail"}
                       placeholder={"Vui lòng nhập Gmail"}
                       {...register("email")}
-                      // required
+                      required
                     />
                   </div>
                 </div>

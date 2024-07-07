@@ -33,7 +33,7 @@ export const Tables = forwardRef((props, ref) => {
   useEffect(() => {
     reloadData();
   }, []);
-console.log(data);
+console.log(11111111111,selectedElder);
   const reloadData = () => {
     getData("/users?RoleNames=Customer&SortDir=Desc")
       .then((e) => {
@@ -293,7 +293,7 @@ console.log(data);
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}
       >
-        <DetailElder selectedUser={selectedElder} />
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
       {/* chỉnh sửa user */}
       <ComModal
