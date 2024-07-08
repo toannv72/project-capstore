@@ -1789,6 +1789,7 @@ class MyLargeComponent extends React.Component {
                           className="intro__separator"
                           src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                           data-eio="l"
+                          alt="careconnect"
                         />
                       </noscript>
                     </div>
@@ -2029,10 +2030,7 @@ class MyLargeComponent extends React.Component {
                       <h2 className="latest-news__title">Tin tức mới nhất</h2>
                       <p className="latest-news__intro">&nbsp;</p>
 
-                      <ul
-                        className="latest-news__card-grid card-grid card-grid--news"
-                    
-                      >
+                      <ul className="latest-news__card-grid card-grid card-grid--news">
                         <li className="latest-news__list-item">
                           <Link
                             to="/"
