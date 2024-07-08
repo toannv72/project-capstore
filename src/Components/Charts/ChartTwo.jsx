@@ -81,38 +81,7 @@ const ChartTwo = () => {
   };
   // handleReset();
 
-  const handleExportChart = () => {
-    // Get the SVG of the chart
-    const svg = document.querySelector(".apexcharts-canvas svg");
-    if (svg) {
-      const svgData = new XMLSerializer().serializeToString(svg);
-
-      // Create a canvas element to render SVG to
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      const width = parseInt(svg.getAttribute("width"));
-      const height = parseInt(svg.getAttribute("height"));
-      canvas.width = width;
-      canvas.height = height;
-
-      // Create an image element
-      const image = new Image();
-      image.onload = () => {
-        ctx.drawImage(image, 0, 0);
-
-        // Convert canvas to data URL and trigger download
-        const dataURL = canvas.toDataURL("image/png");
-        const downloadLink = document.createElement("a");
-        downloadLink.href = dataURL;
-        downloadLink.download = "chart.png";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-      };
-      image.src =
-        "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
-    }
-  };
+ 
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
@@ -170,7 +139,7 @@ const ChartTwo = () => {
           />
         </div>
       </div>
-        <button className="p-4" onClick={handleExportChart}>Download Chart</button>
+
     </div>
   );
 };

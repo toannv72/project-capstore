@@ -5,12 +5,12 @@ import ComInput from "./../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "./../../../Notification/Notification";
-import { getData, postData } from "../../../api/api";
+import { getData, postData, putData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
-export default function CreateRoom({ isOpen, onClose, getDataApi }) {
+export default function EditRoom({ dataSelect, onClose, getDataApi }) {
   const [dataBlock, setDataBlock] = useState([]);
   const [dataPackage, setDataPackage] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState();
@@ -19,23 +19,20 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
 
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
-    blockId: yup.string().required("Vui chọn khu"),
-    nursingPackageId: yup.string().required("Vui chọn gói dưỡng lão "),
+    // blockId: yup.string().required("Vui chọn khu"),
+    // nursingPackageId: yup.string().required("Vui chọn gói dưỡng lão "),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
+    values: dataSelect,
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
 
   const onSubmit = (data) => {
     console.log(data);
-    postData(`/room?blockId=${data?.blockId}`, data)
+    putData(`/room`, data?.id, data)
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
         getDataApi();
@@ -106,14 +103,14 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
-                      label={"Tên phòng "}
-                      placeholder={"Tên phòng "}
+                      label={"Tên phòng"}
+                      placeholder={"Tên phòng"}
                       {...register("name")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -150,7 +147,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                       {...register("nursingPackageId")}
                     />
                   </div>
-                </div>
+                </div> */}
                 {/* <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea
@@ -172,7 +169,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Chỉnh sửa
               </ComButton>
             </div>
           </form>

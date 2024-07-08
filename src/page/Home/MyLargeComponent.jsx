@@ -808,7 +808,7 @@ class MyLargeComponent extends React.Component {
                                         <img
                                           className="object-fit lazyload"
                                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZkAAAETAQMAAADeQOkzAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACVJREFUaN7twTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAK4GOO8AASXwK+wAAAAASUVORK5CYII="
-                                          alt=""
+                                          alt="người già "
                                           data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
                                           decoding="async"
                                           data-eio-rwidth="409"
@@ -818,7 +818,7 @@ class MyLargeComponent extends React.Component {
                                           <img
                                             className="object-fit"
                                             src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
-                                            alt=""
+                                            alt="người già "
                                             data-eio="l"
                                           />
                                         </noscript>
@@ -938,7 +938,7 @@ class MyLargeComponent extends React.Component {
                                         <img
                                           className="object-fit lazyload"
                                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqwAAAHIAQMAAACxgSqiAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAD1JREFUGBntwQENAAAAwiD7p34PBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAsBmvgAAXdMsXwAAAAASUVORK5CYII="
-                                          alt=""
+                                          alt="người già "
                                           data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-490349156-684x456.jpg"
                                           decoding="async"
                                           data-eio-rwidth="684"
@@ -948,7 +948,7 @@ class MyLargeComponent extends React.Component {
                                           <img
                                             className="object-fit"
                                             src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-490349156-684x456.jpg"
-                                            alt=""
+                                            alt="người già "
                                             data-eio="l"
                                           />
                                         </noscript>
@@ -1213,7 +1213,7 @@ class MyLargeComponent extends React.Component {
                                         <img
                                           className="object-fit lazyload"
                                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqwAAAHIAQMAAACxgSqiAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAD1JREFUGBntwQENAAAAwiD7p34PBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAsBmvgAAXdMsXwAAAAASUVORK5CYII="
-                                          alt=""
+                                          alt="người già"
                                           data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-159302418-684x456.jpg"
                                           decoding="async"
                                           data-eio-rwidth="684"
@@ -1223,7 +1223,7 @@ class MyLargeComponent extends React.Component {
                                           <img
                                             className="object-fit"
                                             src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-159302418-684x456.jpg"
-                                            alt=""
+                                            alt="người già"
                                             data-eio="l"
                                           />
                                         </noscript>
@@ -1350,7 +1350,7 @@ class MyLargeComponent extends React.Component {
                           >
                             <img
                               src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                              alt=""
+                              alt="người già"
                               data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
                               decoding="async"
                               className="lazyloaded"
@@ -1358,7 +1358,7 @@ class MyLargeComponent extends React.Component {
                             <noscript>
                               <img
                                 src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                                alt=""
+                                alt="người già"
                                 data-eio="l"
                               />
                             </noscript>
@@ -1409,7 +1409,7 @@ class MyLargeComponent extends React.Component {
                                     Close
                                     <img
                                       src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                                      alt=""
+                                      alt="người già"
                                       data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
                                       decoding="async"
                                       className="lazyload"
@@ -1417,7 +1417,7 @@ class MyLargeComponent extends React.Component {
                                     <noscript>
                                       <img
                                         src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
-                                        alt=""
+                                        alt="người già"
                                         data-eio="l"
                                       />
                                     </noscript>
@@ -1574,7 +1574,7 @@ class MyLargeComponent extends React.Component {
                             <img
                               className="tile-grid__image lazyloaded"
                               src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
-                              alt=""
+                              alt="người già"
                               data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
                               decoding="async"
                               data-eio-rwidth="468"
@@ -1584,7 +1584,7 @@ class MyLargeComponent extends React.Component {
                               <img
                                 className="tile-grid__image"
                                 src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
-                                alt=""
+                                alt="người già"
                                 data-eio="l"
                               />
                             </noscript>
@@ -1604,7 +1604,7 @@ class MyLargeComponent extends React.Component {
                             <img
                               className="tile-grid__image lazyloaded"
                               src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
-                              alt=""
+                              alt="người già"
                               data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
                               decoding="async"
                               data-eio-rwidth="468"
@@ -1614,7 +1614,7 @@ class MyLargeComponent extends React.Component {
                               <img
                                 className="tile-grid__image"
                                 src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
-                                alt=""
+                                alt="người già"
                                 data-eio="l"
                               />
                             </noscript>
@@ -1634,7 +1634,7 @@ class MyLargeComponent extends React.Component {
                             <img
                               className="tile-grid__image lazyloaded"
                               src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
-                              alt=""
+                              alt="người già"
                               data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
                               decoding="async"
                               data-eio-rwidth="468"
@@ -1644,7 +1644,7 @@ class MyLargeComponent extends React.Component {
                               <img
                                 className="tile-grid__image"
                                 src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
-                                alt=""
+                                alt="người già"
                                 data-eio="l"
                               />
                             </noscript>
@@ -2051,7 +2051,7 @@ class MyLargeComponent extends React.Component {
                                   height="300"
                                   src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                                   className="card__image wp-post-image lazyautosizes ls-is-cached lazyloaded"
-                                  alt=""
+                                  alt="người già"
                                   decoding="async"
                                   data-src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                                   data-srcset="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png 300w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-468x468.png 468w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-684x684.png 684w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-768x768.png 768w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-1536x1536.png 1536w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-2048x2048.png 2048w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-125x125.png 125w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-545x545.png 545w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-1090x1090.png 1090w"
@@ -2077,7 +2077,7 @@ class MyLargeComponent extends React.Component {
                                     height="300"
                                     src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                                     className="card__image wp-post-image"
-                                    alt=""
+                                    alt="người già"
                                     decoding="async"
                                     srcset="
                                   https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png    300w,

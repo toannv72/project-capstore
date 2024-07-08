@@ -9,11 +9,13 @@ import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import EditBlock from "./EditBlock";
 
 export const TableBlock = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
+  const [dataSelect, setDataSelect] = useState(null);
 
   const { getColumnSearchProps } = useColumnSearch();
   const {
@@ -22,6 +24,7 @@ export const TableBlock = forwardRef((props, ref) => {
       common: { button },
     },
   } = useContext(LanguageContext);
+ 
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -30,6 +33,7 @@ export const TableBlock = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "name",
         key: "name",
+        ...getColumnSearchProps("name", "tên khu"),
       },
       {
         title: "Status",
@@ -55,21 +59,21 @@ export const TableBlock = forwardRef((props, ref) => {
         dataIndex: "unusedBed",
         key: "unusedBed",
       },
-      {
-        title: "Action",
-        key: "operation",
-        fixed: "right",
-        width: 50,
-        render: (_, record) => (
-          <div className="flex items-center flex-col">
-            <div>
-              <Typography.Link onClick={() => modal?.handleOpen(record)}>
-                Chấp nhận
-              </Typography.Link>
-            </div>
-          </div>
-        ),
-      },
+      // {
+      //   title: "Action",
+      //   key: "operation",
+      //   fixed: "right",
+      //   width: 50,
+      //   render: (_, record) => (
+      //     <div className="flex items-center flex-col">
+      //       <div>
+      //         <Typography.Link onClick={() => modal?.handleOpen(record)}>
+      //           Chấp nhận
+      //         </Typography.Link>
+      //       </div>
+      //     </div>
+      //   ),
+      // },
     ];
     return (
       <Table
@@ -137,21 +141,16 @@ export const TableBlock = forwardRef((props, ref) => {
       // fixed: "right",
       width: 40,
       render: (_, record) => (
-        // <div className="flex items-center flex-col">
-        //   <div>
-        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
-        //       Chấp nhận
-        //     </Typography.Link>
-        //   </div>
-
-        // </div>
         <div className="flex items-center flex-col">
           <ComMenuButonTable
             record={record}
             // showModalDetails={() => showModaldElder(record)}
-            showModalEdit={()=>modal?.handleOpen(record)}
+            showModalEdit={() => {
+              modal?.handleOpen(record)
+              setDataSelect(record);
+            }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
         </div>
@@ -191,7 +190,11 @@ export const TableBlock = forwardRef((props, ref) => {
         }}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+        <EditBlock
+          getDataApi={reloadData}
+          onClose={modal?.handleClose}
+          dataSelect={dataSelect}
+        />
       </ComModal>
     </div>
   );

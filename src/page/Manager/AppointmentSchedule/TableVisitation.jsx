@@ -18,14 +18,9 @@ export default function TableVisitation() {
   const modal = useModalState();
   const [selectedData, setSelectedData] = useState(null);
 
-  const { getColumnSearchProps, getColumnApprox, getColumnApprox1 } =
+  const { getColumnSearchProps, getColumnApprox } =
     useColumnSearch();
-  const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
-  } = useContext(LanguageContext);
+
   console.log(data);
   const columns = [
     {
@@ -116,7 +111,7 @@ export default function TableVisitation() {
               setSelectedData(record)
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete","details"]}
             // order={order}
           />
         </div>

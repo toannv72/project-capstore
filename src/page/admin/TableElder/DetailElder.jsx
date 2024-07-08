@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import { ComLink } from "./../../../Components/ComLink/ComLink";
 import { useLocation } from "react-router-dom";
+import { getData } from "../../../api/api";
+import ErrorPage from "../../404/ErrorPage";
 
 export default function DetailElder({ selectedData }) {
+  const [data, setData] = useState({});
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [error, setErrorApi] = useState(false);
   console.log(location);
+  useEffect(() => {
+    setData(selectedData);
+
+    getData(`/elders/${selectedData?.id}`)
+      .then((e) => {
+        setData(e?.data);
+      })
+      .catch((error) => {
+        setErrorApi(true);
+        console.error("Error fetching items:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [selectedData]);
   function getRoleFromPath(pathname) {
     const parts = pathname.split("/");
     return parts[1];
   }
 
+  if (error) {
+    return (
+      <>
+        Người già này hiện không có
+      </>
+    );
+  }
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -23,38 +50,36 @@ export default function DetailElder({ selectedData }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{selectedData?.name}</td>
+              <td className="px-4 py-2">{data.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày tháng năm sinh:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedData?.dateOfBirth}</ComDateConverter>
+                <ComDateConverter>{data.dateOfBirth}</ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{selectedData?.room?.name}</td>
+              <td className="px-4 py-2">{data.room?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Loại phòng:
               </td>
-              <td className="px-4 py-2">{selectedData?.room?.type}</td>
+              <td className="px-4 py-2">{data.room?.type}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{selectedData?.dateOfBirth}</td>
+              <td className="px-4 py-2">{data.dateOfBirth}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày có hiệu lực:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>
-                  {selectedData?.effectiveDate}
-                </ComDateConverter>
+                <ComDateConverter>{data.effectiveDate}</ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -62,7 +87,7 @@ export default function DetailElder({ selectedData }) {
                 Ngày hết hạn hợp đồng:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedData?.expiryDate}</ComDateConverter>
+                <ComDateConverter>{data.expiryDate}</ComDateConverter>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}

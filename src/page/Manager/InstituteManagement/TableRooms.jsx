@@ -11,10 +11,15 @@ import { useModalState } from "./../../../hooks/useModalState";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import EditRoom from "./EditRoom";
+import DetailElder from "../../admin/TableElder/DetailElder";
 
 export const TableRooms = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
+  const [dataSelect, setDataSelect] = useState(null);
   const table = useTableState();
+  const modalDetailElder = useModalState();
+  const [selectedElder, setSelectedElder] = useState(null);
   const modal = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
   const {
@@ -27,6 +32,10 @@ export const TableRooms = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
+    const showModaldElder = (record) => {
+      modalDetailElder.handleOpen();
+      setSelectedElder(record);
+    };
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -93,11 +102,14 @@ export const TableRooms = forwardRef((props, ref) => {
         width: 50,
         render: (_, record) => (
           <div className="flex items-center flex-col">
-            <div>
-              <Typography.Link onClick={() => modal?.handleOpen(record)}>
-                Chấp nhận
-              </Typography.Link>
-            </div>
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModaldElder(record)}
+         
+              // extraMenuItems={extraMenuItems}
+              excludeDefaultItems={["delete","edit"]}
+              // order={order}
+            />
           </div>
         ),
       },
@@ -134,7 +146,8 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "block",
       key: "block",
-      render: (render) => <div>{render?.name}</div>,
+      // render: (render) => <div>{render?.name}</div>,
+      ...getColumnSearchProps("block.name", "Khu"),
     },
     {
       title: "Loại phòng",
@@ -181,9 +194,12 @@ export const TableRooms = forwardRef((props, ref) => {
           <ComMenuButonTable
             record={record}
             // showModalDetails={() => showModaldElder(record)}
-            showModalEdit={() => modal?.handleOpen(record)}
+            showModalEdit={() => {
+              modal?.handleOpen(record);
+              setDataSelect(record);
+            }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
         </div>
@@ -217,7 +233,17 @@ export const TableRooms = forwardRef((props, ref) => {
         loading={table.loading}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+        <EditRoom
+          onClose={modal?.handleClose}
+          dataSelect={dataSelect}
+          getDataApi={reloadData}
+        />
+      </ComModal>
+      <ComModal
+        isOpen={modalDetailElder?.isModalOpen}
+        onClose={modalDetailElder?.handleClose}
+      >
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
     </div>
   );
