@@ -1538,12 +1538,14 @@ class MyLargeComponent extends React.Component {
                         src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                         data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                         decoding="async"
+                        alt="careconnect"
                       />
                       <noscript>
                         <img
                           className="intro__separator"
                           src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                           data-eio="l"
+                          alt="careconnect"
                         />
                       </noscript>
                       <div className="intro__description">
@@ -2029,13 +2031,12 @@ class MyLargeComponent extends React.Component {
 
                       <ul
                         className="latest-news__card-grid card-grid card-grid--news"
-                        role="list"
+                    
                       >
                         <li className="latest-news__list-item">
                           <Link
                             to="/"
                             rticle
-                            id="post-9019"
                             className="post-9019 post type-post status-publish format-standard has-post-thumbnail category-health-wellbeing"
                           >
                             <Link
