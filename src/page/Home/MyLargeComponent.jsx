@@ -1783,6 +1783,7 @@ class MyLargeComponent extends React.Component {
                         src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                         data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/separator.svg"
                         decoding="async"
+                        alt="careconnectadmin"
                       />
                       <noscript>
                         <img

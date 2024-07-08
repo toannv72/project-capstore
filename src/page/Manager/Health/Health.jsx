@@ -6,6 +6,7 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import CreateAll from "./CreateAll";
 import { TableHealth } from './TableHealth';
 import { TableHealthCategory } from './TableHealthCategory';
+import DetailEmployee from "../../admin/TableEmployee/DetailEmployee";
 
 function Health() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
@@ -47,12 +48,12 @@ function Health() {
         </div>
       </div>
       {viewTable()}
-      <ComModal isOpen={modal?.isModalOpen} width={800} onClose={modal?.handleClose}>
-        <CreateAll
-          isOpen={modal?.isModalOpen}
-          onClose={modal?.handleClose}
-          tableRef={tableRef}
-        />
+      <ComModal
+        isOpen={modal?.isModalOpen}
+        width={800}
+        onClose={modal?.handleClose}
+      >
+        <DetailEmployee />
       </ComModal>
     </>
   );

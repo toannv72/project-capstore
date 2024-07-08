@@ -146,14 +146,15 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             tableRef();
             onClose();
           })
-          .catch((e) => {
-            console.log(e);
+          .catch((error) => {
+            console.log(error);
             notificationApi(
               "error",
               "Chỉnh sửa không thành công ",
               "Chỉnh sửa"
             );
-            if (e.status === 409) {
+            handleErrors(error, setError, setFocus);
+            if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });

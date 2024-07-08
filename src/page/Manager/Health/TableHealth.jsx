@@ -10,12 +10,15 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import DetailEmployee from "./../../admin/TableEmployee/DetailEmployee";
 
 export const TableHealth = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
-
+  const modalDetailEmployee = useModalState();
+  const [selectedElder, setSelectedElder] = useState(null);
+console.log(selectedElder);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const {
     text: {
@@ -132,6 +135,16 @@ export const TableHealth = forwardRef((props, ref) => {
       dataIndex: "creatorInfo.fullName",
       key: "creatorInfo.fullName",
       ...getColumnSearchProps("creatorInfo.fullName", "Tên người do"),
+      render: (user, data) => (
+        <Typography.Link
+          onClick={() => {
+            setSelectedElder(data.creatorInfo);
+            modalDetailEmployee.handleOpen();
+          }}
+        >
+          {data.creatorInfo.fullName}
+        </Typography.Link>
+      ),
     },
     {
       title: "Thời gian đo",
@@ -223,6 +236,12 @@ export const TableHealth = forwardRef((props, ref) => {
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <div key={2}>heloo</div>
+      </ComModal>
+      <ComModal
+        isOpen={modalDetailEmployee?.isModalOpen}
+        onClose={modalDetailEmployee?.handleClose}
+      >
+        <DetailEmployee selectedData={selectedElder} />
       </ComModal>
     </div>
   );
