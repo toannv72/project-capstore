@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComButton from "./../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
@@ -10,130 +10,378 @@ import { useNotification } from "./../../../Notification/Notification";
 import ComRangePicker from "../../../Components/ComRangePicker/ComRangePicker";
 import moment from "moment";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import { getData, postData } from "../../../api/api";
+import ComSelect from "../../../Components/ComInput/ComSelect";
+import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import {
+  DateOfContract,
+  DateOfLastDay,
+} from "../../../Components/ComDateDisabled/DateOfBirth";
 
 export default function CreateContract({ onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
+  const [dataRoom, setDataRoom] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState();
+  const [selectedPackage, setSelectedPackage] = useState();
+  const [selectedElders, setSelectedElders] = useState();
+  const [dataPackage, setDataPackage] = useState([]);
+  const [dataUser, setDataUser] = useState([]);
+  const [dataElders, setDataElders] = useState([]);
+
   const disabledDate = (current) => {
     const yearsAgo120 = moment().subtract(120, "years");
     const yearsLater120 = moment().add(120, "years");
     return current && (current < yearsAgo120 || current > yearsLater120);
   };
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhập đủ họ và tên"),
-    phone: yup.string().required("Vui lòng nhập đủ họ và tên"),
-    day: yup
-      .array()
-      .min(1, "Vui lòng nhập ít nhất một ngày")
-      .required("Vui lòng nhập đủ họ và tên"),
+    userId: yup.string().required("Vui lòng chọn người đăng ký"),
+    elderId: yup.string().required("Vui lòng chọn người thân"),
+    nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
+
+    name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+    signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
+    startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
+    endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
+    content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
+    notes: yup.string().required("Vui lòng nhập ghi chú"),
+    description: yup.string().required("Vui lòng nhập mô tả"),
   });
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {
-      name: "1",
-      phone: "",
-      day: ["2024-06-18", "2024-06-19"],
-      days: "2024-06-18",
+  
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue } = methods;
-
+  const { handleSubmit, register, setFocus, watch, setError, setValue } =
+    methods;
+  function convertUrlsToObjects(urls) {
+    return urls.map((url) => ({ imageUrl: url }));
+  }
   const onSubmit = (data) => {
     console.log(data);
 
-    firebaseImgs(image).then((dataImg) => {
-      console.log("ảnh nè : ", dataImg);
-      notificationApi("success", "tạo thành công", "đã tạo");
-      onClose();
-    });
-  };
+    if (Array.isArray(image) && image.length === 0) {
+      notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh hợp đồng "
+      );
+    } else {
+      firebaseImgs(image).then((dataImg1) => {
+        console.log(dataImg1);
+        setValue("images", convertUrlsToObjects(dataImg1));
 
+        postData("/contract", {
+          ...data,
+        })
+          .then((e) => {
+            notificationApi("success", "tạo thành công", "đã tạo");
+
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+            notificationApi("error", "tạo không thành công", "đã tạo");
+          });
+      });
+    }
+  };
+  useEffect(() => {
+    reloadData();
+  }, []);
+  const reloadData = () => {
+    getData("/users?SortDir=Desc")
+      .then((e) => {
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Tên: ${item.fullName} 
+          Số Đt: ${item.phoneNumber} 
+          CCCD: ${item.cccd}`,
+        }));
+        setDataUser(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+    getData(`/room?NursingPackageId=${selectedPackage}`)
+      .then((e) => {
+        console.log(e?.data?.contends);
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Khu:${item.name}/Phòng:${item.name}`,
+        }));
+        setDataRoom(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+    getData("/nursing-package")
+      .then((e) => {
+        const dataForSelects = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+        setDataPackage(dataForSelects);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  };
+  const handleChange = (e, value) => {
+    // setSelectedUser(value);
+    setDataElders([]);
+    setSelectedElders(null);
+    setValue("elderId", null, { shouldValidate: false });
+    if (value.length === 0) {
+      setValue("userId", null, { shouldValidate: true });
+    } else {
+      getData(`elders?UserId=${value}`).then((e) => {
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Tên cụ: ${item.name} 
+          CCCD: ${item.cccd}`,
+        }));
+        setDataElders(dataForSelect);
+      });
+      setValue("userId", value, { shouldValidate: true });
+    }
+  };
+  const handleChangeElders = (e, value) => {
+    setSelectedElders(value);
+    if (value.length === 0) {
+      setValue("elderId", null, { shouldValidate: true });
+    } else {
+      setValue("elderId", value, { shouldValidate: true });
+    }
+  };
   const onChange = (data) => {
     const selectedImages = data;
     const newImages = selectedImages.map((file) => file.originFileObj);
     setImages(newImages);
   };
+  const handleChangeRoom = (e, value) => {
+    setSelectedRoom(value);
+    if (value.length === 0) {
+      setValue("roomId", null, { shouldValidate: true });
+    } else {
+      setValue("roomId", value, { shouldValidate: true });
+    }
+  };
+  const handleChange2 = (e, value) => {
+    setSelectedPackage(value);
+    setSelectedRoom(null);
+    setValue("roomId", null);
+    getData(`/room?NursingPackageId=${value}`)
+      .then((e) => {
+        console.log(e?.data?.contends);
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Khu:${item.name}/Phòng:${item.name}`,
+        }));
+        setDataRoom(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+    if (value.length === 0) {
+      setValue("nursingPackageId", null, { shouldValidate: true });
+    } else {
+      setValue("nursingPackageId", value, { shouldValidate: true });
+    }
+  };
   return (
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">
-          Tạo thông tin hợp đồng
+          Tạo hợp đồng mới
         </h2>
         <FormProvider {...methods}>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="mx-auto mt-2 max-w-xl "
           >
-            <div className=" overflow-y-auto p-2">
+            <div className=" p-2">
               <div
                 className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
                 // style={{ height: "65vh" }}
               >
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Người đăng ký"
+                      placeholder="Người đăng ký"
+                      onChangeValue={handleChange}
+                      // value={selectedUser}
+                      filterOption={(inputValue, option) =>
+                        option.searchString
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
+                      }
+                      showSearch
+                      mode="default"
+                      options={dataUser}
+                      required
+                      {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn người thân"
+                      placeholder="Người thân"
+                      onChangeValue={handleChangeElders}
+                      value={selectedElders}
+                      filterOption={(inputValue, option) =>
+                        option.searchString
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
+                      }
+                      showSearch
+                      mode="default"
+                      options={dataElders}
+                      required
+                      {...register("elderId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    Thông tin hợp đồng
+                  </h3>
+                </div>
+                <div className="sm:col-span-2">
+                  <ComInput
+                    type="text"
+                    label="Tên hợp đồng"
+                    placeholder="Vui lòng nhập tên hợp đồng"
+                    {...register("name")}
+                    required
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Họ và Tên người già"}
-                      placeholder={"Vui lòng nhập Họ và Tên"}
-                      {...register("name")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số điện thoại"}
-                      placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phone")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
-                      {...register("phone")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComDatePicker
-                      label="Chọn khoảng thời gian"
-                      required
-                       
-                      disabledDate={disabledDate}
-                      {...register("days")}
-                      // Các props khác của RangePicker
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComRangePicker
-                      label="Chọn khoảng thời gian"
-                      required
-                       
-                      onChangeValue={(e, data) => {
-                        setValue("day1", data[0]);
-                        setValue("day2", data[1]);
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
                       }}
-                      disabledDate={disabledDate}
-                      {...register("day")}
-                      // Các props khác của RangePicker
+                      label="Chọn gói cho hợp đồng"
+                      placeholder="Gói"
+                      onChangeValue={handleChange2}
+                      value={selectedPackage}
+                      // mode="tags"
+                      mode="default"
+                      options={dataPackage}
+                      required
+                      {...register("nursingPackageId")}
                     />
                   </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn phòng"
+                      placeholder="Phòng"
+                      onChangeValue={handleChangeRoom}
+                      showSearch
+                      value={selectedRoom}
+                      // mode="tags"
+                      mode="default"
+                      options={dataRoom}
+                      required
+                      {...register("roomId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <ComDatePicker
+                    label="Ngày ký hợp đồng"
+                    type="numbers"
+                    disabledDate={DateOfLastDay}
+                    name={"signingDate"}
+                    placeholder="Vui lòng nhập ngày ký hợp đồng"
+                    {...register("signingDate")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComDatePicker
+                    label="Ngày bắt đầu hợp đồng"
+                    disabledDate={DateOfContract}
+                    name="contract"
+                    placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                    {...register("startDate")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-1">
+                  <ComDatePicker
+                    label="Ngày kết thúc hợp đồng"
+                    disabledDate={DateOfContract}
+                    name="contract"
+                    placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                    {...register("endDate")}
+                    required
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    type="text"
+                    label="Nội dung hợp đồng"
+                    rows={5}
+                    name="contract"
+                    placeholder="Vui lòng nhập nội dung hợp đồng"
+                    {...register("content")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComUpImg
+                    onChange={onChange}
+                    label={"Hình ảnh hợp đồng"}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Ghi chú hợp đồng"
+                    placeholder="Vui lòng nhập ghi chú"
+                    rows={5}
+                    name="contract"
+                    {...register("notes")}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Mô tả hợp đồng"
+                    placeholder="Vui lòng nhập mô tả"
+                    rows={5}
+                    name="contract"
+                    {...register("description")}
+                    required
+                  />
                 </div>
               </div>
             </div>
-            <ComUpImg onChange={onChange} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

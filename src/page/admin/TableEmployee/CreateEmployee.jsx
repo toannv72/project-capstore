@@ -19,11 +19,13 @@ import {
   nameRegex,
   addressRegex,
   usernameRegex,
+  emailRegex,
 } from "./../../../regexPatterns";
 import { postData } from "../../../api/api";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateEmployee({ onClose, tableRef }) {
-  const [image, setImages] = useState({});
+  const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
 
   // const nameRegex =
@@ -38,6 +40,10 @@ export default function CreateEmployee({ onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
+    email: yup
+      .string()
+      .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
+      .required("Vui lòng nhập đầy đủ email"),
     userName: yup
       .string()
       .required("Vui lòng nhập tên đăng nhập")
@@ -57,7 +63,7 @@ export default function CreateEmployee({ onClose, tableRef }) {
       .min(7, "Mật khẩu quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
       .max(50, "Mật khẩu quá dài, vui lòng nhập tối đa 50 ký tự"),
     role: yup.string().required("Vui lòng chọn chức vụ"),
-    gender: yup.string().required("Vui lòng chọn giới tinh"),
+    gender: yup.string().required("Vui lòng chọn giới tính"),
     phoneNumber: yup
       .string()
       .required("Vui lòng nhập đủ số điện thoại")
@@ -96,17 +102,25 @@ export default function CreateEmployee({ onClose, tableRef }) {
       value: "Staff",
     },
   ];
-    const dataGender = [
-      {
-        label: "Nam",
-        value: "Male",
-      },
-      {
-        label: "Nữ",
-        value: "Female",
-      },
-    ];
+  const dataGender = [
+    {
+      label: "Nam",
+      value: "Male",
+    },
+    {
+      label: "Nữ",
+      value: "Female",
+    },
+  ];
   const onSubmit = (data) => {
+    if (!image) {
+      console.log(123);
+      return notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh"
+      );
+    }
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       postData(`/users/system-register?roleRegister=${data.role}`, {
@@ -123,21 +137,10 @@ export default function CreateEmployee({ onClose, tableRef }) {
           }, 100);
           onClose();
         })
-        .catch((e) => {
+        .catch((error) => {
+          handleErrors(error, setError, setFocus);
           console.log("====================================");
-          console.log(e);
-          if (e.status === 409) {
-            setFocus("phoneNumber")
-            setError("phoneNumber", {
-              message: "Đã có số điện thoại này",
-            });
-          }
-           if (e.status === 400) {
-             setFocus("userName");
-             setError("userName", {
-               message: "Đã có tên tài khoản này ",
-             });
-           }
+          console.log(error);
           console.log("====================================");
         });
     });
@@ -262,7 +265,7 @@ export default function CreateEmployee({ onClose, tableRef }) {
                       label={"Gmail"}
                       placeholder={"Vui lòng nhập Gmail"}
                       {...register("email")}
-                      // required
+                      required
                     />
                   </div>
                 </div>

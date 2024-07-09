@@ -13,7 +13,14 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
-import { addressRegex, cccdRegex, emailRegex, nameRegex, phoneNumberRegex } from "../../../regexPatterns";
+import {
+  addressRegex,
+  cccdRegex,
+  emailRegex,
+  nameRegex,
+  phoneNumberRegex,
+} from "../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
@@ -66,7 +73,13 @@ export default function CreateUser({ onClose, tableRef }) {
 
   const onSubmit = (data) => {
     console.log(data);
-
+    if (!image) {
+      return notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh"
+      );
+    }
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       postData("/users/customer-register", { ...data, avatarUrl: dataImg })
@@ -80,10 +93,12 @@ export default function CreateUser({ onClose, tableRef }) {
           }, 100);
           onClose();
         })
-        .catch((e) => {
+        .catch((error) => {
+          handleErrors(error, setError, setFocus);
+
           console.log("====================================");
-          console.log(e);
-          if (e.status === 409) {
+          console.log(error);
+          if (error.status === 409) {
             setError("phoneNumber", {
               message: "Đã có số điện thoại này",
             });

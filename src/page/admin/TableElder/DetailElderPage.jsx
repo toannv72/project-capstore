@@ -212,7 +212,8 @@ export default function DetailElderPage() {
                         type="numbers"
                         name={"contractsInUse.signingDate"}
                         placeholder="Vui lòng nhập ngày ký hợp đồng"
-                        disabled
+                        open={false}
+                        inputReadOnly
                         {...register("contractsInUse.signingDate")}
                         required
                       />
@@ -221,7 +222,9 @@ export default function DetailElderPage() {
                       <ComDatePicker
                         label="Ngày bắt đầu hợp đồng"
                         placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                        disabled
+                        // disabled
+                        open={false}
+                        inputReadOnly
                         {...register("contractsInUse.startDate")}
                         required
                       />
@@ -230,7 +233,8 @@ export default function DetailElderPage() {
                       <ComDatePicker
                         label="Ngày kết thúc hợp đồng"
                         placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
-                        disabled
+                        open={false}
+                        inputReadOnly
                         {...register("contractsInUse.endDate")}
                         required
                       />

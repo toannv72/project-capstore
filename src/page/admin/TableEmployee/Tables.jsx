@@ -63,11 +63,11 @@ export const Tables = forwardRef((props, ref) => {
       key: "fullName",
       fixed: "left",
       ...getColumnSearchProps("fullName", "Họ và tên"),
-      render: (record) => (
-        <Tooltip placement="topLeft" title={"Chi tiết"}>
-          {record}
-        </Tooltip>
-      ),
+      // render: (record) => (
+      //   <Tooltip placement="topLeft" title={"Chi tiết"}>
+      //     {record}
+      //   </Tooltip>
+      // ),
     },
     {
       title: "Ảnh ",
@@ -95,7 +95,8 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "roles",
       key: "roles",
-      render: (_, render) => <div>{render?.roles[0]?.name}</div>,
+      ...getColumnSearchProps("roles", "Chứ vụ"),
+      render: (_, render) => <div>{render?.roles?render?.roles[0]?.name:""}</div>,
     },
     {
       title: "Năm sinh",
@@ -155,7 +156,7 @@ export const Tables = forwardRef((props, ref) => {
         { text: "Nam", value: "Male" },
         { text: "Nữ", value: "Female" },
       ],
-      onFilter: (value, record) => record.gender === value,
+      onFilter: (value, record) => record?.gender === value,
       render: (_, record) => (
         <div>
           <ComGenderConverter>{record?.gender}</ComGenderConverter>

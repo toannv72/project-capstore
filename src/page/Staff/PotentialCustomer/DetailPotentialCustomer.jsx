@@ -4,11 +4,14 @@ import ComInput from "../../../Components/ComInput/ComInput";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComButton from "../../../Components/ComButton/ComButton";
+import { putData } from "../../../api/api";
+import { useNotification } from "../../../Notification/Notification";
 
 export default function DetailPotentialCustomer({ onClose, selectedUser }) {
   const methods = useForm({
     values: selectedUser || {},
   });
+  const { notificationApi } = useNotification();
 
   if (!selectedUser) {
     return (
@@ -23,11 +26,27 @@ export default function DetailPotentialCustomer({ onClose, selectedUser }) {
     { label: "Số điện thoại", key: "phoneNumber", type: "numbers" },
     { label: "Email", key: "email", type: "email" },
     { label: "Chủ Đề", key: "title", type: "text" },
-    { label: "Thời gian", key: "time", type: "date" },
+    { label: "Thời gian tạo", key: "createdAt", type: "date" },
     { label: "Địa chỉ", key: "address", type: "text" },
   ];
   const handleConfirm = () => {
     // call
+    putData("/potential-customer", selectedUser?.id, {
+      ...selectedUser,
+      status: "Closed",
+    })
+      .then((e) => {
+        console.log(e);
+        onClose()
+         notificationApi(
+           "success",
+           "cập nhật thành công",
+           "đã cập nhật phiếu đăng ký!"
+         );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="p-4 bg-white">

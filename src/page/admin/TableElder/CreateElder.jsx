@@ -29,8 +29,8 @@ import {
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateElder({ onClose, tableRef }) {
-  const [image, setImages] = useState({});
-  const [image1, setImages1] = useState({});
+  const [image, setImages] = useState(null);
+  const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
   const [dataUser, setDataUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
@@ -133,36 +133,51 @@ export default function CreateElder({ onClose, tableRef }) {
   // console.log(watch);
 
   const onSubmit = (data) => {
-    console.log(1111, data);
-    firebaseImgs(image1).then((dataImg1) => {
-      console.log(dataImg1);
-      setValue("contract.images", convertUrlsToObjects(dataImg1));
-      firebaseImg(image).then((dataImg) => {
-        console.log("ảnh nè : ", {
-          ...data,
-          imageUrl: dataImg,
-        });
-        postData("/elders", {
-          ...data,
-          imageUrl: dataImg,
-        })
-          .then((e) => {
-            notificationApi("success", "tạo thành công", "đã tạo");
-            setTimeout(() => {
-              if (tableRef.current) {
-                // Kiểm tra xem ref đã được gắn chưa
-                tableRef?.current.reloadData();
-              }
-            }, 100);
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            handleErrors(error, setError, setFocus);
-            notificationApi("error", "tạo không thành công", "đã tạo");
+    console.log(1111, image);
+    if (!image) {
+      return notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh người lớn tuổi "
+      );
+    }
+    if (Array.isArray(image1) && image1.length === 0) {
+      notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh hợp đồng "
+      );
+    } else {
+      firebaseImgs(image1).then((dataImg1) => {
+        console.log(dataImg1);
+        setValue("contract.images", convertUrlsToObjects(dataImg1));
+        firebaseImg(image).then((dataImg) => {
+          console.log("ảnh nè : ", {
+            ...data,
+            imageUrl: dataImg,
           });
+          postData("/elders", {
+            ...data,
+            imageUrl: dataImg,
+          })
+            .then((e) => {
+              notificationApi("success", "tạo thành công", "đã tạo");
+              setTimeout(() => {
+                if (tableRef.current) {
+                  // Kiểm tra xem ref đã được gắn chưa
+                  tableRef?.current.reloadData();
+                }
+              }, 100);
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, setError, setFocus);
+              notificationApi("error", "tạo không thành công", "đã tạo");
+            });
+        });
       });
-    });
+    }
   };
 
   useEffect(() => {
