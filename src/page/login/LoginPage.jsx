@@ -39,8 +39,8 @@ export default function LoginPage(props) {
     //     .trim()
     //     .matches(/^\d{10}$/, Login.message.phone)
     //     .required(Login.message.phoneRequired),
-    username: yup.string().required(Login.message.password),
-    password: yup.string().required(Login.message.password),
+    username: yup.string().required("Tên đăng nhập không được để trống"),
+    password: yup.string().required("Mật khẩu không được để trống"),
     // email: yup.string().trim().email(Login.message.emailInvalid).required(Login.message.emailRequired),
   });
   const LoginRequestDefault = {
