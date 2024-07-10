@@ -3,92 +3,111 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
 const options = {
-  colors: ["#3C50E0", "#80CAEE"],
-  chart: {
-    fontFamily: "Satoshi, sans-serif",
-    type: "bar",
-    height: 335,
-    stacked: true,
-    toolbar: {
-      show: true,
+  options: {
+    chart: {
+      id: "area-datetime",
+      type: "area",
+      height: 350,
+      zoom: {
+        autoScaleYaxis: true,
+      },
     },
-
-  },
-
-  // responsive: [
-  //   {
-  //     breakpoint: 1536,
-  //     options: {
-  //       plotOptions: {
-  //         bar: {
-  //           borderRadius: 0,
-  //           columnWidth: "25%",
-  //         },
-  //       },
-  //     },
-  //   },
-  // ],
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      borderRadius: 0,
-      columnWidth: "25%",
-      borderRadiusApplication: "end",
-      borderRadiusWhenStacked: "last",
+    // annotations: {
+    //   yaxis: [
+    //     {
+    //       y: 30,
+    //       borderColor: "#999",
+    //       label: {
+    //         show: true,
+    //         text: "Support",
+    //         style: {
+    //           color: "#fff",
+    //           background: "#00E396",
+    //         },
+    //       },
+    //     },
+    //   ],
+    // },
+    dataLabels: {
+      enabled: false,
     },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-
-  xaxis: {
-    categories: ["M", "T", "W", "T", "F", "S", "S"],
-  },
-  legend: {
-    position: "top",
-    horizontalAlign: "left",
-    fontFamily: "Satoshi",
-    fontWeight: 500,
-    fontSize: "14px",
-
     markers: {
-      radius: 99,
+      size: 0,
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      hover: {
+        size: undefined,
+        sizeOffset: 5,
+      },
+    },
+    xaxis: {
+      type: "category",
+      categories: [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T10",
+        "T11",
+        "T12",
+      ],
+    },
+    tooltip: {
+      x: {
+        format: "dd MMM yyyy",
+      },
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        stops: [0, 100],
+      },
     },
   },
-  fill: {
-    opacity: 1,
-  },
+
+  // selection: "one_year",
 };
 
-const ChartTwo = () => {
+const ChartFour = () => {
   const [state, setState] = useState({
     series: [
       {
-        name: "Sales",
-        data: [44, 55, 41, 67, 22, 43, 65],
+        name: "Dịch vụ 1 ngày duy nhất",
+        data: [30, 25, 36, 30, 105, 25, 4, 52, 59, 26, 32, 51],
       },
-      {
-        name: "Revenue",
-        data: [13, 23, 20, 8, 13, 27, 15],
-      },
+
+      // {
+      //   name: "Dịch vụ lập lại theo ngày",
+      //   data: [15, 42, 38, 29, 14, 53, 27, 36, 21, 58, 33, 7],
+      // },
+      // {
+      //   name: "Dịch vụ lập lại theo tuần",
+      //   data: [5, 23, 48, 12, 59, 30, 39, 46, 10, 24, 37, 41],
+      // },
+      // {
+      //   name: "Dịch vụ không giới hạn thời gian",
+      //   data: [50, 18, 25, 44, 9, 37, 31, 54, 3, 19, 43, 28],
+      // },
     ],
   });
 
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-    }));
-  };
-  // handleReset();
-
- 
-
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-7">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Profit this week
+            Chi tiết sức khỏe
           </h4>
         </div>
         <div>
@@ -132,16 +151,15 @@ const ChartTwo = () => {
       <div>
         <div id="chartTwo" className="-ml-5 -mb-9">
           <ReactApexChart
-            options={options}
+            options={options.options}
             series={state.series}
-            type="bar"
+            type="area"
             height={350}
           />
         </div>
       </div>
-
     </div>
   );
 };
 
-export default ChartTwo;
+export default ChartFour;

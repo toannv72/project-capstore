@@ -81,7 +81,7 @@ const useColumnFilters = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
     ),
     onFilter: (value, record) => {
       const nestedValue = getNestedValue(record, dataIndex);
@@ -150,7 +150,7 @@ const useColumnFilters = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
     ),
     onFilter: (value, record) => {
       if (!value.length) return true;
@@ -212,7 +212,7 @@ const useColumnFilters = () => {
       </div>
     ),
     filterIcon: (filtered) => (
-      <SearchOutlined style={{ color: filtered ? "#de1818" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
     ),
     onFilter: (value, record) => {
       if (!value.length) return true;

@@ -25,6 +25,7 @@ import LearningPage from "./page/LearningPage/LearningPage";
 import Home from "./page/Home/Home";
 import Bill from './page/Staff/Bill/Bill';
 import Health from "./page/Manager/Health/Health";
+import DetailElderPage from './page/admin/TableElder/DetailElderPage';
 
 export const routers = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/elder",
         element: <TableElder />,
+      },
+      {
+        path: "/admin/elder/:id",
+        element: <DetailElderPage />,
       },
       {
         path: "/admin/employee",
@@ -151,6 +156,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/elder",
         element: <TableElder />,
+      },
+      {
+        path: "/staff/elder/:id",
+        element: <DetailElderPage />,
       },
       {
         path: "/staff/employee",

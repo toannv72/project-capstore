@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import { Image } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import ComGenderConverter from './../../../Components/ComGenderConverter/ComGenderConverter';
+import ComGenderConverter from "./../../../Components/ComGenderConverter/ComGenderConverter";
 import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
+import { getData } from "../../../api/api";
 
 export default function DetailEmployee({ selectedData }) {
+  const [data, setData] = useState({});
+  console.log(data);
+  useEffect(() => {
+    // setData(selectedData);
+
+    getData(`/users/${selectedData?.id}`)
+      .then((e) => {
+        setData(e?.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  }, [selectedData]);
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -20,12 +34,12 @@ export default function DetailEmployee({ selectedData }) {
                 Hình ảnh:
               </td>
               <td className="px-4 py-2">
-                {selectedData?.avatarUrl ? (
+                {data?.avatarUrl ? (
                   <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
                     <Image
                       wrapperClassName=" w-full h-full object-cover object-center flex items-center justify-center "
-                      src={selectedData?.avatarUrl}
-                      alt={selectedData?.avatarUrl}
+                      src={data?.avatarUrl}
+                      alt={data?.avatarUrl}
                       preview={{ mask: "Xem ảnh" }}
                     />
                   </div>
@@ -38,21 +52,21 @@ export default function DetailEmployee({ selectedData }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{selectedData?.fullName}</td>
+              <td className="px-4 py-2">{data?.fullName}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Giới tính:
               </td>
               <td className="px-4 py-2">
-                <ComGenderConverter>{selectedData?.gender}</ComGenderConverter>
+                <ComGenderConverter>{data?.gender}</ComGenderConverter>
               </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Chứ vụ:</td>
               <td className="px-4 py-2">
                 <ComRoleConverter>
-                  {selectedData?.roles[0]?.name}
+                  {data?.roles ? data?.roles[0]?.name : ""}
                 </ComRoleConverter>
               </td>
             </tr>
@@ -61,9 +75,7 @@ export default function DetailEmployee({ selectedData }) {
                 Số điện thoại:
               </td>
               <td className="px-4 py-2">
-                <ComPhoneConverter>
-                  {selectedData?.phoneNumber}
-                </ComPhoneConverter>
+                <ComPhoneConverter>{data?.phoneNumber}</ComPhoneConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -71,9 +83,7 @@ export default function DetailEmployee({ selectedData }) {
                 CCCD or CMND:
               </td>
               <td className="px-4 py-2">
-                <ComCccdOrCmndConverter>
-                  {selectedData?.cccd}
-                </ComCccdOrCmndConverter>
+                <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -81,13 +91,13 @@ export default function DetailEmployee({ selectedData }) {
                 Ngày sinh:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedData?.dateOfBirth}</ComDateConverter>
+                <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Gmail:</td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedData?.email}</ComDateConverter>
+                <ComDateConverter>{data?.email}</ComDateConverter>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}

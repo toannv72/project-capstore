@@ -18,6 +18,7 @@ import {
   emailRegex,
   nameRegex,
 } from "../../../regexPatterns";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditEmployee({ selectedData, onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -73,14 +74,17 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
       if (dataImg) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedData.id, dataPut)
-          .then((e) => {
+          .then((data) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             onClose();
           })
-          .catch((e) => {
-            if (e.status === 409) {
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+
+            if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });
@@ -90,14 +94,16 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
       } else {
         const dataPut = { ...data, avatarUrl: selectedData.avatarUrl };
         putData(`/users`, selectedData.id, dataPut)
-          .then((e) => {
+          .then((data) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             onClose();
           })
-          .catch((e) => {
-            if (e.status === 409) {
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+            if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });
@@ -124,7 +130,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa người dùng
+          Chỉnh sửa Y tá 
         </h2>
         <FormProvider {...methods}>
           <form

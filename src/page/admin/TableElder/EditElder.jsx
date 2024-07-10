@@ -28,6 +28,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const { notificationApi } = useNotification();
   const [selectedUser, setSelectedUser] = useState();
   const [selectedRoom, setSelectedRoom] = useState();
+  const [selectedGender, setSelectedGender] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [dataUser, setDataUser] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState();
@@ -100,12 +101,17 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   useEffect(() => {
     setSelectedUser(selectedData?.userId);
     setSelectedRoom(selectedData?.roomId);
+    setSelectedGender(selectedData?.gender);
   }, [selectedData]);
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    values: selectedData,
+    values: {
+      ...selectedData,
+      nursingPackageId: selectedData?.contractsInUse?.nursingPackage?.id,
+    },
   });
+  console.log(selectedData);
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
 
@@ -140,14 +146,15 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             tableRef();
             onClose();
           })
-          .catch((e) => {
-            console.log(e);
+          .catch((error) => {
+            console.log(error);
             notificationApi(
               "error",
               "Chỉnh sửa không thành công ",
               "Chỉnh sửa"
             );
-            if (e.status === 409) {
+            handleErrors(error, setError, setFocus);
+            if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });
@@ -182,19 +189,19 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
-        const dataForSelect = e?.data?.contends.map((item) => ({
-          value: item.id,
-          label: item.fullName,
-          searchString:
-            item.fullName + item.address + item.dateOfBirth + item.cccd,
-        }));
+         const dataForSelect = e?.data?.contends.map((item) => ({
+           value: item.id,
+           label: `Tên: ${item.fullName} 
+          Số Đt: ${item.phoneNumber} 
+          CCCD: ${item.cccd}`,
+         }));
         setDataUser(dataForSelect);
       })
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
     getData(
-      `/room?NursingPackageId=${selectedData.contractsInUse.nursingPackage.id}`
+      `/room?NursingPackageId=${selectedData?.contractsInUse?.nursingPackage?.id}`
     )
       .then((e) => {
         console.log(e?.data?.contends);
@@ -274,7 +281,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -287,14 +294,48 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       value={selectedUser}
                       filterOption={(inputValue, option) =>
                         option.searchString
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
                       }
                       showSearch
                       mode="default"
                       options={dataUser}
                       required
                       {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedGender}
+                      value={watch("gender")}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
+                      required
+                      {...register("gender")}
                     />
                   </div>
                 </div>

@@ -12,7 +12,11 @@ import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
 import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { disabledDate } from "../../../Components/ComDateDisabled";
-import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import {
+  DateOfBirth,
+  DateOfContract,
+  DateOfLastDay,
+} from "../../../Components/ComDateDisabled/DateOfBirth";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
@@ -25,8 +29,8 @@ import {
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateElder({ onClose, tableRef }) {
-  const [image, setImages] = useState({});
-  const [image1, setImages1] = useState({});
+  const [image, setImages] = useState(null);
+  const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
   const [dataUser, setDataUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
@@ -49,6 +53,7 @@ export default function CreateElder({ onClose, tableRef }) {
     dateOfBirth: yup.string().required("Vui lòng nhập đủ ngày tháng năm sinh"),
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
+    gender: yup.string().required("Vui lòng chọn chọn giới tính"),
     cccd: yup
       .string()
       .matches(
@@ -116,55 +121,70 @@ export default function CreateElder({ onClose, tableRef }) {
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {
-      phoneNumber: "",
       height: 20,
       weight: 20,
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-function convertUrlsToObjects(urls) {
-  return urls.map((url) => ({ imageUrl: url }));
-}
-  const onSubmit = (data) => {
-    firebaseImgs(image1).then((dataImg1) => {
+  function convertUrlsToObjects(urls) {
+    return urls.map((url) => ({ imageUrl: url }));
+  }
+  // console.log(watch);
 
+  const onSubmit = (data) => {
+    console.log(1111, image);
+    if (!image) {
+      return notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh người lớn tuổi "
+      );
+    }
+    if (Array.isArray(image1) && image1.length === 0) {
+      notificationApi(
+        "error",
+        "Vui lòng chọn ảnh",
+        "Vui lòng chọn hình ảnh hợp đồng "
+      );
+    } else {
+      firebaseImgs(image1).then((dataImg1) => {
         console.log(dataImg1);
-      setValue("contract.images", convertUrlsToObjects(dataImg1));
-      firebaseImg(image).then((dataImg) => {
-        console.log("ảnh nè : ", {
-          ...data,
-          imageUrl: dataImg,
-        });
-        postData("/elders", {
-          ...data,
-          imageUrl: dataImg,
-        })
-          .then((e) => {
-            notificationApi("success", "tạo thành công", "đã tạo");
-            setTimeout(() => {
-              if (tableRef.current) {
-                // Kiểm tra xem ref đã được gắn chưa
-                tableRef?.current.reloadData();
-              }
-            }, 100);
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            handleErrors(error, setError, setFocus);
-            notificationApi("error", "tạo không thành công", "đã tạo");
+        setValue("contract.images", convertUrlsToObjects(dataImg1));
+        firebaseImg(image).then((dataImg) => {
+          console.log("ảnh nè : ", {
+            ...data,
+            imageUrl: dataImg,
           });
+          postData("/elders", {
+            ...data,
+            imageUrl: dataImg,
+          })
+            .then((e) => {
+              notificationApi("success", "tạo thành công", "đã tạo");
+              setTimeout(() => {
+                if (tableRef.current) {
+                  // Kiểm tra xem ref đã được gắn chưa
+                  tableRef?.current.reloadData();
+                }
+              }, 100);
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, setError, setFocus);
+              notificationApi("error", "tạo không thành công", "đã tạo");
+            });
+        });
       });
-    });
+    }
   };
 
   useEffect(() => {
     reloadData();
   }, []);
   const handleChange = (e, value) => {
-
-    setSelectedUser(value);
+    // setSelectedUser(value);
     if (value.length === 0) {
       setValue("userId", null, { shouldValidate: true });
     } else {
@@ -180,7 +200,6 @@ function convertUrlsToObjects(urls) {
     }
   };
   const handleChange2 = (e, value) => {
-
     setSelectedPackage(value);
     setSelectedRoom(null);
     setValue("roomId", null);
@@ -207,9 +226,9 @@ function convertUrlsToObjects(urls) {
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: item.fullName,
-          searchString:
-            item.fullName + item.address + item.dateOfBirth + item.cccd,
+          label: `Tên: ${item.fullName} 
+          Số Đt: ${item.phoneNumber} 
+          CCCD: ${item.cccd}`,
         }));
         setDataUser(dataForSelect);
       })
@@ -278,17 +297,7 @@ function convertUrlsToObjects(urls) {
                     />
                   </div>
                 </div>
-                {/* <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số điện thoại"}
-                      placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phoneNumber")}
-                      required
-                    />
-                  </div>
-                </div> */}
+
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -312,7 +321,7 @@ function convertUrlsToObjects(urls) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -325,14 +334,47 @@ function convertUrlsToObjects(urls) {
                       value={selectedUser}
                       filterOption={(inputValue, option) =>
                         option.searchString
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
                       }
                       showSearch
                       mode="default"
                       options={dataUser}
                       required
                       {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedUser}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
+                      required
+                      {...register("gender")}
                     />
                   </div>
                 </div>
@@ -376,6 +418,17 @@ function convertUrlsToObjects(urls) {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Địa chỉ"}
+                      placeholder={"Vui lòng nhập Địa chỉ"}
+                      {...register("address")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
                   <ComTextArea
                     label="Ghi chú người cao tuổi"
                     placeholder="Vui lòng nhập ghi chú"
@@ -402,6 +455,7 @@ function convertUrlsToObjects(urls) {
                   <ComDatePicker
                     label="Ngày ký hợp đồng"
                     type="numbers"
+                    disabledDate={DateOfLastDay}
                     name={"contract.signingDate"}
                     placeholder="Vui lòng nhập ngày ký hợp đồng"
                     {...register("contract.signingDate")}
@@ -411,6 +465,8 @@ function convertUrlsToObjects(urls) {
                 <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày bắt đầu hợp đồng"
+                    disabledDate={DateOfContract}
+                    name="contract"
                     placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
                     {...register("contract.startDate")}
                     required
@@ -419,6 +475,8 @@ function convertUrlsToObjects(urls) {
                 <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày kết thúc hợp đồng"
+                    disabledDate={DateOfContract}
+                    name="contract"
                     placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                     {...register("contract.endDate")}
                     required
@@ -430,21 +488,12 @@ function convertUrlsToObjects(urls) {
                     type="text"
                     label="Nội dung hợp đồng"
                     rows={5}
+                    name="contract"
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("contract.content")}
                     required
                   />
                 </div>
-                {/* <div className="sm:col-span-2">
-                  <ComInput
-                    type="text"
-                    label="URL hình ảnh"
-                    placeholder="Vui lòng nhập URL hình ảnh"
-                    {...register("contract.imageUrl")}
-                    required
-                  />
-                </div> */}
-
                 <div className="sm:col-span-2">
                   <ComUpImg
                     onChange={onChange1}
@@ -457,6 +506,7 @@ function convertUrlsToObjects(urls) {
                     label="Ghi chú hợp đồng"
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
+                    name="contract"
                     {...register("contract.notes")}
                     required
                   />
@@ -475,17 +525,7 @@ function convertUrlsToObjects(urls) {
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Thông tin bệnh án
                 </h3>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Địa chỉ"}
-                      placeholder={"Vui lòng nhập Địa chỉ"}
-                      {...register("address")}
-                      required
-                    />
-                  </div>
-                </div>
+
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
@@ -545,7 +585,11 @@ function convertUrlsToObjects(urls) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} required />
+            <ComUpImgOne
+              onChange={onChange}
+              label={"Hình ảnh người lớn tuổi"}
+              required
+            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

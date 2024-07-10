@@ -35,7 +35,7 @@ export default function Contract() {
       <div className="flex items-end pb-2">
         <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
       </div>
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose} width={700}>
+      <ComModal width={800} isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
         <CreateContract isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
       </ComModal>
       <Table />

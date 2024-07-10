@@ -19,9 +19,13 @@ export const ComLink = ({
     //     navigate(props.to, { replace: true });
     //   }}
     // >
-      <Link {...props}  className={`font-semibold text-white hover:text-indigo-500 ${className}`} style={{ textDecorationSkipInk: "none", textUnderlineOffset: "4px" }}>
-        {children}
-      </Link>
+    <Link
+      {...props}
+      className={`font-semibold text-indigo-600 hover:text-indigo-500 ${className}`}
+      style={{ textDecorationSkipInk: "none", textUnderlineOffset: "4px" }}
+    >
+      {children}
+    </Link>
     // </Button>
   );
 };

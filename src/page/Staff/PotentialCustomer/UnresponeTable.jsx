@@ -6,17 +6,21 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
 import { Typography } from "antd";
 import DetailPotentialCustomer from "./DetailPotentialCustomer";
+import { getData } from "../../../api/api";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
 export default function UnresponeTable({ ref }) {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modalDetail = useModalState();
-  const [selectedUser, setSelectedUser] = useState(null);
-  const { getColumnSearchProps } = useColumnSearch();
+  const [selected, setSelected] = useState(null);
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const showModal = (record) => {
     modalDetail.handleOpen();
-    setSelectedUser(record);
+    setSelected(record);
   };
+  console.log(data);
   const columns = [
     {
       title: "Họ và tên",
@@ -34,18 +38,38 @@ export default function UnresponeTable({ ref }) {
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
     },
     {
+      title: "Thời gian tạo",
+      width: 50,
+      dataIndex: "createdAt",
+      key: "createdAt",
+      ...getColumnApprox("createdAt", "Thời gian tạo"),
+      render: (record) => (
+        <div>
+          <ComDateConverter>{record}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
       title: "Email",
       width: 100,
       dataIndex: "email",
       key: "email",
       ...getColumnSearchProps("email", "Email"),
     },
+
     {
       title: "Chủ đề",
       width: 100,
       dataIndex: "title",
       key: "title",
       ...getColumnSearchProps("title", "Chủ đề"),
+    },
+    {
+      title: "nội dung",
+      width: 100,
+      dataIndex: "description",
+      key: "description",
+      ...getColumnSearchProps("description", "nội dung"),
     },
     {
       title: "Địa chỉ",
@@ -60,22 +84,33 @@ export default function UnresponeTable({ ref }) {
       width: 30,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <div>
-              <Typography.Link onClick={() => showModal(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModal(record)}
+            // showModalEdit={showModalEdit}
+            // extraMenuItems={extraMenuItems}
+            // showModalDelete={extraMenuItems}
+            excludeDefaultItems={["delete", "edit"]}
+            // order={order}
+          />
         </div>
       ),
     },
   ];
+
+
   useEffect(() => {
     reloadData();
   }, []);
   const reloadData = () => {
-    //call API Here
+    getData("/potential-customer?SortDir=Desc")
+      .then((e) => {
+        setData(e?.data?.contends);
+        table.handleCloseLoading();
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
   };
   useImperativeHandle(ref, () => ({
     reloadData,
@@ -89,7 +124,7 @@ export default function UnresponeTable({ ref }) {
         width={"50%"}
       >
         <DetailPotentialCustomer
-          selectedUser={selectedUser}
+          selectedUser={selected}
           onClose={modalDetail?.handleClose}
         />
       </ComModal>

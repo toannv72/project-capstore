@@ -2,7 +2,7 @@ import React from "react";
 
 function ComRoleConverter({ children }) {
   const convertRole = (role) => {
-    switch (role.toLowerCase()) {
+    switch (role?.toLowerCase()) {
       case "admin":
         return "Quản trị viên";
       case "manager":
@@ -20,7 +20,7 @@ function ComRoleConverter({ children }) {
 
   const translatedRole = convertRole(children);
 
-  return <div>{translatedRole}</div>;
+  return <>{translatedRole}</>;
 }
 
 export default ComRoleConverter;

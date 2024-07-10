@@ -155,7 +155,7 @@ export default function TableServicePackage() {
               setSelectedData(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete","details"]}
           />
         </div>
       ),
