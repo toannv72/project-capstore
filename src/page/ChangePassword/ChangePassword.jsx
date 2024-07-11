@@ -9,7 +9,7 @@ import ComInput from "../../Components/ComInput/ComInput";
 import ComButton from "../../Components/ComButton/ComButton";
 
 const passwordSchema = yup.object({
-  password: yup.string().required("Mật khẩu hiện tại là bắt buộc"),
+  password: yup.string().required("Mật khẩu cũ không được để trống"),
   newPassword: yup
     .string()
     .min(8, "Mật khẩu mới phải có ít nhất 8 ký tự")
@@ -17,11 +17,11 @@ const passwordSchema = yup.object({
     .matches(/[a-z]/, "Phải chứa ít nhất 1 chữ cái in thường")
     .matches(/[0-8]/, "Phải chứa ít nhất 1 chữ số")
     .notOneOf([yup.ref("password")], "Không được trùng với mật khẩu cũ")
-    .required("Mật khẩu mới là bắt buộc"),
+    .required("Mật khẩu mới không được để trống"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("newPassword")], "Mật khẩu phải khớp")
-    .required("Xác nhận mật khẩu là bắt buộc"),
+    .required("Xác nhận mật khẩu không được để trống"),
 });
 
 export default function ChangePassword() {
@@ -150,7 +150,7 @@ export default function ChangePassword() {
             >
               <ComInput
                 placeholder="Nhập mật khẩu đang sử dụng"
-                label="Mật khẩu cũ"
+                label="Mật khẩu hiện tại"
                 type="password"
                 maxLength={16}
                 {...register("password")}
@@ -175,7 +175,7 @@ export default function ChangePassword() {
 
               <ComInput
                 placeholder="Nhập lại mật khẩu thay đổi"
-                label="Nhập lại mật khẩu"
+                label="Xác nhận mật khẩu"
                 type="password"
                 maxLength={16}
                 {...register("confirmPassword")}
