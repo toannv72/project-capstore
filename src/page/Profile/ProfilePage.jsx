@@ -27,7 +27,11 @@ export default function ProfilePage() {
     // cccd: yup.string().required("Vui lòng nhập cccd/cmnd"),
     // birth: yup.string().required("Vui lòng nhập ngày sinh"),
     phone: yup.string().required("Vui lòng nhập số điện thoại"),
-    mail: yup.string().required("Vui lòng nhập địa chỉ email"),
+    mail: yup
+      .string()
+      .trim()
+      .email("Email không hợp lệ")
+      .required("Vui lòng nhập địa chỉ email"),
   });
   const [initialValues, setInitialValues] = useState({
     address: "",
