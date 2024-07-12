@@ -33,20 +33,15 @@ export default function ProfilePage() {
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     // cccd: yup.string().required("Vui lòng nhập cccd/cmnd"),
     // birth: yup.string().required("Vui lòng nhập ngày sinh"),
-<<<<<<< HEAD
-    phoneNumber: yup
-      .string()
-      .required("Vui lòng nhập đủ số điện thoại")
-      .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
-    email: yup.string().required("Vui lòng nhập địa chỉ email"),
-=======
-    phone: yup.string().required("Vui lòng nhập số điện thoại"),
-    mail: yup
+    // phoneNumber: yup
+    //   .string()
+    //   .required("Vui lòng nhập đủ số điện thoại")
+    //   .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
+    email: yup
       .string()
       .trim()
       .email("Email không hợp lệ")
       .required("Vui lòng nhập địa chỉ email"),
->>>>>>> aed62acb6c0c82026b85c45751b6bef4cc7ca9d9
   });
   const [initialValues, setInitialValues] = useState({
     address: "",
@@ -313,8 +308,8 @@ export default function ProfilePage() {
                           type="numbers"
                           maxLength={10}
                           {...register("phoneNumber")}
+                          disabled={isEditing}
                           readOnly={!isEditing}
-                          required={isEditing}
                         />
                       </div>
                     </div>

@@ -20,7 +20,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
     blockId: yup.string().required("Vui chọn khu"),
-    nursingPackageId: yup.string().required("Vui chọn gói dưỡng lão "),
+    // nursingPackageId: yup.string().required("Vui chọn gói dưỡng lão "),
   });
 
   const methods = useForm({
@@ -146,7 +146,6 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                       // mode="tags"
                       mode="default"
                       options={dataPackage}
-                      required
                       {...register("nursingPackageId")}
                     />
                   </div>
