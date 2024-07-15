@@ -43,8 +43,8 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
       .then((e) => {
         notificationApi(
           "success",
-          "chỉnh sửa thành công",
-          "đã chỉnh sửa phòng!"
+          "cập nhật thành công",
+          "đã cập nhật phòng!"
         );
         getDataApi();
         onClose();
@@ -54,8 +54,8 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
         handleErrors(error, setError, setFocus);
         notificationApi(
           "error",
-          "chỉnh sửa không thành công",
-          "chỉnh sửa không thành công phòng!"
+          "cập nhật không thành công",
+          "cập nhật không thành công phòng!"
         );
 
         if (error?.response?.data?.status === 409) {
@@ -186,7 +186,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Chỉnh sửa
+                cập nhật
               </ComButton>
             </div>
           </form>

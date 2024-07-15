@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import TableRooms from "./TableCompleted";
+import TableCompleted from "./TableCompleted";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -25,11 +25,11 @@ function AppointmentSchedule() {
       case 0:
         return <TableVisitation />;
       case 1:
-        return <TableRooms />;
+        return <TableCompleted />;
       case 2:
         return <TableExtend />;
       case 3:
-        return <TableRooms />;
+        return <TableCompleted />;
       default:
         break;
     }

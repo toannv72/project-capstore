@@ -30,7 +30,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
 
     putData(`/block`, dataSelect.id, { ...data })
       .then((e) => {
-        notificationApi("success", "tạo thành công", "đã tạo phòng!");
+        notificationApi("success", "cập nhật thành công", "đã cập nhật phòng!");
         getDataApi();
         onClose();
       })
@@ -83,7 +83,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+               Cập nhật
               </ComButton>
             </div>
           </form>

@@ -20,11 +20,9 @@ export default function ComCard({ title, value, icon, onClick, isSelected }) {
             {icon}
           </div>
         )}
-        <div>
-          <div className="font-mono font-semibold text-center">{title}</div>
-          <div className="font-mono text-2xl font-bold my-2 text-center">
-            {value}
-          </div>
+        <div className="h-14 justify-center flex items-center">
+          <div className="font-mono font-bold text-center text-xl">{title}</div>
+         
         </div>
       </div>
     </div>

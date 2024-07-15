@@ -120,7 +120,7 @@ export default function TableVisitation() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/appointments")
+    getData("/appointments?Type=Consultation&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

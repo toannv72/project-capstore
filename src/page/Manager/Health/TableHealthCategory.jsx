@@ -209,7 +209,11 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         isOpen={modal?.isModalOpen}
         onClose={modal?.handleClose}
       >
-        <EditHealthCategory dataSelect={dataSelect} />
+        <EditHealthCategory
+          dataSelect={dataSelect}
+          getDataApi={reloadData}
+          onClose={modal?.handleClose}
+        />
       </ComModal>
     </div>
   );

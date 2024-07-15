@@ -5,7 +5,7 @@ import ComInput from "./../../../Components/ComInput/ComInput";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNotification } from "./../../../Notification/Notification";
-import { postData } from "../../../api/api";
+import { postData, putData } from "../../../api/api";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
@@ -92,21 +92,21 @@ export default function EditHealthCategory({dataSelect, isOpen, onClose, getData
     if (image) {
       console.log("có ảnh");
         firebaseImg(image).then((imageUrl) => {
-          // postData(`/health-category`, { ...data, imageUrl })
-          //   .then((e) => {
-          //     notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
-          //     getDataApi();
-          //     onClose();
-          //   })
-          //   .catch((error) => {
-          //     console.log(error);
-          //     handleErrors(error, setError, setFocus);
-          //   });
+          putData(`/health-category`, dataSelect.id, { ...data, imageUrl })
+            .then((e) => {
+              notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
+              getDataApi();
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              handleErrors(error, setError, setFocus);
+            });
         });
     } else {
       console.log("ko có ảnh");
 
-      postData(`/health-categorys`, { ...data, imageUrl: dataSelect.imageUrl })
+      putData(`/health-categorys`,dataSelect.id, { ...data, imageUrl: dataSelect.imageUrl })
         .then((e) => {
           notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
           getDataApi();

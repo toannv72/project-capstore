@@ -1,82 +1,124 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "../../../contexts/LanguageContext";
+import { Badge, Table, Tooltip, Typography } from "antd";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
+import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import DetailAppointment from "./DetailAppointment";
 export default function TableExtend() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
+  const [selectedData, setSelectedData] = useState(null);
 
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
+  console.log(data);
   const columns = [
     {
       title: "Người đăng ký",
       width: 150,
       fixed: "left",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name", "Người đăng ký"),
+      dataIndex: "user",
+      key: "user",
+      ...getColumnSearchProps("user.fullName", "Người đăng ký"),
+      render: (text, record) => text.fullName,
     },
 
     {
-      title: "Người lớn tuổi",
+      title: "Thời gian đăng ký",
       width: 200,
-      dataIndex: "totalFloor",
-      key: "totalFloor",
-      ...getColumnSearchProps("totalFloor", "Người lớn tuổi"),
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.createdAt}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Thời gian đến ",
+      width: 200,
+      dataIndex: "date",
+      key: "date",
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      ...getColumnApprox("date", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.date}</ComDateConverter>
+        </div>
+      ),
     },
     {
       title: "Số điện thoại",
       width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Số điện thoại"),
+      dataIndex: "user",
+      key: "user.phoneNumber",
+      ...getColumnSearchProps("user.phoneNumber", "Số điện thoại"),
+      render: (phone) => (
+        <div>
+          <ComPhoneConverter>{phone.phoneNumber}</ComPhoneConverter>
+        </div>
+      ),
     },
     {
-      title: "Phòng",
+      title: "Tên loại hẹn",
       width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Phòng"),
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name", "Tên loại hẹn"),
     },
     {
-      title: "Ngày thăm",
+      title: "Nội dung",
       width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Ngày thăm"),
+      dataIndex: "description",
+      key: "description",
+      ...getColumnSearchProps("description", "Nội dung"),
     },
     {
-      title: "Thời gian",
+      title: "Ghi chú",
       width: 200,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Thời gian"),
+      dataIndex: "notes",
+      key: "notes",
+      ...getColumnSearchProps("notes", "Ghi chú"),
     },
-    // {
-    //   title: "Action",
-    //   key: "operation",
-    //   fixed: "right",
-    //   width: 100,
-    //   render: (_, record) => (
-    //     <div className="flex items-center flex-col">
-    //       <div>
-    //         <Typography.Link onClick={() => modal?.handleOpen(record)}>
-    //           Chấp nhận
-    //         </Typography.Link>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Action",
+      key: "operation",
+      fixed: "right",
+      width: 100,
+      render: (_, record) => (
+        <div className="flex items-center flex-col">
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => {
+              modal?.handleOpen();
+              setSelectedData(record);
+            }}
+            showModalEdit={() => {
+              modal?.handleOpen();
+              setSelectedData(record);
+            }}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete", "details"]}
+            // order={order}
+          />
+        </div>
+      ),
+    },
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/block")
+    getData("/appointments?Type=Consultation&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -89,7 +131,7 @@ export default function TableExtend() {
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+        <DetailAppointment selectedData={selectedData} />
       </ComModal>
     </div>
   );

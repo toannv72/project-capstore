@@ -1,130 +1,124 @@
-import React from 'react'
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Badge, Table, Tooltip, Typography } from "antd";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
-import ComModal from "../../../Components/ComModal/ComModal";
+import ComModal from "./../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
-import { useModalState } from "../../../hooks/useModalState";
+import { useModalState } from "./../../../hooks/useModalState";
+import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import DetailAppointment from "./DetailAppointment";
 export default function TableCompleted() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
-  const { getColumnSearchProps } = useColumnSearch();
-  const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
-  } = useContext(LanguageContext);
-  // const expandedRowRender = (record) => {
-  //   const columns = [
-  //     {
-  //       title: "Tên người bệnh",
-  //       fixed: "left",
-  //       width: 100,
-  //       dataIndex: "name",
-  //       key: "name",
-  //     },
-  //     {
-  //       title: "Status",
-  //       width: 200,
-  //       dataIndex: "status",
-  //       key: "status",
-  //     },
-  //     {
-  //       title: "Action",
-  //       key: "operation",
-  //       fixed: "right",
-  //       width: 50,
-  //       render: (_, record) => (
-  //         <div className="flex items-center flex-col">
-  //           <div>
-  //             <Typography.Link onClick={() => modal?.handleOpen(record)}>
-  //               Chấp nhận
-  //             </Typography.Link>
-  //           </div>
-  //         </div>
-  //       ),
-  //     },
-  //   ];
-  //   return (
-  //     <Table
-  //       scroll={{
-  //         x: 1520,
-  //         y: "55vh",
-  //       }}
-  //       bdataed
-  //       bordered
-  //       columns={columns}
-  //       dataSource={record?.elders}
-  //       pagination={{
-  //         showSizeChanger: true,
-  //         pageSizeOptions: ["10", "20", "50", "100"],
-  //       }}
-  //     />
-  //   );
-  // };
+  const [selectedData, setSelectedData] = useState(null);
 
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+
+  console.log(data);
   const columns = [
     {
-      title: "Người đại diện",
-      width: 100,
+      title: "Người đăng ký",
+      width: 150,
       fixed: "left",
-      dataIndex: "name",
-      key: "name",
-      ...getColumnSearchProps("name", "người đại diẹn"),
+      dataIndex: "user",
+      key: "user",
+      ...getColumnSearchProps("user.fullName", "Người đăng ký"),
+      render: (text, record) => text.fullName,
+    },
+
+    {
+      title: "Thời gian đăng ký",
+      width: 200,
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.createdAt}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Thời gian đến ",
+      width: 200,
+      dataIndex: "date",
+      key: "date",
+      sorter: (a, b) => new Date(a.date) - new Date(b.date),
+      ...getColumnApprox("date", "Thời gian đăng ký"),
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.date}</ComDateConverter>
+        </div>
+      ),
     },
     {
       title: "Số điện thoại",
-      dataIndex: "phone",
-      key: "phone",
-      width: 100,
-      ...getColumnSearchProps("phone", "số điện thoại"),
+      width: 200,
+      dataIndex: "user",
+      key: "user.phoneNumber",
+      ...getColumnSearchProps("user.phoneNumber", "Số điện thoại"),
+      render: (phone) => (
+        <div>
+          <ComPhoneConverter>{phone.phoneNumber}</ComPhoneConverter>
+        </div>
+      ),
     },
     {
-      title: "Gói đăng ký",
-      dataIndex: "type",
-      key: "type",
-      width: 100,
-      ...getColumnSearchProps("type", "Gói đăng ký"),
+      title: "Tên loại hẹn",
+      width: 200,
+      dataIndex: "name",
+      key: "name",
+      ...getColumnSearchProps("name", "Tên loại hẹn"),
     },
     {
-      title: "Ngày gặp",
-      width: 100,
-      dataIndex: "status",
-      key: "status",
-      ...getColumnSearchProps("status", "Ngày gặp"),
+      title: "Nội dung",
+      width: 200,
+      dataIndex: "description",
+      key: "description",
+      ...getColumnSearchProps("description", "Nội dung"),
     },
     {
-      title: "Thời gian",
-      dataIndex: "userBed",
-      key: "userBed",
-      width: 100,
-      ...getColumnSearchProps("userBed", "Thời gian"),
+      title: "Ghi chú",
+      width: 200,
+      dataIndex: "notes",
+      key: "notes",
+      ...getColumnSearchProps("notes", "Ghi chú"),
     },
-    
     {
       title: "Action",
       key: "operation",
       fixed: "right",
-      width: 50,
+      width: 100,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modal?.handleOpen(record)}>
-              Chấp nhận
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => {
+              modal?.handleOpen();
+              setSelectedData(record);
+            }}
+            showModalEdit={() => {
+              modal?.handleOpen();
+              setSelectedData(record);
+            }}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete", "details"]}
+            // order={order}
+          />
         </div>
       ),
     },
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/room")
+    getData("/appointments?Type=Consultation&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -135,17 +129,9 @@ export default function TableCompleted() {
   }, []);
   return (
     <div>
-      <ComTable
-        // expandable={{
-        //   expandedRowRender,
-        //   defaultExpandedRowKeys: ["0"],
-        // }}
-        columns={columns}
-        dataSource={data}
-        loading={table.loading}
-      />
+      <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+        <DetailAppointment selectedData={selectedData} />
       </ComModal>
     </div>
   );
