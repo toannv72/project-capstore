@@ -80,8 +80,8 @@ export default function EditNursingPackage({
               console.log(error);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         } else {
@@ -104,8 +104,8 @@ export default function EditNursingPackage({
               console.log(error);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         }
@@ -160,7 +160,6 @@ export default function EditNursingPackage({
                       type="text"
                       money
                       defaultValue={mony}
-                      // min={1000}
                       value={mony}
                       onChangeValue={(e, value) => {
                         setValue(e, value, { shouldValidate: true });
@@ -206,7 +205,7 @@ export default function EditNursingPackage({
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Cập nhật
               </ComButton>
             </div>
           </form>

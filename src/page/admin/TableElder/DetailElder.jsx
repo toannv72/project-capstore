@@ -72,7 +72,7 @@ export default function DetailElder({ selectedData }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{data.dateOfBirth}</td>
+              <td className="px-4 py-2"><ComDateConverter>{data.dateOfBirth}</ComDateConverter></td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">

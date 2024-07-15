@@ -36,7 +36,7 @@ export default function DetailContract({ selectedUser }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2">{selectedUser?.dateOfBirth}</td>
+              <td className="px-4 py-2"><ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter></td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">

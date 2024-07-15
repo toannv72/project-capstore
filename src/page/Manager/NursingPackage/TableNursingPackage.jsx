@@ -112,7 +112,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
             // showModalDetails={() => showModaldElder(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import { Image } from "antd";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 
 export default function DetailBill({ selectedUser }) {
   return (
@@ -61,7 +62,7 @@ export default function DetailBill({ selectedUser }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày sinh:
               </td>
-              <td className="px-4 py-2">{selectedUser?.dateOfBirth}</td>
+              <td className="px-4 py-2"><ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter></td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>

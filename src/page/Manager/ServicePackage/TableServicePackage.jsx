@@ -14,13 +14,14 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ComTypePackageConverter from "../../../Components/ComTypePackageConverter/ComTypePackageConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComWeekConverter from "../../../Components/ComWeekConverter/ComWeekConverter";
+import EditServicePackage from "./EditServicePackage";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const modalDetail = useModalState();
   const [selectedData, setSelectedData] = useState(null);
-
+  console.log(selectedData);
   const { getColumnSearchProps } = useColumnSearch();
   const {
     text: { InstituteManagement },
@@ -81,11 +82,7 @@ export default function TableServicePackage() {
       width: 120,
       dataIndex: "servicePackageCategory",
       key: "servicePackageCategory",
-      render: (data) => (
-        <div>
-          <h1>{data.name}</h1>
-        </div>
-      ),
+      ...getColumnSearchProps("servicePackageCategory.name", "Tên dịch vụ"),
     },
     {
       title: "Dạng dịch vụ",
@@ -155,7 +152,7 @@ export default function TableServicePackage() {
               setSelectedData(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete","details"]}
+            excludeDefaultItems={["delete", "details"]}
           />
         </div>
       ),
@@ -181,11 +178,11 @@ export default function TableServicePackage() {
           <div>
             Ngày diễn ra hàng tháng:
             <br />
-           <div className="flex flex-wrap">
+            <div className="flex flex-wrap">
               {data?.servicePackageDates.map((e, index) => (
                 <h1 key={index}> {e.repetitionDay},</h1>
               ))}
-           </div>
+            </div>
           </div>
         );
       case "WeeklyDays":
@@ -221,7 +218,8 @@ export default function TableServicePackage() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
+  }, [modalDetail?.isModalOpen, modal?.isModalOpen]);
+
   return (
     <div>
       <div className="flex items-end pb-2">
@@ -249,8 +247,14 @@ export default function TableServicePackage() {
       <ComModal
         isOpen={modalDetail?.isModalOpen}
         onClose={modalDetail?.handleClose}
+        width={800}
       >
-        <div key={2}>heloo</div>
+        <EditServicePackage
+          isOpen={modalDetail?.isModalOpen}
+          onClose={modalDetail?.handleClose}
+          type={selectedData?.type}
+          selectedData={selectedData}
+        />
       </ComModal>
     </div>
   );

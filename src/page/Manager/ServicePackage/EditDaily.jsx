@@ -1,51 +1,46 @@
 import React, { useEffect, useState } from "react";
-import ComButton from "../../../Components/ComButton/ComButton";
-import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
-import { getData, postData } from "../../../api/api";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { Checkbox, Col, Row, Typography } from "antd";
 import { FormProvider, useForm } from "react-hook-form";
-import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import ComButton from "../../../Components/ComButton/ComButton";
+import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
+import { getData, postData, putData } from "../../../api/api";
+import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComInput from "../../../Components/ComInput/ComInput";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import moment from "moment";
-import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
-import { Checkbox } from "antd";
-import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
-import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
-export default function CreateOneTime({ onClose }) {
+const { Title } = Typography;
+
+export default function EditDaily({ onClose, dataValue }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
   const [category, setCategory] = useState([]);
-  const [endDate, setEndDate] = useState(false);
-  const [checkbox, setCheckbox] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [mony, setMony] = useState(dataValue.price);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
-    eventDate: yup.string().required("Vui lòng nhập thời gian"),
     price: yup
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    endRegistrationStartDate: yup.string().required("Vui lòng nhập thời gian"),
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
-    description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    description: yup.string().required("Vui lòng nhập chi tiết dịch vụ"),
   });
+  console.log(selectedDays);
+  console.log(dataValue);
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
- 
+    values: dataValue,
   });
+
   const {
     handleSubmit,
     register,
@@ -55,25 +50,21 @@ export default function CreateOneTime({ onClose }) {
     setError,
     trigger,
   } = methods;
-  const disabledDate3Day6m = (current) => {
-    const daysLater3 = moment().add(3, "days");
-    const monthsLater6 = moment().add(6, "months");
-    return current && (current < daysLater3 || current > monthsLater6);
-  };
-  const disabledDateEnd = (current) => {
-    const daysLater3 = moment().add(3, "days");
-    const fixedFutureDate = moment(watch("eventDate"), "YYYY-MM-DD");
-    return current && (current < daysLater3 || current > fixedFutureDate);
-  };
 
-  useEffect(() => {
-    setEndDate((e) => !e);
-    setValue("endRegistrationStartDate", null);
-  }, [watch("eventDate")]);
   const onChange = (data) => {
     const selectedImages = data;
     setImages(selectedImages);
   };
+  useEffect(() => {
+    setSelectedCategorie(dataValue?.servicePackageCategoryId);
+  }, [dataValue, category]);
+  useEffect(() => {
+    setMony(dataValue.price);
+    const daysArray = dataValue?.servicePackageDates?.map((item) =>
+      item?.repetitionDay?.toString()
+    );
+    setSelectedDays(daysArray);
+  }, [dataValue]);
   useEffect(() => {
     getData("/service-package-categories")
       .then((e) => {
@@ -97,23 +88,37 @@ export default function CreateOneTime({ onClose }) {
       setValue("servicePackageCategoryId", value, { shouldValidate: true });
     }
   };
+
+  const handleCheckboxChange = (day) => {
+    setSelectedDays((prevDays) =>
+      prevDays.includes(day)
+        ? prevDays.filter((d) => d !== day)
+        : [...prevDays, day]
+    );
+  };
   const onSubmit = (data) => {
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
       () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
     );
+
     if (change !== null) {
       if (image) {
         firebaseImg(image).then((dataImg) => {
-          console.log("ảnh nè : ", dataImg);
+          const servicePackageDates = selectedDays.map((day) => ({
+            // occurrenceDay: `2001-02-${day}`,
+            repetitionDay: day,
+          }));
           const dataPost = {
             ...data,
             imageUrl: dataImg,
             price: change,
-            // servicePackageDates: [{ date: data.date}],
+            type: "MultipleDays",
+            servicePackageDates,
           };
-          postData(`/service-package`, dataPost)
+          console.log(1111, dataPost);
+          putData(`/service-package`, dataValue.id, dataPost)
             .then((e) => {
               notificationApi(
                 "success",
@@ -123,30 +128,56 @@ export default function CreateOneTime({ onClose }) {
               onClose();
             })
             .catch((error) => {
+              console.log(error);
               notificationApi(
                 "error",
                 "tạo không thành công",
                 "tạo gói dịch vụ không thành công!"
               );
             });
-          onClose();
         });
       } else {
-        notificationApi(
-          "error",
-          "Chọn ảnh gói dưỡng lão",
-          "Vui lòng chọn ảnh!"
-        );
+          firebaseImg(image).then((dataImg) => {
+            const servicePackageDates = selectedDays.map((day) => ({
+              // occurrenceDay: `2001-02-${day}`,
+              repetitionDay: day,
+            }));
+            const dataPost = {
+              ...data,
+              imageUrl: dataValue.imageUrl,
+              price: change,
+              type: "MultipleDays",
+              servicePackageDates,
+            };
+            console.log(1111, dataPost);
+            putData(`/service-package`, dataValue.id, dataPost)
+              .then((e) => {
+                notificationApi(
+                  "success",
+                  "tạo thành công",
+                  "đã tạo gói dịch vụ thành công!"
+                );
+                onClose();
+              })
+              .catch((error) => {
+                console.log(error);
+                notificationApi(
+                  "error",
+                  "tạo không thành công",
+                  "tạo gói dịch vụ không thành công!"
+                );
+              });
+          });
       }
     }
   };
 
   return (
     <div>
-      <div className="bg-white ">
+      <div className="bg-white">
         <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
-            <div className=" overflow-y-auto p-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl">
+            <div className="overflow-y-auto p-4">
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
@@ -164,9 +195,13 @@ export default function CreateOneTime({ onClose }) {
                   <div className="mt-2.5">
                     <ComNumber
                       type="text"
+                      defaultValue={mony}
+                      value={mony}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value, { shouldValidate: true });
+                        setMony(value);
+                      }}
                       money
-                      defaultValue={1000}
-                      min={1000}
                       label={"Số tiền"}
                       placeholder={"Vui lòng nhập số tiền"}
                       {...register("price")}
@@ -199,67 +234,30 @@ export default function CreateOneTime({ onClose }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComDatePicker
-                      label="Chọn khoảng thời gian diễn ra"
-                      required
-                      disabledDate={disabledDate3Day6m}
-                      {...register("eventDate")}
-                      // Các props khác của RangePicker
-                    />
+                    <Title level={3}>Chọn ngày trong tháng</Title>
+                    <Row gutter={[8, 8]}>
+                      {[...Array(31).keys()].map((day) => (
+                        <Col span={3} key={day + 1}>
+                          <Checkbox
+                            checked={selectedDays.includes(
+                              String(day + 1).padStart(2, "0")
+                            )}
+                            onChange={() =>
+                              handleCheckboxChange(
+                                String(day + 1).padStart(2, "0")
+                              )
+                            }
+                            className="text-blue-600"
+                          >
+                            {String(day + 1).padStart(2, "0")}
+                          </Checkbox>
+                        </Col>
+                      ))}
+                    </Row>
                   </div>
                 </div>
-                {endDate || (
-                  <div className="sm:col-span-1">
-                    <div className="mt-2.5">
-                      <ComDatePicker
-                        label="Thời gian kết thúc đăng ký"
-                        disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
-                        required
-                      />
-                    </div>
-                  </div>
-                )}
-                {!endDate || (
-                  <div className="sm:col-span-1">
-                    <div className="mt-2.5">
-                      <ComDatePicker
-                        label="Thời gian kết thúc đăng ký"
-                        disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
-                        required
-                      />
-                    </div>
-                  </div>
-                )}
-                {/* <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <Checkbox onChange={(e) => setCheckbox(e.target.checked)}>
-                      Dịch vụ có giới hạn số người đăng ký
-                    </Checkbox>
-                  </div>
-                </div> */}
-                {checkbox || (
-                  <div className="sm:col-span-1">
-                    <div className="mt-2.5">
-                      <ComNumber
-                        type="text"
-                        onChangeValue={(e, data) => {
-                          setValue("number", data);
-                        }}
-                        defaultValue={1}
-                        min={1}
-                        max={10000}
-                        label={"Số lượng người có thể tham gia"}
-                        placeholder={"Vui lòng nhập số lượng có thể tham gia"}
-                        {...register("registrationLimit")}
-                        required
-                      />
-                    </div>
-                  </div>
-                )}
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea
@@ -277,6 +275,7 @@ export default function CreateOneTime({ onClose }) {
                     <ComUpImgOne
                       onChange={onChange}
                       multiple={false}
+                      imgUrl={dataValue.imageUrl}
                       label={"Hình ảnh"}
                       required
                     />
@@ -287,7 +286,7 @@ export default function CreateOneTime({ onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
-                className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="block w-full rounded-md bg-indigo-600 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
               </ComButton>

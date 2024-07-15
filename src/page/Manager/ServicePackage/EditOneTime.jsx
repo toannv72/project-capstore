@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ComButton from "../../../Components/ComButton/ComButton";
 import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
-import { getData, postData } from "../../../api/api";
+import { getData, postData, putData } from "../../../api/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
@@ -18,13 +18,15 @@ import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
-export default function CreateOneTime({ onClose }) {
+export default function EditOneTime({ onClose, dataValue }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
+  const [mony, setMony] = useState(dataValue.price);
   const [category, setCategory] = useState([]);
   const [endDate, setEndDate] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     eventDate: yup.string().required("Vui lòng nhập thời gian"),
@@ -40,12 +42,9 @@ export default function CreateOneTime({ onClose }) {
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
- 
+    values: dataValue,
   });
+
   const {
     handleSubmit,
     register,
@@ -70,6 +69,7 @@ export default function CreateOneTime({ onClose }) {
     setEndDate((e) => !e);
     setValue("endRegistrationStartDate", null);
   }, [watch("eventDate")]);
+
   const onChange = (data) => {
     const selectedImages = data;
     setImages(selectedImages);
@@ -87,7 +87,15 @@ export default function CreateOneTime({ onClose }) {
         console.error("Error fetching items:", error);
       });
   }, []);
-
+  useEffect(() => {
+    setMony(dataValue.price);
+    setTimeout(() => {
+         setValue(
+           "endRegistrationStartDate",
+           dataValue.endRegistrationStartDate
+         );
+    }, 100);
+  }, [dataValue]);
   const handleChange = (e, value) => {
     console.log(value);
     setSelectedCategorie(value);
@@ -97,6 +105,9 @@ export default function CreateOneTime({ onClose }) {
       setValue("servicePackageCategoryId", value, { shouldValidate: true });
     }
   };
+  useEffect(() => {
+    setSelectedCategorie(dataValue?.servicePackageCategoryId);
+  }, [dataValue, category]);
   const onSubmit = (data) => {
     const change = MonyNumber(
       data.price,
@@ -113,30 +124,53 @@ export default function CreateOneTime({ onClose }) {
             price: change,
             // servicePackageDates: [{ date: data.date}],
           };
-          postData(`/service-package`, dataPost)
+          putData(`/service-package`, dataValue.id, dataPost)
             .then((e) => {
               notificationApi(
                 "success",
-                "tạo thành công",
-                "đã tạo gói dịch vụ thành công!"
+                "cập nhật thành công",
+                "đã cập nhật gói dịch vụ thành công!"
               );
               onClose();
             })
             .catch((error) => {
+              console.log(error);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "cập nhật không thành công",
+                "cập nhật gói dịch vụ không thành công!"
               );
             });
           onClose();
         });
       } else {
-        notificationApi(
-          "error",
-          "Chọn ảnh gói dưỡng lão",
-          "Vui lòng chọn ảnh!"
-        );
+        firebaseImg(image).then((dataImg) => {
+          console.log("ảnh nè : ", dataImg);
+          const dataPost = {
+            ...data,
+            imageUrl: dataValue.imageUrl,
+            price: change,
+            // servicePackageDates: [{ date: data.date}],
+          };
+          putData(`/service-package`, dataValue.id, dataPost)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "cập nhật thành công",
+                "đã cập nhật gói dịch vụ thành công!"
+              );
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              notificationApi(
+                "error",
+                "cập nhật không thành công",
+                "cập nhật gói dịch vụ không thành công!"
+              );
+            });
+          onClose();
+        });
       }
     }
   };
@@ -152,8 +186,8 @@ export default function CreateOneTime({ onClose }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
-                      label={"Tên"}
-                      placeholder={"Tên"}
+                      label={"Tên dịch vụ"}
+                      placeholder={"Tên dịch vụ"}
                       {...register("name")}
                       required
                     />
@@ -165,7 +199,13 @@ export default function CreateOneTime({ onClose }) {
                     <ComNumber
                       type="text"
                       money
-                      defaultValue={1000}
+                      defaultValue={mony}
+                      // min={1000}
+                      value={mony}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value, { shouldValidate: true });
+                        setMony(value);
+                      }}
                       min={1000}
                       label={"Số tiền"}
                       placeholder={"Vui lòng nhập số tiền"}
@@ -277,6 +317,7 @@ export default function CreateOneTime({ onClose }) {
                     <ComUpImgOne
                       onChange={onChange}
                       multiple={false}
+                      imgUrl={dataValue.imageUrl}
                       label={"Hình ảnh"}
                       required
                     />
