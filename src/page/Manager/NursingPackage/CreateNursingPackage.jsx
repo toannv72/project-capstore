@@ -11,13 +11,14 @@ import { postData } from "../../../api/api";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function CreateNursingPackage({ tableRef, onClose }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
 
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhập tên gói"),
+    name: yup.string().required("Vui lòng nhập tên gói").trim(),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
     price: yup
       .string()
@@ -25,6 +26,14 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
       .required("Vui lòng nhập giá tiền"),
     capacity: yup
       .number()
+      .max(20, "vui lòng nhập nhỏ hơn 20 người")
+      .min(1, "vui lòng nhập lớn hơn 1 người")
+      .required("Vui lòng nhập số lượng ")
+      .typeError("Vui lòng nhập số lượng "),
+    numberOfNurses: yup
+      .number()
+      .max(20, "vui lòng nhập nhỏ hơn 20 người")
+      .min(1, "vui lòng nhập lớn hơn 1 người")
       .required("Vui lòng nhập số lượng ")
       .typeError("Vui lòng nhập số lượng "),
   });
@@ -32,8 +41,8 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {
-      name: "aa",
-      description: "aa",
+      name: "",
+      description: "",
     },
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
@@ -74,6 +83,8 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
             })
             .catch((error) => {
               console.log(error);
+              handleErrors(error, setError, setFocus);
+
               notificationApi(
                 "error",
                 "tạo không thành công",
@@ -104,26 +115,39 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
-                      label={"Tên"}
-                      placeholder={"Tên"}
+                      label={"Tên gói dưỡng lão"}
+                      placeholder={"Tên gói dưỡng lão"}
                       {...register("name")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComNumber
                       // type="text"
-                      min={1}
-                      label={"Số lượng người "}
+                      min={0}
+                      label={"Số lượng người một phòng "}
                       placeholder={"Vui lòng nhập số lượng"}
                       {...register("capacity")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      // type="text"
+
+                      label={"Số lượng điều dưỡng "}
+                      placeholder={"Vui lòng nhập số lượng"}
+                      min={0}
+                      {...register("numberOfNurses")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComNumber
                       type="text"

@@ -20,11 +20,13 @@ export default function EditNursingPackage({
   const [image, setImages] = useState([]);
   const [mony, setMony] = useState(selectedData.price);
   const [limit, setLimit] = useState(selectedData.registrationLimit);
+  const [capacitys, setCapacitys] = useState(selectedData.capacity);
   const { notificationApi } = useNotification();
   // console.log(selectedData);
   useEffect(() => {
     setMony(selectedData.price);
     setLimit(selectedData.registrationLimit);
+    setCapacitys(selectedData.capacity);
   }, [selectedData]);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói"),
@@ -33,8 +35,16 @@ export default function EditNursingPackage({
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    registrationLimit: yup
+    capacity: yup
       .number()
+      .max(20, "vui lòng nhập nhỏ hơn 20 người")
+      .min(1, "vui lòng nhập lớn hơn 1 người")
+      .required("Vui lòng nhập số lượng ")
+      .typeError("Vui lòng nhập số lượng "),
+    numberOfNurses: yup
+      .number()
+      .max(20, "vui lòng nhập nhỏ hơn 20 người")
+      .min(1, "vui lòng nhập lớn hơn 1 người")
       .required("Vui lòng nhập số lượng ")
       .typeError("Vui lòng nhập số lượng "),
   });
@@ -136,25 +146,43 @@ export default function EditNursingPackage({
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComNumber
                       // type="text"
-                      defaultValue={selectedData.registrationLimit}
-                      value={limit}
-                      min={1}
-                      onChangeValue={(e, value) => {
-                        setValue(e, value);
-                        setLimit(value);
-                      }}
-                      label={"Số lượng người "}
+                      label={"Số lượng người một phòng "}
+                      min={0}
                       placeholder={"Vui lòng nhập số lượng"}
-                      {...register("registrationLimit")}
+                      defaultValue={capacitys}
+                      value={capacitys}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value, { shouldValidate: true });
+                        setCapacitys(value);
+                      }}
+                      {...register("capacity")}
                       required
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-1">
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      // type="text"
+                      label={"Số lượng điều dưỡng "}
+                      placeholder={"Vui lòng nhập số lượng"}
+                      min={0}
+                      defaultValue={limit}
+                      value={limit}
+                      onChangeValue={(e, value) => {
+                        setValue(e, value, { shouldValidate: true });
+                        setLimit(value);
+                      }}
+                      {...register("numberOfNurses")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComNumber
                       type="text"

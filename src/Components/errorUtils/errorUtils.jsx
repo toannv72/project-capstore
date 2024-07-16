@@ -1,5 +1,6 @@
 export const handleErrors = (error, setError, setFocus) => {
   const errorMapping = {
+    409: { field: "name", message: "Đã có tên này!" },
     600: { field: "phoneNumber", message: "Đã có số điện thoại này!" },
     601: { field: "email", message: "Đã có Email này!" },
     602: { field: "cccd", message: "Đã có CMND hoặc CCCD này!" },

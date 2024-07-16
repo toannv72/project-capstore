@@ -19,7 +19,6 @@ import {
 } from "../../../Components/ComDateDisabled/DateOfBirth";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import ComNumber from "./../../../Components/ComInput/ComNumber";
 import {
   addressRegex,
   cccdRegex,
@@ -120,10 +119,7 @@ export default function CreateElder({ onClose, tableRef }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    values: {
-      height: 20,
-      weight: 20,
-    },
+
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
