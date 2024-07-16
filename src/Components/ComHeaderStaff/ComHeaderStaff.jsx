@@ -43,7 +43,7 @@ const subCategories = [
     href: "/staff/feedback",
     icon: QueueListIcon,
   },
-  { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
+  // { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
   { name: "Danh sách hóa đơn", href: "/staff/bill", icon: Cog6ToothIcon },
   { name: "Chỉ số sức khỏe", href: "/staff/health", icon: Cog6ToothIcon },
   {

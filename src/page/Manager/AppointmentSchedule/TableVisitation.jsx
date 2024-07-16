@@ -18,8 +18,7 @@ export default function TableVisitation() {
   const modal = useModalState();
   const [selectedData, setSelectedData] = useState(null);
 
-  const { getColumnSearchProps, getColumnApprox } =
-    useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
   console.log(data);
   const columns = [
@@ -99,19 +98,18 @@ export default function TableVisitation() {
       width: 100,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-    
           <ComMenuButonTable
             record={record}
             showModalDetails={() => {
-              modal?.handleOpen()
-              setSelectedData(record)
+              modal?.handleOpen();
+              setSelectedData(record);
             }}
             showModalEdit={() => {
-              modal?.handleOpen()
-              setSelectedData(record)
+              modal?.handleOpen();
+              setSelectedData(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete","details"]}
+            excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
         </div>
@@ -119,6 +117,9 @@ export default function TableVisitation() {
     },
   ];
   useEffect(() => {
+    renderData();
+  }, []);
+  const renderData = () => {
     table.handleOpenLoading();
     getData("/appointments?Type=Consultation&SortDir=Desc")
       .then((e) => {
@@ -128,12 +129,16 @@ export default function TableVisitation() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
+  };
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <DetailAppointment selectedData={selectedData}/>
+        <DetailAppointment
+          selectedData={selectedData}
+          renderData={renderData}
+          onClose={modal?.handleClose}
+        />
       </ComModal>
     </div>
   );

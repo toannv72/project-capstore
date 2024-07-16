@@ -6,6 +6,7 @@ import { Typography } from "antd";
 import ComTable from "../../../Components/ComTable/ComTable";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailFeedback from "./DetailFeedback";
+import { getData } from "../../../api/api";
 
 const UnsatisfiedFeedback = () => {
   const [data, setData] = useState([]);
@@ -72,7 +73,14 @@ const UnsatisfiedFeedback = () => {
     },
   ];
   useEffect(() => {
-    //call api
+      getData("/feedback?SortDir=Desc")
+        .then((e) => {
+          setData(e?.data?.contends);
+          table.handleCloseLoading();
+        })
+        .catch((error) => {
+          console.error("Error fetching items:", error);
+        });
   }, []);
   return (
     <div>

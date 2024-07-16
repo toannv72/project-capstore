@@ -1,8 +1,23 @@
 import React from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import ComButton from "../../../Components/ComButton/ComButton";
+import { putData } from "../../../api/api";
 
-export default function DetailAppointment({ selectedData }) {
+export default function DetailAppointment({
+  selectedData,
+  renderData,
+  onClose,
+}) {
+  console.log("====================================");
+  console.log(selectedData);
+  console.log("====================================");
+  const update = () => {
+    // putData("/feedback", selectedData.id, {
+    //   ...selectedData,
+    //   status: "Pending",
+    // });
+  };
   return (
     <div>
       <div className="p-4 bg-white">
@@ -13,7 +28,7 @@ export default function DetailAppointment({ selectedData }) {
           <tbody>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Họ và tên:
+                Người đăng ký:
               </td>
               <td className="px-4 py-2">{selectedData?.user?.fullName}</td>
             </tr>
@@ -31,32 +46,7 @@ export default function DetailAppointment({ selectedData }) {
               </td>
               <td className="px-4 py-2">{selectedData?.user?.phoneNumber}</td>
             </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Giới tính:
-              </td>
-              <td className="px-4 py-2">
-                <ComGenderConverter>
-                  {selectedData?.user?.gender}
-                </ComGenderConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Ngày sinh:
-              </td>
-              <td className="px-4 py-2">
-                <ComDateConverter>
-                  {selectedData?.user?.dateOfBirth}
-                </ComDateConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Ngày hẹn:</td>
-              <td className="px-4 py-2">
-                <ComDateConverter>{selectedData?.date}</ComDateConverter>
-              </td>
-            </tr>
+
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Loại hẹn:</td>
               <td className="px-4 py-2">{selectedData?.type}</td>
@@ -66,7 +56,7 @@ export default function DetailAppointment({ selectedData }) {
                 Gói điều dưỡng:
               </td>
               <td className="px-4 py-2">
-                {selectedData?.nursingPackage ?? "Không có"}
+                {selectedData?.nursingPackage?.name ?? "Không có"}
               </td>
             </tr>
             <tr className="border-b">
@@ -74,7 +64,7 @@ export default function DetailAppointment({ selectedData }) {
               <td className="px-4 py-2">{selectedData?.notes ?? "Không có"}</td>
             </tr>
 
-            <tr className="border-b">
+            {/* <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Ngày tạo:</td>
               <td className="px-4 py-2">
                 <ComDateConverter>{selectedData?.createdAt}</ComDateConverter>
@@ -86,10 +76,16 @@ export default function DetailAppointment({ selectedData }) {
               <td className="px-4 py-2">
                 <ComDateConverter>{selectedData?.modifiedAt}</ComDateConverter>
               </td>
-            </tr>
+            </tr> */}
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
+        <div className="flex m-1 ">
+          <ComButton onClick={update}>Đã thăm nuôi </ComButton>
+          <ComButton className={" bg-white "} onClick={onClose}>
+            <div className="text-black">Đóng</div>
+          </ComButton>
+        </div>
       </div>
     </div>
   );
