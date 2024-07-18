@@ -17,6 +17,7 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -113,12 +114,24 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Năm sinh",
-      width: 100,
+      width: 120,
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "CMND or CCCD",
+      width: 150,
+      dataIndex: "cccd",
+      key: "cccd",
+      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      render: (cccd) => (
+        <div>
+          <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
         </div>
       ),
     },
@@ -140,14 +153,14 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Phòng hiện tại",
-      width: 100,
+      width: 150,
       dataIndex: "room",
       key: "room",
       render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
       title: "Loại gói dưỡng lão",
-      width: 100,
+      width: 150,
       dataIndex: "contractsInUse",
       key: "contractsInUse",
       render: (_, render) => (
@@ -156,7 +169,7 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Ngày có hiệu lực",
-      width: 100,
+      width: 120,
       dataIndex: "effectiveDate",
       key: "effectiveDate",
       render: (_, render) => (
@@ -169,7 +182,7 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Ngày hết hạn",
-      width: 100,
+      width: 120,
       dataIndex: "expiryDate",
       key: "expiryDate",
       render: (_, render) => (
@@ -180,7 +193,7 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Ngày đăng ký",
-      width: 100,
+      width: 120,
       dataIndex: "signingDate",
       key: "signingDate",
       render: (_, render) => (
@@ -194,13 +207,13 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Địa chỉ",
-      width: 100,
+      width: 220,
       dataIndex: "address",
       key: "address",
     },
     {
       title: "Ghi chú",
-      width: 100,
+      width: 220,
       dataIndex: "notes",
       key: "notes",
     },

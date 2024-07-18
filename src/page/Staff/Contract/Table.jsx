@@ -10,6 +10,7 @@ import EditContract from "./EditContract";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ContractExtension from "./ContractExtension";
 
 export default function Table() {
   const [data, setData] = useState([]);
@@ -21,6 +22,7 @@ export default function Table() {
   console.log("====================================");
   console.log(selectedUser);
   console.log("====================================");
+
   useEffect(() => {
     getData("/contract?SortDir=Desc")
       .then((e) => {
@@ -94,6 +96,18 @@ export default function Table() {
       ...getColumnSearchProps("nursingPackage.name", "Gói"),
     },
     {
+      title: "Ngày kí ",
+      width: 100,
+      dataIndex: "signingDate",
+      key: "signingDate",
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.signingDate}</ComDateConverter>
+        </div>
+      ),
+      ...getColumnApprox("startDate", "Gói"),
+    },
+    {
       title: "Ngày có hiệu lực",
       width: 100,
       dataIndex: "startDate",
@@ -108,14 +122,14 @@ export default function Table() {
     {
       title: "Ngày hết hạn",
       width: 100,
-      dataIndex: "signingDate",
-      key: "signingDate",
+      dataIndex: "endDate",
+      key: "endDate",
       render: (_, render) => (
         <div>
-          <ComDateConverter>{render?.signingDate}</ComDateConverter>
+          <ComDateConverter>{render?.endDate}</ComDateConverter>
         </div>
       ),
-      ...getColumnApprox("signingDate"),
+      ...getColumnApprox("endDate"),
     },
     {
       title: "Ghi chú",
@@ -163,8 +177,9 @@ export default function Table() {
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
+        width={800}
       >
-        <EditContract
+        <ContractExtension
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
         />
