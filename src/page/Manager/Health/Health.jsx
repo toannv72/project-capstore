@@ -4,8 +4,8 @@ import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateAll from "./CreateAll";
-import { TableHealth } from './TableHealth';
-import { TableHealthCategory } from './TableHealthCategory';
+import { TableHealth } from "./TableHealth";
+import { TableHealthCategory } from "./TableHealthCategory";
 import DetailEmployee from "../../admin/TableEmployee/DetailEmployee";
 
 function Health() {
@@ -53,7 +53,7 @@ function Health() {
         width={800}
         onClose={modal?.handleClose}
       >
-        <DetailEmployee />
+        <CreateAll tableRef={tableRef} onClose={modal?.handleClose} />
       </ComModal>
     </>
   );

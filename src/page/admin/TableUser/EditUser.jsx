@@ -21,6 +21,7 @@ import {
   phoneNumberRegex,
 } from "../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import ComSelect from "../../../Components/ComInput/ComSelect";
 
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -35,6 +36,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
+    gender: yup.string().required("Vui lòng chọn chọn giới tính"),
     // phoneNumber: yup
     //   .string()
     //   // .required("Vui lòng nhập đủ số điện thoại")
@@ -109,6 +111,8 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
   useEffect(() => {
     setImages([]);
   }, [selectedUser]);
+
+
   const onChange = (data) => {
     const selectedImages = data;
 
@@ -180,14 +184,48 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedUser}
+                      value={watch("gender")}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
+                      required
+                      {...register("gender")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
                       label={"Gmail"}
                       placeholder={"Vui lòng nhập Gmail"}
                       {...register("email")}
-                      // required
+                      required
                     />
                   </div>
                 </div>

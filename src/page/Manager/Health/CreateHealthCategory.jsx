@@ -22,8 +22,8 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhâp tên"),
-    description: yup.string().required("Vui lòng nhâp tên"),
+    name: yup.string().required("Vui lòng nhập tên"),
+    description: yup.string().required("Vui lòng nhập tên"),
     measureUnits: yup
       .array()
       .of(

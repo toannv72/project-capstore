@@ -147,7 +147,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       width: 100,
       ...getColumnSearchProps("description", "Chi tiết"),
     },
-   
+
     {
       title: "Action",
       key: "operation",
@@ -166,11 +166,11 @@ export const TableHealthCategory = forwardRef((props, ref) => {
             record={record}
             // showModalDetails={() => showModaldElder(record)}
             showModalEdit={() => {
-              modal?.handleOpen()
+              modal?.handleOpen();
               setDataSelect(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
         </div>

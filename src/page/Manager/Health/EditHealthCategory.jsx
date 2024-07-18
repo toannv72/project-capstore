@@ -106,7 +106,7 @@ export default function EditHealthCategory({dataSelect, isOpen, onClose, getData
     } else {
       console.log("ko có ảnh");
 
-      putData(`/health-categorys`,dataSelect.id, { ...data, imageUrl: dataSelect.imageUrl })
+      putData(`/health-category`,dataSelect.id, { ...data, imageUrl: dataSelect.imageUrl })
         .then((e) => {
           notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
           getDataApi();

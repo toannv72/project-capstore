@@ -9,6 +9,7 @@ import DetailContract from "./DetailContract";
 import EditContract from "./EditContract";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 export default function Table() {
   const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ export default function Table() {
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   console.log("====================================");
-  console.log(data);
+  console.log(selectedUser);
   console.log("====================================");
   useEffect(() => {
     getData("/contract?SortDir=Desc")
@@ -129,23 +130,25 @@ export default function Table() {
       width: 80,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <div>
-              <Typography.Link onClick={() => showModal(record)}>
-                Chi tiết
-              </Typography.Link>
-            </div>
-            <div>
-              <Typography.Link onClick={() => showModalEdit(record)}>
-                Chỉnh sửa
-              </Typography.Link>
-            </div>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModal(record)}
+            extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete", "edit"]}
+          />
         </div>
       ),
     },
   ];
+  const extraMenuItems = [
+    {
+      label: "Gia hạn",
+      onClick: (e) => {
 
+        showModalEdit(e);
+      },
+    },
+  ];
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />

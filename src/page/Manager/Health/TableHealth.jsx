@@ -20,12 +20,7 @@ export const TableHealth = forwardRef((props, ref) => {
   const [selectedElder, setSelectedElder] = useState(null);
 console.log(selectedElder);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
-  const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
-  } = useContext(LanguageContext);
+
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -159,47 +154,21 @@ console.log(selectedElder);
       ),
     },
     // {
-    //   title: "Thông tin bổ sung",
-    //   dataIndex: "description",
-    //   key: "description",
-    //   width: 300,
-    //   ...getColumnSearchProps("description", "chi tiết"),
-
-    //   ellipsis: {
-    //     showTitle: false,
-    //   },
-    //   render: (record) => (
-    //     <Tooltip placement="topLeft" title={record}>
-    //       {record}
-    //     </Tooltip>
+    //   title: "Action",
+    //   key: "operation",
+    //   fixed: "right",
+    //   width: 40,
+    //   render: (_, record) => (
+    //     <div className="flex items-center flex-col">
+    //       <ComMenuButonTable
+    //         record={record}
+    //         // showModalDetails={() => showModaldElder(record)}
+    //         showModalEdit={() => modal?.handleOpen(record)}
+    //         excludeDefaultItems={["delete", "details"]}
+    //       />
+    //     </div>
     //   ),
     // },
-    {
-      title: "Action",
-      key: "operation",
-      // fixed: "right",
-      width: 40,
-      render: (_, record) => (
-        // <div className="flex items-center flex-col">
-        //   <div>
-        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
-        //       Chấp nhận
-        //     </Typography.Link>
-        //   </div>
-
-        // </div>
-        <div className="flex items-center flex-col">
-          <ComMenuButonTable
-            record={record}
-            // showModalDetails={() => showModaldElder(record)}
-            showModalEdit={() => modal?.handleOpen(record)}
-            // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
-            // order={order}
-          />
-        </div>
-      ),
-    },
   ];
   console.log(data);
   const reloadData = () => {

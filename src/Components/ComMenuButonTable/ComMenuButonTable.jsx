@@ -1,9 +1,7 @@
 import React from "react";
 import { Menu, Dropdown, Button, Typography } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
-import PropTypes from "prop-types";
 
-const { Link } = Typography;
 
 const ComMenuButonTable = ({
   record,
@@ -41,7 +39,7 @@ const ComMenuButonTable = ({
     ...extraMenuItems.map((item, index) => ({
       key: `extra-${index}`,
       label: item.label,
-      onClick: item.onClick,
+      onClick: () => item.onClick(record),
       visible: true,
       order:
         order.indexOf(item.label) !== -1
@@ -77,6 +75,5 @@ const ComMenuButonTable = ({
     </Dropdown>
   );
 };
-
 
 export default ComMenuButonTable;

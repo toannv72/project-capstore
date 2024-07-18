@@ -24,7 +24,7 @@ function TableEmployee() {
   };
   return (
     <div>
-      <div className="grid grid-cols-3 gap-4 pb-4">
+      {/* <div className="grid grid-cols-3 gap-4 pb-4">
         {cardData.map((card, index) => (
           <ComCard
             key={index} // Sử dụng index làm key
@@ -33,7 +33,7 @@ function TableEmployee() {
             {...card}
           />
         ))}
-      </div>
+      </div> */}
       <div className="flex justify-end pb-2">
         <div><ComButton onClick={modal.handleOpen}>Tạo mới nhân viên</ComButton></div>
       </div>

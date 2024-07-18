@@ -1,7 +1,7 @@
 import { Radio } from "antd";
 import React, { useState } from "react";
 
-import CreateHealthCategory from './CreateHealthCategory';
+import CreateHealthCategory from "./CreateHealthCategory";
 
 export default function CreateAll({ onClose, tableRef }) {
   const [value, setValue] = useState(1);
@@ -11,8 +11,9 @@ export default function CreateAll({ onClose, tableRef }) {
   const viewTable = () => {
     switch (value) {
       case 1:
-        return <CreateHealthCategory onClose={onClose} getDataApi={getDataApi} />;
-
+        return (
+          <CreateHealthCategory onClose={onClose} getDataApi={getDataApi} />
+        );
 
       default:
         break;
@@ -28,8 +29,9 @@ export default function CreateAll({ onClose, tableRef }) {
   };
   return (
     <div>
-   
-
+      <div className="text-xl font-semibold text-gray-800 mb-2">
+        Tạo chỉ số sức khỏe
+      </div>
       {viewTable()}
     </div>
   );

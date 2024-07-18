@@ -15,7 +15,6 @@ import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import {
-  DateOfContract,
   DateOfLastDay,
 } from "../../../Components/ComDateDisabled/DateOfBirth";
 
@@ -29,7 +28,7 @@ export default function CreateContract({ onClose }) {
   const [dataPackage, setDataPackage] = useState([]);
   const [dataUser, setDataUser] = useState([]);
   const [dataElders, setDataElders] = useState([]);
-
+  const [endDate, setEndDate] = useState(false);
   const disabledDate = (current) => {
     const yearsAgo120 = moment().subtract(120, "years");
     const yearsLater120 = moment().add(120, "years");
@@ -93,6 +92,33 @@ export default function CreateContract({ onClose }) {
   useEffect(() => {
     reloadData();
   }, []);
+
+  const DateOfContract = (current) => {
+    const rangeYears = 10;
+
+    const minDate = moment().subtract(rangeYears, "years");
+    const maxDate = moment().add(rangeYears, "years");
+
+    return current && (current < minDate || current > maxDate);
+  };
+
+const disabledDateEnd = (current) => {
+  const daysLater30 = moment().add(30, "days");
+  const tenYearsLater = moment().add(10, "years");
+  const startDate = watch("startDate");
+  const fixedFutureDate = startDate ? moment(startDate).add(30, "days") : null;
+
+  return (
+    current &&
+    (current < daysLater30 ||
+      current > tenYearsLater ||
+      (fixedFutureDate && current < fixedFutureDate))
+  );
+};
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("endDate", null);
+  }, [watch("startDate")]);
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -331,17 +357,30 @@ export default function CreateContract({ onClose }) {
                     required
                   />
                 </div>
-                <div className="sm:col-span-1">
-                  <ComDatePicker
-                    label="Ngày kết thúc hợp đồng"
-                    disabledDate={DateOfContract}
-                    name="contract"
-                    placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
-                    {...register("endDate")}
-                    required
-                  />
-                </div>
-
+                {!endDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày kết thúc hợp đồng"
+                      disabledDate={disabledDateEnd}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                      {...register("endDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {endDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày kết thúc hợp đồng"
+                      disabledDate={disabledDateEnd}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                      {...register("endDate")}
+                      required
+                    />
+                  </div>
+                )}
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"

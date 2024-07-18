@@ -21,6 +21,7 @@ import {
   phoneNumberRegex,
 } from "../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import ComSelect from "../../../Components/ComInput/ComSelect";
 
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
@@ -49,6 +50,7 @@ export default function CreateUser({ onClose, tableRef }) {
         "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
       )
       .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+    gender: yup.string().required("Vui lòng chọn chọn giới tính"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -174,6 +176,39 @@ export default function CreateUser({ onClose, tableRef }) {
                   </div>
                 </div>
                 <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn giới tính"
+                      placeholder="Giới tính"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedUser}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
+                      required
+                      {...register("gender")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
