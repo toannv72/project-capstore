@@ -103,6 +103,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
     reloadData();
     setSelectedUsers(selectedUser.user.id);
     setSelectedElders(selectedUser.elder.id);
+    setSelectedPackage(selectedUser.nursingPackage.id);
     const endDate = moment(selectedUser.endDate)
       .add(1, "days")
       .format("YYYY-MM-DD");
@@ -372,7 +373,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -391,7 +392,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                       {...register("roomId")}
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="sm:col-span-2">
                   <ComDatePicker
                     label="Ngày ký hợp đồng"
