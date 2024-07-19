@@ -30,8 +30,6 @@ export default function ContractExtension({ onClose, selectedUser }) {
   const [dataElders, setDataElders] = useState([]);
   const [endDate, setEndDate] = useState(false);
 
-  console.log(selectedUser);
-
   const disabledDate = (current) => {
     const yearsAgo120 = moment().subtract(120, "years");
     const yearsLater120 = moment().add(120, "years");
@@ -61,7 +59,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(111111, data);
 
     if (Array.isArray(image) && image.length === 0) {
       notificationApi(
@@ -76,6 +74,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
 
         postData("/contract", {
           ...data,
+          images:convertUrlsToObjects(dataImg1)
         })
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
@@ -98,6 +97,8 @@ export default function ContractExtension({ onClose, selectedUser }) {
 
     return `${year}-${month}-${day}`;
   };
+
+  // tải lại thông tin khi chọn hợp đồng khác
   useEffect(() => {
     reloadData();
     setSelectedUsers(selectedUser.user.id);
@@ -112,6 +113,19 @@ export default function ContractExtension({ onClose, selectedUser }) {
     setValue("signingDate", today, {
       shouldValidate: false,
     });
+    setValue("elderId", selectedUser.elder.id, {
+      shouldValidate: false,
+    });
+    setValue("userId", selectedUser.user.id, {
+      shouldValidate: false,
+    });
+     setValue("nursingPackageId", selectedUser.nursingPackage.id, {
+       shouldValidate: false,
+     });
+     setValue("roomId", selectedUser.elder.roomId, {
+       shouldValidate: false,
+     });
+      setValue("images", []);
   }, [selectedUser]);
 
   const DateOfContract = (current) => {

@@ -38,6 +38,7 @@ export default function CreateContract({ onClose }) {
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
+    roomId: yup.string().required("Vui lòng chọn phòng"),
 
     name: yup.string().required("Vui lòng nhập tên hợp đồng"),
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
