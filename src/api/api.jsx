@@ -1,6 +1,7 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URLS,
+  // baseURL: process.env.REACT_APP_BASE_URLS,
+  baseURL: "https://nursinghome.runasp.net/api/",
   withCredentials: true,
 });
 
