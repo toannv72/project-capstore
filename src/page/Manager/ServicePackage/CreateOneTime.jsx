@@ -32,11 +32,15 @@ export default function CreateOneTime({ onClose }) {
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    endRegistrationStartDate: yup.string().required("Vui lòng nhập thời gian"),
+    endRegistrationDate: yup.string().required("Vui lòng nhập thời gian"),
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
     description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    registrationLimit: yup
+      .number()
+      .typeError("Vui lòng nhập số lượng")
+      .required("Vui lòng nhập số lượng"),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
@@ -98,6 +102,7 @@ export default function CreateOneTime({ onClose }) {
     }
   };
   const onSubmit = (data) => {
+    console.log(data);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -129,7 +134,7 @@ export default function CreateOneTime({ onClose }) {
                 "tạo gói dịch vụ không thành công!"
               );
             });
-          onClose();
+          
         });
       } else {
         notificationApi(
@@ -216,7 +221,7 @@ export default function CreateOneTime({ onClose }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
+                        {...register("endRegistrationDate")}
                         required
                       />
                     </div>
@@ -228,7 +233,7 @@ export default function CreateOneTime({ onClose }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
+                        {...register("endRegistrationDate")}
                         required
                       />
                     </div>

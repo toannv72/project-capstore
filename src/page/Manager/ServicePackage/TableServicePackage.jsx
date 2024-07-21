@@ -1,7 +1,6 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../../../contexts/LanguageContext";
-import { Badge, Image, Table, Tooltip, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Image, Table, Tooltip, Typography } from "antd";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -23,9 +22,6 @@ export default function TableServicePackage() {
   const [selectedData, setSelectedData] = useState(null);
   console.log(selectedData);
   const { getColumnSearchProps } = useColumnSearch();
-  const {
-    text: { InstituteManagement },
-  } = useContext(LanguageContext);
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -54,8 +50,6 @@ export default function TableServicePackage() {
       fixed: "left",
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
-          {/* <img src={record.image} className='h-24 object-cover object-center   ' alt={record.image} /> */}
-
           <Image
             maskClassName="w-full h-full object-cover object-center lg:h-full lg:w-full "
             src={record?.imageUrl}
@@ -170,7 +164,7 @@ export default function TableServicePackage() {
             <br />
             Ngày kết thúc đăng ký:
             <br />
-            <ComDateConverter>{data.endRegistrationStartDate}</ComDateConverter>
+            <ComDateConverter>{data.endRegistrationDate}</ComDateConverter>
           </div>
         );
       case "MultipleDays":
@@ -209,6 +203,11 @@ export default function TableServicePackage() {
     }
   };
   useEffect(() => {
+    setTimeout(() => {
+      getApi();
+    }, 100);
+  }, [modalDetail?.isModalOpen, modal?.isModalOpen]);
+  const getApi = () => {
     table.handleOpenLoading();
     getData("/service-package?SortDir=Desc")
       .then((e) => {
@@ -218,8 +217,7 @@ export default function TableServicePackage() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, [modalDetail?.isModalOpen, modal?.isModalOpen]);
-
+  };
   return (
     <div>
       <div className="flex items-end pb-2">

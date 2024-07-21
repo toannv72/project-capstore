@@ -23,6 +23,9 @@ export default function EditOneTime({ onClose, dataValue }) {
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
   const [mony, setMony] = useState(dataValue.price);
+  const [registrationLimit, setregistrationLimit] = useState(
+    dataValue.registrationLimit
+  );
   const [category, setCategory] = useState([]);
   const [endDate, setEndDate] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
@@ -34,11 +37,15 @@ export default function EditOneTime({ onClose, dataValue }) {
       .string()
       .typeError("Vui lòng nhập giá tiền")
       .required("Vui lòng nhập giá tiền"),
-    endRegistrationStartDate: yup.string().required("Vui lòng nhập thời gian"),
+    endRegistrationDate: yup.string().required("Vui lòng nhập thời gian"),
     servicePackageCategoryId: yup
       .string()
       .required("Vui lòng chọn thể loại dịch vụ"),
     description: yup.string().required("Vui lòng nhập tên dịch vụ"),
+    registrationLimit: yup
+      .number()
+      .typeError("Vui lòng nhập số lượng")
+      .required("Vui lòng nhập số lượng"),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
@@ -67,7 +74,7 @@ export default function EditOneTime({ onClose, dataValue }) {
 
   useEffect(() => {
     setEndDate((e) => !e);
-    setValue("endRegistrationStartDate", null);
+    setValue("endRegistrationDate", null);
   }, [watch("eventDate")]);
 
   const onChange = (data) => {
@@ -90,10 +97,7 @@ export default function EditOneTime({ onClose, dataValue }) {
   useEffect(() => {
     setMony(dataValue.price);
     setTimeout(() => {
-         setValue(
-           "endRegistrationStartDate",
-           dataValue.endRegistrationStartDate
-         );
+      setValue("endRegistrationDate", dataValue.endRegistrationDate);
     }, 100);
   }, [dataValue]);
   const handleChange = (e, value) => {
@@ -140,8 +144,8 @@ export default function EditOneTime({ onClose, dataValue }) {
                 "cập nhật không thành công",
                 "cập nhật gói dịch vụ không thành công!"
               );
+              onClose();
             });
-          onClose();
         });
       } else {
         firebaseImg(image).then((dataImg) => {
@@ -256,7 +260,7 @@ export default function EditOneTime({ onClose, dataValue }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
+                        {...register("endRegistrationDate")}
                         required
                       />
                     </div>
@@ -268,19 +272,13 @@ export default function EditOneTime({ onClose, dataValue }) {
                       <ComDatePicker
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
-                        {...register("endRegistrationStartDate")}
+                        {...register("endRegistrationDate")}
                         required
                       />
                     </div>
                   </div>
                 )}
-                {/* <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <Checkbox onChange={(e) => setCheckbox(e.target.checked)}>
-                      Dịch vụ có giới hạn số người đăng ký
-                    </Checkbox>
-                  </div>
-                </div> */}
+
                 {checkbox || (
                   <div className="sm:col-span-1">
                     <div className="mt-2.5">
@@ -288,8 +286,9 @@ export default function EditOneTime({ onClose, dataValue }) {
                         type="text"
                         onChangeValue={(e, data) => {
                           setValue("number", data);
+                          setregistrationLimit(data);
                         }}
-                        defaultValue={1}
+                        defaultValue={registrationLimit}
                         min={1}
                         max={10000}
                         label={"Số lượng người có thể tham gia"}
@@ -330,7 +329,7 @@ export default function EditOneTime({ onClose, dataValue }) {
                 htmlType="submit"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Cập nhật
               </ComButton>
             </div>
           </form>
