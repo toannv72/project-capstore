@@ -10,11 +10,12 @@ import { useNotification } from "../../../Notification/Notification";
 import ComTextArea from "./../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
 import { postData } from "../../../api/api";
-import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import { handleErrors } from './../../../Components/errorUtils/errorUtils';
 
-export  function CreateServicePackageCategories({
+export function EditServicePackageCategories({
   onClose,
   tableRef,
+  selectData,
 }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
@@ -25,10 +26,7 @@ export  function CreateServicePackageCategories({
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
+    values: selectData,
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
@@ -38,15 +36,12 @@ export  function CreateServicePackageCategories({
       .then((e) => {
         notificationApi(
           "success",
-          "tạo thành công",
-          "đã tạo thể loại dịch vụ thành công!"
+          "Cập nhật thành công",
+          "Cập nhật thể loại dịch vụ thành công!"
         );
 
         setTimeout(() => {
-          if (tableRef.current) {
-            // Kiểm tra xem ref đã được gắn chưa
-            tableRef.current.reloadData();
-          }
+          tableRef()
         }, 100); // Thời gian trì hoãn (có thể điều chỉnh)
 
         onClose();
@@ -56,8 +51,8 @@ export  function CreateServicePackageCategories({
         handleErrors(error, setError, setFocus);
         notificationApi(
           "error",
-          "tạo không thành công",
-          "tạo thể loại dịch vụ không thành công!"
+          "Cập nhật không thành công",
+          "Cập nhật thể loại dịch vụ không thành công!"
         );
       });
   };
@@ -65,7 +60,7 @@ export  function CreateServicePackageCategories({
   return (
     <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Tạo thể loại dịch vụ
+        Cập nhật thể loại dịch vụ
       </h2>
       <div className="bg-white ">
         <FormProvider {...methods}>
@@ -92,7 +87,7 @@ export  function CreateServicePackageCategories({
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Cập nhật
               </ComButton>
             </div>
           </form>

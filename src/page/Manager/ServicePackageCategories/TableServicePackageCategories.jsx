@@ -8,13 +8,17 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
+import ComMenuButonTable from './../../../Components/ComMenuButonTable/ComMenuButonTable';
+import EditServicePackage from './../ServicePackage/EditServicePackage';
+import { EditServicePackageCategories } from './EditServicePackageCategories';
 export const TableServicePackageCategories = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
-
-  
+  const modalDetail = useModalState();
+  const [selectedData, setSelectedData] = useState(null);
+  console.log(data);
   const reloadData = () => {
     table.handleOpenLoading();
     getData("/service-package-categories?SortDir=Desc")
@@ -42,30 +46,35 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
       key: "name",
       ...getColumnSearchProps("name", "Tên thể loại"),
     },
-    {
-      title: "Số lượng dịch vụ sử dụng",
-      width: 150,
-      dataIndex: "index",
-      key: "index",
-    },
-    {
-      title: "Số lượng dịch vụ đã hết hạn",
-      width: 150,
-      dataIndex: "index",
-      key: "index",
-    },
+    // {
+    //   title: "Số lượng dịch vụ sử dụng",
+    //   width: 150,
+    //   dataIndex: "index",
+    //   key: "index",
+    // },
+    // {
+    //   title: "Số lượng dịch vụ đã hết hạn",
+    //   width: 150,
+    //   dataIndex: "index",
+    //   key: "index",
+    // },
     {
       title: "Action",
       key: "operation",
       fixed: "right",
-      width: 100,
+      width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <div>
-            <Typography.Link onClick={() => modal?.handleOpen(record)}>
-              Chỉnh sửa
-            </Typography.Link>
-          </div>
+          <ComMenuButonTable
+            record={record}
+            // showModalDetails={() => showModaldElder(record)}
+            showModalEdit={() => {
+              modalDetail.handleOpen();
+              setSelectedData(record);
+            }}
+            // extraMenuItems={extraMenuItems}
+            excludeDefaultItems={["delete", "details"]}
+          />
         </div>
       ),
     },
@@ -77,12 +86,20 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
         //   expandedRowRender,
         //   defaultExpandedRowKeys: ["0"],
         // }}
+        x
         columns={columns}
         dataSource={data}
         loading={table.loading}
       />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+      <ComModal
+        isOpen={modalDetail?.isModalOpen}
+        onClose={modalDetail?.handleClose}
+      >
+        <EditServicePackageCategories
+          selectData={selectedData}
+          onClose={modalDetail?.handleClose}
+          tableRef={reloadData}
+        />
       </ComModal>
     </div>
   );
