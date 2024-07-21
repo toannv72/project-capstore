@@ -1,7 +1,9 @@
 import React from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import { Image } from 'antd';
 
 export default function DetailContract({ selectedUser }) {
+    const imageUrls = selectedUser.images.map((image) => image.imageUrl);
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -12,51 +14,72 @@ export default function DetailContract({ selectedUser }) {
           <tbody>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Họ và tên:
+                Tên hợp đồng:
               </td>
-              <td className="px-4 py-2">{selectedUser?.fullName}</td>
+              <td className="px-4 py-2">{selectedUser?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Số điện thoại:
+                Tên người lớn tuổi:
+              </td>
+              <td className="px-4 py-2">{selectedUser?.elder?.name}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Tên người thân:
+              </td>
+              <td className="px-4 py-2">{selectedUser?.user?.fullName}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Gói dưỡng lão:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>
+                {selectedUser?.nursingPackage?.name}
               </td>
             </tr>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{selectedUser?.room?.name}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Loại phòng:
+              <td className="px-4 py-2 text-gray-600 font-medium">Ngày kí:</td>
+              <td className="px-4 py-2">
+                <ComDateConverter>{selectedUser?.signingDate}</ComDateConverter>
               </td>
-              <td className="px-4 py-2">{selectedUser?.room?.type}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2"><ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter></td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày có hiệu lực:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>
-                  {selectedUser?.effectiveDate}
-                </ComDateConverter>
+                <ComDateConverter>{selectedUser?.startDate}</ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Ngày hết hạn hợp đồng:
+                Ngày hết hạn:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{selectedUser?.expiryDate}</ComDateConverter>
+                <ComDateConverter>{selectedUser?.endDate}</ComDateConverter>
               </td>
             </tr>
-            {/* Thêm các dòng khác cho thông tin chi tiết */}
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">Ghi chú:</td>
+              <td className="px-4 py-2">{selectedUser?.notes}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">Hình ảnh:</td>
+              <td className="px-4 py-2">
+                <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+                  <Image.PreviewGroup items={imageUrls}>
+                    <Image
+                      maskClassName="object-cover w-4 h-4 object-cover object-center flex items-center justify-center"
+                      src={imageUrls[0]}
+                      alt={selectedUser.images[0]?.imageAlt}
+                      preview={{ mask: "Xem ảnh" }}
+                    />
+                  </Image.PreviewGroup>
+                </div>
+              </td>
+            </tr>
+            {/* Thêm các dòng khác cho thông tin chi tiết nếu cần */}
           </tbody>
         </table>
       </div>

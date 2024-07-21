@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import Table from "./Table";
+import Table from "./TableContract";
 import ComButton from "../../../Components/ComButton/ComButton";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateContract from "./CreateContract";

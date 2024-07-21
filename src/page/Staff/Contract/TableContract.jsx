@@ -12,16 +12,13 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ContractExtension from "./ContractExtension";
 
-export default function Table() {
+export default function TableContract() {
   const [data, setData] = useState([]);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log("====================================");
-  console.log(selectedUser);
-  console.log("====================================");
 
   useEffect(() => {
     getData("/contract?SortDir=Desc")
@@ -158,7 +155,6 @@ export default function Table() {
     {
       label: "Gia hạn",
       onClick: (e) => {
-
         showModalEdit(e);
       },
     },

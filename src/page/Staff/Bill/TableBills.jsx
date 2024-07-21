@@ -8,21 +8,18 @@ import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
-import { Image, Table, Tooltip, Typography } from "antd";
+import { Image, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
-import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
-import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import DetailBill from "./DetailBill";
 import EditBill from "./EditBill";
 import DetailUser from "../../admin/TableUser/DetailUser";
 
-export const Tables = forwardRef((props, ref) => {
+export const TableBills = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps,getColumnApprox } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailBill = useModalState();
@@ -33,7 +30,7 @@ export const Tables = forwardRef((props, ref) => {
   useEffect(() => {
     reloadData();
   }, []);
-console.log(data);
+  console.log(data);
   const reloadData = () => {
     getData("/orders?Status=Paid&SortDir=Desc")
       .then((e) => {
@@ -47,14 +44,24 @@ console.log(data);
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
+    function formatCurrency(number) {
+      // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+      if (typeof number === "number") {
+        return number.toLocaleString("en-US", {
+          style: "currency",
+          currency: "VND",
+        });
+      }
+    }
+
   const showModaldUser = (record) => {
     console.log(record);
     modalDetailUser.handleOpen();
     setSelectedUser(record);
   };
   const showModal = (record) => {
-    modalDetailUser.handleOpen();
-    setSelectedUser(record);
+    modalDetailBill.handleOpen();
+    setSelectedBill(record);
   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
@@ -75,32 +82,50 @@ console.log(data);
         </Typography.Link>
       ),
     },
-    // {
-    //   title: "Ảnh ",
-    //   dataIndex: "avatarUrl",
-    //   key: "avatarUrl",
-    //   width: 100,
-    //   // fixed: "left",
-    //   render: (_, record) => (
-    //     <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
-    //       {record?.avatarUrl ? (
-    //         <Image
-    //           wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center "
-    //           src={record?.avatarUrl}
-    //           alt={record?.avatarUrl}
-    //           preview={{ mask: "Xem ảnh" }}
-    //         />
-    //       ) : (
-    //         <></>
-    //       )}
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Ảnh ",
+      dataIndex: "user",
+      key: "user.avatarUrl",
+      width: 100,
+      render: (_, record) => (
+        <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
+          {record?.user?.avatarUrl ? (
+            <Image
+              wrapperClassName="object-cover w-full h-full object-cover object-center flex items-center justify-center"
+              src={record.user.avatarUrl}
+              alt={record.user.fullName}
+              preview={{ mask: "Xem ảnh" }}
+            />
+          ) : (
+            <></>
+          )}
+        </div>
+      ),
+    },
     {
       title: "Thanh toán bằng ",
       width: 100,
       dataIndex: "method",
       key: "method",
+    },
+    {
+      title: "Giá tiền",
+      width: 100,
+      dataIndex: "amount",
+      key: "amount",
+
+      sorter: (a, b) => a.price - b.price,
+      render: (_, record) => (
+        <div>
+          <h1>{formatCurrency(record.amount)}</h1>
+        </div>
+      ),
+    },
+    {
+      title: "Ghi chú",
+      width: 100,
+      dataIndex: "notes",
+      key: "notes",
     },
     {
       title: "Thời gian thanh toán",
@@ -118,9 +143,10 @@ console.log(data);
     {
       title: "Địa chỉ",
       width: 100,
-      dataIndex: "address",
-      key: "address",
-      ...getColumnSearchProps("address", "Địa chỉ"),
+      dataIndex: "user",
+      key: "user.address",
+      ...getColumnSearchProps("user.address", "Địa chỉ"),
+      render: (user) => user.address,
     },
 
     {
@@ -135,7 +161,7 @@ console.log(data);
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={["delete","edit"]}
             // order={order}
           />
         </div>
@@ -158,7 +184,7 @@ console.log(data);
         isOpen={modalDetailBill?.isModalOpen}
         onClose={modalDetailBill?.handleClose}
       >
-        <DetailBill selectedUser={selectedBill} />
+        <DetailBill selectedData={selectedBill} />
       </ComModal>
 
       {/* chỉnh sửa user */}

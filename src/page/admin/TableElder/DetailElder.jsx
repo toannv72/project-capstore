@@ -26,6 +26,7 @@ export default function DetailElder({ selectedData }) {
         setLoading(false);
       });
   }, [selectedData]);
+  console.log(111, data);
   function getRoleFromPath(pathname) {
     const parts = pathname.split("/");
     return parts[1];
@@ -72,14 +73,18 @@ export default function DetailElder({ selectedData }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Thời hạn:</td>
-              <td className="px-4 py-2"><ComDateConverter>{data.dateOfBirth}</ComDateConverter></td>
+              <td className="px-4 py-2">
+                <ComDateConverter>{data.dateOfBirth}</ComDateConverter>
+              </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày có hiệu lực:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{data.effectiveDate}</ComDateConverter>
+                <ComDateConverter>
+                  {data.contractsInUse?.startDate}
+                </ComDateConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -87,7 +92,9 @@ export default function DetailElder({ selectedData }) {
                 Ngày hết hạn hợp đồng:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{data.expiryDate}</ComDateConverter>
+                <ComDateConverter>
+                  {data.contractsInUse?.endDate}
+                </ComDateConverter>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}

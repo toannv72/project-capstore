@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import {  Tables } from "./Table";
+import {  TableBills, } from "./TableBills";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -33,19 +33,17 @@ function Bill() {
           />
         ))}
       </div>
-      <div className="flex justify-end pb-2">
+      {/* <div className="flex justify-end pb-2">
         <div>
           <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
         </div>
-      </div>
+      </div> */}
       <ComModal
         width={800}
         isOpen={modal?.isModalOpen}
         onClose={modal?.handleClose}
-      >
-    
-      </ComModal>
-      <Tables ref={tableRef} />
+      ></ComModal>
+      <TableBills ref={tableRef} />
     </div>
   );
 }

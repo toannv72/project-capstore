@@ -33,7 +33,6 @@ export const Tables = forwardRef((props, ref) => {
   useEffect(() => {
     reloadData();
   }, []);
-console.log(11111111111,selectedElder);
   const reloadData = () => {
     getData("/users?RoleNames=Customer&SortDir=Desc")
       .then((e) => {
@@ -84,28 +83,30 @@ console.log(11111111111,selectedElder);
           </div>
         ),
       },
-      {
-        title: "Ngày có hiệu lực",
-        width: 100,
-        dataIndex: "effectiveDate",
-        key: "effectiveDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-          </div>
-        ),
-      },
-      {
-        title: "Ngày hết hạn",
-        width: 100,
-        dataIndex: "expiryDate",
-        key: "expiryDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.expiryDate}</ComDateConverter>
-          </div>
-        ),
-      },
+      // {
+      //   title: "Ngày có hiệu lực",
+      //   width: 100,
+      //   dataIndex: "effectiveDate",
+      //   key: "effectiveDate",
+      //   render: (_, render) => (
+      //     <div>
+      //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+      //     </div>
+      //   ),
+      // },
+      // {
+      //   title: "Ngày hết hạn",
+      //   width: 100,
+      //   dataIndex: "expiryDate",
+      //   key: "expiryDate",
+      //   render: (_, render) => (
+      //     <div>
+      //       <ComDateConverter>
+      //         {render?.contractsInUse?.endDate}
+      //       </ComDateConverter>
+      //     </div>
+      //   ),
+      // },
       {
         title: "Địa chỉ",
         width: 100,
