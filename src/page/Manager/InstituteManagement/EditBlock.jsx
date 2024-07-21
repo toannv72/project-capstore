@@ -48,6 +48,9 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
   return (
     <div>
       <div className="  bg-white ">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          Cập nhật 
+        </h2>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
             <div className=" overflow-y-auto p-4">
@@ -83,7 +86,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-               Cập nhật
+                Cập nhật
               </ComButton>
             </div>
           </form>

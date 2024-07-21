@@ -59,6 +59,7 @@ export default function ComHeaderAdmin({ children }) {
   const navigate = useNavigate();
   useEffect(() => {
     setActiveCategory(currentPath);
+     window.scrollTo(0, 0);
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(

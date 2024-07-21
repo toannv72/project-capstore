@@ -76,7 +76,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       if (dataImg) {
-        const dataPut = { ...data, avatarUrl: dataImg };
+        const dataPut = { ...data, imageUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
@@ -91,7 +91,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
       } else {
-        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
+        const dataPut = { ...data, imageUrl: selectedUser.imageUrl };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");

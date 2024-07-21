@@ -12,19 +12,18 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import EditHealthCategory from "./EditHealthCategory";
+import EditMeasureUnit from "./EditMeasureUnit";
+import CreateMeasureUnit from "./CreateMeasureUnit";
 
 export const TableHealthCategory = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const [dataSelect, setDataSelect] = useState([]);
   const table = useTableState();
   const modal = useModalState();
+  const modalMeasureUnit = useModalState();
+  const modalCreateMeasureUnit = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
-  const {
-    text: {
-      InstituteManagement,
-      common: { button },
-    },
-  } = useContext(LanguageContext);
+
   console.log(data);
   useImperativeHandle(ref, () => ({
     reloadData,
@@ -77,22 +76,28 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         width: 100,
         ...getColumnSearchProps("description", "Chi tiết"),
       },
-
-      // {
-      //   title: "Action",
-      //   key: "operation",
-      //   fixed: "right",
-      //   width: 50,
-      //   render: (_, record) => (
-      //     <div className="flex items-center flex-col">
-      //       <div>
-      //         <Typography.Link onClick={() => modal?.handleOpen(record)}>
-      //           Chấp nhận
-      //         </Typography.Link>
-      //       </div>
-      //     </div>
-      //   ),
-      // },
+      {
+        title: "Action",
+        key: "operation",
+        fixed: "right",
+        width: 50,
+        render: (_, record) => (
+      
+          <div className="flex items-center flex-col">
+            <ComMenuButonTable
+              record={record}
+              // showModalDetails={() => showModaldElder(record)}
+              showModalEdit={() => {
+                modalMeasureUnit?.handleOpen();
+                setDataSelect(record);
+              }}
+              // extraMenuItems={extraMenuItems}
+              excludeDefaultItems={["delete", "details"]}
+              // order={order}
+            />
+          </div>
+        ),
+      },
     ];
     return (
       <Table
@@ -154,13 +159,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       fixed: "right",
       width: 50,
       render: (_, record) => (
-        // <div className="flex items-center flex-col">
-        //   <div>
-        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
-        //       Chấp nhận
-        //     </Typography.Link>
-        //   </div>
-        // </div>
+
         <div className="flex items-center flex-col">
           <ComMenuButonTable
             record={record}
@@ -169,7 +168,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
               modal?.handleOpen();
               setDataSelect(record);
             }}
-            // extraMenuItems={extraMenuItems}
+            extraMenuItems={extraMenuItems}
             excludeDefaultItems={["delete", "details"]}
             // order={order}
           />
@@ -177,7 +176,15 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       ),
     },
   ];
-
+  const extraMenuItems = [
+    {
+      label: "Thêm mới",
+      onClick: (e) => {
+         modalCreateMeasureUnit?.handleOpen();
+         setDataSelect(e);
+      },
+    },
+  ];
   const reloadData = () => {
     table.handleOpenLoading();
     getData("/health-category?SortDir=Desc")
@@ -213,6 +220,28 @@ export const TableHealthCategory = forwardRef((props, ref) => {
           dataSelect={dataSelect}
           getDataApi={reloadData}
           onClose={modal?.handleClose}
+        />
+      </ComModal>
+      <ComModal
+        width={800}
+        isOpen={modalMeasureUnit?.isModalOpen}
+        onClose={modalMeasureUnit?.handleClose}
+      >
+        <EditMeasureUnit
+          dataSelect={dataSelect}
+          getDataApi={reloadData}
+          onClose={modalMeasureUnit?.handleClose}
+        />
+      </ComModal>
+      <ComModal
+        width={800}
+        isOpen={modalCreateMeasureUnit?.isModalOpen}
+        onClose={modalCreateMeasureUnit?.handleClose}
+      >
+        <CreateMeasureUnit
+          getDataApi={reloadData}
+          dataSelect={dataSelect}
+          onClose={modalCreateMeasureUnit?.handleClose}
         />
       </ComModal>
     </div>

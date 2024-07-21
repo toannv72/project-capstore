@@ -54,6 +54,7 @@ export default function ComHeaderManager({ children }) {
   const { user } = useAuth();
   useEffect(() => {
     setActiveCategory(currentPath);
+     window.scrollTo(0, 0);
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(

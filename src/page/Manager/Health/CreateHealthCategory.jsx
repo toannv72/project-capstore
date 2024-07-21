@@ -88,6 +88,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
     setError,
     control,
     formState: { errors },
+    reset,
   } = methods;
 
   const { fields, append, remove } = useFieldArray({
@@ -102,6 +103,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
           notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
           getDataApi();
           onClose();
+          reset()
         })
         .catch((error) => {
           console.log(error);

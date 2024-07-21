@@ -24,7 +24,7 @@ import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditElder({ selectedData, onClose, tableRef }) {
-  const [image, setImages] = useState([]);
+  const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [selectedUser, setSelectedUser] = useState();
   const [selectedRoom, setSelectedRoom] = useState();
@@ -116,10 +116,10 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
     methods;
 
   const onSubmit = (data) => {
-    firebaseImg(image).then((dataImg) => {
-      if (dataImg) {
-        const dataPut = { ...data, avatarUrl: dataImg };
-        console.log(dataPut);
+    if (image) {
+      firebaseImg(image).then((dataImg) => {
+        const dataPut = { ...data, imageUrl: dataImg };
+        console.log(111111,dataPut);
         putData(`/elders`, selectedData.id, dataPut)
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
@@ -136,33 +136,29 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             );
             handleErrors(error, setError, setFocus);
           });
-      } else {
-        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
-        console.log(dataPut);
-        putData(`/elders`, selectedData.id, dataPut)
-          .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
-            setTimeout(() => {}, 100);
-            tableRef();
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            notificationApi(
-              "error",
-              "Chỉnh sửa không thành công ",
-              "Chỉnh sửa"
-            );
-            handleErrors(error, setError, setFocus);
-            if (error.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
-          });
-      }
-    });
+      });
+    } else {
+      const dataPut = { ...data, imageUrl: selectedUser.imageUrl };
+      console.log(22222222,dataPut);
+      putData(`/elders`, selectedData.id, dataPut)
+        .then((e) => {
+          notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+          setTimeout(() => {}, 100);
+          tableRef();
+          onClose();
+        })
+        .catch((error) => {
+          console.log(error);
+          notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
+          handleErrors(error, setError, setFocus);
+          if (error.status === 409) {
+            setError("phoneNumber", {
+              message: "Đã có số điện thoại này",
+            });
+            setFocus("phoneNumber");
+          }
+        });
+    }
   };
 
   const handleChange = (e, value) => {
@@ -189,12 +185,12 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
-         const dataForSelect = e?.data?.contends.map((item) => ({
-           value: item.id,
-           label: `Tên: ${item.fullName} 
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Tên: ${item.fullName} 
           Số Đt: ${item.phoneNumber} 
           CCCD: ${item.cccd}`,
-         }));
+        }));
         setDataUser(dataForSelect);
       })
       .catch((error) => {
@@ -445,7 +441,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                 type="primary"
                 className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Cập nhật
               </ComButton>
             </div>
           </form>

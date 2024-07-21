@@ -15,6 +15,7 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ChartFour from "./ChartFour";
 import { Skeleton } from "antd";
 import ErrorPage from "../../404/ErrorPage";
+import Table from "./Table";
 
 export default function DetailElderPage() {
   const { id } = useParams();
@@ -288,7 +289,9 @@ export default function DetailElderPage() {
               </form>
             </FormProvider>
           </div>
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-3 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        </div>
+        <div className=" col-span-3  ">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm  dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <h3 class="mb-4 text-xl font-semibold dark:text-white">
               Thông tin sức khỏe
             </h3>
@@ -368,6 +371,14 @@ export default function DetailElderPage() {
                 </div>
               </form>
             </FormProvider>
+          </div>
+        </div>
+        <div className=" col-span-3  ">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+              Thông tin hợp đồng
+            </h3>
+            <Table idElder={id} />
           </div>
         </div>
       </div>
