@@ -121,7 +121,7 @@ export default function TableVisitation() {
   }, []);
   const renderData = () => {
     table.handleOpenLoading();
-    getData("/appointments?Type=Consultation&SortDir=Desc")
+    getData("/appointments?Type=FollowUpVisit&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

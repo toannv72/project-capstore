@@ -118,9 +118,10 @@ export default function TableCompleted() {
   ];
   useEffect(() => {
     table.handleOpenLoading();
-    getData("/appointments?Type=Consultation&SortDir=Desc")
+    getData("/appointments?Type=ProcedureCompletion&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
+        console.log(e.data);
         table.handleCloseLoading();
       })
       .catch((error) => {

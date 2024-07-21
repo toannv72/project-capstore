@@ -138,7 +138,7 @@ export const TableBlock = forwardRef((props, ref) => {
     {
       title: "Action",
       key: "operation",
-      // fixed: "right",
+      fixed: "right",
       width: 40,
       render: (_, record) => (
         <div className="flex items-center flex-col">
@@ -184,8 +184,9 @@ export const TableBlock = forwardRef((props, ref) => {
         columns={columns}
         dataSource={data}
         loading={table.loading}
+        x
         scroll={{
-          x: 1020,
+          // x: 1020,
           y: "55vh",
         }}
       />
