@@ -66,9 +66,9 @@ export const putData = async (endpoint, id, data, headers = {}) => {
   }
 };
 
-export const deleteData = async (endpoint, id, headers = {}) => {
+export const deleteData = async (endpoint, id, data, headers = {}) => {
   try {
-    const response = await api.delete(`${endpoint}/${id}`, { headers });
+    const response = await api.delete(`${endpoint}/${id}`, data, { headers });
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {

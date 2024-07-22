@@ -14,6 +14,8 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import EditHealthCategory from "./EditHealthCategory";
 import EditMeasureUnit from "./EditMeasureUnit";
 import CreateMeasureUnit from "./CreateMeasureUnit";
+import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
+import { useNotification } from "../../../Notification/Notification";
 
 export const TableHealthCategory = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -23,6 +25,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
   const modalMeasureUnit = useModalState();
   const modalCreateMeasureUnit = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
+  const { notificationApi } = useNotification();
 
   console.log(data);
   useImperativeHandle(ref, () => ({
@@ -82,7 +85,6 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         fixed: "right",
         width: 50,
         render: (_, record) => (
-      
           <div className="flex items-center flex-col">
             <ComMenuButonTable
               record={record}
@@ -91,14 +93,25 @@ export const TableHealthCategory = forwardRef((props, ref) => {
                 modalMeasureUnit?.handleOpen();
                 setDataSelect(record);
               }}
+              showModalDelete={() => {
+                ComConfirmDeleteModal(
+                  `/measure-unit`,
+                  record.id,
+                  `Bạn có chắc chắn muốn xóa?`,
+                  reloadData,
+                  notificationSuccess,
+                  notificationError
+                );
+              }}
               // extraMenuItems={extraMenuItems}
-              excludeDefaultItems={["delete", "details"]}
+              excludeDefaultItems={["details"]}
               // order={order}
             />
           </div>
         ),
       },
     ];
+
     return (
       <Table
         scroll={{
@@ -114,6 +127,12 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         }}
       />
     );
+  };
+  const notificationSuccess = () => {
+    notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+  };
+  const notificationError = () => {
+    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
   };
   const columns = [
     {
@@ -159,7 +178,6 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       fixed: "right",
       width: 50,
       render: (_, record) => (
-
         <div className="flex items-center flex-col">
           <ComMenuButonTable
             record={record}
@@ -168,8 +186,18 @@ export const TableHealthCategory = forwardRef((props, ref) => {
               modal?.handleOpen();
               setDataSelect(record);
             }}
+            showModalDelete={() => {
+              ComConfirmDeleteModal(
+                `/health-category`,
+                record.id,
+                `Bạn có chắc chắn muốn xóa?`,
+                reloadData,
+                notificationSuccess,
+                notificationError
+              );
+            }}
             extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["details"]}
             // order={order}
           />
         </div>
@@ -180,8 +208,8 @@ export const TableHealthCategory = forwardRef((props, ref) => {
     {
       label: "Thêm mới",
       onClick: (e) => {
-         modalCreateMeasureUnit?.handleOpen();
-         setDataSelect(e);
+        modalCreateMeasureUnit?.handleOpen();
+        setDataSelect(e);
       },
     },
   ];

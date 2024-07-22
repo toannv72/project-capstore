@@ -11,12 +11,16 @@ import { useModalState } from "../../../hooks/useModalState";
 import ComMenuButonTable from './../../../Components/ComMenuButonTable/ComMenuButonTable';
 import EditServicePackage from './../ServicePackage/EditServicePackage';
 import { EditServicePackageCategories } from './EditServicePackageCategories';
+import { useNotification } from "../../../Notification/Notification";
+import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
 export const TableServicePackageCategories = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
   const modalDetail = useModalState();
+  const { notificationApi } = useNotification();
+
   const [selectedData, setSelectedData] = useState(null);
   console.log(data);
   const reloadData = () => {
@@ -72,13 +76,29 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
               modalDetail.handleOpen();
               setSelectedData(record);
             }}
+            showModalDelete={() => {
+              ComConfirmDeleteModal(
+                `/your-delete-api-path/`,
+                record.id,
+                `Bạn có chắc chắn muốn xóa?`,
+                reloadData,
+                notificationSuccess,
+                notificationError
+              );
+            }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["details"]}
           />
         </div>
       ),
     },
   ];
+        const notificationSuccess = () => {
+          notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+        };
+        const notificationError = () => {
+          notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+        };
   return (
     <div>
       <ComTable

@@ -15,7 +15,7 @@ function AppointmentSchedule() {
     { title: "Lịch thăm nuôi", value: "10.678" },
     { title: "Lịch hoàn thiện thủ tục", value: "1.000" },
     { title: "Lịch gia hạn hợp đồng", value: "1.000" },
-    { title: "Lịch hoàn thiện thủ tục", value: "1.000" },
+    // { title: "Lịch hoàn thiện thủ tục", value: "1.000" },
   ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
@@ -28,8 +28,7 @@ function AppointmentSchedule() {
         return <TableCompleted />;
       case 2:
         return <TableExtend />;
-      case 3:
-        return <TableCompleted />;
+
       default:
         break;
     }
@@ -37,7 +36,7 @@ function AppointmentSchedule() {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-4 pb-2">
+      <div className="grid grid-cols-3 gap-4 pb-2">
         {cardData.map((card, index) => (
           <ComCard
             key={index} // Sử dụng index làm key

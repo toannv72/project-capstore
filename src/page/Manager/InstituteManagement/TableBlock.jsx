@@ -10,13 +10,15 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "./../../../hooks/useModalState";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import EditBlock from "./EditBlock";
+import ComConfirmDeleteModal from "./../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
+import { useNotification } from "../../../Notification/Notification";
 
 export const TableBlock = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const [dataSelect, setDataSelect] = useState(null);
-
+  const { notificationApi } = useNotification();
   const { getColumnSearchProps } = useColumnSearch();
   const {
     text: {
@@ -24,7 +26,7 @@ export const TableBlock = forwardRef((props, ref) => {
       common: { button },
     },
   } = useContext(LanguageContext);
- 
+
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -35,12 +37,12 @@ export const TableBlock = forwardRef((props, ref) => {
         key: "name",
         ...getColumnSearchProps("name", "tên khu"),
       },
-      {
-        title: "Status",
-        width: 100,
-        dataIndex: "status",
-        key: "status",
-      },
+      // {
+      //   title: "Status",
+      //   width: 100,
+      //   dataIndex: "status",
+      //   key: "status",
+      // },
       {
         title: "Số giường",
         width: 100,
@@ -52,6 +54,7 @@ export const TableBlock = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "type",
         key: "type",
+        ...getColumnSearchProps("type", "tên khu"),
       },
       {
         width: 100,
@@ -59,21 +62,6 @@ export const TableBlock = forwardRef((props, ref) => {
         dataIndex: "unusedBed",
         key: "unusedBed",
       },
-      // {
-      //   title: "Action",
-      //   key: "operation",
-      //   fixed: "right",
-      //   width: 50,
-      //   render: (_, record) => (
-      //     <div className="flex items-center flex-col">
-      //       <div>
-      //         <Typography.Link onClick={() => modal?.handleOpen(record)}>
-      //           Chấp nhận
-      //         </Typography.Link>
-      //       </div>
-      //     </div>
-      //   ),
-      // },
     ];
     return (
       <Table
@@ -112,29 +100,6 @@ export const TableBlock = forwardRef((props, ref) => {
       render: (record) => <div>{record?.length}</div>,
       // ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
     },
-    // {
-    //   title: InstituteManagement?.status,
-    //   width: 200,
-    //   dataIndex: "status",
-    //   key: "status",
-    //   ...getColumnSearchProps("status", InstituteManagement?.status),
-    // },
-    // {
-    //   title: "Thông tin bổ sung",
-    //   dataIndex: "description",
-    //   key: "description",
-    //   width: 300,
-    //   ...getColumnSearchProps("description", "chi tiết"),
-
-    //   ellipsis: {
-    //     showTitle: false,
-    //   },
-    //   render: (record) => (
-    //     <Tooltip placement="topLeft" title={record}>
-    //       {record}
-    //     </Tooltip>
-    //   ),
-    // },
     {
       title: "Action",
       key: "operation",
@@ -146,17 +111,33 @@ export const TableBlock = forwardRef((props, ref) => {
             record={record}
             // showModalDetails={() => showModaldElder(record)}
             showModalEdit={() => {
-              modal?.handleOpen(record)
+              modal?.handleOpen(record);
               setDataSelect(record);
             }}
+            showModalDelete={() => {
+              ComConfirmDeleteModal(
+                `/your-delete-api-path/`,
+                record.id,
+                `Bạn có chắc chắn muốn xóa?`,
+                reloadData,
+                notificationSuccess,
+                notificationError
+              );
+            }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["details", "delete"]}
             // order={order}
           />
         </div>
       ),
     },
   ];
+  const notificationSuccess = () => {
+    notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+  };
+  const notificationError = () => {
+    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+  };
   const reloadData = () => {
     table.handleOpenLoading();
     getData("/block?SortDir=Desc")

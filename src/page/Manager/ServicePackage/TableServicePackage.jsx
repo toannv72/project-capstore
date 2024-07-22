@@ -14,6 +14,8 @@ import ComTypePackageConverter from "../../../Components/ComTypePackageConverter
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComWeekConverter from "../../../Components/ComWeekConverter/ComWeekConverter";
 import EditServicePackage from "./EditServicePackage";
+import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
+import { useNotification } from "../../../Notification/Notification";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -22,6 +24,7 @@ export default function TableServicePackage() {
   const [selectedData, setSelectedData] = useState(null);
   console.log(selectedData);
   const { getColumnSearchProps } = useColumnSearch();
+  const { notificationApi } = useNotification();
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -145,14 +148,29 @@ export default function TableServicePackage() {
               modalDetail.handleOpen();
               setSelectedData(record);
             }}
+            showModalDelete={() => {
+              ComConfirmDeleteModal(
+                `/service-package`,
+                record.id,
+                `Bạn có chắc chắn muốn xóa?`,
+                reloadData,
+                notificationSuccess,
+                notificationError
+              );
+            }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["details"]}
           />
         </div>
       ),
     },
   ];
-
+  const notificationSuccess = () => {
+    notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+  };
+  const notificationError = () => {
+    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+  };
   const showTypePackageDay = (type, data) => {
     switch (type) {
       case "OneDay":
@@ -204,10 +222,10 @@ export default function TableServicePackage() {
   };
   useEffect(() => {
     setTimeout(() => {
-      getApi();
+      reloadData();
     }, 100);
   }, [modalDetail?.isModalOpen, modal?.isModalOpen]);
-  const getApi = () => {
+  const reloadData = () => {
     table.handleOpenLoading();
     getData("/service-package?SortDir=Desc")
       .then((e) => {

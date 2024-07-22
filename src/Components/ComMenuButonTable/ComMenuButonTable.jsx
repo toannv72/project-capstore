@@ -35,17 +35,17 @@ const ComMenuButonTable = ({
   ];
 
   const allMenuItems = [
-    ...defaultMenuItems,
     ...extraMenuItems.map((item, index) => ({
       key: `extra-${index}`,
       label: item.label,
       onClick: () => item.onClick(record),
       visible: true,
       order:
-        order.indexOf(item.label) !== -1
-          ? order.indexOf(item.label)
-          : defaultMenuItems.length + index,
+      order.indexOf(item.label) !== -1
+      ? order.indexOf(item.label)
+      : defaultMenuItems.length + index,
     })),
+    ...defaultMenuItems,
   ].filter((item) => item.visible);
 
   allMenuItems.forEach((item) => {

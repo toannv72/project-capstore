@@ -13,8 +13,8 @@ function InstituteManagement() {
   const tableRef = useRef(null);
 
   const cardData = [
-    { title: "Số lượng khu", value: "10.678" },
-    { title: "Số lượng phòng", value: "1.000" },
+    { title: "Khu", value: "10.678" },
+    { title: "Phòng", value: "1.000" },
   ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
