@@ -197,7 +197,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
               );
             }}
             extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["details"]}
+            excludeDefaultItems={["details",]}
             // order={order}
           />
         </div>

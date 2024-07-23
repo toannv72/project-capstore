@@ -28,7 +28,7 @@ const sortOptions = [
   { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
-  { name: "Phân công", href: "/staff/institute", icon: BuildingOffice2Icon },
+  { name: "Phân công", href: "/staff/assignTask", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
   { name: "Khách hàng", href: "/staff/user", icon: UsersIcon },
   { name: "Người lớn tuổi", href: "/staff/elder", icon: BriefcaseIcon },
