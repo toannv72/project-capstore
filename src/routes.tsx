@@ -27,6 +27,7 @@ import Bill from './page/Staff/Bill/Bill';
 import Health from "./page/Manager/Health/Health";
 import DetailElderPage from './page/admin/TableElder/DetailElderPage';
 import Dashboard from "./page/admin/Dashboard/Dashboard";
+import PaymentStatus from "./page/User/PaymentStatus";
 
 export const routers = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const routers = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/paymentStatus",
+        element: <PaymentStatus />,
+      }
     ],
   },
   {

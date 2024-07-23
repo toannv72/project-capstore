@@ -186,4 +186,18 @@ export const vn = {
     numberOfRooms: "Số lượng phòng",
     status: "Trạng thái",
   },
+  paymentPages: {
+    text: {
+      success: "Thanh toán thành công",
+      fail: "Thanh toán thất bại",
+      error: "Xin lỗi vì sự bất tiện này",
+      thankyou: "Cảm ơn bạn đã tin tưởng CareConnect",
+      successBackToApp: "Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và tiếp tục sử dụng CareConnect!",
+      failBackToApp: "Đã có lỗi xảy ra trong quá trình thánh toán. Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và thử lại!"
+    },
+    btn: {
+      home: "Trở về Trang Chủ",
+      support: "Liên hệ hỗ trợ",
+    },
+  },
 };
