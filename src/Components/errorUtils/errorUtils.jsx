@@ -20,7 +20,7 @@ export const handleErrors = (error, setError, setFocus) => {
     },
     613: {
       field: "nursingPackageId",
-      message: "Đã có người trong phòng không thể đổi gói dưỡng lãos!",
+      message: "Đã có người trong phòng không thể đổi gói dưỡng lão!",
     },
   };
 

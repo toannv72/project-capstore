@@ -62,12 +62,23 @@ export default function LoginPage(props) {
     setDisabled(true);
     postData("/auth/login", data, {})
       .then((data) => {
-        login({ role: "admin" });
         setToken(data?.accessToken);
         // Chờ setToken hoàn thành trước khi navigate
         return new Promise((resolve) => {
           setTimeout(() => {
-            navigate("/admin/user");
+            console.log(data);
+            switch (data?.listRole[0]) {
+              case "Staff":
+                navigate("/staff/assignTask");
+
+                break;
+              case "Admin":
+                navigate("/admin/user");
+                break;
+
+              default:
+                break;
+            }
             resolve(); // Báo hiệu Promise đã hoàn thành
           }, 0); // Thời gian chờ 0ms để đảm bảo setToken đã được thực hiện
         });

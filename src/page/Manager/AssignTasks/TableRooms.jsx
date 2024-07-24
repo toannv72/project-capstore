@@ -200,7 +200,7 @@ export const TableRooms = forwardRef((props, ref) => {
               modal?.handleOpen(record);
               setDataSelect(record);
             }}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["delete", "details", "edit"]}
             order={order}
           />
         </div>
@@ -211,6 +211,14 @@ export const TableRooms = forwardRef((props, ref) => {
   const extraMenuItems = [
     {
       label: "Xếp lịch",
+
+      onClick: (record) => {
+        modal?.handleOpen(record);
+        setDataSelect(record);
+      },
+    },
+    {
+      label: "Cập nhật lịch",
       onClick: (e) => {
         modalScheduled?.handleOpen(e);
         setDataSelect(e);
