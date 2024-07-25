@@ -14,6 +14,7 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import EditRoom from "./EditRoom";
 import DetailElder from "../../admin/TableElder/DetailElder";
 import Scheduled from "./Scheduled";
+import ComCalendar from "./../../../Components/ComCalendar/ComCalendar";
 
 export const TableRooms = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -21,6 +22,7 @@ export const TableRooms = forwardRef((props, ref) => {
   const table = useTableState();
   const [selectedElder, setSelectedElder] = useState(null);
   const modalDetailElder = useModalState();
+  const modalCalendar = useModalState();
   const modal = useModalState();
   const modalScheduled = useModalState();
   const { getColumnSearchProps } = useColumnSearch();
@@ -133,6 +135,49 @@ export const TableRooms = forwardRef((props, ref) => {
     );
   };
 
+  const getListData = (value) => {
+    let listData;
+    switch (value.date()) {
+      case 8:
+        listData = [
+          { type: "warning", content: "This is warning event." },
+          { type: "success", content: "This is usual event." },
+        ];
+        break;
+      case 10:
+        listData = [
+          { type: "warning", content: "This is warning event." },
+          { type: "success", content: "This is usual event." },
+          { type: "error", content: "This is error event." },
+        ];
+        break;
+      case 15:
+        listData = [
+          { type: "warning", content: "This is warning event" },
+          { type: "success", content: "This is very long usual event...." },
+          { type: "error", content: "This is error event 1." },
+          { type: "error", content: "This is error event 2." },
+          { type: "error", content: "This is error event 3." },
+          { type: "error", content: "This is error event 4." },
+        ];
+        break;
+      default:
+    }
+    return listData || [];
+  };
+
+  const dateCellRender = (value) => {
+    const listData = getListData(value);
+    return (
+      <ul className="events">
+        {listData.map((item) => (
+          <li key={item.content}>
+            <Badge status={item.type} text={item.content} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
   const columns = [
     {
       title: "Tên phòng",
@@ -157,13 +202,6 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
     },
-    // {
-    //   title: InstituteManagement?.status,
-    //   width: 100,
-    //   dataIndex: "status",
-    //   key: "status",
-    //   ...getColumnSearchProps("status", InstituteManagement?.status),
-    // },
     {
       title: "Số giường",
       dataIndex: "userBed",
@@ -184,13 +222,6 @@ export const TableRooms = forwardRef((props, ref) => {
       fixed: "right",
       width: 50,
       render: (_, record) => (
-        // <div className="flex items-center flex-col">
-        //   <div>
-        //     <Typography.Link onClick={() => modal?.handleOpen(record)}>
-        //       Chấp nhận
-        //     </Typography.Link>
-        //   </div>
-        // </div>
         <div className="flex items-center flex-col">
           <ComMenuButonTable
             record={record}
@@ -201,7 +232,7 @@ export const TableRooms = forwardRef((props, ref) => {
               setDataSelect(record);
             }}
             excludeDefaultItems={["delete", "details", "edit"]}
-            order={order}
+            // order={order}
           />
         </div>
       ),
@@ -209,6 +240,14 @@ export const TableRooms = forwardRef((props, ref) => {
   ];
   const order = ["Xếp lịch"];
   const extraMenuItems = [
+    {
+      label: "Xem chi tiết",
+
+      onClick: (record) => {
+        modalCalendar?.handleOpen(record);
+        setDataSelect(record);
+      },
+    },
     {
       label: "Xếp lịch",
 
@@ -250,7 +289,11 @@ export const TableRooms = forwardRef((props, ref) => {
         dataSource={data}
         loading={table.loading}
       />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal
+        width={800}
+        isOpen={modal?.isModalOpen}
+        onClose={modal?.handleClose}
+      >
         <EditRoom
           onClose={modal?.handleClose}
           dataSelect={dataSelect}
@@ -260,6 +303,7 @@ export const TableRooms = forwardRef((props, ref) => {
       <ComModal
         isOpen={modalScheduled?.isModalOpen}
         onClose={modalScheduled?.handleClose}
+        width={800}
       >
         <Scheduled
           onClose={modalScheduled?.handleClose}
@@ -272,6 +316,21 @@ export const TableRooms = forwardRef((props, ref) => {
         onClose={modalDetailElder?.handleClose}
       >
         <DetailElder selectedData={selectedElder} />
+      </ComModal>
+
+      <ComModal
+        isOpen={modalCalendar?.isModalOpen}
+        onClose={modalCalendar?.handleClose}
+        width={900}
+      >
+      
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Ca làm việc
+        </h2>
+        <ComCalendar
+          selectedData={selectedElder}
+          dateCellRender={dateCellRender}
+        />
       </ComModal>
     </div>
   );
