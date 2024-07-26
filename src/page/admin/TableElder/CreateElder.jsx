@@ -11,7 +11,6 @@ import { getData, postData } from "../../../api/api";
 import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
 import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
-import { disabledDate } from "../../../Components/ComDateDisabled";
 import {
   DateOfBirth,
   DateOfContract,
@@ -26,6 +25,7 @@ import {
   weightRegex,
 } from "./../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import moment from "moment";
 
 export default function CreateElder({ onClose, tableRef }) {
   const [image, setImages] = useState(null);
@@ -37,6 +37,8 @@ export default function CreateElder({ onClose, tableRef }) {
   const [selectedRoom, setSelectedRoom] = useState();
   const [selectedPackage, setSelectedPackage] = useState();
   const [dataPackage, setDataPackage] = useState([]);
+  const [endDate, setEndDate] = useState(false);
+  const [startDate, setStartDate] = useState(false);
 
   const CreateProductMessenger = yup.object({
     name: yup
@@ -53,6 +55,7 @@ export default function CreateElder({ onClose, tableRef }) {
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
     gender: yup.string().required("Vui lòng chọn chọn giới tính"),
+    time: yup.string(),
     cccd: yup
       .string()
       .matches(
@@ -119,7 +122,6 @@ export default function CreateElder({ onClose, tableRef }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-
   });
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
@@ -127,6 +129,91 @@ export default function CreateElder({ onClose, tableRef }) {
     return urls.map((url) => ({ imageUrl: url }));
   }
   // console.log(watch);
+  const disabledDateEnd = (current) => {
+    const oneMonths = moment().add(0, "months");
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("contract.startDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(1, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  const disabledDateStart = (current) => {
+    const oneMonths = moment().add(0, "months");
+
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("contract.signingDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(0, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("contract.endDate", null);
+    setTimeout(() => {
+      handleDurationChange(watch("time"));
+    }, 100);
+  }, [watch("contract.startDate")]);
+
+  useEffect(() => {
+    setStartDate((e) => !e);
+    setValue("contract.startDate", null);
+  }, [watch("contract.signingDate")]);
+
+  const handleDurationChange = (value) => {
+    console.log(value);
+    setValue("time", value);
+    if (watch("contract.startDate")) {
+      const startDate = new Date(watch("contract.startDate"));
+      let endDate;
+
+      switch (value) {
+        case "0.5":
+          endDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
+          break;
+        case "1":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 1)
+          );
+          break;
+        case "2":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 2)
+          );
+          break;
+        case "3":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 3)
+          );
+          break;
+        case "5":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 5)
+          );
+          break;
+        case "10":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 10)
+          );
+          break;
+        default:
+          endDate = null;
+      }
+
+      if (endDate) {
+        setValue("contract.endDate", endDate.toISOString().split("T")[0]);
+      }
+    }
+  };
 
   const onSubmit = (data) => {
     console.log(1111, image);
@@ -266,6 +353,7 @@ export default function CreateElder({ onClose, tableRef }) {
     const newImages = selectedImages.map((file) => file.originFileObj);
     setImages1(newImages);
   };
+
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -459,26 +547,96 @@ export default function CreateElder({ onClose, tableRef }) {
                   />
                 </div>
                 <div className="sm:col-span-1">
-                  <ComDatePicker
-                    label="Ngày bắt đầu hợp đồng"
-                    disabledDate={DateOfContract}
-                    name="contract"
-                    placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                    {...register("contract.startDate")}
-                    required
+                  <ComSelect
+                    size={"large"}
+                    style={{
+                      width: "100%",
+                    }}
+                    label="Thời hạn hợp đồng"
+                    placeholder="Thời hạn"
+                    onChangeValue={(e, value) => {
+                      handleDurationChange(value);
+                    }}
+                    // value={selectedUser}
+                    mode="default"
+                    options={[
+                      {
+                        value: "0.5",
+                        label: `6 tháng`,
+                      },
+                      {
+                        value: "1",
+                        label: `1 năm`,
+                      },
+                      {
+                        value: "2",
+                        label: `2 năm`,
+                      },
+                      {
+                        value: "3",
+                        label: `3 năm`,
+                      },
+                      {
+                        value: "5",
+                        label: `5 năm`,
+                      },
+                      {
+                        value: "10",
+                        label: `10 năm`,
+                      },
+                    ]}
+                    // required
+                    {...register("time")}
                   />
                 </div>
-                <div className="sm:col-span-1">
-                  <ComDatePicker
-                    label="Ngày kết thúc hợp đồng"
-                    disabledDate={DateOfContract}
-                    name="contract"
-                    placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
-                    {...register("contract.endDate")}
-                    required
-                  />
-                </div>
-
+                {startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("contract.startDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {!startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("contract.startDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {!endDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày kết thúc hợp đồng"
+                      disabledDate={disabledDateEnd}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                      {...register("contract.endDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {endDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày kết thúc hợp đồng"
+                      disabledDate={disabledDateEnd}
+                      name="contract"
+                      placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
+                      {...register("contract.endDate")}
+                      required
+                    />
+                  </div>
+                )}
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"
