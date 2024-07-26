@@ -21,7 +21,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
     if (typeof number === "number") {
-      return number.toLocaleString("en-US", {
+      return number.toLocaleString("vi-VN",{
         style: "currency",
         currency: "VND",
       });
@@ -35,6 +35,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a?.name?.localeCompare(b?.name),
       ...getColumnSearchProps("name", "Tên gói"),
     },
     {
@@ -73,7 +74,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       width: 120,
       dataIndex: "capacity",
       key: "capacity",
-      // // sorter: (a, b) => a.phone - b.phone,
+      sorter: (a, b) => a.capacity - b.capacity,
       // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
     },
     {
@@ -81,7 +82,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       width: 120,
       dataIndex: "numberOfNurses",
       key: "numberOfNurses",
-      // // sorter: (a, b) => a.phone - b.phone,
+      sorter: (a, b) => a.numberOfNurses - b.numberOfNurses,
       // ...getColumnSearchProps("numberBed", "Số người 1 phòng"),
     },
     {
@@ -101,7 +102,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,

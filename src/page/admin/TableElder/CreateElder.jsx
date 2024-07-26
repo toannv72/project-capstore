@@ -66,7 +66,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
-    notes: yup.string().required("Vui lòng nhập ghi chú"),
+    // notes: yup.string().required("Vui lòng nhập ghi chú"),
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup
@@ -98,8 +98,8 @@ export default function CreateElder({ onClose, tableRef }) {
           "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
           (value) => parseFloat(value) <= 200
         ),
-      underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-      note: yup.string().required("Vui lòng nhập ghi chú"),
+      // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+      // note: yup.string().required("Vui lòng nhập ghi chú"),
     }),
     // trường hợp đồng
     contract: yup.object({
@@ -107,13 +107,13 @@ export default function CreateElder({ onClose, tableRef }) {
       signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
       startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-      content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
+      // content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
       // imageUrl: yup
       //   .string()
       //   .url("Vui lòng nhập URL hợp lệ")
       //   .required("Vui lòng nhập URL hình ảnh"),
-      notes: yup.string().required("Vui lòng nhập ghi chú"),
-      description: yup.string().required("Vui lòng nhập mô tả"),
+      // notes: yup.string().required("Vui lòng nhập ghi chú"),
+      // description: yup.string().required("Vui lòng nhập mô tả"),
     }),
   });
 
@@ -430,7 +430,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
                     {...register("notes")}
-                    required
+                    // required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -441,8 +441,8 @@ export default function CreateElder({ onClose, tableRef }) {
                 <div className="sm:col-span-2">
                   <ComInput
                     type="text"
-                    label="Tên hợp đồng"
-                    placeholder="Vui lòng nhập tên hợp đồng"
+                    label="Mã hợp đồng"
+                    placeholder="Vui lòng nhập mã hợp đồng"
                     {...register("contract.name")}
                     required
                   />
@@ -497,7 +497,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComTextArea
                     label="Ghi chú hợp đồng"
                     placeholder="Vui lòng nhập ghi chú"
@@ -506,8 +506,8 @@ export default function CreateElder({ onClose, tableRef }) {
                     {...register("contract.notes")}
                     required
                   />
-                </div>
-                <div className="sm:col-span-2">
+                </div> */}
+                {/* <div className="sm:col-span-2">
                   <ComTextArea
                     label="Mô tả hợp đồng"
                     placeholder="Vui lòng nhập mô tả"
@@ -516,7 +516,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     {...register("contract.description")}
                     required
                   />
-                </div>
+                </div> */}
                 {/* tạo bệnh án  */}
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Thông tin bệnh án
@@ -563,7 +563,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Bệnh lý"}
                       rows={5}
                       {...register("medicalRecord.underlyingDisease")}
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -575,7 +575,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Ghi chú"}
                       rows={5}
                       {...register("medicalRecord.note")}
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -590,7 +590,7 @@ export default function CreateElder({ onClose, tableRef }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
-                className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
               </ComButton>

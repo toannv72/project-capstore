@@ -48,12 +48,16 @@ export const TableRooms = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "name",
         key: "name",
+        sorter: (a, b) => a.name?.localeCompare(b.name),
+        ...getColumnSearchProps("name", "Tên người bệnh"),
       },
       {
         title: "Giới tính",
         width: 100,
         dataIndex: "gender",
         key: "gender",
+        sorter: (a, b) => a.gender?.localeCompare(b.gender),
+
         filters: [
           { text: "Nam", value: "Male" },
           { text: "Nữ", value: "Female" },
@@ -65,42 +69,50 @@ export const TableRooms = forwardRef((props, ref) => {
           </div>
         ),
       },
-      {
-        title: "Ngày có hiệu lực",
-        width: 100,
-        dataIndex: "effectiveDate",
-        key: "effectiveDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-          </div>
-        ),
-      },
-      {
-        title: "Ngày hết hạn",
-        width: 100,
-        dataIndex: "expiryDate",
-        key: "expiryDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.expiryDate}</ComDateConverter>
-          </div>
-        ),
-      },
+      // {
+      //   title: "Ngày có hiệu lực",
+      //   width: 100,
+      //   dataIndex: "effectiveDate",
+      //   key: "effectiveDate",
+      //   sorter: (a, b) => a.effectiveDate - b.effectiveDate,
+
+      //   render: (_, render) => (
+      //     <div>
+      //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+      //     </div>
+      //   ),
+      // },
+      // {
+      //   title: "Ngày hết hạn",
+      //   width: 100,
+      //   dataIndex: "expiryDate",
+      //   key: "expiryDate",
+      //   sorter: (a, b) => a.expiryDate - b.expiryDate,
+      //   render: (_, render) => (
+      //     <div>
+      //       <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+      //     </div>
+      //   ),
+      // },
       {
         title: "Địa chỉ",
         width: 100,
         dataIndex: "address",
         key: "address",
+        sorter: (a, b) => a.address?.localeCompare(b.address),
+        ...getColumnSearchProps("address", "Địa chỉ"),
       },
       {
         title: "Ghi chú",
         width: 100,
         dataIndex: "notes",
         key: "notes",
+        sorter: (a, b) => a.notes?.localeCompare(b.notes),
+
+        ...getColumnSearchProps("notes", "Ghi chú"),
       },
       {
-        title: "Action",
+        title: "Thao tác",
         key: "operation",
         fixed: "right",
         width: 50,
@@ -185,6 +197,8 @@ export const TableRooms = forwardRef((props, ref) => {
       fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+
       ...getColumnSearchProps("name", InstituteManagement?.areaName),
     },
     {
@@ -193,6 +207,8 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "block",
       key: "block",
       // render: (render) => <div>{render?.name}</div>,
+      sorter: (a, b) => a.block?.localeCompare(b.block),
+
       ...getColumnSearchProps("block.name", "Khu"),
     },
     {
@@ -200,6 +216,8 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "nursingPackage",
       key: "nursingPackage",
       width: 100,
+      sorter: (a, b) =>
+        a.nursingPackage?.name?.localeCompare(b.nursingPackage?.name),
       ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
     },
     {
@@ -207,6 +225,8 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "userBed",
       key: "userBed",
       width: 100,
+      sorter: (a, b) => a.userBed - b.userBed,
+
       ...getColumnSearchProps("userBed", "Số giường"),
     },
     {
@@ -214,10 +234,11 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "unusedBed",
       key: "unusedBed",
       width: 100,
+      sorter: (a, b) => a.unusedBed - b.unusedBed,
       ...getColumnSearchProps("unusedBed", "Số giường trống"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,
@@ -323,7 +344,6 @@ export const TableRooms = forwardRef((props, ref) => {
         onClose={modalCalendar?.handleClose}
         width={900}
       >
-      
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Ca làm việc
         </h2>

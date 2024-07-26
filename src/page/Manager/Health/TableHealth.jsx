@@ -18,7 +18,7 @@ export const TableHealth = forwardRef((props, ref) => {
   const modal = useModalState();
   const modalDetailEmployee = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
-console.log(selectedElder);
+  console.log(selectedElder);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
   const expandedRowRender = (record) => {
@@ -80,7 +80,7 @@ console.log(selectedElder);
         ),
       },
       // {
-      //   title: "Action",
+      //   title: "Thao tác",
       //   key: "operation",
       //   fixed: "right",
       //   width: 50,
@@ -121,6 +121,7 @@ console.log(selectedElder);
       fixed: "left",
       dataIndex: "elder.name",
       key: "elder.name",
+      sorter: (a, b) => a?.elder?.name?.localeCompare(b?.elder?.name),
       ...getColumnSearchProps("elder.name", "Tên người bệnh"),
     },
 
@@ -129,6 +130,9 @@ console.log(selectedElder);
       width: 100,
       dataIndex: "creatorInfo.fullName",
       key: "creatorInfo.fullName",
+      sorter: (a, b) =>
+        a?.creatorInfo?.fullName?.localeCompare(b?.creatorInfo?.fullName),
+
       ...getColumnSearchProps("creatorInfo.fullName", "Tên người do"),
       render: (user, data) => (
         <Typography.Link
@@ -146,6 +150,8 @@ console.log(selectedElder);
       width: 200,
       dataIndex: "createdAt",
       key: "createdAt",
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+
       ...getColumnApprox("createdAt", "Thời gian đo"),
       render: (record) => (
         <div>
@@ -154,7 +160,7 @@ console.log(selectedElder);
       ),
     },
     // {
-    //   title: "Action",
+    //   title: "Thao tác",
     //   key: "operation",
     //   fixed: "right",
     //   width: 40,

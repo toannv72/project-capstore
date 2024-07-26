@@ -15,6 +15,6 @@ function ComPhoneConverter({ children }) {
     return children;
   };
 
-  return <div>{formatPhoneNumber(children)}</div>;
+  return <>{formatPhoneNumber(children)}</>;
 }
 export default ComPhoneConverter;

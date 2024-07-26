@@ -6,7 +6,7 @@ export default function ComCard({ title, value, icon, onClick, isSelected }) {
       onClick={onClick}
       className={`rounded-lg p-1 border shadow-md flex flex-col items-center cursor-pointer ${
         isSelected
-          ? "bg-indigo-600 text-white border-indigo-600" // Viền xanh khi được chọn
+          ? "bg-[#0F296D] text-white border-indigo-600" // Viền xanh khi được chọn
           : "bg-white text-black border-gray-300" // Viền xám khi không được chọn
       }`}
     >

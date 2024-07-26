@@ -13,10 +13,11 @@ import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/C
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
@@ -62,6 +63,7 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       key: "fullName",
       fixed: "left",
+      sorter: (a, b) => a.fullName?.localeCompare(b.fullName),
       ...getColumnSearchProps("fullName", "Họ và tên"),
       // render: (record) => (
       //   <Tooltip placement="topLeft" title={"Chi tiết"}>
@@ -95,14 +97,44 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "roles",
       key: "roles",
-      ...getColumnSearchProps("roles", "Chứ vụ"),
-      render: (_, render) => <div>{render?.roles?render?.roles[0]?.name:""}</div>,
+      // ...getColumnSearchProps("roles", "Chứ vụ"),
+      filters: [
+        { text: "Y tá", value: "Nurse" },
+        { text: "Nhân viên", value: "Staff" },
+      ],
+      onFilter: (value, record) => record?.roles[0]?.name === value,
+      sorter: (a, b) => a?.roles[0]?.name?.localeCompare(b?.roles[0]?.name),
+
+      render: (_, render) => (
+        <ComRoleConverter>
+          {render?.roles ? render?.roles[0]?.name : ""}
+        </ComRoleConverter>
+      ),
+    },
+    {
+      title: "Giới tính",
+      width: 100,
+      dataIndex: "gender",
+      key: "gender",
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record?.gender === value,
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
     },
     {
       title: "Năm sinh",
       width: 100,
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
+      sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
+      ...getColumnApprox("dateOfBirth"),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
@@ -122,11 +154,12 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND or CCCD",
+      title: "CMND hoặc CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
-      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      sorter: (a, b) => a.cccd - b.cccd,
+      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -147,24 +180,9 @@ export const Tables = forwardRef((props, ref) => {
       key: "address",
       ...getColumnSearchProps("address", "Địa chỉ"),
     },
+
     {
-      title: "Giới tính",
-      width: 100,
-      dataIndex: "gender",
-      key: "gender",
-      filters: [
-        { text: "Nam", value: "Male" },
-        { text: "Nữ", value: "Female" },
-      ],
-      onFilter: (value, record) => record?.gender === value,
-      render: (_, record) => (
-        <div>
-          <ComGenderConverter>{record?.gender}</ComGenderConverter>
-        </div>
-      ),
-    },
-    {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,
@@ -191,7 +209,11 @@ export const Tables = forwardRef((props, ref) => {
         isOpen={modalDetailUser?.isModalOpen}
         onClose={modalDetailUser?.handleClose}
       >
-        <DetailEmployee selectedData={selectedData} />
+        <DetailEmployee
+          selectedData={selectedData}
+          isOpenEdit={modalEdit?.handleOpen}
+          onClose={modalDetailUser?.handleClose}
+        />
       </ComModal>
 
       {/* chỉnh sửa nhân viên */}

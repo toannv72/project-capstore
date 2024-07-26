@@ -110,6 +110,7 @@ export default function UnresponeTable({ ref }) {
       })
       .catch((error) => {
         console.error("Error fetching items:", error);
+           table.handleCloseLoading();
       });
   };
   useImperativeHandle(ref, () => ({

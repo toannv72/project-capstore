@@ -16,6 +16,7 @@ import ChartFour from "./ChartFour";
 import { Skeleton } from "antd";
 import ErrorPage from "../../404/ErrorPage";
 import Table from "./Table";
+import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 
 export default function DetailElderPage() {
   const { id } = useParams();
@@ -165,7 +166,13 @@ export default function DetailElderPage() {
                   <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                  CMND or CCCD:{" "}
+                  Số điện thoại:{" "}
+                  <ComPhoneConverter>
+                    {data?.user?.phoneNumber}
+                  </ComPhoneConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  CMND hoặc CCCD:{" "}
                   <ComCccdOrCmndConverter>
                     {data?.user?.cccd}
                   </ComCccdOrCmndConverter>

@@ -87,7 +87,7 @@ function LearningPage() {
 
               <Link
                 to="/login"
-                className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
+                className="inline-block rounded-md border border-transparent bg-[#0F296D] px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
               >
                 Đăng ký tư vấn
               </Link>

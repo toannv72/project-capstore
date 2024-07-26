@@ -23,7 +23,7 @@ export default function TableActivityCalendar() {
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
     if (typeof number === "number") {
-      return number.toLocaleString("en-US", {
+      return number.toLocaleString("vi-VN", {
         style: "currency",
         currency: "VND",
       });
@@ -102,7 +102,7 @@ export default function TableActivityCalendar() {
       ),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 100,

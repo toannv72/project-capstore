@@ -112,6 +112,57 @@ const useColumnFilters = () => {
     },
   });
 
+  // const getColumnApprox = (dataIndex, title) => ({
+  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
+  //     <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+  //       <RangePicker
+  //         onChange={(dates) => {
+  //           setSelectedKeys(
+  //             dates
+  //               ? [dates.map((date) => date.startOf("day").toISOString())]
+  //               : []
+  //           );
+  //         }}
+  //         style={{ marginBottom: 8, display: "block" }}
+  //       />
+  //       <Space>
+  //         <Button
+  //           type="dashed"
+  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+  //           size="small"
+  //           style={{ width: 90 }}
+  //         >
+  //           <div className="justify-center flex">
+  //             <SearchOutlined />
+  //             Tìm kiếm
+  //           </div>
+  //         </Button>
+  //         <Button
+  //           type="link"
+  //           size="small"
+  //           onClick={() => {
+  //             close();
+  //           }}
+  //         >
+  //           Đóng
+  //         </Button>
+  //       </Space>
+  //     </div>
+  //   ),
+  //   filterIcon: (filtered) => (
+  //     <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
+  //   ),
+  //   onFilter: (value, record) => {
+  //     if (!value.length) return true;
+  //     const recordDate = moment(record[dataIndex]).startOf("day");
+  //     const [start, end] = value;
+  //     return (
+  //       recordDate.isSameOrAfter(moment(start)) &&
+  //       recordDate.isSameOrBefore(moment(end))
+  //     );
+  //   },
+  // });
+
   const getColumnApprox = (dataIndex, title) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
@@ -124,6 +175,7 @@ const useColumnFilters = () => {
             );
           }}
           style={{ marginBottom: 8, display: "block" }}
+          format="DD-MM-YYYY"
         />
         <Space>
           <Button
@@ -154,14 +206,21 @@ const useColumnFilters = () => {
     ),
     onFilter: (value, record) => {
       if (!value.length) return true;
-      const recordDate = moment(record[dataIndex]).startOf("day");
+      const recordDate = moment(getNestedValue(record, dataIndex)).startOf(
+        "day"
+      );
       const [start, end] = value;
       return (
         recordDate.isSameOrAfter(moment(start)) &&
         recordDate.isSameOrBefore(moment(end))
       );
     },
+    render: (text, record) => {
+      const nestedValue = getNestedValue(record, dataIndex);
+      return moment(nestedValue).format("DD-MM-YYYY");
+    },
   });
+
   const getColumnApprox1 = (dataIndex, title) => ({
     filterDropdown: ({
       setSelectedKeys,

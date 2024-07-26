@@ -41,11 +41,13 @@ export default function TableContract() {
   };
   const columns = [
     {
-      title: "Tên hợp đồng",
+      title: "Số hợp đồng",
       dataIndex: "name",
       width: 150,
       key: "name",
       fixed: "left",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
@@ -53,6 +55,8 @@ export default function TableContract() {
       dataIndex: "elder.name",
       width: 150,
       key: "elder.name",
+      sorter: (a, b) => a.elder?.name?.localeCompare(b.elder?.name),
+
       ...getColumnSearchProps("elder.name", "Họ và tên"),
     },
     {
@@ -60,6 +64,7 @@ export default function TableContract() {
       dataIndex: "user.fullName",
       width: 150,
       key: "user.fullName",
+      sorter: (a, b) => a.user?.fullName?.localeCompare(b.user?.fullName),
       ...getColumnSearchProps("user.fullName", "Họ và tên"),
     },
     {
@@ -90,6 +95,8 @@ export default function TableContract() {
       width: 100,
       dataIndex: "nursingPackage.name",
       key: "nursingPackage.name",
+      sorter: (a, b) =>
+        a?.nursingPackage?.name?.localeCompare(b?.nursingPackage?.name),
       ...getColumnSearchProps("nursingPackage.name", "Gói"),
     },
     {
@@ -97,18 +104,21 @@ export default function TableContract() {
       width: 100,
       dataIndex: "signingDate",
       key: "signingDate",
+      sorter: (a, b) => new Date(a.signingDate) - new Date(b.signingDate),
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.signingDate}</ComDateConverter>
         </div>
       ),
-      ...getColumnApprox("startDate", "Gói"),
+      ...getColumnApprox("signingDate", "Gói"),
     },
     {
       title: "Ngày có hiệu lực",
       width: 100,
       dataIndex: "startDate",
       key: "startDate",
+      sorter: (a, b) => new Date(a.startDate) - new Date(b.startDate),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.startDate}</ComDateConverter>
@@ -121,6 +131,8 @@ export default function TableContract() {
       width: 100,
       dataIndex: "endDate",
       key: "endDate",
+      sorter: (a, b) => new Date(a.endDate) - new Date(b.endDate),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.endDate}</ComDateConverter>
@@ -133,9 +145,12 @@ export default function TableContract() {
       width: 100,
       dataIndex: "notes",
       key: "notes",
+      sorter: (a, b) => a.notes?.localeCompare(b.notes),
+
+      ...getColumnSearchProps("notes", "Ghi chú"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 80,

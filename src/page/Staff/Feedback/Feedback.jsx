@@ -41,7 +41,7 @@ const Feedback = () => {
   };
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4 pb-4">
+      {/* <div className="grid grid-cols-4 gap-4 pb-4">
         {cardData.map((card, index) => (
           <ComCard
             key={index} // Sử dụng index làm key
@@ -50,7 +50,7 @@ const Feedback = () => {
             {...card}
           />
         ))}
-      </div>
+      </div> */}
       {viewTable()}
     </div>
   );

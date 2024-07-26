@@ -65,7 +65,7 @@ const InvoicePage = () => {
                     {textApp.OrderHistory.product.quantity} {product?.quantity}
                   </p>
                   <p>
-                    {textApp.OrderHistory.product.price}: {product?.price?.toLocaleString("en-US", { style: "currency", currency: "VND" })}
+                    {textApp.OrderHistory.product.price}: {product?.price?.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
                   </p>
                   <p>
                     {textApp.Product.page.material}: {materials}
@@ -77,14 +77,14 @@ const InvoicePage = () => {
         </div>
         <p className="text-gray-600 mb-2">
           {textApp.Invoice.orderDate}:{" "}
-          {new Date(order.createdAt).toLocaleDateString("en-US")}
+          {new Date(order.createdAt).toLocaleDateString("vi-VN")}
         </p>
         <p className="text-gray-600 mb-2">
           {textApp.Invoice.paymentMethod}
         </p>
         <p className="text-gray-600 mb-6">
           {textApp.OrderHistory.product.amount}:{" "}
-          {order?.totalAmount?.toLocaleString("en-US", {
+          {order?.totalAmount?.toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND",
           })}

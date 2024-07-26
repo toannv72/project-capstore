@@ -25,10 +25,10 @@ function AppointmentSchedule() {
       case 0:
         return <TableVisitation />;
       case 1:
-        return <TableCompleted />;
-      case 2:
         return <TableExtend />;
 
+      case 2:
+        return <TableCompleted />;
       default:
         break;
     }

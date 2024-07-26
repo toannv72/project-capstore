@@ -21,7 +21,7 @@ import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/C
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
@@ -75,9 +75,11 @@ export const Tables = forwardRef((props, ref) => {
     {
       title: "Họ và tên người lớn tuổi",
       dataIndex: "name",
-      width: 150,
+      width: 200,
       key: "name",
       fixed: "left",
+      sorter: (a, b) => a?.name?.localeCompare(b?.name),
+
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
@@ -103,9 +105,12 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Người đại diện",
-      width: 100,
+      width: 150,
       dataIndex: "user",
       key: "user",
+      sorter: (a, b) => a?.user?.fullName?.localeCompare(b?.user?.fullName),
+      ...getColumnSearchProps("user.fullName", "Họ và tên"),
+
       render: (user) => (
         <Typography.Link onClick={() => showModaldUser(user)}>
           {user?.fullName}
@@ -117,6 +122,9 @@ export const Tables = forwardRef((props, ref) => {
       width: 120,
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
+      sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
+      ...getColumnApprox("dateOfBirth"),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
@@ -124,11 +132,13 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND or CCCD",
+      title: "CMND hoặc CCCD",
       width: 150,
       dataIndex: "cccd",
       key: "cccd",
-      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      sorter: (a, b) => a.cccd - b.cccd,
+
+      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -145,6 +155,8 @@ export const Tables = forwardRef((props, ref) => {
         { text: "Nữ", value: "Female" },
       ],
       onFilter: (value, record) => record.gender === value,
+      sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
+
       render: (_, record) => (
         <div>
           <ComGenderConverter>{record?.gender}</ComGenderConverter>
@@ -156,7 +168,10 @@ export const Tables = forwardRef((props, ref) => {
       width: 150,
       dataIndex: "room",
       key: "room",
-      render: (_, render) => <div>{render?.room?.name}</div>,
+      sorter: (a, b) => a?.room?.name?.localeCompare(b?.room?.name),
+      ...getColumnSearchProps("room.name", "Phòng hiện tại"),
+
+      // render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
       title: "Loại gói dưỡng lão",
@@ -166,12 +181,24 @@ export const Tables = forwardRef((props, ref) => {
       render: (_, render) => (
         <div>{render?.contractsInUse?.nursingPackage?.name}</div>
       ),
+      sorter: (a, b) =>
+        a?.contractsInUse?.nursingPackage?.name?.localeCompare(
+          b?.contractsInUse?.nursingPackage?.name
+        ),
+      ...getColumnSearchProps(
+        "contractsInUse.nursingPackage.name",
+        "Phòng hiện tại"
+      ),
     },
     {
       title: "Ngày có hiệu lực",
       width: 120,
-      dataIndex: "effectiveDate",
-      key: "effectiveDate",
+      dataIndex: "contractsInUse.startDate",
+      key: "contractsInUse.startDate",
+      sorter: (a, b) =>
+        new Date(a?.contractsInUse?.startDate) -
+        new Date(b?.contractsInUse?.startDate),
+      ...getColumnApprox("contractsInUse.startDate"),
       render: (_, render) => (
         <div>
           <ComDateConverter>
@@ -185,6 +212,10 @@ export const Tables = forwardRef((props, ref) => {
       width: 120,
       dataIndex: "expiryDate",
       key: "expiryDate",
+      sorter: (a, b) =>
+        new Date(a?.contractsInUse?.endDate) -
+        new Date(b?.contractsInUse?.endDate),
+      ...getColumnApprox("contractsInUse.endDate"),
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.contractsInUse?.endDate}</ComDateConverter>
@@ -196,9 +227,13 @@ export const Tables = forwardRef((props, ref) => {
       width: 120,
       dataIndex: "signingDate",
       key: "signingDate",
+      sorter: (a, b) =>
+        new Date(a?.contractsInUse?.signingDate) -
+        new Date(b?.contractsInUse?.signingDate),
+      ...getColumnApprox("contractsInUse.signingDate"),
       render: (_, render) => (
         <div>
-          {render?.contract?.signingDate}
+          {/* {render?.contract?.signingDate} */}
           <ComDateConverter>
             {render?.contractsInUse?.signingDate}
           </ComDateConverter>
@@ -210,15 +245,17 @@ export const Tables = forwardRef((props, ref) => {
       width: 220,
       dataIndex: "address",
       key: "address",
+      ...getColumnSearchProps("address", "Địa chỉ"),
     },
     {
       title: "Ghi chú",
       width: 220,
       dataIndex: "notes",
       key: "notes",
+      ...getColumnSearchProps("notes", "Ghi chú"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 80,

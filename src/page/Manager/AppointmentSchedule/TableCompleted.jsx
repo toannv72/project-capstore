@@ -28,30 +28,31 @@ export default function TableCompleted() {
       fixed: "left",
       dataIndex: "user",
       key: "user",
+      sorter: (a, b) => a.user.fullName?.localeCompare(b.user.fullName),
       ...getColumnSearchProps("user.fullName", "Người đăng ký"),
       render: (text, record) => text.fullName,
     },
 
-    {
-      title: "Thời gian đăng ký",
-      width: 200,
-      dataIndex: "createdAt",
-      key: "createdAt",
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.createdAt}</ComDateConverter>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Thời gian đăng ký",
+    //   width: 200,
+    //   dataIndex: "createdAt",
+    //   key: "createdAt",
+    //   sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+    //   ...getColumnApprox("createdAt", "Thời gian đăng ký"),
+    //   render: (_, render) => (
+    //     <div>
+    //       <ComDateConverter>{render?.createdAt}</ComDateConverter>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Thời gian đến ",
       width: 200,
       dataIndex: "date",
       key: "date",
       sorter: (a, b) => new Date(a.date) - new Date(b.date),
-      ...getColumnApprox("date", "Thời gian đăng ký"),
+      ...getColumnApprox("date", "Thời gian đến"),
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.date}</ComDateConverter>
@@ -63,6 +64,8 @@ export default function TableCompleted() {
       width: 200,
       dataIndex: "user",
       key: "user.phoneNumber",
+      sorter: (a, b) => a.user.phoneNumber - b.user.phoneNumber,
+
       ...getColumnSearchProps("user.phoneNumber", "Số điện thoại"),
       render: (phone) => (
         <div>
@@ -75,6 +78,7 @@ export default function TableCompleted() {
       width: 200,
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
       ...getColumnSearchProps("name", "Tên loại hẹn"),
     },
     {
@@ -82,6 +86,8 @@ export default function TableCompleted() {
       width: 200,
       dataIndex: "description",
       key: "description",
+      sorter: (a, b) => a.description?.localeCompare(b.description),
+
       ...getColumnSearchProps("description", "Nội dung"),
     },
     {
@@ -92,7 +98,7 @@ export default function TableCompleted() {
       ...getColumnSearchProps("notes", "Ghi chú"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 100,

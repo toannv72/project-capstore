@@ -21,12 +21,12 @@ export const error = {
 export const vn = {
   common: {
     button: {
-      login: "Đăng Nhập",
+      login: "Đăng nhập",
       reissue: "Đăng Ký",
     },
   },
   Login: {
-    pageTitle: "Đăng Nhập",
+    pageTitle: "Đăng nhập",
     pageSubTitle: "Chào mừng đến với Viện Dưỡng Lão...!",
     label: {
       username: "Tên người dùng",

@@ -1,7 +1,7 @@
 import axios from "axios";
 const api = axios.create({
   // baseURL: process.env.REACT_APP_BASE_URLS,
-  baseURL: "https://nursinghome.runasp.net/api/",
+  baseURL: "http://142.93.222.144:5000/api/",
   withCredentials: true,
 });
 

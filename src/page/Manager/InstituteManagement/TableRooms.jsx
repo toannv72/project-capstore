@@ -21,7 +21,7 @@ export const TableRooms = forwardRef((props, ref) => {
   const modalDetailElder = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
   const modal = useModalState();
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const {
     text: {
       InstituteManagement,
@@ -37,83 +37,94 @@ export const TableRooms = forwardRef((props, ref) => {
       setSelectedElder(record);
     };
   const expandedRowRender = (record) => {
-    const columns = [
-      {
-        title: "Tên người bệnh",
-        fixed: "left",
-        width: 100,
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Giới tính",
-        width: 100,
-        dataIndex: "gender",
-        key: "gender",
-        filters: [
-          { text: "Nam", value: "Male" },
-          { text: "Nữ", value: "Female" },
-        ],
-        onFilter: (value, record) => record.gender === value,
-        render: (_, record) => (
-          <div>
-            <ComGenderConverter>{record?.gender}</ComGenderConverter>
-          </div>
-        ),
-      },
-      {
-        title: "Ngày có hiệu lực",
-        width: 100,
-        dataIndex: "effectiveDate",
-        key: "effectiveDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-          </div>
-        ),
-      },
-      {
-        title: "Ngày hết hạn",
-        width: 100,
-        dataIndex: "expiryDate",
-        key: "expiryDate",
-        render: (_, render) => (
-          <div>
-            <ComDateConverter>{render?.expiryDate}</ComDateConverter>
-          </div>
-        ),
-      },
-      {
-        title: "Địa chỉ",
-        width: 100,
-        dataIndex: "address",
-        key: "address",
-      },
-      {
-        title: "Ghi chú",
-        width: 100,
-        dataIndex: "notes",
-        key: "notes",
-      },
-      {
-        title: "Action",
-        key: "operation",
-        fixed: "right",
-        width: 50,
-        render: (_, record) => (
-          <div className="flex items-center flex-col">
-            <ComMenuButonTable
-              record={record}
-              showModalDetails={() => showModaldElder(record)}
-         
-              // extraMenuItems={extraMenuItems}
-              excludeDefaultItems={["delete","edit"]}
-              // order={order}
-            />
-          </div>
-        ),
-      },
-    ];
+   const columns = [
+     {
+       title: "Tên người bệnh",
+       fixed: "left",
+       width: 100,
+       dataIndex: "name",
+       key: "name",
+       sorter: (a, b) => a.name?.localeCompare(b.name),
+       ...getColumnSearchProps("name", "Tên người bệnh"),
+     },
+     {
+       title: "Giới tính",
+       width: 100,
+       dataIndex: "gender",
+       key: "gender",
+       sorter: (a, b) => a.gender?.localeCompare(b.gender),
+
+       filters: [
+         { text: "Nam", value: "Male" },
+         { text: "Nữ", value: "Female" },
+       ],
+       onFilter: (value, record) => record.gender === value,
+       render: (_, record) => (
+         <div>
+           <ComGenderConverter>{record?.gender}</ComGenderConverter>
+         </div>
+       ),
+     },
+     // {
+     //   title: "Ngày có hiệu lực",
+     //   width: 100,
+     //   dataIndex: "effectiveDate",
+     //   key: "effectiveDate",
+     //   sorter: (a, b) => a.effectiveDate - b.effectiveDate,
+
+     //   render: (_, render) => (
+     //     <div>
+     //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
+     //     </div>
+     //   ),
+     // },
+     // {
+     //   title: "Ngày hết hạn",
+     //   width: 100,
+     //   dataIndex: "expiryDate",
+     //   key: "expiryDate",
+     //   sorter: (a, b) => a.expiryDate - b.expiryDate,
+     //   render: (_, render) => (
+     //     <div>
+     //       <ComDateConverter>{render?.expiryDate}</ComDateConverter>
+     //     </div>
+     //   ),
+     // },
+     {
+       title: "Địa chỉ",
+       width: 100,
+       dataIndex: "address",
+       key: "address",
+       sorter: (a, b) => a.address?.localeCompare(b.address),
+       ...getColumnSearchProps("address", "Địa chỉ"),
+     },
+     {
+       title: "Ghi chú",
+       width: 100,
+       dataIndex: "notes",
+       key: "notes",
+       sorter: (a, b) => a.notes?.localeCompare(b.notes),
+
+       ...getColumnSearchProps("notes", "Ghi chú"),
+     },
+     {
+       title: "Thao tác",
+       key: "operation",
+       fixed: "right",
+       width: 50,
+       render: (_, record) => (
+         <div className="flex items-center flex-col">
+           <ComMenuButonTable
+             record={record}
+             showModalDetails={() => showModaldElder(record)}
+             // extraMenuItems={extraMenuItems}
+             excludeDefaultItems={["delete", "edit"]}
+             // order={order}
+           />
+         </div>
+       ),
+     },
+   ];
     return (
       <Table
         scroll={{
@@ -139,6 +150,7 @@ export const TableRooms = forwardRef((props, ref) => {
       fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
       ...getColumnSearchProps("name", InstituteManagement?.areaName),
     },
     {
@@ -147,6 +159,7 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "block",
       key: "block",
       // render: (render) => <div>{render?.name}</div>,
+      sorter: (a, b) => a.block?.localeCompare(b.block),
       ...getColumnSearchProps("block.name", "Khu"),
     },
     {
@@ -154,6 +167,8 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "nursingPackage",
       key: "nursingPackage",
       width: 100,
+      sorter: (a, b) =>
+        a.nursingPackage?.name?.localeCompare(b.nursingPackage?.name),
       ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
     },
     // {
@@ -168,6 +183,8 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "userBed",
       key: "userBed",
       width: 100,
+      sorter: (a, b) => a.userBed - b.userBed,
+
       ...getColumnSearchProps("userBed", "Số giường"),
     },
     {
@@ -175,10 +192,11 @@ export const TableRooms = forwardRef((props, ref) => {
       dataIndex: "unusedBed",
       key: "unusedBed",
       width: 100,
+      sorter: (a, b) => a.unusedBed - b.unusedBed,
       ...getColumnSearchProps("unusedBed", "Số giường trống"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,

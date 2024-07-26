@@ -80,7 +80,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         ...getColumnSearchProps("description", "Chi tiết"),
       },
       {
-        title: "Action",
+        title: "Thao tác",
         key: "operation",
         fixed: "right",
         width: 50,
@@ -173,7 +173,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
     },
 
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,

@@ -27,6 +27,8 @@ const Table = () => {
       width: 40,
       key: "user.fullName",
       fixed: "left",
+      sorter: (a, b) => a.name?.fullName?.localeCompare(b.name?.fullName),
+
       ...getColumnSearchProps("user.fullName", "Họ và tên"),
     },
     {
@@ -34,6 +36,10 @@ const Table = () => {
       width: 50,
       dataIndex: "orderDetail.servicePackage.name",
       key: "orderDetail.servicePackage.name",
+      sorter: (a, b) =>
+        a?.orderDetail?.servicePackage?.name?.localeCompare(
+          b?.orderDetail?.servicePackage?.name
+        ),
       ...getColumnSearchProps("orderDetail.servicePackage.name", "Dịch vụ"),
     },
     {
@@ -41,6 +47,7 @@ const Table = () => {
       width: 50,
       dataIndex: "createdAt",
       key: "createdAt",
+      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
       ...getColumnApprox("createdAt", "Ngày thực hiện"),
       render: (_, render) => (
         <div>
@@ -53,6 +60,7 @@ const Table = () => {
       width: 70,
       dataIndex: "ratings",
       key: "ratings",
+      sorter: (a, b) => a?.ratings?.localeCompare(b?.ratings),
       ...getColumnSearchProps("ratings", "Đánh giá"),
     },
     {
@@ -60,6 +68,7 @@ const Table = () => {
       width: 70,
       dataIndex: "title",
       key: "title",
+      sorter: (a, b) => a?.title?.localeCompare(b?.title),
       ...getColumnSearchProps("title", "Chi tiết đánh giá"),
     },
 

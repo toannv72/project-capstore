@@ -35,6 +35,7 @@ export const TableBlock = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "name",
         key: "name",
+        sorter: (a, b) => a?.name?.localeCompare(b?.name),
         ...getColumnSearchProps("name", "tên khu"),
       },
       // {
@@ -48,12 +49,14 @@ export const TableBlock = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "userBed",
         key: "userBed",
+        sorter: (a, b) => a?.userBed - b?.userBed,
       },
       {
         title: "Loại phòng",
         width: 100,
         dataIndex: "type",
         key: "type",
+        sorter: (a, b) => a?.type?.localeCompare(b?.type),
         ...getColumnSearchProps("type", "tên khu"),
       },
       {
@@ -61,6 +64,7 @@ export const TableBlock = forwardRef((props, ref) => {
         title: "Số giường trống",
         dataIndex: "unusedBed",
         key: "unusedBed",
+        sorter: (a, b) => a?.unusedBed - b?.unusedBed,
       },
     ];
     return (
@@ -88,6 +92,7 @@ export const TableBlock = forwardRef((props, ref) => {
       // fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a?.name?.localeCompare(b?.name),
       ...getColumnSearchProps("name", InstituteManagement?.areaName),
     },
 
@@ -96,12 +101,12 @@ export const TableBlock = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "rooms",
       key: "rooms",
-      // sorter: (a, b) => a.phone - b.phone,
+      sorter: (a, b) => a.rooms - b.rooms,
       render: (record) => <div>{record?.length}</div>,
       // ...getColumnSearchProps("totalFloor", InstituteManagement?.numberOfRooms),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 40,

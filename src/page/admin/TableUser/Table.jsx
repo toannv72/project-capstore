@@ -22,7 +22,7 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
@@ -66,6 +66,8 @@ export const Tables = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "name",
         key: "name",
+        sorter: (a, b) => a.name?.localeCompare(b.name),
+        ...getColumnSearchProps("name", "Tên người thân"),
       },
       {
         title: "Giới tính",
@@ -77,6 +79,8 @@ export const Tables = forwardRef((props, ref) => {
           { text: "Nữ", value: "Female" },
         ],
         onFilter: (value, record) => record.gender === value,
+        sorter: (a, b) => a.gender?.localeCompare(b.gender),
+
         render: (_, record) => (
           <div>
             <ComGenderConverter>{record?.gender}</ComGenderConverter>
@@ -112,15 +116,19 @@ export const Tables = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "address",
         key: "address",
+        sorter: (a, b) => a.address?.localeCompare(b.address),
+        ...getColumnSearchProps("address", "Địa chỉ"),
       },
       {
         title: "Ghi chú",
         width: 100,
         dataIndex: "notes",
         key: "notes",
+        sorter: (a, b) => a.notes?.localeCompare(b.notes),
+        ...getColumnSearchProps("address", "Ghi chú"),
       },
       {
-        title: "Action",
+        title: "Thao tác",
         key: "operation",
         fixed: "right",
         width: 50,
@@ -131,7 +139,7 @@ export const Tables = forwardRef((props, ref) => {
               showModalDetails={() => showModaldElder(record)}
               showModalEdit={showModalEdit}
               // extraMenuItems={extraMenuItems}
-              excludeDefaultItems={["delete"]}
+              excludeDefaultItems={["delete", "edit"]}
               // order={order}
             />
           </div>
@@ -162,8 +170,9 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       key: "fullName",
       fixed: "left",
+      sorter: (a, b) => a.fullName?.localeCompare(b.fullName),
+
       ...getColumnSearchProps("fullName", "Họ và tên"),
-    
     },
     {
       title: "Ảnh ",
@@ -187,6 +196,24 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
+      title: "Giới tính",
+      width: 100,
+      dataIndex: "gender",
+      key: "gender",
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
+      sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
+
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
+    },
+    {
       title: "Năm sinh",
       width: 100,
       dataIndex: "dateOfBirth",
@@ -196,6 +223,9 @@ export const Tables = forwardRef((props, ref) => {
           <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
         </div>
       ),
+      sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
+
+      ...getColumnApprox("dateOfBirth"),
     },
     {
       title: "Số điện thoại",
@@ -203,6 +233,8 @@ export const Tables = forwardRef((props, ref) => {
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
+      sorter: (a, b) => a.phoneNumber - b.phoneNumber,
+
       render: (phone) => (
         <div>
           <ComPhoneConverter>{phone}</ComPhoneConverter>
@@ -210,11 +242,12 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND or CCCD",
+      title: "CMND hoặc CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
-      ...getColumnSearchProps("cccd", "CMND or CCCD"),
+      sorter: (a, b) => a.cccd - b.cccd,
+      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -226,6 +259,8 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "email",
       key: "email",
+      sorter: (a, b) => a?.email?.localeCompare(b?.email),
+
       ...getColumnSearchProps("email", "Gmail"),
     },
     {
@@ -233,26 +268,12 @@ export const Tables = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "address",
       key: "address",
+      sorter: (a, b) => a?.address?.localeCompare(b?.address),
       ...getColumnSearchProps("address", "Địa chỉ"),
     },
+
     {
-      title: "Giới tính",
-      width: 100,
-      dataIndex: "gender",
-      key: "gender",
-      filters: [
-        { text: "Nam", value: "Male" },
-        { text: "Nữ", value: "Female" },
-      ],
-      onFilter: (value, record) => record.gender === value,
-      render: (_, record) => (
-        <div>
-          <ComGenderConverter>{record?.gender}</ComGenderConverter>
-        </div>
-      ),
-    },
-    {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,
@@ -287,7 +308,11 @@ export const Tables = forwardRef((props, ref) => {
         isOpen={modalDetailUser?.isModalOpen}
         onClose={modalDetailUser?.handleClose}
       >
-        <DetailUser selectedUser={selectedUser} />
+        <DetailUser
+          selectedUser={selectedUser}
+          isOpenEdit={modalEdit?.handleOpen}
+          onClose={modalDetailUser?.handleClose}
+        />
       </ComModal>
       {/* chi tiết của người già  */}
       <ComModal

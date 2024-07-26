@@ -270,7 +270,7 @@ export default function ComHeaderAdmin({ children }) {
           className="px-4 pt-2 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-            <div className="lg:col-span-6 overflow-y-auto h-full w-full ">
+            <div className="lg:col-span-6  h-full w-full">
               <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                 {/* {user?.role === "admin" ? (
                   children

@@ -16,7 +16,7 @@ code {
     monospace;
 }
 :root {
-  --scrollbar-width: 2px; /* Độ rộng thanh cuộn */
+  --scrollbar-width: 12px; /* Độ rộng thanh cuộn */
   --scrollbar-height: 8px; /* Độ cao thanh cuộn (cho thanh cuộn ngang) */
   --scrollbar-thumb-color: #ccc; /* Màu nền của thanh trượt */
   --scrollbar-thumb-hover-color: #aaa; /* Màu nền khi hover */

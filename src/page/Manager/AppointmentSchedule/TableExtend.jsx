@@ -28,6 +28,7 @@ export default function TableExtend() {
       fixed: "left",
       dataIndex: "user",
       key: "user",
+      sorter: (a, b) => a.user.fullName?.localeCompare(b.user.fullName),
       ...getColumnSearchProps("user.fullName", "Người đăng ký"),
       render: (text, record) => text.fullName,
     },
@@ -63,6 +64,8 @@ export default function TableExtend() {
       width: 200,
       dataIndex: "user",
       key: "user.phoneNumber",
+      sorter: (a, b) => a.user.phoneNumber - b.user.phoneNumber,
+
       ...getColumnSearchProps("user.phoneNumber", "Số điện thoại"),
       render: (phone) => (
         <div>
@@ -75,6 +78,7 @@ export default function TableExtend() {
       width: 200,
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
       ...getColumnSearchProps("name", "Tên loại hẹn"),
     },
     {
@@ -82,6 +86,8 @@ export default function TableExtend() {
       width: 200,
       dataIndex: "description",
       key: "description",
+      sorter: (a, b) => a.description?.localeCompare(b.description),
+
       ...getColumnSearchProps("description", "Nội dung"),
     },
     {
@@ -92,7 +98,7 @@ export default function TableExtend() {
       ...getColumnSearchProps("notes", "Ghi chú"),
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 100,

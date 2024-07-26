@@ -222,7 +222,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
                     onClick={() =>
                       append({ name: "", unitType: "", description: "" })
                     }
-                    className="bg-blackpointer-events-auto rounded-md bg-indigo-600 px-3 py-2 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-indigo-500 hover:text-white"
+                    className="bg-blackpointer-events-auto rounded-md bg-[#0F296D] px-3 py-2 text-[0.8125rem] font-semibold leading-5 text-white hover:bg-[#0F296D] hover:text-white"
                   >
                     Thêm đơn vị đo lường
                   </button>
@@ -241,7 +241,7 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
-                className="block w-full rounded-md bg-indigo-600  text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
               </ComButton>

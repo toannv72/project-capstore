@@ -3,8 +3,9 @@ import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneC
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import { Image } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComButton from "./../../../Components/ComButton/ComButton";
 
-export default function DetailUser({ selectedUser }) {
+export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -62,11 +63,30 @@ export default function DetailUser({ selectedUser }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày sinh:
               </td>
-              <td className="px-4 py-2"><ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter></td>
+              <td className="px-4 py-2">
+                <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>
+              </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
+        {isOpenEdit ? (
+          <div className="mt-10">
+            <ComButton
+              onClick={() => {
+                onClose();
+                isOpenEdit();
+              }}
+              htmlType="submit"
+              type="primary"
+              className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Chỉnh sửa
+            </ComButton>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

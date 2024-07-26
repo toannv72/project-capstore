@@ -137,7 +137,7 @@ export default function Table({ idElder }) {
       key: "notes",
     },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 80,

@@ -47,7 +47,7 @@ export const TableBills = forwardRef((props, ref) => {
     function formatCurrency(number) {
       // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
       if (typeof number === "number") {
-        return number.toLocaleString("en-US", {
+        return number.toLocaleString("vi-VN", {
           style: "currency",
           currency: "VND",
         });
@@ -76,6 +76,7 @@ export const TableBills = forwardRef((props, ref) => {
       key: "user.fullName",
       fixed: "left",
       ...getColumnSearchProps("user.fullName", "Họ và tên"),
+      sorter: (a, b) => a.user?.fullName?.localeCompare(b.user?.fullName),
       render: (user) => (
         <Typography.Link onClick={() => showModaldUser(user)}>
           {user.fullName}
@@ -107,6 +108,29 @@ export const TableBills = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "method",
       key: "method",
+      filters: [
+        { text: "VnPay", value: "VnPay" },
+        { text: "Tiền mặt", value: "Cash" },
+        { text: "Momo", value: "Momo" },
+      ],
+      onFilter: (value, record) => record.method === value,
+      sorter: (a, b) => a?.method?.localeCompare(b?.method),
+      // ...getColumnSearchProps("method", "Thanh toán bằng"),
+    },
+    {
+      title: "Trạng thái",
+      width: 100,
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        { text: "Đã thanh toán", value: "Paid" },
+        { text: "Chưa thanh toán", value: "UnPaid" },
+        { text: "Đã hủy", value: "Faied" },
+        { text: "Hết hạn", value: "OverDue" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      sorter: (a, b) => a?.status?.localeCompare(b?.status),
+      // ...getColumnSearchProps("method", "Thanh toán bằng"),
     },
     {
       title: "Giá tiền",
@@ -132,6 +156,7 @@ export const TableBills = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "paymentDate",
       key: "paymentDate",
+      sorter: (a, b) => new Date(a.paymentDate) - new Date(b.paymentDate),
       ...getColumnApprox("paymentDate", "Thời gian thanh toán"),
       render: (data) => (
         <div>
@@ -150,7 +175,7 @@ export const TableBills = forwardRef((props, ref) => {
     },
 
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,
@@ -161,7 +186,7 @@ export const TableBills = forwardRef((props, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete","edit"]}
+            excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
         </div>

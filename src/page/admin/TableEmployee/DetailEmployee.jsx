@@ -6,8 +6,9 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComGenderConverter from "./../../../Components/ComGenderConverter/ComGenderConverter";
 import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
 import { getData } from "../../../api/api";
+import ComButton from "../../../Components/ComButton/ComButton";
 
-export default function DetailEmployee({ selectedData }) {
+export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
   const [data, setData] = useState({});
   console.log(data);
   useEffect(() => {
@@ -103,6 +104,19 @@ export default function DetailEmployee({ selectedData }) {
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
+        <div className="mt-10">
+          <ComButton
+            onClick={() => {
+              onClose();
+              isOpenEdit();
+            }}
+            htmlType="submit"
+            type="primary"
+            className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Chỉnh sửa
+          </ComButton>
+        </div>
       </div>
     </div>
   );

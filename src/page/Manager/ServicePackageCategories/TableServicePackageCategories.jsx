@@ -44,10 +44,11 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
   const columns = [
     {
       title: "Tên thể loại",
-      width: 150,
+      width: 350,
       fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a?.name?.localeCompare(b?.name),
       ...getColumnSearchProps("name", "Tên thể loại"),
     },
     // {
@@ -63,7 +64,7 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
     //   key: "index",
     // },
     {
-      title: "Action",
+      title: "Thao tác",
       key: "operation",
       fixed: "right",
       width: 50,
