@@ -29,11 +29,7 @@ export default function CreateContract({ onClose }) {
   const [dataUser, setDataUser] = useState([]);
   const [dataElders, setDataElders] = useState([]);
   const [endDate, setEndDate] = useState(false);
-  const disabledDate = (current) => {
-    const yearsAgo120 = moment().subtract(120, "years");
-    const yearsLater120 = moment().add(120, "years");
-    return current && (current < yearsAgo120 || current > yearsLater120);
-  };
+
   const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
@@ -44,9 +40,9 @@ export default function CreateContract({ onClose }) {
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
     startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
     endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-    content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
-    notes: yup.string().required("Vui lòng nhập ghi chú"),
-    description: yup.string().required("Vui lòng nhập mô tả"),
+    // content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
+    // notes: yup.string().required("Vui lòng nhập ghi chú"),
+    // description: yup.string().required("Vui lòng nhập mô tả"),
   });
 
   const methods = useForm({
@@ -103,19 +99,20 @@ export default function CreateContract({ onClose }) {
     return current && (current < minDate || current > maxDate);
   };
 
-const disabledDateEnd = (current) => {
-  const daysLater30 = moment().add(30, "days");
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("startDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(30, "days") : null;
-
-  return (
-    current &&
-    (current < daysLater30 ||
-      current > tenYearsLater ||
-      (fixedFutureDate && current < fixedFutureDate))
-  );
-};
+  const disabledDateEnd = (current) => {
+    const oneMonths = moment().add(1, "months");
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("startDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(1, "months")
+      : null;
+    return (
+      current &&
+      (current < oneMonths ||
+        current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
   useEffect(() => {
     setEndDate((e) => !e);
     setValue("endDate", null);

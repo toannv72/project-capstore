@@ -44,9 +44,9 @@ export default function ContractExtension({ onClose, selectedUser }) {
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
     startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
     endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-    content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
-    notes: yup.string().required("Vui lòng nhập ghi chú"),
-    description: yup.string().required("Vui lòng nhập mô tả"),
+    // content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
+    // notes: yup.string().required("Vui lòng nhập ghi chú"),
+    // description: yup.string().required("Vui lòng nhập mô tả"),
   });
 
   const methods = useForm({
@@ -147,16 +147,15 @@ export default function ContractExtension({ onClose, selectedUser }) {
   };
 
   const disabledDateEnd = (current) => {
-    const daysLater30 = moment().add(30, "days");
+    const oneMonths = moment().add(1, "months");
     const tenYearsLater = moment().add(10, "years");
     const startDate = watch("startDate");
     const fixedFutureDate = startDate
-      ? moment(startDate).add(30, "days")
+      ? moment(startDate).add(1, "months")
       : null;
-
     return (
       current &&
-      (current < daysLater30 ||
+      (current < oneMonths ||
         current > tenYearsLater ||
         (fixedFutureDate && current < fixedFutureDate))
     );
@@ -438,7 +437,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     />
                   </div>
                 )}
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"
                     label="Nội dung hợp đồng"
@@ -448,7 +447,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     {...register("content")}
                     required
                   />
-                </div>
+                </div> */}
                 <div className="sm:col-span-2">
                   <ComUpImg
                     onChange={onChange}
@@ -463,10 +462,10 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     rows={5}
                     name="contract"
                     {...register("notes")}
-                    required
+                    // required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComTextArea
                     label="Mô tả hợp đồng"
                     placeholder="Vui lòng nhập mô tả"
@@ -475,7 +474,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     {...register("description")}
                     required
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="mt-10">

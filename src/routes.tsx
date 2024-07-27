@@ -23,9 +23,9 @@ import PotentialCustomer from "./page/Staff/PotentialCustomer/PotentialCustomer"
 import Feedback from "./page/Staff/Feedback/Feedback";
 import LearningPage from "./page/LearningPage/LearningPage";
 import Home from "./page/Home/Home";
-import Bill from './page/Staff/Bill/Bill';
+import Bill from "./page/Staff/Bill/Bill";
 import Health from "./page/Manager/Health/Health";
-import DetailElderPage from './page/admin/TableElder/DetailElderPage';
+import DetailElderPage from "./page/admin/TableElder/DetailElderPage";
 import Dashboard from "./page/admin/Dashboard/Dashboard";
 import PaymentStatus from "./page/User/PaymentStatus";
 import AssignTasksManagement from "./page/Manager/AssignTasks/AssignTasksManagement";
@@ -73,6 +73,10 @@ export const routers = createBrowserRouter([
       </ComHeaderAdmin>
     ),
     children: [
+      {
+        path: "*",
+        element: <ErrorPage goTo={"/admin/institute"} statusCode={"404"} />,
+      },
       {
         path: "/admin",
         element: <Dashboard />,
@@ -144,6 +148,10 @@ export const routers = createBrowserRouter([
       </ComHeaderStaff>
     ),
     children: [
+      {
+        path: "*",
+        element: <ErrorPage goTo={"/staff/assignTask"} statusCode={"404"} />,
+      },
       {
         path: "/staff",
         element: <Admin />,
