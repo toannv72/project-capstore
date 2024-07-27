@@ -112,57 +112,7 @@ const useColumnFilters = () => {
     },
   });
 
-  // const getColumnApprox = (dataIndex, title) => ({
-  //   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
-  //     <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-  //       <RangePicker
-  //         onChange={(dates) => {
-  //           setSelectedKeys(
-  //             dates
-  //               ? [dates.map((date) => date.startOf("day").toISOString())]
-  //               : []
-  //           );
-  //         }}
-  //         style={{ marginBottom: 8, display: "block" }}
-  //       />
-  //       <Space>
-  //         <Button
-  //           type="dashed"
-  //           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-  //           size="small"
-  //           style={{ width: 90 }}
-  //         >
-  //           <div className="justify-center flex">
-  //             <SearchOutlined />
-  //             Tìm kiếm
-  //           </div>
-  //         </Button>
-  //         <Button
-  //           type="link"
-  //           size="small"
-  //           onClick={() => {
-  //             close();
-  //           }}
-  //         >
-  //           Đóng
-  //         </Button>
-  //       </Space>
-  //     </div>
-  //   ),
-  //   filterIcon: (filtered) => (
-  //     <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
-  //   ),
-  //   onFilter: (value, record) => {
-  //     if (!value.length) return true;
-  //     const recordDate = moment(record[dataIndex]).startOf("day");
-  //     const [start, end] = value;
-  //     return (
-  //       recordDate.isSameOrAfter(moment(start)) &&
-  //       recordDate.isSameOrBefore(moment(end))
-  //     );
-  //   },
-  // });
-
+ 
   const getColumnApprox = (dataIndex, title) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, close }) => (
       <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
@@ -283,15 +233,6 @@ const useColumnFilters = () => {
       );
     },
   });
-  function formatCurrency(number) {
-    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
-    if (typeof number === "number") {
-      return number.toLocaleString("vi-VN", {
-        style: "currency",
-        currency: "VND",
-      });
-    }
-  }
 
 
   const handleKeyPress = (e) => {
@@ -404,6 +345,22 @@ const useColumnFilters = () => {
     },
     render: (text) => formatNumber(text.toString()),
   });
+    const getUniqueValues = (data, key) => {
+      const uniqueValues = new Set();
+      data.forEach((item) => {
+        const value = key
+          .split(".")
+          .reduce((acc, part) => acc && acc[part], item);
+        if (value) uniqueValues.add(value);
+      });
+      return [...uniqueValues];
+    };
+  const getColumnFilterProps = (dataIndex, title, uniqueValues) => ({
+    filters: uniqueValues.map((value) => ({ text: value, value })),
+    onFilter: (value, record) => getNestedValue(record, dataIndex) === value,
+    render: (text) => text,
+  });
+
   return {
     getColumnSearchProps,
     getColumnApprox,
@@ -413,6 +370,8 @@ const useColumnFilters = () => {
     handleReset,
     getColumnApprox1,
     getColumnPriceRangeProps,
+    getColumnFilterProps,
+    getUniqueValues,
   };
 };
 

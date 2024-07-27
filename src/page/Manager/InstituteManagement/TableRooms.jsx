@@ -21,14 +21,17 @@ export const TableRooms = forwardRef((props, ref) => {
   const modalDetailElder = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
   const modal = useModalState();
-  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox,getColumnFilterProps, getUniqueValues } =
+    useColumnSearch();
   const {
     text: {
       InstituteManagement,
       common: { button },
     },
   } = useContext(LanguageContext);
-  console.log(data);
+ const uniqueBlockValues = getUniqueValues(data, "block.name");
+ const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
+ 
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
@@ -65,31 +68,7 @@ export const TableRooms = forwardRef((props, ref) => {
          </div>
        ),
      },
-     // {
-     //   title: "Ngày có hiệu lực",
-     //   width: 100,
-     //   dataIndex: "effectiveDate",
-     //   key: "effectiveDate",
-     //   sorter: (a, b) => a.effectiveDate - b.effectiveDate,
-
-     //   render: (_, render) => (
-     //     <div>
-     //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-     //     </div>
-     //   ),
-     // },
-     // {
-     //   title: "Ngày hết hạn",
-     //   width: 100,
-     //   dataIndex: "expiryDate",
-     //   key: "expiryDate",
-     //   sorter: (a, b) => a.expiryDate - b.expiryDate,
-     //   render: (_, render) => (
-     //     <div>
-     //       <ComDateConverter>{render?.expiryDate}</ComDateConverter>
-     //     </div>
-     //   ),
-     // },
+   
      {
        title: "Địa chỉ",
        width: 100,
@@ -158,9 +137,10 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "block",
       key: "block",
-      // render: (render) => <div>{render?.name}</div>,
       sorter: (a, b) => a.block?.localeCompare(b.block),
-      ...getColumnSearchProps("block.name", "Khu"),
+      // ...getColumnSearchProps("block.name", "Khu"),
+      ...getColumnFilterProps("block.name", "Khu", uniqueBlockValues),
+      render: (render) => <div>{render?.name}</div>,
     },
     {
       title: "Loại phòng",
@@ -169,7 +149,12 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       sorter: (a, b) =>
         a.nursingPackage?.name?.localeCompare(b.nursingPackage?.name),
-      ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
+      ...getColumnFilterProps(
+        "nursingPackage.name",
+        "Loại phòng",
+        uniquePackageValues
+      ),
+      render: (render) => <div>{render?.name}</div>,
     },
     // {
     //   title: InstituteManagement?.status,

@@ -18,20 +18,49 @@ import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+const useColumnSearchAndFilter = (data) => {
+  const { getColumnSearchProps, getColumnFilterProps } = useColumnSearch(data);
+
+  const getColumnSearchAndFilterProps = (dataIndex, title, uniqueValues) => {
+    const searchProps = getColumnSearchProps(dataIndex, title);
+    const filterProps = getColumnFilterProps(dataIndex, title, uniqueValues);
+
+    return {
+      ...searchProps,
+      ...filterProps,
+      filterDropdown: (props) => (
+        <div>
+          {searchProps.filterDropdown(props)}
+          {filterProps.filterDropdown
+            ? filterProps.filterDropdown(props)
+            : null}
+        </div>
+      ),
+    };
+  };
+
+  return {
+    getColumnSearchAndFilterProps,
+  };
+};
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+  const {
+    getColumnSearchProps,
+    getColumnApprox,
+    getColumnFilterProps,
+    getUniqueValues,
+  } = useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
+ const { getColumnSearchAndFilterProps } = useColumnSearchAndFilter(data);
 
-  console.log("====================================");
-  console.log(data);
-  console.log("====================================");
+
   useEffect(() => {
     reloadData();
   }, []);
@@ -71,6 +100,12 @@ export const Tables = forwardRef((props, ref) => {
       },
     },
   ];
+
+    const uniqueRoomValues = getUniqueValues(data, "room.name");
+    const uniquePackageValues = getUniqueValues(
+      data,
+      "contractsInUse.nursingPackage.name"
+    );
   const columns = [
     {
       title: "Họ và tên người cao tuổi",
@@ -169,25 +204,33 @@ export const Tables = forwardRef((props, ref) => {
       dataIndex: "room",
       key: "room",
       sorter: (a, b) => a?.room?.name?.localeCompare(b?.room?.name),
-      ...getColumnSearchProps("room.name", "Phòng hiện tại"),
-
-      // render: (_, render) => <div>{render?.room?.name}</div>,
+      // ...getColumnSearchProps("room.name", "Phòng hiện tại"),
+      ...getColumnFilterProps("room.name", "Phòng hiện tại", uniqueRoomValues),
+    
+      render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
       title: "Loại gói dưỡng lão",
       width: 150,
       dataIndex: "contractsInUse",
       key: "contractsInUse",
-      render: (_, render) => (
-        <div>{render?.contractsInUse?.nursingPackage?.name}</div>
-      ),
+
       sorter: (a, b) =>
         a?.contractsInUse?.nursingPackage?.name?.localeCompare(
           b?.contractsInUse?.nursingPackage?.name
         ),
-      ...getColumnSearchProps(
+      ...getColumnFilterProps(
         "contractsInUse.nursingPackage.name",
-        "Phòng hiện tại"
+        "Loại gói dưỡng lão",
+        uniquePackageValues
+      ),
+      // ...getColumnSearchProps(
+      //   "contractsInUse.nursingPackage.name",
+      //   "Loại gói dưỡng lão"
+      // ),
+
+      render: (_, render) => (
+        <div>{render?.contractsInUse?.nursingPackage?.name}</div>
       ),
     },
     {

@@ -24,7 +24,12 @@ export default function TableServicePackage() {
   const [selectedData, setSelectedData] = useState(null);
   console.log(selectedData);
   const { notificationApi } = useNotification();
-  const { getColumnSearchProps, getColumnPriceRangeProps } = useColumnSearch();
+  const {
+    getColumnSearchProps,
+    getColumnPriceRangeProps,
+    getUniqueValues,
+    getColumnFilterProps,
+  } = useColumnSearch();
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -36,6 +41,11 @@ export default function TableServicePackage() {
     }
   }
   console.log(data);
+  const uniquePackageCategoryValues = getUniqueValues(
+    data,
+    "servicePackageCategory.name"
+  );
+
   const columns = [
     {
       title: "Tên dịch vụ",
@@ -85,8 +95,17 @@ export default function TableServicePackage() {
         a?.servicePackageCategory?.name?.localeCompare(
           b?.servicePackageCategory?.name
         ),
-
-      ...getColumnSearchProps("servicePackageCategory.name", "Tên dịch vụ"),
+      ...getColumnFilterProps(
+        "servicePackageCategory.name",
+        "Thể loại",
+        uniquePackageCategoryValues
+      ),
+      render: (_, record) => (
+        <div>
+          <h1>{record.servicePackageCategory.name}</h1>
+        </div>
+      ),
+      // ...getColumnSearchProps("servicePackageCategory.name", "Tên dịch vụ"),
     },
     {
       title: "Dạng dịch vụ",
