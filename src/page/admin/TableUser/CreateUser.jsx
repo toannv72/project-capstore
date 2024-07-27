@@ -117,7 +117,7 @@ export default function CreateUser({ onClose, tableRef }) {
   return (
     <div>
       <div className="p-4 bg-white ">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        <h2 className="text-base font-semibold text-gray-800 mb-2">
           Tạo tài khoản người dùng
         </h2>
         <FormProvider {...methods}>
@@ -156,7 +156,7 @@ export default function CreateUser({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
                       placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
                       {...register("cccd")}
                       required
@@ -212,8 +212,8 @@ export default function CreateUser({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
-                      label={"Gmail"}
-                      placeholder={"Vui lòng nhập Gmail"}
+                      label={"Email"}
+                      placeholder={"Vui lòng nhập Email"}
                       {...register("email")}
                       required
                     />

@@ -61,13 +61,13 @@ export const Tables = forwardRef((props, ref) => {
   const expandedRowRender = (record) => {
     const columnsElders = [
       {
-        title: "Tên người thân",
+        title: "Người cao tuổi",
         fixed: "left",
         width: 100,
         dataIndex: "name",
         key: "name",
         sorter: (a, b) => a.name?.localeCompare(b.name),
-        ...getColumnSearchProps("name", "Tên người thân"),
+        ...getColumnSearchProps("name", "Người cao tuổi"),
       },
       {
         title: "Giới tính",
@@ -112,7 +112,15 @@ export const Tables = forwardRef((props, ref) => {
       //   ),
       // },
       {
-        title: "Địa chỉ",
+        title: "Phòng chỉnh sửa lại",
+        width: 100,
+        dataIndex: "address",
+        key: "address",
+        sorter: (a, b) => a.address?.localeCompare(b.address),
+        ...getColumnSearchProps("address", "Địa chỉ"),
+      },
+      {
+        title: "Gói dưỡng lão chỉnh sửa lại",
         width: 100,
         dataIndex: "address",
         key: "address",
@@ -125,10 +133,10 @@ export const Tables = forwardRef((props, ref) => {
         dataIndex: "notes",
         key: "notes",
         sorter: (a, b) => a.notes?.localeCompare(b.notes),
-        ...getColumnSearchProps("address", "Ghi chú"),
+        ...getColumnSearchProps("notes", "Ghi chú"),
       },
       {
-        title: "Thao tác",
+        title: "",
         key: "operation",
         fixed: "right",
         width: 50,
@@ -242,12 +250,12 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND hoặc CCCD",
+      title: "CMND/CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
       sorter: (a, b) => a.cccd - b.cccd,
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -255,7 +263,7 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Gmail",
+      title: "Email",
       width: 100,
       dataIndex: "email",
       key: "email",
@@ -273,7 +281,7 @@ export const Tables = forwardRef((props, ref) => {
     },
 
     {
-      title: "Thao tác",
+      title: "",
       key: "operation",
       fixed: "right",
       width: 50,

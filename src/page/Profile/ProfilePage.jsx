@@ -1,8 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import * as yup from "yup";
-import { CloseOutlined, LogoutOutlined, MoreOutlined } from "@ant-design/icons";
-import { Modal, Space } from "antd";
-import { useNavigate } from "react-router-dom";
+import { CloseOutlined, MoreOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 import doctor from "../../assets/doctor.png";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,23 +10,34 @@ import ComUpImgOne from "../../Components/ComUpImg/ComUpImgOne";
 import ComButton from "../../Components/ComButton/ComButton";
 import { firebaseImg } from "../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../Components/ComDatePicker/ComDatePicker";
-import moment from "moment";
 import { Menu, Transition } from "@headlessui/react";
-const sortOptions = [{ name: "Chỉnh sửa", type: "edit" }];
+import { getData, putData } from "../../api/api";
+import { addressRegex, phoneNumberRegex } from "../../regexPatterns";
+import { useNotification } from "../../Notification/Notification";
+const sortOptions = [{ name: "Cập nhật thông tin", type: "edit" }];
 export default function ProfilePage() {
-  const [image, setImages] = useState([]);
+  const [image, setImages] = useState(null);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState(false);
+  const { notificationApi } = useNotification();
   const [formData, setFormData] = useState(null);
-  const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const inputMessenger = yup.object({
     // fullname: yup.string().required("Vui lòng nhập họ và tên"),
-    address: yup.string().required("Vui lòng nhập địa chỉ"),
+    address: yup
+      .string()
+      .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
+      .required("Vui lòng nhập địa chỉ")
+      .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
+      .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     // cccd: yup.string().required("Vui lòng nhập cccd/cmnd"),
     // birth: yup.string().required("Vui lòng nhập ngày sinh"),
-    phone: yup.string().required("Vui lòng nhập số điện thoại"),
-    mail: yup
+    // phoneNumber: yup
+    //   .string()
+    //   .required("Vui lòng nhập đủ số điện thoại")
+    //   .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
+    email: yup
       .string()
       .trim()
       .email("Email không hợp lệ")
@@ -35,53 +45,80 @@ export default function ProfilePage() {
   });
   const [initialValues, setInitialValues] = useState({
     address: "",
-    birth: "",
-    phone: "",
-    mail: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    email: "",
   });
   const methods = useForm({
     resolver: yupResolver(inputMessenger),
-    defaultValues: {
-      avatar: "",
-      fullname: "",
+    defaultValues: profile || {
+      avatarUrl: "",
+      fullName: "",
       address: "",
       cccd: "",
-      birth: "",
-      phone: "",
-      mail: "",
+      dateOfBirth: "",
+      phoneNumber: "",
+      email: "",
       gender: "",
     },
   });
-  const { handleSubmit, register, setValue, reset } = methods;
+  const { handleSubmit, register, setValue, reset, setError, setFocus } =
+    methods;
   const onSubmit = (data) => {
-    // firebaseImg(image[0]).then((e) => {
-    //   setValue("avatar", e);
-    //   console.log(1111, { ...data, avatar: e });
-    // });
     setFormData(data);
     setIsConfirmationModalVisible(true);
   };
   const handleConfirmUpdate = () => {
-    firebaseImg(image[0]).then((e) => {
-      setValue("avatar", e);
-      console.log(1111, { ...formData, avatar: e });
-
-      // Hide the confirmation modal after update
-      setIsConfirmationModalVisible(false);
-      setIsEditing(false);
-    });
+    if (image) {
+      firebaseImg(image).then((dataImg) => {
+        const dataPut = { ...formData, avatarUrl: dataImg };
+        console.log("1111", dataPut);
+        putData(`/users`, "profile", dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công 456", "đã sửa");
+            setTimeout(() => {}, 100);
+            setIsConfirmationModalVisible(false);
+            setIsEditing(false);
+            getAPI();
+          })
+          .catch((e) => {
+            if (e.status === 409) {
+              setError("phoneNumber", {
+                message: "Đã có số điện thoại này",
+              });
+              setFocus("phoneNumber");
+            }
+          });
+      });
+    } else {
+      const dataPut = {
+        ...formData,
+        avatarUrl: methods.getValues("avatarUrl"),
+      };
+      console.log(dataPut);
+      putData(`/users`, "profile", dataPut)
+        .then((e) => {
+          notificationApi("success", "Chỉnh sửa thành công 123", "đã sửa");
+          setTimeout(() => {}, 100);
+          setIsConfirmationModalVisible(false);
+          setIsEditing(false);
+          getAPI();
+        })
+        .catch((e) => {
+          if (e.status === 409) {
+            setError("phoneNumber", {
+              message: "Đã có số điện thoại này",
+            });
+            setFocus("phoneNumber");
+          }
+        });
+    }
+    // Hide the confirmation modal after update
   };
 
   const handleCancelUpdate = () => {
     setIsConfirmationModalVisible(false);
-    reset();
-  };
-  const handLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("use");
-    setTimeout(() => {
-      navigate("/login");
-    }, 0);
+    scrollToTop();
   };
   const onChange = (data) => {
     const selectedImages = data;
@@ -89,16 +126,11 @@ export default function ProfilePage() {
     // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
     // const newImages = selectedImages.map((file) => file.originFileObj);
     // Cập nhật trạng thái 'image' bằng danh sách tệp mới
-    console.log([selectedImages]);
-    setImages([selectedImages]);
+    console.log(selectedImages);
+    setImages(selectedImages);
     // setFileList(data);
   };
-  const disabledDate = (current) => {
-    const yearsAgo120 = moment().subtract(120, "years");
-    const yearsLater120 = moment().add(120, "years");
 
-    return current && (current < yearsAgo120 || current > yearsLater120);
-  };
   const handSend = (option) => {
     if (option === "edit") {
       setIsEditing(true);
@@ -106,40 +138,69 @@ export default function ProfilePage() {
       setInitialValues({
         // Store initial values
         address: methods.getValues("address"),
-        birth: methods.getValues("birth"),
-        phone: methods.getValues("phone"),
-        mail: methods.getValues("mail"),
+        birth: methods.getValues("dateOfBirth"),
+        phone: methods.getValues("phoneNumber"),
+        mail: methods.getValues("email"),
       });
+      scrollToTop();
     }
   };
-  console.log(isEditing);
+  const getAPI = () => {
+    getData("/users/profile")
+      .then((response) => {
+        setProfile(response?.data);
+        if (response?.data) {
+          reset(response?.data);
+          setValue("avatarUrl", response.data.avatarUrl);
+        }
+      })
+      .catch((er) => {
+        console.error("Error fetching items:", er);
+      });
+  };
+  useEffect(() => {
+    getAPI();
+  }, [reset, setValue]);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
-    <div className="flex flex-col space-y-5 font-montserrat mb-1">
-      <div className="grid grid-cols-3 gap-4">
-        <div className="grid col-span-2 gap-4">
-          <div className="p-3 rounded-md border border-fade">
-            <div className="font-bold text-base">Cài đặt người dùng</div>
-          </div>
-          <div className="border border-fade p-3 rounded-md ">
+    <>
+      <div className="flex flex-col gap-2 justify-center items-center py-3">
+        <div className="lg:w-4/5 xl:w-1/2 border border-fade pt-6 px-10 pb-8 rounded-md ">
+          {isEditing ? (
             <div className="flex justify-between">
-              <div>Thông tin người dùng</div>
-              {isEditing ? (
+              <div className="flex-grow"></div>
+              <div className="text-base font-semibold sm:ml-7">
+                Cập nhật thông tin
+              </div>
+              <div className="flex-grow flex justify-end">
                 <CloseOutlined
                   onClick={() => {
                     setIsEditing(false);
-                    setValue("address", initialValues.address);
-                    setValue("birth", initialValues.birth);
-                    setValue("phone", initialValues.phone);
-                    setValue("mail", initialValues.mail);
+                    setValue("address", profile.address);
+                    setValue("dateOfBirth", profile.dateOfBirth);
+                    setValue("phoneNumber", profile.phoneNumber);
+                    setValue("email", profile.email);
+                    scrollToTop();
                   }}
                 />
-              ) : (
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between">
+              <div className="flex-grow"></div>
+              <div className="text-base font-semibold sm:ml-7">
+                Thông tin cá nhân
+              </div>
+              <div className="flex-grow flex justify-end">
                 <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      <MoreOutlined />
-                    </Menu.Button>
-                  </div>
+                  <Menu.Button className="group inline-flex items-center justify-center font-medium p-1 text-gray-700 hover:text-gray-900">
+                    <MoreOutlined className="text-xl" />
+                  </Menu.Button>
 
                   <Transition
                     as={Fragment}
@@ -166,113 +227,147 @@ export default function ProfilePage() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-              )}
+              </div>
             </div>
-            <FormProvider {...methods}>
-              <form
-                className="grid grid-cols-6 gap-4"
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <div className="col-span-6">
+          )}
+          <FormProvider {...methods}>
+            <form
+              className="mx-auto mt-2 max-w-xl"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <div className="overflow-y-auto p-2">
+                <div className="flex justify-center items-center w-full">
                   {!isEditing ? (
                     <img
                       className="h-25 w-25 rounded-full border border-gray-400"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={methods.getValues("avatarUrl")}
                       alt=""
                     />
                   ) : (
-                    <ComUpImgOne onChange={onChange} required />
+                    <div className="flex flex-col sm:justify-center gap-2 sm:items-center">
+                      <ComUpImgOne
+                        imgUrl={methods.getValues("avatarUrl")}
+                        onChange={onChange}
+                      />
+                      <span className="text-xs text-gray-400">
+                        Bấm vào ảnh để thay đổi ảnh đại diện
+                      </span>
+                    </div>
                   )}
                 </div>
+                <div
+                  className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
+                  // style={{ height: "65vh" }}
+                >
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComInput
+                        placeholder="Nhập họ và tên"
+                        label="Họ và tên"
+                        type="text"
+                        // maxLength={10}
+                        {...register("fullName")}
+                        disabled={isEditing}
+                        readOnly={!isEditing}
+                      />
+                    </div>
+                  </div>
 
-                <div className="col-span-3">
-                  <ComInput
-                    placeholder="Nhập họ và tên"
-                    label="Họ và tên"
-                    type="text"
-                    // maxLength={10}
-                    {...register("fullname")}
-                    required
-                    disabled={isEditing}
-                    readOnly={!isEditing}
-                  />
-                </div>
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComDatePicker
+                        label="Ngày sinh"
+                        {...register("dateOfBirth")}
+                        disabled={isEditing}
+                        inputReadOnly={!isEditing}
+                        open={isEditing}
+                      />
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <div className="mt-2.5">
+                      <ComInput
+                        placeholder="Nhập email"
+                        label="Email"
+                        type="text"
+                        {...register("email")}
+                        readOnly={!isEditing}
+                        required={isEditing}
+                      />
+                    </div>
+                  </div>
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComInput
+                        placeholder="Nhập số điện thoại"
+                        label="Số điện thoại"
+                        type="numbers"
+                        maxLength={10}
+                        {...register("phoneNumber")}
+                        disabled={isEditing}
+                        readOnly={!isEditing}
+                      />
+                    </div>
+                  </div>
 
-                <div className="col-span-3">
-                  <ComDatePicker
-                    label="Ngày sinh"
-                    required
-                    disabledDate={disabledDate}
-                    {...register("birth")}
-                    disabled={isEditing}
-                    inputReadOnly={!isEditing}
-                    open={isEditing}
-                  />
-                </div>
-                <div className="col-span-3">
-                  <ComInput
-                    placeholder="Nhập số điện thoại"
-                    label="Số điện thoại"
-                    type="numbers"
-                    maxLength={10}
-                    {...register("phone")}
-                    readOnly={!isEditing}
-                  />
-                </div>
-                <div className="col-span-3">
-                  <ComInput
-                    placeholder="Nhập email"
-                    label="Email"
-                    type="text"
-                    {...register("mail")}
-                    readOnly={!isEditing}
-                  />
-                </div>
-                <div className="col-span-3">
-                  <ComInput
-                    placeholder="Nhập số Cccd/Cmnd"
-                    label="Cccd"
-                    type="numbers"
-                    maxLength={12}
-                    {...register("cccd")}
-                    disabled={isEditing}
-                    readOnly={!isEditing}
-                  />
-                </div>
-                <div className="col-span-6">
-                  <ComInput
-                    placeholder="Nhập địa chỉ"
-                    label="Địa chỉ"
-                    type="text"
-                    {...register("address")}
-                    readOnly={!isEditing}
-                  />
+                  <div className="sm:col-span-1">
+                    <div className="mt-2.5">
+                      <ComInput
+                        placeholder="Nhập số Cccd/Cmnd"
+                        label="Cccd"
+                        type="numbers"
+                        maxLength={12}
+                        {...register("cccd")}
+                        disabled={isEditing}
+                        readOnly={!isEditing}
+                      />
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <div className="mt-2.5">
+                      <ComInput
+                        placeholder="Nhập địa chỉ"
+                        label="Địa chỉ"
+                        type="text"
+                        {...register("address")}
+                        readOnly={!isEditing}
+                        required={isEditing}
+                      />
+                    </div>
+                  </div>
                 </div>
                 {!isEditing ? (
-                  <></>
+                  <div></div>
                 ) : (
-                  <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
-                    <ComButton htmlType="submit" type="primary">
-                      Cập nhật
-                    </ComButton>
+                  <div className="flex flex-col lg:flex-row md:justify-between text-center mt-3 gap-4">
+                    <div className="lg:order-2">
+                      <ComButton htmlType="submit" type="primary">
+                        Cập nhật
+                      </ComButton>
+                    </div>
+                    <div className="lg:order-1">
+                      <ComButton
+                        className="bg-slate-200 border-slate-100"
+                        onClick={() => {
+                          setIsEditing(false);
+                          setValue("address", profile.address);
+                          setValue("dateOfBirth", profile.dateOfBirth);
+                          setValue("phoneNumber", profile.phoneNumber);
+                          setValue("email", profile.email);
+                          scrollToTop();
+                        }}
+                      >
+                        Hủy
+                      </ComButton>
+                    </div>
                   </div>
                 )}
-              </form>
-            </FormProvider>
-          </div>
-        </div>
-        <div className="flex flex-col justify-between border border-fade p-3 rounded-md col-span-1">
-          <div>
-            <div className="text-center border-b-2 border-gray-300 text-base font-semibold">
-              Xin chào! Gia Thành
-            </div>
-            <div className="text-base text-center text-gray-500">
-              Cống hiến hết mình
-            </div>
-          </div>
-          <img src={doctor} alt="" className="h-fit" />
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </div>
+
       <Modal
         title="Xác nhận cập nhật"
         open={isConfirmationModalVisible}
@@ -283,6 +378,6 @@ export default function ProfilePage() {
       >
         <p>Bạn có chắc chắn muốn cập nhật thông tin không?</p>
       </Modal>
-    </div>
+    </>
   );
 }

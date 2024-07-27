@@ -59,7 +59,7 @@ export default function ComHeaderAdmin({ children }) {
   const navigate = useNavigate();
   useEffect(() => {
     setActiveCategory(currentPath);
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(
@@ -92,7 +92,7 @@ export default function ComHeaderAdmin({ children }) {
     <div className="bg-[#f9fafb] flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar ">
         <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
-          <div className="text-white px-10 py-4 text-center text-3xl">
+          <div className="text-white px-10 py-4 text-center text-base font-bold">
             CareConnect
           </div>
           <div className="text-white flex flex-col gap-5">
@@ -121,7 +121,7 @@ export default function ComHeaderAdmin({ children }) {
                 <h1
                   className={`${
                     category?.href === activeCategory ? "text-[#0F296D]" : ""
-                  } font-bold text-base`}
+                  } font-normal text-sm`}
                 >
                   {category.name}
                 </h1>
@@ -195,9 +195,9 @@ export default function ComHeaderAdmin({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
-        <Affix offsetTop={0} className="w-full ">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 z-20">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-3">
+        <Affix offsetTop={0} className="w-full">
+          <div className="bg-white flex items-center justify-between border-b border-gray-200 z-20">
+            <h1 className="flex text-xl font-bold tracking-tight text-gray-900 px-3 h-14 items-center">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
@@ -206,16 +206,16 @@ export default function ComHeaderAdmin({ children }) {
               <Space size="large">
                 <Badge count={0} overflowCount={9}>
                   <BellOutlined
-                    style={{ fontSize: "30px" }}
+                    style={{ fontSize: "20px" }}
                     onClick={() => navigate("/admin/notification")}
                   />
                 </Badge>
-                <div className="text-lg">Xin chào! Gia Thành</div>
+                <div className="text-base">Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="h-11 w-11 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                    <Menu.Button className="h-5 w-5 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                       <img
-                        className="h-11 w-11 rounded-full border border-gray-400"
+                        className="h-5 w-5 rounded-full border border-gray-400"
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                         alt=""
                       />
@@ -267,11 +267,11 @@ export default function ComHeaderAdmin({ children }) {
 
         <section
           aria-labelledby="products-heading"
-          className="px-4 pt-2 sm:px-6 lg:px-8 "
+          className="px-4 py-2 sm:px-6 lg:px-8"
         >
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
             <div className="lg:col-span-6  h-full w-full">
-              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
+              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)] ml-3 mb-3">
                 {/* {user?.role === "admin" ? (
                   children
                 ) : (

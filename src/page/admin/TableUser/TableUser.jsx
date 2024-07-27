@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import {  Tables } from "./Table";
+import { Tables } from "./Table";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -22,7 +22,7 @@ function TableUser() {
     setSelectedCardIndex(index);
   };
   return (
-    <div>
+    <div className="pt-6 px-10 pb-1 border border-slate-200 rounded-md mt-4 shadow-xl bg-white">
       {/* <div className="grid grid-cols-3 gap-4 pb-4">
         {cardData.map((card, index) => (
           <ComCard
@@ -34,9 +34,17 @@ function TableUser() {
         ))}
       </div> */}
       <div className="flex justify-end pb-2">
-        <div><ComButton onClick={modal.handleOpen}>Tạo mới</ComButton></div>
+        <div>
+          <ComButton onClick={modal.handleOpen} className="text-base font-bold">
+            Tạo
+          </ComButton>
+        </div>
       </div>
-      <ComModal width={800} isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+      <ComModal
+        width={800}
+        isOpen={modal?.isModalOpen}
+        onClose={modal?.handleClose}
+      >
         <CreateUser
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
