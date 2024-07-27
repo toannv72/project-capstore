@@ -86,7 +86,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
           })
           .catch((e) => {
             console.log(e);
-            // set các trường hợp lỗi api 
+            // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
@@ -112,7 +112,6 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
     setImages([]);
   }, [selectedUser]);
 
-
   const onChange = (data) => {
     const selectedImages = data;
 
@@ -124,33 +123,33 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
     // setFileList(data);
   };
   return (
-    <div>
-      <div className="p-4 bg-white ">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa người dùng
-        </h2>
-        <FormProvider {...methods}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mx-auto mt-2 max-w-xl "
-          >
-            <div className=" overflow-y-auto p-2">
-              <div
-                className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-                // style={{ height: "65vh" }}
-              >
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Họ và Tên"}
-                      placeholder={"Vui lòng nhập Họ và Tên"}
-                      {...register("fullName")}
-                      required
-                    />
-                  </div>
+    <div className="p-4 bg-white font-sans">
+      <h2 className="text-base font-semibold text-gray-800 mb-4">
+        Chỉnh sửa người dùng
+      </h2>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mx-auto mt-2 max-w-xl "
+        >
+          <div className=" overflow-y-auto p-2">
+            <div
+              className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
+              // style={{ height: "65vh" }}
+            >
+              <div className="sm:col-span-2">
+                <div className="">
+                  <ComInput
+                    type="text"
+                    label={"Họ và Tên"}
+                    placeholder={"Vui lòng nhập Họ và Tên"}
+                    className="text-sm font-normal"
+                    {...register("fullName")}
+                    required
+                  />
                 </div>
-                {/* <div className="sm:col-span-1">
+              </div>
+              {/* <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
@@ -161,104 +160,107 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                     />
                   </div>
                 </div> */}
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
-                      {...register("cccd")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComDatePicker
-                      type="numbers"
-                      disabledDate={DateOfBirth}
-                      label={"Ngày tháng năm sinh"}
-                      placeholder={"VD:17-12-2000"}
-                      {...register("dateOfBirth")}
-                      // required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      style={{
-                        width: "100%",
-                      }}
-                      label="Chọn giới tính"
-                      placeholder="Giới tính"
-                      onChangeValue={(e, value) => {
-                        if (value.length === 0) {
-                          setValue("gender", null, { shouldValidate: true });
-                        } else {
-                          setValue("gender", value, { shouldValidate: true });
-                        }
-                      }}
-                      // value={selectedUser}
-                      value={watch("gender")}
-                      mode="default"
-                      options={[
-                        {
-                          value: "Male",
-                          label: `Nam`,
-                        },
-                        {
-                          value: "Female",
-                          label: `Nữ`,
-                        },
-                      ]}
-                      required
-                      {...register("gender")}
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Gmail"}
-                      placeholder={"Vui lòng nhập Gmail"}
-                      {...register("email")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Địa chỉ"}
-                      placeholder={"Vui lòng nhập Địa chỉ"}
-                      {...register("address")}
-                      required
-                    />
-                  </div>
+              <div className="sm:col-span-1">
+                <div className="">
+                  <ComInput
+                    type="numbers"
+                    label={"Số CMND hoặc CCCD "}
+                    className="text-sm"
+                    placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                    {...register("cccd")}
+                    required
+                  />
                 </div>
               </div>
+              <div className="sm:col-span-1">
+                <div className="">
+                  <ComDatePicker
+                    disabledDate={DateOfBirth}
+                    label={"Ngày tháng năm sinh"}
+                    className="text-sm"
+                    placeholder={"VD:17-12-2000"}
+                    {...register("dateOfBirth")}
+                    // required
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <div className="">
+                  <ComSelect
+                    style={{
+                      width: "100%",
+                    }}
+                    className="text-sm"
+                    label="Chọn giới tính"
+                    placeholder="Giới tính"
+                    onChangeValue={(e, value) => {
+                      if (value.length === 0) {
+                        setValue("gender", null, { shouldValidate: true });
+                      } else {
+                        setValue("gender", value, { shouldValidate: true });
+                      }
+                    }}
+                    // value={selectedUser}
+                    value={watch("gender")}
+                    mode="default"
+                    options={[
+                      {
+                        value: "Male",
+                        label: `Nam`,
+                      },
+                      {
+                        value: "Female",
+                        label: `Nữ`,
+                      },
+                    ]}
+                    required
+                    {...register("gender")}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <div className="">
+                  <ComInput
+                    type="text"
+                    label={"Email"}
+                    className="text-sm"
+                    placeholder={"Vui lòng nhập Email"}
+                    {...register("email")}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2">
+                <div className="mt-2">
+                  <ComInput
+                    type="text"
+                    label={"Địa chỉ"}
+                    className="text-sm"
+                    placeholder={"Vui lòng nhập Địa chỉ"}
+                    {...register("address")}
+                    required
+                  />
+                </div>
+              </div>
+              <ComUpImgOne
+                imgUrl={selectedUser.avatarUrl}
+                onChange={onChange}
+                label={"Hình ảnh"}
+              />
             </div>
-            <ComUpImgOne
-              imgUrl={selectedUser.avatarUrl}
-              onChange={onChange}
-              label={"Hình ảnh"}
-            />
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                type="primary"
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Chỉnh sửa
-              </ComButton>
-            </div>
-          </form>
-        </FormProvider>
-      </div>
+          </div>
+
+          <div className="mt-10">
+            <ComButton
+              htmlType="submit"
+              type="primary"
+              className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Chỉnh sửa
+            </ComButton>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 }

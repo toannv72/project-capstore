@@ -37,15 +37,15 @@ const ComDatePicker = forwardRef(
     const inputId = uuidv4();
 
     const handleChange = (date, dateString) => {
-        const formattedDate = dayjs(dateString, format).format("YYYY-MM-DD");
-        setValue(name, formattedDate);
-        onChangeValue?.(name, formattedDate);
+      const formattedDate = dayjs(dateString, format).format("YYYY-MM-DD");
+      setValue(name, formattedDate);
+      onChangeValue?.(name, formattedDate);
     };
     return (
       <>
         <div className={`${className}`}>
           {label && (
-            <div className="mb-4 flex justify-between">
+            <div className="mb-1 flex justify-between">
               <label htmlFor={inputId} className="text-paragraph font-bold">
                 {label}
                 {required && (
@@ -60,7 +60,8 @@ const ComDatePicker = forwardRef(
             <DatePicker
               ref={ref}
               id={inputId}
-              size="large"
+              size="middle"
+              className="text-sm"
               value={valueWatch ? dayjs(valueWatch, "YYYY-MM-DD") : null}
               format={format}
               onChange={handleChange}

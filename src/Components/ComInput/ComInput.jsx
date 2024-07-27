@@ -125,7 +125,7 @@ const ComInput = React.forwardRef(
       <>
         <div className={`${className}`}>
           {label && (
-            <div className="mb-4 flex justify-between">
+            <div className="mb-1 flex justify-between">
               <label htmlFor={inputId} className="text-paragraph font-bold">
                 {label}
                 {required && (
@@ -141,7 +141,8 @@ const ComInput = React.forwardRef(
             <Input.Password
               id={inputId}
               ref={ref}
-              size="large"
+              className="text-sm"
+              size="middle"
               {...props}
               value={props.value ?? valueWatch}
               status={error && "error"}
@@ -163,8 +164,8 @@ const ComInput = React.forwardRef(
               }
               id={inputId}
               ref={ref}
-              className="12"
-              size="large"
+              className="text-sm h-8"
+              size="middle"
               {...props}
               value={props.value ?? valueWatch}
               status={error && "error"}

@@ -14,9 +14,7 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import {
-  DateOfLastDay,
-} from "../../../Components/ComDateDisabled/DateOfBirth";
+import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 
 export default function CreateContract({ onClose }) {
   const [image, setImages] = useState([]);
@@ -47,9 +45,7 @@ export default function CreateContract({ onClose }) {
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
-    values: {
-  
-    },
+    values: {},
   });
   const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
@@ -387,7 +383,6 @@ export default function CreateContract({ onClose }) {
                     name="contract"
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("content")}
-                    required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -404,19 +399,17 @@ export default function CreateContract({ onClose }) {
                     rows={5}
                     name="contract"
                     {...register("notes")}
-                    required
                   />
                 </div>
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <ComTextArea
                     label="Mô tả hợp đồng"
                     placeholder="Vui lòng nhập mô tả"
                     rows={5}
                     name="contract"
                     {...register("description")}
-                    required
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="mt-10">

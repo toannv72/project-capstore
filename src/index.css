@@ -1,14 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap');
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Public Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-right: var(--scrollbar-width);
 }
 
 code {
@@ -16,7 +16,7 @@ code {
     monospace;
 }
 :root {
-  --scrollbar-width: 12px; /* Độ rộng thanh cuộn */
+  --scrollbar-width: 7px; /* Độ rộng thanh cuộn */
   --scrollbar-height: 8px; /* Độ cao thanh cuộn (cho thanh cuộn ngang) */
   --scrollbar-thumb-color: #ccc; /* Màu nền của thanh trượt */
   --scrollbar-thumb-hover-color: #aaa; /* Màu nền khi hover */

@@ -1,6 +1,12 @@
 import { Skeleton, Spin, Table } from "antd";
 
-export default function ComTable({ x,columns, dataSource, loading, ...props }) {
+export default function ComTable({
+  x,
+  columns,
+  dataSource,
+  loading,
+  ...props
+}) {
   return (
     <>
       <Table

@@ -37,12 +37,12 @@ const subCategories = [
     href: "/admin/appointmentSchedule",
     icon: CalendarDaysIcon,
   },
-  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
   {
     name: "Danh sách gói dưỡng lão",
     href: "/admin/nursingPackage",
     icon: QueueListIcon,
   },
+  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
   { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
   // {
   //   name: "Trung tâm thông báo",
@@ -89,20 +89,20 @@ export default function ComHeaderAdmin({ children }) {
     }
   };
   return (
-    <div className="bg-[#f9fafb] flex">
+    <div className="bg-[#f9fafb] flex font-sans">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar ">
-        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
-          <div className="text-white px-10 py-4 text-center text-base font-bold">
+        <div className="bg-[#0F296D] h-screen w-[230px]  pr-2 overflow-y-auto pb-4">
+          <div className="text-white px-10 py-4 text-center text-base font-bold ">
             CareConnect
           </div>
-          <div className="text-white flex flex-col gap-5">
+          <div className="text-white flex flex-col gap-1">
             {subCategories.map((category) => (
               <Link
                 to={category.href}
                 key={category.name}
                 className={`${
                   category?.href === activeCategory
-                    ? "bg-white rounded-r-full"
+                    ? "bg-white rounded-r-full text-[#0F296D]"
                     : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
                 } p-3 flex items-center cursor-pointer`}
                 onClick={() => {
@@ -111,11 +111,11 @@ export default function ComHeaderAdmin({ children }) {
                 }}
               >
                 <category.icon
-                  className={`h-6 w-6 mr-2 ${
+                  className={`h-4 w-4 mr-2 ${
                     category?.href === activeCategory
                       ? "text-[#0F296D]"
                       : "text-white"
-                  }`}
+                  }hover:text-[#0F296D]`}
                   aria-hidden="true"
                 />
                 <h1
@@ -195,32 +195,30 @@ export default function ComHeaderAdmin({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
-        <Affix offsetTop={0} className="w-full">
+        <Affix offsetTop={0} className="w-full sticky top-0 z-30">
           <div className="bg-white flex items-center justify-between border-b border-gray-200 z-20">
-            <h1 className="flex text-xl font-bold tracking-tight text-gray-900 px-3 h-14 items-center">
+            <h1 className="flex text-base font-bold tracking-tight text-gray-900 px-3 h-14 items-center">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
 
             <div className="flex items-center">
               <Space size="large">
-                <Badge count={0} overflowCount={9}>
+                {/* <Badge count={0} overflowCount={9}>
                   <BellOutlined
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "16px" }}
                     onClick={() => navigate("/admin/notification")}
                   />
-                </Badge>
+                </Badge> */}
                 <div className="text-base">Gia Thành</div>
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className="h-5 w-5 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      <img
-                        className="h-5 w-5 rounded-full border border-gray-400"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
+                <Menu as="div" className="relative inline-block text-left h-7">
+                  <Menu.Button className="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900">
+                    <img
+                      className="h-7 w-7 rounded-full border border-gray-400 flex justify-center items-center"
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
+                    />
+                  </Menu.Button>
 
                   <Transition
                     as={Fragment}
@@ -270,8 +268,8 @@ export default function ComHeaderAdmin({ children }) {
           className="px-4 py-2 sm:px-6 lg:px-8"
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
-            <div className="lg:col-span-6  h-full w-full">
-              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)] ml-3 mb-3">
+            <div className="flex h-full w-full justify-center items-center lg:col-span-6 over">
+              <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)] mb-3 over">
                 {/* {user?.role === "admin" ? (
                   children
                 ) : (

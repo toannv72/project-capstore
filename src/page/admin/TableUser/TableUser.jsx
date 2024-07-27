@@ -33,9 +33,12 @@ function TableUser() {
           />
         ))}
       </div> */}
-      <div className="flex justify-end pb-2">
+      <div className="flex justify-end items-end pb-2">
         <div>
-          <ComButton onClick={modal.handleOpen} className="text-base font-bold">
+          <ComButton
+            onClick={modal.handleOpen}
+            className="w-25 h-auto text-base font-bold"
+          >
             Tạo
           </ComButton>
         </div>
