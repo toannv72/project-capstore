@@ -73,7 +73,7 @@ export const Tables = forwardRef((props, ref) => {
   ];
   const columns = [
     {
-      title: "Họ và tên người lớn tuổi",
+      title: "Họ và tên người cao tuổi",
       dataIndex: "name",
       width: 200,
       key: "name",
@@ -83,7 +83,7 @@ export const Tables = forwardRef((props, ref) => {
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
-      title: "Ảnh người lớn tuổi",
+      title: "Ảnh người cao tuổi",
       dataIndex: "imageUrl",
       key: "imageUrl",
       width: 120,
@@ -282,9 +282,13 @@ export const Tables = forwardRef((props, ref) => {
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}
       >
-        <DetailElder selectedData={selectedElder} />
+        <DetailElder
+          selectedData={selectedElder}
+          isOpenEdit={modalEdit.handleOpen}
+          onClose={modalDetailElder?.handleClose}
+        />
       </ComModal>
-      {/* chỉnh sửa người lớn tuổi */}
+      {/* chỉnh sửa người cao tuổi */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

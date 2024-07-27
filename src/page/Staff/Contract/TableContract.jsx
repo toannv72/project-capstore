@@ -60,7 +60,7 @@ export const TableContract = forwardRef((props, ref) => {
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
-      title: "Tên người lớn tuổi",
+      title: "Tên người cao tuổi",
       dataIndex: "elder.name",
       width: 150,
       key: "elder.name",

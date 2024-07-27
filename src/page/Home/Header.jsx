@@ -797,7 +797,7 @@ export default function Header() {
                               <img
                                 className="object-fit lazyload"
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZkAAAETAQMAAADeQOkzAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACVJREFUaN7twTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAK4GOO8AASXwK+wAAAAASUVORK5CYII="
-                                alt="người già "
+                                alt="người cao tuổi "
                                 data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
                                 decoding="async"
                                 data-eio-rwidth="409"
@@ -807,7 +807,7 @@ export default function Header() {
                                 <img
                                   className="object-fit"
                                   src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
-                                  alt="người già "
+                                  alt="người cao tuổi "
                                   data-eio="l"
                                 />
                               </noscript>
@@ -923,7 +923,7 @@ export default function Header() {
                               <img
                                 className="object-fit lazyload"
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqwAAAHIAQMAAACxgSqiAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAD1JREFUGBntwQENAAAAwiD7p34PBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAsBmvgAAXdMsXwAAAAASUVORK5CYII="
-                                alt="người già "
+                                alt="người cao tuổi "
                                 data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-490349156-684x456.jpg"
                                 decoding="async"
                                 data-eio-rwidth="684"
@@ -933,7 +933,7 @@ export default function Header() {
                                 <img
                                   className="object-fit"
                                   src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-490349156-684x456.jpg"
-                                  alt="người già "
+                                  alt="người cao tuổi "
                                   data-eio="l"
                                 />
                               </noscript>
@@ -1187,7 +1187,7 @@ export default function Header() {
                               <img
                                 className="object-fit lazyload"
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqwAAAHIAQMAAACxgSqiAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAD1JREFUGBntwQENAAAAwiD7p34PBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAsBmvgAAXdMsXwAAAAASUVORK5CYII="
-                                alt="người già"
+                                alt="người cao tuổi"
                                 data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-159302418-684x456.jpg"
                                 decoding="async"
                                 data-eio-rwidth="684"
@@ -1197,7 +1197,7 @@ export default function Header() {
                                 <img
                                   className="object-fit"
                                   src="https://www.careconnect.org.au/wp-content/uploads/2020/10/iStock-159302418-684x456.jpg"
-                                  alt="người già"
+                                  alt="người cao tuổi"
                                   data-eio="l"
                                 />
                               </noscript>
@@ -1314,7 +1314,7 @@ export default function Header() {
                 >
                   <img
                     src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                    alt="người già"
+                    alt="người cao tuổi"
                     data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
                     decoding="async"
                     className="lazyloaded"
@@ -1322,7 +1322,7 @@ export default function Header() {
                   <noscript>
                     <img
                       src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                      alt="người già"
+                      alt="người cao tuổi"
                       data-eio="l"
                     />
                   </noscript>
@@ -1370,7 +1370,7 @@ export default function Header() {
                           Close
                           <img
                             src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                            alt="người già"
+                            alt="người cao tuổi"
                             data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
                             decoding="async"
                             className="lazyload"
@@ -1378,7 +1378,7 @@ export default function Header() {
                           <noscript>
                             <img
                               src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
-                              alt="người già"
+                              alt="người cao tuổi"
                               data-eio="l"
                             />
                           </noscript>

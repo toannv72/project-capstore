@@ -11,7 +11,7 @@ import { BellOutlined, MenuOutlined } from "@ant-design/icons";
 import {
   BuildingOffice2Icon, // Quản lý viện (Ví dụ)
   UserIcon, // Quản lý khách hàng (Ví dụ)
-  UsersIcon, // Quản lý người lớn tuổi (Ví dụ)
+  UsersIcon, // Quản lý người cao tuổi (Ví dụ)
   BriefcaseIcon, // Quản lý nhân viên (Ví dụ)
   Cog6ToothIcon, // Quản lý tài khoản (Ví dụ)
   WrenchScrewdriverIcon, // Quản lý dịch vụ (Ví dụ)
@@ -31,7 +31,7 @@ const subCategories = [
   { name: "Phân công", href: "/staff/assignTask", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
   { name: "Khách hàng", href: "/staff/user", icon: UsersIcon },
-  { name: "Người lớn tuổi", href: "/staff/elder", icon: BriefcaseIcon },
+  { name: "Người cao tuổi", href: "/staff/elder", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
     href: "/staff/appointmentSchedule",
@@ -200,7 +200,7 @@ export default function ComHeaderStaff({ children }) {
         </Transition.Root>
         <Affix offsetTop={0} className="w-full">
           <div className="bg-white flex items-baseline justify-between border-b border-gray-200">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 px-3">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>

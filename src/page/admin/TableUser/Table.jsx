@@ -314,7 +314,7 @@ export const Tables = forwardRef((props, ref) => {
           onClose={modalDetailUser?.handleClose}
         />
       </ComModal>
-      {/* chi tiết của người già  */}
+      {/* chi tiết của người cao tuổi  */}
       <ComModal
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}

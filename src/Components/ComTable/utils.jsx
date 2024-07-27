@@ -283,6 +283,127 @@ const useColumnFilters = () => {
       );
     },
   });
+  function formatCurrency(number) {
+    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+    if (typeof number === "number") {
+      return number.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+    }
+  }
+
+
+  const handleKeyPress = (e) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    const char = String.fromCharCode(charCode);
+    if (!/[0-9]/.test(char)) {
+      e.preventDefault();
+    }
+  };
+
+  const formatNumber = (value) => {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const parseNumber = (value) => {
+    return value.replace(/,/g, "");
+  };
+
+  const handleInputChange = (e, setSelectedKeys, index, selectedKeys) => {
+    const value = e.target.value;
+    const parsedValue = parseNumber(value);
+    if (!isNaN(parsedValue)) {
+      const newValues = [...(selectedKeys[0] || ["", ""])];
+      newValues[index] = parsedValue;
+      setSelectedKeys([newValues]);
+    }
+  };
+
+  const getColumnPriceRangeProps = (dataIndex, title) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input.Group compact>
+          <Input
+            style={{ width: 100, textAlign: "center" }}
+            placeholder="Tối thiểu"
+            value={selectedKeys[0] ? formatNumber(selectedKeys[0][0]) : ""}
+            onChange={(e) =>
+              handleInputChange(e, setSelectedKeys, 0, selectedKeys)
+            }
+            onKeyPress={handleKeyPress}
+          />
+          <Input
+            style={{
+              width: 30,
+              borderLeft: 0,
+              pointerEvents: "none",
+              backgroundColor: "#fff",
+            }}
+            placeholder="~"
+            disabled
+          />
+          <Input
+            style={{ width: 100, textAlign: "center", borderLeft: 0 }}
+            placeholder="Tối đa"
+            value={selectedKeys[0] ? formatNumber(selectedKeys[0][1]) : ""}
+            onChange={(e) =>
+              handleInputChange(e, setSelectedKeys, 1, selectedKeys)
+            }
+            onKeyPress={handleKeyPress}
+          />
+        </Input.Group>
+        <Space style={{ marginTop: 8 }}>
+          <Button
+            type="dashed"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            <div className="justify-center flex">
+              <SearchOutlined />
+              Tìm kiếm
+            </div>
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Đặt lại
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Đóng
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined style={{ color: filtered ? "#de1818" : "#fff" }} />
+    ),
+    onFilter: (value, record) => {
+      if (!value.length) return true;
+      const recordPrice = record[dataIndex];
+      const [min, max] = value.map(parseNumber);
+      return (
+        (min ? recordPrice >= parseFloat(min) : true) &&
+        (max ? recordPrice <= parseFloat(max) : true)
+      );
+    },
+    render: (text) => formatNumber(text.toString()),
+  });
   return {
     getColumnSearchProps,
     getColumnApprox,
@@ -291,6 +412,7 @@ const useColumnFilters = () => {
     handleSearch,
     handleReset,
     getColumnApprox1,
+    getColumnPriceRangeProps,
   };
 };
 

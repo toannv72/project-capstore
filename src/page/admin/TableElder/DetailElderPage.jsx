@@ -57,7 +57,7 @@ export default function DetailElderPage() {
     }),
     // trường hợp đồng
     contractsInUse: yup.object({
-      name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+      name: yup.string().required("Vui lòng nhập số hợp đồng"),
       signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
       startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
@@ -110,7 +110,7 @@ export default function DetailElderPage() {
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
-              Thông tin người lớn tuổi
+              Thông tin người cao tuổi
             </h3>
           </div>
         </div>
@@ -207,8 +207,8 @@ export default function DetailElderPage() {
                     <div className="sm:col-span-1">
                       <ComInput
                         type="text"
-                        label="Tên hợp đồng"
-                        placeholder="Vui lòng nhập tên hợp đồng"
+                        label="Hợp đồng số"
+                        placeholder="Vui lòng nhập số hợp đồng"
                         readOnly
                         {...register("contractsInUse.name")}
                         required
@@ -256,7 +256,7 @@ export default function DetailElderPage() {
                         placeholder="Vui lòng nhập nội dung hợp đồng"
                         readOnly
                         {...register("contractsInUse.content")}
-                        required
+                        // required
                       />
                     </div>
                     {/* <div className="sm:col-span-2">
@@ -277,7 +277,7 @@ export default function DetailElderPage() {
                         rows={5}
                         readOnly
                         {...register("contractsInUse.notes")}
-                        required
+                        // required
                       />
                     </div>
                     <div className="sm:col-span-2">
@@ -288,7 +288,7 @@ export default function DetailElderPage() {
                         name="contractsInUse"
                         readOnly
                         {...register("contractsInUse.description")}
-                        required
+                        // required
                       />
                     </div>
                   </div>

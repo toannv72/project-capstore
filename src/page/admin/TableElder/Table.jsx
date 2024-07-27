@@ -43,7 +43,7 @@ export default function Table({ idElder }) {
   };
   const columns = [
     {
-      title: "Tên hợp đồng",
+      title: "Hợp đồng số",
       dataIndex: "name",
       width: 150,
       key: "name",
@@ -51,7 +51,7 @@ export default function Table({ idElder }) {
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
-      title: "Tên người lớn tuổi",
+      title: "Tên người cao tuổi",
       dataIndex: "elder.name",
       width: 150,
       key: "elder.name",
@@ -171,7 +171,7 @@ export default function Table({ idElder }) {
       >
         <DetailContract selectedUser={selectedUser} />
       </ComModal>
-      {/* chỉnh sửa người lớn tuổi */}
+      {/* chỉnh sửa người cao tuổi */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

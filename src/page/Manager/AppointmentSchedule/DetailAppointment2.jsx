@@ -27,7 +27,7 @@ export default function DetailAppointment2({
     <div>
       <div className="p-4 bg-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết lịch hẹn
+          Chi tiết lịch hẹn gia hạn hợp đồng
         </h2>
         <table className="w-full">
           <tbody>

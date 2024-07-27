@@ -37,7 +37,7 @@ export default function CreateContract({ onClose, tableRef ,userID}) {
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
     roomId: yup.string().required("Vui lòng chọn phòng"),
 
-    name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+    name: yup.string().required("Vui lòng nhập số hợp đồng"),
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
     startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
     endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
@@ -199,7 +199,9 @@ useEffect(() => {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -267,7 +269,9 @@ useEffect(() => {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -353,8 +357,8 @@ useEffect(() => {
                 <div className="sm:col-span-2">
                   <ComInput
                     type="text"
-                    label="Tên hợp đồng"
-                    placeholder="Vui lòng nhập tên hợp đồng"
+                    label="Hợp đồng số"
+                    placeholder="Vui lòng nhập số hợp đồng"
                     {...register("name")}
                     required
                   />
@@ -503,7 +507,7 @@ useEffect(() => {
                     rows={5}
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("content")}
-                    required
+                    // required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -519,7 +523,7 @@ useEffect(() => {
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
                     {...register("notes")}
-                    required
+                    // required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -528,7 +532,7 @@ useEffect(() => {
                     placeholder="Vui lòng nhập mô tả"
                     rows={5}
                     {...register("description")}
-                    required
+                    
                   />
                 </div>
               </div>

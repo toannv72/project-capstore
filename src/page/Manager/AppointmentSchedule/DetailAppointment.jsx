@@ -4,8 +4,9 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import ComButton from "../../../Components/ComButton/ComButton";
 import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
-import CreateElder from './CreateElder';
+import CreateElder from "./CreateElder";
 import { useModalState } from "../../../hooks/useModalState";
+import { useNotification } from "../../../Notification/Notification";
 
 export default function DetailAppointment({
   selectedData,
@@ -13,21 +14,29 @@ export default function DetailAppointment({
   onClose,
 }) {
   const modal = useModalState();
+  const { notificationApi } = useNotification();
 
   console.log("====================================");
   console.log(selectedData);
   console.log("====================================");
-  const update = () => {
-    // putData("/feedback", selectedData.id, {
-    //   ...selectedData,
-    //   status: "Pending",
-    // });
+  const update = (status) => {
+    putData("/appointments/ChangeStatus", selectedData.id, {
+      ...selectedData,
+      status: status,
+    }).then((e) => {
+      onClose()
+       notificationApi(
+         "success",
+         "Thành công",
+         "Cập nhật trạng thái thành công"
+       );
+    })
   };
   return (
     <div>
       <div className="p-4 bg-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết lịch hẹn
+          Chi tiết lịch hẹn thăm nuôi
         </h2>
         <table className="w-full">
           <tbody>
@@ -70,13 +79,21 @@ export default function DetailAppointment({
             </tr>
           </tbody>
         </table>
-        <div className="flex m-1 ">
+        <div className="flex m-1 gap-3">
           <ComButton
             onClick={() => {
-              modal?.handleOpen();
+              update("ComPleted");
             }}
           >
-            Tạo hợp đồng
+            Đã thăm nuôi
+          </ComButton>
+          <ComButton
+            className={" bg-red-600 "}
+            onClick={() => {
+              update("Cancelled");
+            }}
+          >
+            Hủy hẹn thăm nuôi
           </ComButton>
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>

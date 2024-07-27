@@ -4,8 +4,9 @@ import { ComLink } from "./../../../Components/ComLink/ComLink";
 import { useLocation } from "react-router-dom";
 import { getData } from "../../../api/api";
 import ErrorPage from "../../404/ErrorPage";
+import ComButton from "../../../Components/ComButton/ComButton";
 
-export default function DetailElder({ selectedData }) {
+export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
   const [data, setData] = useState({});
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -33,17 +34,13 @@ export default function DetailElder({ selectedData }) {
   }
 
   if (error) {
-    return (
-      <>
-        Người già này hiện không có
-      </>
-    );
+    return <>Người già này hiện không có</>;
   }
   return (
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết người người lớn tuổi
+          Chi tiết người người cao tuổi
         </h2>
         <table className="w-full">
           <tbody>
@@ -109,6 +106,23 @@ export default function DetailElder({ selectedData }) {
             Xem thêm
           </ComLink>
         </div>
+        {isOpenEdit ? (
+          <div className="mt-10">
+            <ComButton
+              onClick={() => {
+                onClose();
+                isOpenEdit();
+              }}
+              htmlType="submit"
+              type="primary"
+              className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Chỉnh sửa
+            </ComButton>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

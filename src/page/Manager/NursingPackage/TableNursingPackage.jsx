@@ -15,7 +15,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
   const table = useTableState();
   const [selectedData, setSelectedData] = useState(null);
   const modal = useModalState();
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getColumnPriceRangeProps } = useColumnSearch();
   const modalEdit = useModalState();
 
   function formatCurrency(number) {
@@ -68,6 +68,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
           <h1>{formatCurrency(record.price)}</h1>
         </div>
       ),
+      ...getColumnPriceRangeProps("price", "Giá Tiền"),
     },
     {
       title: "Số người 1 phòng",

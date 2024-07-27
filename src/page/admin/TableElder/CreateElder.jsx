@@ -106,7 +106,7 @@ export default function CreateElder({ onClose, tableRef }) {
     }),
     // trường hợp đồng
     contract: yup.object({
-      name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+      name: yup.string().required("Vui lòng nhập số hợp đồng"),
       signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
       startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
       endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
@@ -220,7 +220,7 @@ export default function CreateElder({ onClose, tableRef }) {
       return notificationApi(
         "error",
         "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh người lớn tuổi "
+        "Vui lòng chọn hình ảnh người cao tuổi "
       );
     }
     if (Array.isArray(image1) && image1.length === 0) {
@@ -234,7 +234,6 @@ export default function CreateElder({ onClose, tableRef }) {
         console.log(dataImg1);
         setValue("contract.images", convertUrlsToObjects(dataImg1));
         firebaseImg(image).then((dataImg) => {
-         
           postData("/elders", {
             ...data,
             imageUrl: dataImg,
@@ -287,7 +286,9 @@ export default function CreateElder({ onClose, tableRef }) {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -319,7 +320,9 @@ export default function CreateElder({ onClose, tableRef }) {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -354,7 +357,7 @@ export default function CreateElder({ onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-2">
-          Tạo mới người già
+          Tạo mới người cao tuổi
         </h2>
         <FormProvider {...methods}>
           <form
@@ -641,7 +644,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     name="contract"
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("contract.content")}
-                    required
+                    // required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -652,7 +655,7 @@ export default function CreateElder({ onClose, tableRef }) {
                   />
                 </div>
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
-                  Thông tin bệnh án
+                  Hồ sơ người cao tuổi
                 </h3>
 
                 <div className="sm:col-span-2">
@@ -754,7 +757,7 @@ export default function CreateElder({ onClose, tableRef }) {
             </div>
             <ComUpImgOne
               onChange={onChange}
-              label={"Hình ảnh người lớn tuổi"}
+              label={"Hình ảnh người cao tuổi"}
               required
             />
             <div className="mt-10">

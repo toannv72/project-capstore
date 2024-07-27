@@ -147,7 +147,7 @@ export default function Content() {
                   <img
                     className="tile-grid__image lazyloaded"
                     src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
-                    alt="người già"
+                    alt="người cao tuổi"
                     data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
                     decoding="async"
                     data-eio-rwidth="468"
@@ -157,7 +157,7 @@ export default function Content() {
                     <img
                       className="tile-grid__image"
                       src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_ChangeHCP-468x469.png"
-                      alt="người già"
+                      alt="người cao tuổi"
                       data-eio="l"
                     />
                   </noscript>
@@ -177,7 +177,7 @@ export default function Content() {
                   <img
                     className="tile-grid__image lazyloaded"
                     src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
-                    alt="người già"
+                    alt="người cao tuổi"
                     data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
                     decoding="async"
                     data-eio-rwidth="468"
@@ -187,7 +187,7 @@ export default function Content() {
                     <img
                       className="tile-grid__image"
                       src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Support_Icons_-_IndependentAdvice-468x468.png"
-                      alt="người già"
+                      alt="người cao tuổi"
                       data-eio="l"
                     />
                   </noscript>
@@ -207,7 +207,7 @@ export default function Content() {
                   <img
                     className="tile-grid__image lazyloaded"
                     src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
-                    alt="người già"
+                    alt="người cao tuổi"
                     data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
                     decoding="async"
                     data-eio-rwidth="468"
@@ -217,7 +217,7 @@ export default function Content() {
                     <img
                       className="tile-grid__image"
                       src="https://www.careconnect.org.au/wp-content/uploads/2022/12/Package_Icons_-_OHC-468x469.png"
-                      alt="người già"
+                      alt="người cao tuổi"
                       data-eio="l"
                     />
                   </noscript>
@@ -468,7 +468,7 @@ export default function Content() {
                   <div className="col-left__body">
                     <p className="tabbed-carousel__paragraph--lead">
                       Gói chăm sóc tại viện dưỡng lão là lựa chọn toàn diện,
-                      mang đến sự an tâm cho người lớn tuổi và gia đình. Chúng
+                      mang đến sự an tâm cho người cao tuổi và gia đình. Chúng
                       tôi cung cấp dịch vụ chăm sóc cá nhân, y tế, tinh thần và
                       môi trường sống ấm cúng, tiện nghi. Người nhà dễ dàng theo
                       dõi tình hình sức khỏe người thân qua ứng dụng, giúp kết
@@ -616,7 +616,7 @@ export default function Content() {
                         height="300"
                         src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                         className="card__image wp-post-image lazyautosizes ls-is-cached lazyloaded"
-                        alt="người già"
+                        alt="người cao tuổi"
                         decoding="async"
                         data-src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                         data-srcset="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png 300w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-468x468.png 468w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-684x684.png 684w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-768x768.png 768w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-1536x1536.png 1536w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-2048x2048.png 2048w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-125x125.png 125w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-545x545.png 545w, https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-1090x1090.png 1090w"
@@ -642,7 +642,7 @@ export default function Content() {
                           height="300"
                           src="https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png"
                           className="card__image wp-post-image"
-                          alt="người già"
+                          alt="người cao tuổi"
                           decoding="async"
                           srcSet="
                                   https://www.careconnect.org.au/wp-content/uploads/2024/06/social-tile-june-3-01-300x300.png    300w,

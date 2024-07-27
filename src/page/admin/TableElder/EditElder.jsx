@@ -61,7 +61,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
-    // thông tin bệnh án
+    // Hồ sơ người cao tuổi
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup
@@ -138,7 +138,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
           });
       });
     } else {
-      const dataPut = { ...data, imageUrl: selectedUser.imageUrl };
+      const dataPut = { ...data, imageUrl: selectedData.imageUrl };
       console.log(22222222,dataPut);
       putData(`/elders`, selectedData.id, dataPut)
         .then((e) => {
@@ -203,7 +203,9 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -220,7 +222,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa thông tin người già
+          Chỉnh sửa thông tin người cao tuổi
         </h2>
         <FormProvider {...methods}>
           <form
@@ -358,7 +360,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
 
                 {/* tạo bệnh án  */}
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
-                  Thông tin bệnh án
+                  Hồ sơ người cao tuổi
                 </h3>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">

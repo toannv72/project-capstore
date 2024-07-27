@@ -23,8 +23,8 @@ export default function TableServicePackage() {
   const modalDetail = useModalState();
   const [selectedData, setSelectedData] = useState(null);
   console.log(selectedData);
-  const { getColumnSearchProps } = useColumnSearch();
   const { notificationApi } = useNotification();
+  const { getColumnSearchProps, getColumnPriceRangeProps } = useColumnSearch();
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -74,6 +74,7 @@ export default function TableServicePackage() {
           <h1>{formatCurrency(record.price)}</h1>
         </div>
       ),
+      ...getColumnPriceRangeProps("price", "Giá Tiền"),
     },
     {
       title: "Thể loại dịch vụ",
@@ -118,7 +119,7 @@ export default function TableServicePackage() {
       width: 100,
       dataIndex: "registrationLimit",
       key: "registrationLimit",
-      sorter: (a, b) => a?.registrationLimit-(b?.registrationLimit),
+      sorter: (a, b) => a?.registrationLimit - b?.registrationLimit,
       render: (data) => (
         <div>
           <h1>{data === 0 ? "Không có" : data}</h1>

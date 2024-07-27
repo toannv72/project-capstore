@@ -37,7 +37,7 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
 
-    name: yup.string().required("Vui lòng nhập tên hợp đồng"),
+    name: yup.string().required("Vui lòng nhập số hợp đồng"),
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
     startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
     endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
@@ -235,7 +235,9 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -311,7 +313,9 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
         console.log(e?.data?.contends);
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Khu:${item.name}/Phòng:${item.name}`,
+          label: `Phòng:${item.name}
+          Khu:${item.name}
+          Số giường trống:${item.totalBed - item.totalElder}`,
         }));
         setDataRoom(dataForSelect);
       })
@@ -399,8 +403,8 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
                 <div className="sm:col-span-2">
                   <ComInput
                     type="text"
-                    label="Tên hợp đồng"
-                    placeholder="Vui lòng nhập tên hợp đồng"
+                    label="Hợp đồng số"
+                    placeholder="Vui lòng nhập số hợp đồng"
                     {...register("name")}
                     required
                   />

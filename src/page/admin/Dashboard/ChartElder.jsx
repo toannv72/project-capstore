@@ -76,7 +76,7 @@ const options = {
   },
 };
 
-const ChartTwo = () => {
+const ChartElder = () => {
   const [state, setState] = useState({
     series: [
       {
@@ -115,10 +115,9 @@ const ChartTwo = () => {
       setState({
         series: [
           {
-            name: "Người dùng",
-            data: userSeries,
+            name: "Người cao tuổi",
+            data: elderSeries,
           },
-        
         ],
       });
     });
@@ -128,7 +127,7 @@ const ChartTwo = () => {
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
-            Thống kê số lượng người dùng qua từng năm
+            Thống kê số lượng người cao tuổi qua từng năm
           </h4>
         </div>
         <div>
@@ -171,7 +170,7 @@ const ChartTwo = () => {
       </div>
 
       <div>
-        <div id="chartTwo" className="-ml-5 -mb-9">
+        <div id="ChartElder" className="-ml-5 -mb-9">
           <ReactApexChart
             options={options}
             series={state.series}
@@ -184,4 +183,4 @@ const ChartTwo = () => {
   );
 };
 
-export default ChartTwo;
+export default ChartElder;

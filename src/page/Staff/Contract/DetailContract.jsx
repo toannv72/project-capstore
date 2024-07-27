@@ -14,13 +14,13 @@ export default function DetailContract({ selectedUser }) {
           <tbody>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Tên hợp đồng:
+                Hợp đồng số:
               </td>
               <td className="px-4 py-2">{selectedUser?.name}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Tên người lớn tuổi:
+                Tên người cao tuổi:
               </td>
               <td className="px-4 py-2">{selectedUser?.elder?.name}</td>
             </tr>
