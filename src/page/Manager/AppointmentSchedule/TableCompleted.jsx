@@ -12,6 +12,7 @@ import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneC
 import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
+import DetailAppointment2 from "./DetailAppointment2";
 export default function TableCompleted() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -33,19 +34,6 @@ export default function TableCompleted() {
       render: (text, record) => text.fullName,
     },
 
-    // {
-    //   title: "Thời gian đăng ký",
-    //   width: 200,
-    //   dataIndex: "createdAt",
-    //   key: "createdAt",
-    //   sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-    //   ...getColumnApprox("createdAt", "Thời gian đăng ký"),
-    //   render: (_, render) => (
-    //     <div>
-    //       <ComDateConverter>{render?.createdAt}</ComDateConverter>
-    //     </div>
-    //   ),
-    // },
     {
       title: "Thời gian đến ",
       width: 200,
@@ -114,14 +102,15 @@ export default function TableCompleted() {
               modal?.handleOpen();
               setSelectedData(record);
             }}
-            // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+
+            excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
         </div>
       ),
     },
   ];
+
   useEffect(() => {
     table.handleOpenLoading();
     getData("/appointments?Type=ProcedureCompletion&SortDir=Desc")
@@ -138,7 +127,10 @@ export default function TableCompleted() {
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <DetailAppointment selectedData={selectedData} />
+        <DetailAppointment2
+          selectedData={selectedData}
+          onClose={modal?.handleClose}
+        />
       </ComModal>
     </div>
   );

@@ -115,7 +115,7 @@ export default function TableVisitation() {
               setSelectedData(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
         </div>
@@ -140,6 +140,7 @@ export default function TableVisitation() {
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
+        
         <DetailAppointment
           selectedData={selectedData}
           renderData={renderData}

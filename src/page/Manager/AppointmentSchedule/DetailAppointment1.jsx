@@ -4,14 +4,10 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import ComButton from "../../../Components/ComButton/ComButton";
 import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
-import CreateElder from './CreateElder';
+import CreateElder from "./CreateElder";
 import { useModalState } from "../../../hooks/useModalState";
 
-export default function DetailAppointment({
-  selectedData,
-  renderData,
-  onClose,
-}) {
+export default function DetailAppointment1({ selectedData, renderData, onClose }) {
   const modal = useModalState();
 
   console.log("====================================");

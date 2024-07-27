@@ -71,8 +71,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         .matches(weightRegex, "Cân nặng phải là số")
         .test(
           "min",
-          "Cân nặng phải lớn hơn 10",
-          (value) => parseFloat(value) > 10
+          "Cân nặng phải lớn hơn hoặc bằng 0",
+          (value) => parseFloat(value) >= 0
         )
         .test(
           "max",
@@ -85,8 +85,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         .required("Vui lòng nhập chiều cao")
         .test(
           "min",
-          "Chiều cao phải lớn hơn 20 cm",
-          (value) => parseFloat(value) > 20
+          "Chiều cao phải lớn hơn hoặc bằng 0 cm",
+          (value) => parseFloat(value) >= 0
         )
         .test(
           "max",
@@ -373,10 +373,48 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                 </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
-                    <ComInput
+                    <ComSelect
+                      size={"large"}
                       type="text"
                       label={"Nhóm máu"}
-                      placeholder={"Vui lòng nhập Nhóm máu"}
+                      style={{
+                        width: "100%",
+                      }}
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("medicalRecord.bloodType", null, {
+                            shouldValidate: true,
+                          });
+                        } else {
+                          setValue("medicalRecord.bloodType", value, {
+                            shouldValidate: true,
+                          });
+                        }
+                      }}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Chưa có",
+                          label: `Chưa có`,
+                        },
+                        {
+                          value: "A",
+                          label: `A`,
+                        },
+                        {
+                          value: "B",
+                          label: `B`,
+                        },
+                        {
+                          value: "AB",
+                          label: `AB`,
+                        },
+                        {
+                          value: "O",
+                          label: `O`,
+                        },
+                      ]}
+                      placeholder={"Vui lòng chọn nhóm máu"}
                       {...register("medicalRecord.bloodType")}
                       required
                     />

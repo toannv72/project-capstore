@@ -27,7 +27,7 @@ import {
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import moment from "moment";
 
-export default function CreateElder({ onClose, tableRef }) {
+export default function CreateElder({ onClose, tableRef, userID }) {
   const [image, setImages] = useState(null);
   const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
@@ -52,6 +52,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
     // phoneNumber: yup.string().required("Vui lòng nhập đủ họ và tên"),
     dateOfBirth: yup.string().required("Vui lòng nhập đủ ngày tháng năm sinh"),
+    nursingPackageId: yup.string().required("Vui lòng chọn gói"),
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
     gender: yup.string().required("Vui lòng chọn chọn giới tính"),
@@ -128,7 +129,11 @@ export default function CreateElder({ onClose, tableRef }) {
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
   }
-  // console.log(watch);
+  useEffect(() => {
+    setValue("userId", userID);
+    setSelectedUser(userID);
+    return () => {};
+  }, [userID]);
   const disabledDateEnd = (current) => {
     const oneMonths = moment().add(0, "months");
     const tenYearsLater = moment().add(10, "years");
@@ -234,19 +239,13 @@ export default function CreateElder({ onClose, tableRef }) {
         console.log(dataImg1);
         setValue("contract.images", convertUrlsToObjects(dataImg1));
         firebaseImg(image).then((dataImg) => {
-         
           postData("/elders", {
             ...data,
             imageUrl: dataImg,
           })
             .then((e) => {
               notificationApi("success", "tạo thành công", "đã tạo");
-              setTimeout(() => {
-                if (tableRef.current) {
-                  // Kiểm tra xem ref đã được gắn chưa
-                  tableRef?.current.reloadData();
-                }
-              }, 100);
+              setTimeout(() => {}, 100);
               onClose();
             })
             .catch((error) => {
@@ -408,30 +407,6 @@ export default function CreateElder({ onClose, tableRef }) {
                       style={{
                         width: "100%",
                       }}
-                      label="Chọn người thân"
-                      placeholder="Người thân"
-                      onChangeValue={handleChange}
-                      value={selectedUser}
-                      filterOption={(inputValue, option) =>
-                        option.searchString
-                          ?.toLowerCase()
-                          ?.includes(inputValue?.toLowerCase())
-                      }
-                      showSearch
-                      mode="default"
-                      options={dataUser}
-                      required
-                      {...register("userId")}
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      style={{
-                        width: "100%",
-                      }}
                       label="Chọn giới tính"
                       placeholder="Giới tính"
                       onChangeValue={(e, value) => {
@@ -458,6 +433,32 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn người thân"
+                      placeholder="Người thân"
+                      onChangeValue={handleChange}
+                      value={selectedUser}
+                      filterOption={(inputValue, option) =>
+                        option.searchString
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
+                      }
+                      showSearch
+                      mode="default"
+                      open={false}
+                      options={dataUser}
+                      required
+                      {...register("userId")}
+                    />
+                  </div>
+                </div>
+
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComSelect

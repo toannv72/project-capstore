@@ -4,10 +4,10 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import ComButton from "../../../Components/ComButton/ComButton";
 import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
-import CreateElder from './CreateElder';
+import CreateContract from './CreateContract';
 import { useModalState } from "../../../hooks/useModalState";
 
-export default function DetailAppointment({
+export default function DetailAppointment2({
   selectedData,
   renderData,
   onClose,
@@ -76,20 +76,19 @@ export default function DetailAppointment({
               modal?.handleOpen();
             }}
           >
-            Tạo hợp đồng
+            Gia hạn hợp đồng
           </ComButton>
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
           </ComButton>
         </div>
       </div>
-
       <ComModal
         width={800}
         isOpen={modal?.isModalOpen}
         onClose={modal?.handleClose}
       >
-        <CreateElder
+        <CreateContract
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
           userID={selectedData.user.id}

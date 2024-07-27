@@ -193,7 +193,7 @@ export const TableContract = forwardRef((props, ref) => {
       >
         <DetailContract selectedUser={selectedUser} />
       </ComModal>
-      {/* chỉnh sửa người lớn tuổi */}
+      {/* Gia hạn */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

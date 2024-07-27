@@ -12,6 +12,7 @@ import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneC
 import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
+import DetailAppointment1 from './DetailAppointment1';
 export default function TableExtend() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -115,7 +116,7 @@ export default function TableExtend() {
               setSelectedData(record);
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
         </div>
@@ -137,7 +138,11 @@ export default function TableExtend() {
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <DetailAppointment selectedData={selectedData} />
+        
+        <DetailAppointment1
+          selectedData={selectedData}
+          onClose={modal?.handleClose}
+        />
       </ComModal>
     </div>
   );

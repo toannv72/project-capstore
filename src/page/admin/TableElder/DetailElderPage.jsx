@@ -30,8 +30,8 @@ export default function DetailElderPage() {
         .matches(weightRegex, "Cân nặng phải là số")
         .test(
           "min",
-          "Cân nặng phải lớn hơn 10",
-          (value) => parseFloat(value) > 10
+          "Cân nặng phải lớn hơn hoặc bằng 0",
+          (value) => parseFloat(value) >= 0
         )
         .test(
           "max",
@@ -44,8 +44,8 @@ export default function DetailElderPage() {
         .required("Vui lòng nhập chiều cao")
         .test(
           "min",
-          "Chiều cao phải lớn hơn 20 cm",
-          (value) => parseFloat(value) > 20
+          "Chiều cao phải lớn hơn hoặc bằng 0 cm",
+          (value) => parseFloat(value) >= 0
         )
         .test(
           "max",

@@ -64,7 +64,7 @@ const ComUpImgOne = ({
           marginTop: 8,
         }}
       >
-        Upload
+        Hình ảnh
       </div>
     </button>
   );
