@@ -11,7 +11,7 @@ const daysOfWeek  = {
 };
 
 function ComWeekConverter({ children }) {
-  const vietnameseDay  = daysOfWeek[children] || children || "Không có"; // Kiểm tra và chuyển đổi ngày trong tuần
+  const vietnameseDay  = daysOfWeek[children] || children || " "; // Kiểm tra và chuyển đổi ngày trong tuần
   return <div>{vietnameseDay }</div>;
 }
 

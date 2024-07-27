@@ -10,7 +10,7 @@ function ComGenderConverter({ children }) {
       case "other":
         return "Khác";
       default:
-        return "Không xác định"; // Giá trị mặc định nếu không khớp
+        return " "; // Giá trị mặc định nếu không khớp
     }
   };
 

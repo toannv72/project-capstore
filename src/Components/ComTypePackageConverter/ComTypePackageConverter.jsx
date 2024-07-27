@@ -12,7 +12,7 @@ function ComTypePackageConverter({ children }) {
       case "AnyDay":
         return "Mọi ngày";
       default:
-        return "Không xác định"; // Giá trị mặc định nếu không khớp
+        return " "; // Giá trị mặc định nếu không khớp
     }
   };
 

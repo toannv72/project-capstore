@@ -14,7 +14,7 @@ function ComRoleConverter({ children }) {
       case "customer":
         return "Khách hàng";
       default:
-        return "Không xác định"; // Giá trị mặc định nếu không khớp
+        return " "; // Giá trị mặc định nếu không khớp
     }
   };
 
