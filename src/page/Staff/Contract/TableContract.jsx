@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
@@ -12,15 +17,20 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ContractExtension from "./ContractExtension";
 
-export default function TableContract() {
+export const TableContract = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
-
+  useImperativeHandle(ref, () => ({
+    reloadData,
+  }));
   useEffect(() => {
+    reloadData();
+  }, []);
+  const reloadData = () => {
     getData("/contract?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
@@ -29,8 +39,7 @@ export default function TableContract() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, []);
-
+  };
   const showModal = (record) => {
     modalDetail.handleOpen();
     setSelectedUser(record);
@@ -193,8 +202,9 @@ export default function TableContract() {
         <ContractExtension
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
+          reloadApi={reloadData}
         />
       </ComModal>
     </div>
   );
-}
+});

@@ -16,7 +16,7 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 
-export default function ContractExtension({ onClose, selectedUser }) {
+export default function ContractExtension({ onClose, selectedUser, reloadApi }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -24,17 +24,14 @@ export default function ContractExtension({ onClose, selectedUser }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const [selectedElders, setSelectedElders] = useState();
   const [selectedUsers, setSelectedUsers] = useState();
+  const [selectedTime, setSelectedTime] = useState();
 
   const [dataPackage, setDataPackage] = useState([]);
   const [dataUser, setDataUser] = useState([]);
   const [dataElders, setDataElders] = useState([]);
   const [endDate, setEndDate] = useState(false);
+  const [startDate, setStartDate] = useState(false);
 
-  const disabledDate = (current) => {
-    const yearsAgo120 = moment().subtract(120, "years");
-    const yearsLater120 = moment().add(120, "years");
-    return current && (current < yearsAgo120 || current > yearsLater120);
-  };
   const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
@@ -55,6 +52,66 @@ export default function ContractExtension({ onClose, selectedUser }) {
   });
   const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
+
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("endDate", null);
+    setTimeout(() => {
+      handleDurationChange(watch("time"));
+    }, 100);
+  }, [watch("startDate")]);
+
+  // useEffect(() => {
+  //   setStartDate((e) => !e);
+  //   setValue("startDate", null);
+  // }, [watch("signingDate")]);
+
+  const handleDurationChange = (value) => {
+    setValue("time", value);
+    setSelectedTime(value);
+    if (watch("startDate")) {
+      const startDate = new Date(watch("startDate"));
+      let endDate;
+
+      switch (value) {
+        case "0.5":
+          endDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
+          break;
+        case "1":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 1)
+          );
+          break;
+        case "2":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 2)
+          );
+          break;
+        case "3":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 3)
+          );
+          break;
+        case "5":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 5)
+          );
+          break;
+        case "10":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 10)
+          );
+          break;
+        default:
+          endDate = null;
+      }
+
+      if (endDate) {
+        setValue("endDate", endDate.toISOString().split("T")[0]);
+      }
+    }
+  };
+
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
   }
@@ -74,11 +131,11 @@ export default function ContractExtension({ onClose, selectedUser }) {
 
         postData("/contract", {
           ...data,
-          images:convertUrlsToObjects(dataImg1)
+          images: convertUrlsToObjects(dataImg1),
         })
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-
+            reloadApi();
             onClose();
           })
           .catch((error) => {
@@ -101,6 +158,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
   // tải lại thông tin khi chọn hợp đồng khác
   useEffect(() => {
     reloadData();
+    setSelectedTime("")
     setSelectedUsers(selectedUser.user.id);
     setSelectedElders(selectedUser.elder.id);
     setSelectedPackage(selectedUser.nursingPackage.id);
@@ -120,24 +178,21 @@ export default function ContractExtension({ onClose, selectedUser }) {
     setValue("userId", selectedUser.user.id, {
       shouldValidate: false,
     });
-     setValue("nursingPackageId", selectedUser.nursingPackage.id, {
-       shouldValidate: false,
-     });
-     setValue("roomId", selectedUser.elder.roomId, {
-       shouldValidate: false,
-     });
-      setValue("images", []);
+    setValue("nursingPackageId", selectedUser.nursingPackage.id, {
+      shouldValidate: false,
+    });
+    setValue("roomId", selectedUser.elder.roomId, {
+      shouldValidate: false,
+    });
+    setValue("images", []);
   }, [selectedUser]);
 
   const DateOfContract = (current) => {
     const rangeYears = 10;
-
     const minDate = moment().subtract(rangeYears, "years");
     const maxDate = moment().add(rangeYears, "years");
-
     const blockStartDate = moment(selectedUser.startDate);
     const blockEndDate = moment(selectedUser.endDate);
-
     return (
       current &&
       (current < minDate ||
@@ -160,10 +215,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
         (fixedFutureDate && current < fixedFutureDate))
     );
   };
-  useEffect(() => {
-    setEndDate((e) => !e);
-    setValue("endDate", null);
-  }, [watch("startDate")]);
+
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -392,7 +444,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     />
                   </div>
                 </div> */}
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày ký hợp đồng"
                     type="numbers"
@@ -404,10 +456,52 @@ export default function ContractExtension({ onClose, selectedUser }) {
                   />
                 </div>
                 <div className="sm:col-span-1">
+                  <ComSelect
+                    size={"large"}
+                    style={{
+                      width: "100%",
+                    }}
+                    label="Thời hạn hợp đồng"
+                    placeholder="Thời hạn"
+                    onChangeValue={(e, value) => {
+                      handleDurationChange(value);
+                    }}
+                    value={selectedTime}
+                    mode="default"
+                    options={[
+                      {
+                        value: "0.5",
+                        label: `6 tháng`,
+                      },
+                      {
+                        value: "1",
+                        label: `1 năm`,
+                      },
+                      {
+                        value: "2",
+                        label: `2 năm`,
+                      },
+                      {
+                        value: "3",
+                        label: `3 năm`,
+                      },
+                      {
+                        value: "5",
+                        label: `5 năm`,
+                      },
+                      {
+                        value: "10",
+                        label: `10 năm`,
+                      },
+                    ]}
+                    // required
+                    {...register("time")}
+                  />
+                </div>
+                <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày bắt đầu hợp đồng"
                     disabledDate={DateOfContract}
-                    name="contract"
                     placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
                     {...register("startDate")}
                     required
@@ -418,7 +512,6 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     <ComDatePicker
                       label="Ngày kết thúc hợp đồng"
                       disabledDate={disabledDateEnd}
-                      name="contract"
                       placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                       {...register("endDate")}
                       required
@@ -430,24 +523,13 @@ export default function ContractExtension({ onClose, selectedUser }) {
                     <ComDatePicker
                       label="Ngày kết thúc hợp đồng"
                       disabledDate={disabledDateEnd}
-                      name="contract"
                       placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                       {...register("endDate")}
                       required
                     />
                   </div>
                 )}
-                {/* <div className="sm:col-span-2">
-                  <ComTextArea
-                    type="text"
-                    label="Nội dung hợp đồng"
-                    rows={5}
-                    name="contract"
-                    placeholder="Vui lòng nhập nội dung hợp đồng"
-                    {...register("content")}
-                    required
-                  />
-                </div> */}
+
                 <div className="sm:col-span-2">
                   <ComUpImg
                     onChange={onChange}
@@ -483,7 +565,7 @@ export default function ContractExtension({ onClose, selectedUser }) {
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Gia hạn
               </ComButton>
             </div>
           </form>

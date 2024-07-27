@@ -14,11 +14,9 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import {
-  DateOfLastDay,
-} from "../../../Components/ComDateDisabled/DateOfBirth";
+import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 
-export default function CreateContract({ onClose }) {
+export default function CreateContract({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -29,6 +27,8 @@ export default function CreateContract({ onClose }) {
   const [dataUser, setDataUser] = useState([]);
   const [dataElders, setDataElders] = useState([]);
   const [endDate, setEndDate] = useState(false);
+  const [startDate, setStartDate] = useState(false);
+  const [selectedTime, setSelectedTime] = useState();
 
   const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
@@ -44,15 +44,93 @@ export default function CreateContract({ onClose }) {
     // notes: yup.string().required("Vui lòng nhập ghi chú"),
     // description: yup.string().required("Vui lòng nhập mô tả"),
   });
+    const methods = useForm({
+      resolver: yupResolver(CreateProductMessenger),
+      values: {},
+    });
+    const { handleSubmit, register, setFocus, watch, setError, setValue } =
+      methods;
+const disabledDateEnd = (current) => {
+  const oneMonths = moment().add(0, "months");
+  const tenYearsLater = moment().add(10, "years");
+  const startDate = watch("startDate");
+  const fixedFutureDate = startDate ? moment(startDate).add(1, "months") : null;
+  return (
+    current &&
+    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
+  );
+};
+const disabledDateStart = (current) => {
+  const oneMonths = moment().add(0, "months");
 
-  const methods = useForm({
-    resolver: yupResolver(CreateProductMessenger),
-    values: {
+  const tenYearsLater = moment().add(10, "years");
+  const startDate = watch("signingDate");
+  const fixedFutureDate = startDate ? moment(startDate).add(0, "months") : null;
+  return (
+    current &&
+    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
+  );
+};
+useEffect(() => {
+  setEndDate((e) => !e);
+  setValue("endDate", null);
+  setTimeout(() => {
+    handleDurationChange(watch("time"));
+  }, 100);
+}, [watch("startDate")]);
+
+useEffect(() => {
+  setStartDate((e) => !e);
+  setValue("startDate", null);
+}, [watch("signingDate")]);
+
+  const handleDurationChange = (value) => {
+    setValue("time", value);
+    setSelectedTime(value);
+    if (watch("startDate")) {
+      const startDate = new Date(watch("startDate"));
+      let endDate;
+
+      switch (value) {
+        case "0.5":
+          endDate = new Date(startDate.setMonth(startDate.getMonth() + 6));
+          break;
+        case "1":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 1)
+          );
+          break;
+        case "2":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 2)
+          );
+          break;
+        case "3":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 3)
+          );
+          break;
+        case "5":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 5)
+          );
+          break;
+        case "10":
+          endDate = new Date(
+            startDate.setFullYear(startDate.getFullYear() + 10)
+          );
+          break;
+        default:
+          endDate = null;
+      }
+
+      if (endDate) {
+        setValue("endDate", endDate.toISOString().split("T")[0]);
+      }
+    }
+  };
   
-    },
-  });
-  const { handleSubmit, register, setFocus, watch, setError, setValue } =
-    methods;
+
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
   }
@@ -69,13 +147,19 @@ export default function CreateContract({ onClose }) {
       firebaseImgs(image).then((dataImg1) => {
         console.log(dataImg1);
         setValue("images", convertUrlsToObjects(dataImg1));
-
-        postData("/contract", {
+        const datapost = {
           ...data,
-        })
+          images: convertUrlsToObjects(dataImg1),
+        };
+        postData("/contract", datapost)
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-
+            setTimeout(() => {
+              if (tableRef.current) {
+                // Kiểm tra xem ref đã được gắn chưa
+                tableRef?.current.reloadData();
+              }
+            }, 100);
             onClose();
           })
           .catch((error) => {
@@ -90,33 +174,8 @@ export default function CreateContract({ onClose }) {
     reloadData();
   }, []);
 
-  const DateOfContract = (current) => {
-    const rangeYears = 10;
 
-    const minDate = moment().subtract(rangeYears, "years");
-    const maxDate = moment().add(rangeYears, "years");
 
-    return current && (current < minDate || current > maxDate);
-  };
-
-  const disabledDateEnd = (current) => {
-    const oneMonths = moment().add(1, "months");
-    const tenYearsLater = moment().add(10, "years");
-    const startDate = watch("startDate");
-    const fixedFutureDate = startDate
-      ? moment(startDate).add(1, "months")
-      : null;
-    return (
-      current &&
-      (current < oneMonths ||
-        current > tenYearsLater ||
-        (fixedFutureDate && current < fixedFutureDate))
-    );
-  };
-  useEffect(() => {
-    setEndDate((e) => !e);
-    setValue("endDate", null);
-  }, [watch("startDate")]);
   const reloadData = () => {
     getData("/users?SortDir=Desc")
       .then((e) => {
@@ -334,7 +393,7 @@ export default function CreateContract({ onClose }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <ComDatePicker
                     label="Ngày ký hợp đồng"
                     type="numbers"
@@ -346,21 +405,75 @@ export default function CreateContract({ onClose }) {
                   />
                 </div>
                 <div className="sm:col-span-1">
-                  <ComDatePicker
-                    label="Ngày bắt đầu hợp đồng"
-                    disabledDate={DateOfContract}
-                    name="contract"
-                    placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                    {...register("startDate")}
-                    required
+                  <ComSelect
+                    size={"large"}
+                    style={{
+                      width: "100%",
+                    }}
+                    label="Thời hạn hợp đồng"
+                    placeholder="Thời hạn"
+                    onChangeValue={(e, value) => {
+                      handleDurationChange(value);
+                    }}
+                    value={selectedTime}
+                    mode="default"
+                    options={[
+                      {
+                        value: "0.5",
+                        label: `6 tháng`,
+                      },
+                      {
+                        value: "1",
+                        label: `1 năm`,
+                      },
+                      {
+                        value: "2",
+                        label: `2 năm`,
+                      },
+                      {
+                        value: "3",
+                        label: `3 năm`,
+                      },
+                      {
+                        value: "5",
+                        label: `5 năm`,
+                      },
+                      {
+                        value: "10",
+                        label: `10 năm`,
+                      },
+                    ]}
+                    // required
+                    {...register("time")}
                   />
                 </div>
+                {startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("startDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {!startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("startDate")}
+                      required
+                    />
+                  </div>
+                )}
                 {!endDate || (
                   <div className="sm:col-span-1">
                     <ComDatePicker
                       label="Ngày kết thúc hợp đồng"
                       disabledDate={disabledDateEnd}
-                      name="contract"
                       placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                       {...register("endDate")}
                       required
@@ -372,7 +485,6 @@ export default function CreateContract({ onClose }) {
                     <ComDatePicker
                       label="Ngày kết thúc hợp đồng"
                       disabledDate={disabledDateEnd}
-                      name="contract"
                       placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
                       {...register("endDate")}
                       required
@@ -384,7 +496,6 @@ export default function CreateContract({ onClose }) {
                     type="text"
                     label="Nội dung hợp đồng"
                     rows={5}
-                    name="contract"
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("content")}
                     required
@@ -402,7 +513,6 @@ export default function CreateContract({ onClose }) {
                     label="Ghi chú hợp đồng"
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
-                    name="contract"
                     {...register("notes")}
                     required
                   />
@@ -412,7 +522,6 @@ export default function CreateContract({ onClose }) {
                     label="Mô tả hợp đồng"
                     placeholder="Vui lòng nhập mô tả"
                     rows={5}
-                    name="contract"
                     {...register("description")}
                     required
                   />

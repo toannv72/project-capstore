@@ -170,7 +170,6 @@ export default function CreateElder({ onClose, tableRef }) {
   }, [watch("contract.signingDate")]);
 
   const handleDurationChange = (value) => {
-    console.log(value);
     setValue("time", value);
     if (watch("contract.startDate")) {
       const startDate = new Date(watch("contract.startDate"));
@@ -235,10 +234,7 @@ export default function CreateElder({ onClose, tableRef }) {
         console.log(dataImg1);
         setValue("contract.images", convertUrlsToObjects(dataImg1));
         firebaseImg(image).then((dataImg) => {
-          console.log("ảnh nè : ", {
-            ...data,
-            imageUrl: dataImg,
-          });
+         
           postData("/elders", {
             ...data,
             imageUrl: dataImg,

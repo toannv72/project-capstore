@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import Table from "./TableContract";
+
 import ComButton from "../../../Components/ComButton/ComButton";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateContract from "./CreateContract";
 import { useModalState } from "../../../hooks/useModalState";
+import { TableContract } from "./TableContract";
 export default function Contract() {
+    const tableRef = useRef(null);
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const modal = useModalState();
   const cardData = [
@@ -33,7 +35,9 @@ export default function Contract() {
         ))}
       </div> */}
       <div className="flex  justify-end pb-2">
-      <div>  <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton></div>
+        <div>
+          <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+        </div>
       </div>
       <ComModal
         width={800}
@@ -43,9 +47,10 @@ export default function Contract() {
         <CreateContract
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
+          tableRef={tableRef}
         />
       </ComModal>
-      <Table />
+      <TableContract ref={tableRef} />
     </div>
   );
 }
