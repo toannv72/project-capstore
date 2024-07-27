@@ -42,13 +42,13 @@ export const TableRooms = forwardRef((props, ref) => {
   const expandedRowRender = (record) => {
    const columns = [
      {
-       title: "Tên người bệnh",
+       title: "Tên người cao tuổi",
        fixed: "left",
        width: 100,
        dataIndex: "name",
        key: "name",
        sorter: (a, b) => a.name?.localeCompare(b.name),
-       ...getColumnSearchProps("name", "Tên người bệnh"),
+       ...getColumnSearchProps("name", "Tên người cao tuổi"),
      },
      {
        title: "Giới tính",

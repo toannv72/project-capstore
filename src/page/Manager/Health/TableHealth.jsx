@@ -11,6 +11,7 @@ import { useModalState } from "./../../../hooks/useModalState";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailEmployee from "./../../admin/TableEmployee/DetailEmployee";
+import DetailElder from "../../admin/TableElder/DetailElder";
 
 export const TableHealth = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -113,16 +114,26 @@ export const TableHealth = forwardRef((props, ref) => {
       />
     );
   };
+  const modalDetailElder = useModalState();
 
+  const showModaldElder = (record) => {
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
+  };
   const columns = [
     {
-      title: "Tên người bệnh",
+      title: "Tên người cao tuổi",
       width: 100,
       fixed: "left",
       dataIndex: "elder.name",
       key: "elder.name",
       sorter: (a, b) => a?.elder?.name?.localeCompare(b?.elder?.name),
-      ...getColumnSearchProps("elder.name", "Tên người bệnh"),
+      ...getColumnSearchProps("elder.name", "Tên người cao tuổi"),
+      render: (user, data) => (
+        <Typography.Link onClick={() => showModaldElder(data.elder)}>
+          {data?.elder?.name}
+        </Typography.Link>
+      ),
     },
 
     {
@@ -217,6 +228,13 @@ export const TableHealth = forwardRef((props, ref) => {
         onClose={modalDetailEmployee?.handleClose}
       >
         <DetailEmployee selectedData={selectedElder} />
+      </ComModal>
+
+      <ComModal
+        isOpen={modalDetailElder?.isModalOpen}
+        onClose={modalDetailElder?.handleClose}
+      >
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
     </div>
   );
