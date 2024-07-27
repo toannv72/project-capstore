@@ -6,6 +6,7 @@ import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateContract from './CreateContract';
 import { useModalState } from "../../../hooks/useModalState";
+import { useNotification } from "../../../Notification/Notification";
 
 export default function DetailAppointment2({
   selectedData,
@@ -13,15 +14,23 @@ export default function DetailAppointment2({
   onClose,
 }) {
   const modal = useModalState();
+  const { notificationApi } = useNotification();
 
   console.log("====================================");
   console.log(selectedData);
   console.log("====================================");
-  const update = () => {
-    // putData("/feedback", selectedData.id, {
-    //   ...selectedData,
-    //   status: "Pending",
-    // });
+  const update = (status) => {
+    putData("/appointments/ChangeStatus", selectedData.id, {
+      ...selectedData,
+      status: status,
+    }).then((e) => {
+      onClose();
+      notificationApi(
+        "success",
+        "Thành công",
+        "Cập nhật trạng thái thành công"
+      );
+    });
   };
   return (
     <div>
@@ -70,7 +79,7 @@ export default function DetailAppointment2({
             </tr>
           </tbody>
         </table>
-        <div className="flex m-1 ">
+        <div className="flex m-1  gap-1 ">
           <ComButton
             onClick={() => {
               modal?.handleOpen();
@@ -78,6 +87,22 @@ export default function DetailAppointment2({
           >
             Gia hạn hợp đồng
           </ComButton>
+          <ComButton
+            onClick={() => {
+              update("ComPleted");
+            }}
+          >
+            Đã hoàn thành
+          </ComButton>
+          <ComButton
+            className={" bg-red-600 "}
+            onClick={() => {
+              update("Cancelled");
+            }}
+          >
+            Hủy hẹn 
+          </ComButton>
+
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
           </ComButton>

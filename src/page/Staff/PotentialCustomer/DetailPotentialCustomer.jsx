@@ -33,16 +33,16 @@ export default function DetailPotentialCustomer({ onClose, selectedUser }) {
     // call
     putData("/potential-customer", selectedUser?.id, {
       ...selectedUser,
-      status: "Closed",
+      status: "Contacted",
     })
       .then((e) => {
         console.log(e);
-        onClose()
-         notificationApi(
-           "success",
-           "cập nhật thành công",
-           "đã cập nhật phiếu đăng ký!"
-         );
+        onClose();
+        notificationApi(
+          "success",
+          "cập nhật thành công",
+          "đã cập nhật phiếu đăng ký!"
+        );
       })
       .catch((error) => {
         console.log(error);

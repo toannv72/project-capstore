@@ -6,18 +6,27 @@ import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateElder from "./CreateElder";
 import { useModalState } from "../../../hooks/useModalState";
+import { useNotification } from "../../../Notification/Notification";
 
 export default function DetailAppointment1({ selectedData, renderData, onClose }) {
   const modal = useModalState();
+  const { notificationApi } = useNotification();
 
   console.log("====================================");
   console.log(selectedData);
   console.log("====================================");
-  const update = () => {
-    // putData("/feedback", selectedData.id, {
-    //   ...selectedData,
-    //   status: "Pending",
-    // });
+  const update = (status) => {
+    putData("/appointments/ChangeStatus", selectedData.id, {
+      ...selectedData,
+      status: status,
+    }).then((e) => {
+      onClose();
+      notificationApi(
+        "success",
+        "Thành công",
+        "Cập nhật trạng thái thành công"
+      );
+    });
   };
   return (
     <div>
@@ -66,13 +75,28 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
             </tr>
           </tbody>
         </table>
-        <div className="flex m-1 ">
+        <div className="flex m-1 gap-3 ">
           <ComButton
             onClick={() => {
               modal?.handleOpen();
             }}
           >
             Tạo hợp đồng
+          </ComButton>
+          <ComButton
+            onClick={() => {
+              update("ComPleted");
+            }}
+          >
+            Đã hoàn thành
+          </ComButton>
+          <ComButton
+            className={" bg-red-600 "}
+            onClick={() => {
+              update("Cancelled");
+            }}
+          >
+            Hủy hẹn
           </ComButton>
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>

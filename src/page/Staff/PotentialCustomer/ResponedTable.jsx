@@ -98,9 +98,9 @@ export default function ResponedTable({ ref }) {
 
   useEffect(() => {
     reloadData();
-  }, []);
+  }, [modalDetail.isModalOpen]);
   const reloadData = () => {
-    getData("/potential-customer?SortDir=Desc")
+    getData("/potential-customer?Status=Contacted&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

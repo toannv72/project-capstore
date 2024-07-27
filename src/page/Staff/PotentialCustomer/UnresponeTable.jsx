@@ -101,16 +101,16 @@ export default function UnresponeTable({ ref }) {
 
   useEffect(() => {
     reloadData();
-  }, []);
+  }, [modalDetail.isModalOpen]);
   const reloadData = () => {
-    getData("/potential-customer?SortDir=Desc")
+    getData("/potential-customer?Status=New&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
       })
       .catch((error) => {
         console.error("Error fetching items:", error);
-           table.handleCloseLoading();
+        table.handleCloseLoading();
       });
   };
   useImperativeHandle(ref, () => ({
