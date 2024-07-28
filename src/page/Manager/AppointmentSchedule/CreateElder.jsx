@@ -287,13 +287,14 @@ export default function CreateElder({ onClose, tableRef, userID }) {
     getData(`/room?NursingPackageId=${value}`)
       .then((e) => {
         console.log(e?.data?.contends);
-        const dataForSelect = e?.data?.contends.map((item) => ({
-          value: item.id,
-          label: `Phòng:${item.name}
+        const dataForSelect = e?.data?.contends
+          .filter((item) => item.totalBed - item.totalElder > 0)
+          .map((item) => ({
+            value: item.id,
+            label: `Phòng:${item.name}
           Khu:${item.name}
           Số giường trống:${item.totalBed - item.totalElder}`,
-          disabled: item.totalBed - item.totalElder === 0,
-        }));
+          }));
         setDataRoom(dataForSelect);
       })
       .catch((error) => {
@@ -322,12 +323,14 @@ export default function CreateElder({ onClose, tableRef, userID }) {
     getData(`/room?NursingPackageId=${selectedPackage}`)
       .then((e) => {
         console.log(e?.data?.contends);
-        const dataForSelect = e?.data?.contends.map((item) => ({
-          value: item.id,
-          label: `Phòng:${item.name}
+        const dataForSelect = e?.data?.contends
+          .filter((item) => item.totalBed - item.totalElder > 0)
+          .map((item) => ({
+            value: item.id,
+            label: `Phòng:${item.name}
           Khu:${item.name}
           Số giường trống:${item.totalBed - item.totalElder}`,
-        }));
+          }));
         setDataRoom(dataForSelect);
       })
       .catch((error) => {
