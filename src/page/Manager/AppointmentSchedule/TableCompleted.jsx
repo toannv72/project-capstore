@@ -13,6 +13,7 @@ import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConv
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
 import DetailAppointment2 from "./DetailAppointment2";
+import ComStatusConverter from "../../../Components/ComStatusConverter/ComStatusConverter";
 export default function TableCompleted() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -33,7 +34,22 @@ export default function TableCompleted() {
       ...getColumnSearchProps("user.fullName", "Người đăng ký"),
       render: (text, record) => text.fullName,
     },
-
+    {
+      title: "Trạng thái",
+      width: 150,
+      fixed: "left",
+      dataIndex: "status",
+      key: "status",
+      sorter: (a, b) => a.status?.localeCompare(b.status),
+      // ...getColumnSearchProps("status", "Người đăng ký"),
+      filters: [
+        { text: "Đang chờ", value: "Pending" },
+        { text: "Đã hoàn thành", value: "Completed" },
+        { text: "Đã hủy", value: "Cancelled" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
+    },
     {
       title: "Thời gian đến ",
       width: 200,
@@ -102,7 +118,6 @@ export default function TableCompleted() {
               modal?.handleOpen();
               setSelectedData(record);
             }}
-
             excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
@@ -110,19 +125,22 @@ export default function TableCompleted() {
       ),
     },
   ];
+    useEffect(() => {
+      renderData();
+    }, []);
+    const renderData = () => {
+     table.handleOpenLoading();
+     getData("/appointments?Type=ProcedureCompletion&SortDir=Desc")
+       .then((e) => {
+         setData(e?.data?.contends);
+         console.log(e.data);
+         table.handleCloseLoading();
+       })
+       .catch((error) => {
+         console.error("Error fetching items:", error);
+       });
+    };
 
-  useEffect(() => {
-    table.handleOpenLoading();
-    getData("/appointments?Type=ProcedureCompletion&SortDir=Desc")
-      .then((e) => {
-        setData(e?.data?.contends);
-        console.log(e.data);
-        table.handleCloseLoading();
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-  }, []);
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
@@ -130,6 +148,7 @@ export default function TableCompleted() {
         <DetailAppointment2
           selectedData={selectedData}
           onClose={modal?.handleClose}
+          renderData={renderData}
         />
       </ComModal>
     </div>

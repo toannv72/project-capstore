@@ -13,6 +13,7 @@ import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConv
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
 import DetailAppointment1 from './DetailAppointment1';
+import ComStatusConverter from "../../../Components/ComStatusConverter/ComStatusConverter";
 export default function TableExtend() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -33,7 +34,22 @@ export default function TableExtend() {
       ...getColumnSearchProps("user.fullName", "Người đăng ký"),
       render: (text, record) => text.fullName,
     },
-
+    {
+      title: "Trạng thái",
+      width: 150,
+      fixed: "left",
+      dataIndex: "status",
+      key: "status",
+      sorter: (a, b) => a.status?.localeCompare(b.status),
+      // ...getColumnSearchProps("status", "Người đăng ký"),
+      filters: [
+        { text: "Đang chờ", value: "Pending" },
+        { text: "Đã hoàn thành", value: "Completed" },
+        { text: "Đã hủy", value: "Cancelled" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
+    },
     {
       title: "Thời gian đăng ký",
       width: 200,
@@ -123,25 +139,29 @@ export default function TableExtend() {
       ),
     },
   ];
-  useEffect(() => {
-    table.handleOpenLoading();
-    getData("/appointments?Type=Consultation&SortDir=Desc")
-      .then((e) => {
-        setData(e?.data?.contends);
-        table.handleCloseLoading();
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-  }, []);
+    useEffect(() => {
+      renderData();
+    }, []);
+    const renderData = () => {
+      table.handleOpenLoading();
+      getData("/appointments?Type=Consultation&SortDir=Desc")
+        .then((e) => {
+          setData(e?.data?.contends);
+          table.handleCloseLoading();
+        })
+        .catch((error) => {
+          console.error("Error fetching items:", error);
+        });
+    };
+
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        
         <DetailAppointment1
           selectedData={selectedData}
           onClose={modal?.handleClose}
+          renderData={renderData}
         />
       </ComModal>
     </div>

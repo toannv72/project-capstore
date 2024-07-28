@@ -30,6 +30,7 @@ export default function DetailAppointment2({
         "Thành công",
         "Cập nhật trạng thái thành công"
       );
+      renderData()
     });
   };
   return (

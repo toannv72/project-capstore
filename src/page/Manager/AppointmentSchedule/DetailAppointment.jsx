@@ -7,6 +7,9 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import CreateElder from "./CreateElder";
 import { useModalState } from "../../../hooks/useModalState";
 import { useNotification } from "../../../Notification/Notification";
+import { Card } from "antd";
+import { ComLink } from "../../../Components/ComLink/ComLink";
+import { useLocation } from "react-router-dom";
 
 export default function DetailAppointment({
   selectedData,
@@ -15,6 +18,7 @@ export default function DetailAppointment({
 }) {
   const modal = useModalState();
   const { notificationApi } = useNotification();
+  const location = useLocation();
 
   console.log("====================================");
   console.log(selectedData);
@@ -24,77 +28,138 @@ export default function DetailAppointment({
       ...selectedData,
       status: status,
     }).then((e) => {
-      onClose()
-       notificationApi(
-         "success",
-         "Thành công",
-         "Cập nhật trạng thái thành công"
-       );
-    })
+      onClose();
+      renderData();
+      notificationApi(
+        "success",
+        "Thành công",
+        "Cập nhật trạng thái thành công"
+      );
+    });
   };
+    function getRoleFromPath(pathname) {
+      const parts = pathname.split("/");
+      return parts[1];
+    }
   return (
     <div>
       <div className="p-4 bg-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Chi tiết lịch hẹn thăm nuôi
         </h2>
-        <table className="w-full">
+        <table className="w-full mb-4">
           <tbody>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Người đăng ký:
-              </td>
-              <td className="px-4 py-2">{selectedData?.user?.fullName}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Địa chỉ:</td>
-              <td className="px-4 py-2">{selectedData?.user?.address}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Email:</td>
-              <td className="px-4 py-2">{selectedData?.user?.email}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Số điện thoại:
-              </td>
-              <td className="px-4 py-2">{selectedData?.user?.phoneNumber}</td>
-            </tr>
-
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Loại hẹn:</td>
-              <td className="px-4 py-2">{selectedData?.type}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Gói điều dưỡng:
-              </td>
-              <td className="px-4 py-2">
-                {selectedData?.nursingPackage?.name ?? "Không có"}
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Ghi chú:</td>
-              <td className="px-4 py-2">{selectedData?.notes ?? "Không có"}</td>
-            </tr>
+            <Card className=" mb-4 flex flex-col items-center">
+              <tr className="border-b w-full">
+                <td className="px-4 py-2 text-gray-600 font-medium text-2xl">
+                  Người đăng ký
+                </td>
+                <td className="px-4 py-2 "></td>
+              </tr>{" "}
+              <tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">
+                 Họ và tên:
+                </td>
+                <td className="px-4 py-2">{selectedData?.user?.fullName}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">
+                  Địa chỉ:
+                </td>
+                <td className="px-4 py-2">{selectedData?.user?.address}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">Email:</td>
+                <td className="px-4 py-2">{selectedData?.user?.email}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">
+                  Số điện thoại:
+                </td>
+                <td className="px-4 py-2">{selectedData?.user?.phoneNumber}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">
+                  Ghi chú:
+                </td>
+                <td className="px-4 py-2">
+                  {selectedData?.notes ?? "Không có"}
+                </td>
+              </tr>
+            </Card>
+            <div className="flex flex-col gap-4">
+              {selectedData.elders.map((data, index) => (
+                <Card key={index} className=" mb-4 flex flex-col items-center">
+                  <tr className="border-b w-full">
+                    <td className="px-4 py-2 text-gray-600 font-medium text-2xl">
+                      Người cao tuổi {index + 1}
+                    </td>
+                    <td className="px-4 py-2 "></td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-2 text-gray-600 font-medium">
+                      Họ và tên:
+                    </td>
+                    <td className="px-4 py-2">{data.name}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-2 text-gray-600 font-medium">
+                      Ngày tháng năm sinh:
+                    </td>
+                    <td className="px-4 py-2">
+                      <ComDateConverter>{data.dateOfBirth}</ComDateConverter>
+                    </td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-2 text-gray-600 font-medium">
+                      Phòng:
+                    </td>
+                    <td className="px-4 py-2">{data.room?.name}</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-2 text-gray-600 font-medium">
+                      Loại phòng:
+                    </td>
+                    <td className="px-4 py-2">{data.room?.type}</td>
+                  </tr>
+                  <div className="flex items-center justify-center">
+                    <ComLink
+                      to={`/${getRoleFromPath(location.pathname)}/elder/${
+                        data?.id
+                      }`}
+                    >
+                      Xem thêm
+                    </ComLink>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </tbody>
         </table>
+
         <div className="flex m-1 gap-3">
-          <ComButton
-            onClick={() => {
-              update("ComPleted");
-            }}
-          >
-            Đã thăm nuôi
-          </ComButton>
-          <ComButton
-            className={" bg-red-600 "}
-            onClick={() => {
-              update("Cancelled");
-            }}
-          >
-            Hủy hẹn thăm nuôi
-          </ComButton>
+          {selectedData.status === "Pending" ? (
+            <>
+              {" "}
+              <ComButton
+                onClick={() => {
+                  update("ComPleted");
+                }}
+              >
+                Đã thăm nuôi
+              </ComButton>
+              <ComButton
+                className={" bg-red-600 "}
+                onClick={() => {
+                  update("Cancelled");
+                }}
+              >
+                Hủy hẹn thăm nuôi
+              </ComButton>
+            </>
+          ) : (
+            <></>
+          )}
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
           </ComButton>

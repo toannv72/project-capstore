@@ -26,6 +26,8 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
         "Thành công",
         "Cập nhật trạng thái thành công"
       );
+      renderData();
+
     });
   };
   return (
@@ -57,10 +59,10 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
               <td className="px-4 py-2">{selectedData?.user?.phoneNumber}</td>
             </tr>
 
-            <tr className="border-b">
+            {/* <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Loại hẹn:</td>
               <td className="px-4 py-2">{selectedData?.type}</td>
-            </tr>
+            </tr> */}
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Gói điều dưỡng:

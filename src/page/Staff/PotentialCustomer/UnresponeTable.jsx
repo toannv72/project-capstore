@@ -37,18 +37,18 @@ export default function UnresponeTable({ ref }) {
       key: "phoneNumber",
       ...getColumnSearchProps("phoneNumber", "Số điện thoại"),
     },
-    {
-      title: "Thời gian tạo",
-      width: 50,
-      dataIndex: "createdAt",
-      key: "createdAt",
-      ...getColumnApprox("createdAt", "Thời gian tạo"),
-      render: (record) => (
-        <div>
-          <ComDateConverter>{record}</ComDateConverter>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Thời gian tạo",
+    //   width: 50,
+    //   dataIndex: "createdAt",
+    //   key: "createdAt",
+    //   ...getColumnApprox("createdAt", "Thời gian tạo"),
+    //   render: (record) => (
+    //     <div>
+    //       <ComDateConverter>{record}</ComDateConverter>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Email",
       width: 100,

@@ -12,6 +12,7 @@ import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneC
 import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
+import ComStatusConverter from "../../../Components/ComStatusConverter/ComStatusConverter";
 export default function TableVisitation() {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -32,20 +33,23 @@ export default function TableVisitation() {
       ...getColumnSearchProps("user.fullName", "Người đăng ký"),
       render: (text, record) => text.fullName,
     },
-
     {
-      title: "Thời gian đăng ký",
-      width: 200,
-      dataIndex: "createdAt",
-      key: "createdAt",
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.createdAt}</ComDateConverter>
-        </div>
-      ),
+      title: "Trạng thái",
+      width: 150,
+      fixed: "left",
+      dataIndex: "status",
+      key: "status",
+      sorter: (a, b) => a.status?.localeCompare(b.status),
+      // ...getColumnSearchProps("status", "Người đăng ký"),
+      filters: [
+        { text: "Đang chờ", value: "Pending" },
+        { text: "Đã hoàn thành", value: "Completed" },
+        { text: "Đã hủy", value: "Cancelled" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
     },
+
     {
       title: "Thời gian đến ",
       width: 200,
@@ -139,8 +143,7 @@ export default function TableVisitation() {
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        
+      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose} width={550}>
         <DetailAppointment
           selectedData={selectedData}
           renderData={renderData}
