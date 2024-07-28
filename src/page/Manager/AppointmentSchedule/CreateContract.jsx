@@ -16,7 +16,7 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 
-export default function CreateContract({ onClose, tableRef ,userID}) {
+export default function CreateContract({ onClose, tableRef, userID }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -45,53 +45,57 @@ export default function CreateContract({ onClose, tableRef ,userID}) {
     // notes: yup.string().required("Vui lòng nhập ghi chú"),
     // description: yup.string().required("Vui lòng nhập mô tả"),
   });
-    const methods = useForm({
-      resolver: yupResolver(CreateProductMessenger),
-      values: {},
-    });
-    const { handleSubmit, register, setFocus, watch, setError, setValue } =
+  const methods = useForm({
+    resolver: yupResolver(CreateProductMessenger),
+    values: {},
+  });
+  const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
-  
-  
-    useEffect(() => {
-      setValue("userId", userID);
-      setSelectedUser(userID);
-      handleChange(userID, userID);
-      return () => {};
-    }, [userID]);
-const disabledDateEnd = (current) => {
-  const oneMonths = moment().add(0, "months");
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("startDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(1, "months") : null;
-  return (
-    current &&
-    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
-  );
-};
-const disabledDateStart = (current) => {
-  const oneMonths = moment().add(0, "months");
 
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("signingDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(0, "months") : null;
-  return (
-    current &&
-    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
-  );
-};
-useEffect(() => {
-  setEndDate((e) => !e);
-  setValue("endDate", null);
-  setTimeout(() => {
-    handleDurationChange(watch("time"));
-  }, 100);
-}, [watch("startDate")]);
+  useEffect(() => {
+    setValue("userId", userID?.user?.id);
+    setSelectedUser(userID?.user?.id);
+    handleChange(1, userID?.user?.id);
+  }, [userID]);
+  const disabledDateEnd = (current) => {
+    const oneMonths = moment().add(0, "months");
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("startDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(1, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  const disabledDateStart = (current) => {
+    const oneMonths = moment().add(0, "months");
 
-useEffect(() => {
-  setStartDate((e) => !e);
-  setValue("startDate", null);
-}, [watch("signingDate")]);
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("signingDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(0, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("endDate", null);
+    setTimeout(() => {
+      handleDurationChange(watch("time"));
+    }, 100);
+  }, [watch("startDate")]);
+
+  useEffect(() => {
+    setStartDate((e) => !e);
+    setValue("startDate", null);
+  }, [watch("signingDate")]);
 
   const handleDurationChange = (value) => {
     setValue("time", value);
@@ -138,7 +142,6 @@ useEffect(() => {
       }
     }
   };
-  
 
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
@@ -163,7 +166,7 @@ useEffect(() => {
         postData("/contract", datapost)
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-      
+
             onClose();
           })
           .catch((error) => {
@@ -177,8 +180,6 @@ useEffect(() => {
   useEffect(() => {
     reloadData();
   }, []);
-
-
 
   const reloadData = () => {
     getData("/users?SortDir=Desc")
@@ -532,7 +533,6 @@ useEffect(() => {
                     placeholder="Vui lòng nhập mô tả"
                     rows={5}
                     {...register("description")}
-                    
                   />
                 </div>
               </div>

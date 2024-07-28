@@ -140,7 +140,6 @@ export default function DetailAppointment({
         <div className="flex m-1 gap-3">
           {selectedData.status === "Pending" ? (
             <>
-              {" "}
               <ComButton
                 onClick={() => {
                   update("ComPleted");
@@ -174,7 +173,7 @@ export default function DetailAppointment({
         <CreateElder
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
-          userID={selectedData.user.id}
+          userID={selectedData}
         />
       </ComModal>
     </div>

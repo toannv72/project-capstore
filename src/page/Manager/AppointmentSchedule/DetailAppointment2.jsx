@@ -4,7 +4,7 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import ComButton from "../../../Components/ComButton/ComButton";
 import { putData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
-import CreateContract from './CreateContract';
+import CreateContract from "./CreateContract";
 import { useModalState } from "../../../hooks/useModalState";
 import { useNotification } from "../../../Notification/Notification";
 
@@ -30,7 +30,7 @@ export default function DetailAppointment2({
         "Thành công",
         "Cập nhật trạng thái thành công"
       );
-      renderData()
+      renderData();
     });
   };
   return (
@@ -63,10 +63,6 @@ export default function DetailAppointment2({
             </tr>
 
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Loại hẹn:</td>
-              <td className="px-4 py-2">{selectedData?.type}</td>
-            </tr>
-            <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Gói điều dưỡng:
               </td>
@@ -81,29 +77,34 @@ export default function DetailAppointment2({
           </tbody>
         </table>
         <div className="flex m-1  gap-1 ">
-          <ComButton
-            onClick={() => {
-              modal?.handleOpen();
-            }}
-          >
-            Gia hạn hợp đồng
-          </ComButton>
-          <ComButton
-            onClick={() => {
-              update("ComPleted");
-            }}
-          >
-            Đã hoàn thành
-          </ComButton>
-          <ComButton
-            className={" bg-red-600 "}
-            onClick={() => {
-              update("Cancelled");
-            }}
-          >
-            Hủy hẹn 
-          </ComButton>
-
+          {selectedData.status === "Pending" ? (
+            <>
+              <ComButton
+                onClick={() => {
+                  modal?.handleOpen();
+                }}
+              >
+                Gia hạn hợp đồng
+              </ComButton>
+              <ComButton
+                onClick={() => {
+                  update("ComPleted");
+                }}
+              >
+                Đã hoàn thành
+              </ComButton>
+              <ComButton
+                className={" bg-red-600 "}
+                onClick={() => {
+                  update("Cancelled");
+                }}
+              >
+                Hủy hẹn
+              </ComButton>
+            </>
+          ) : (
+            <></>
+          )}
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
           </ComButton>
@@ -117,7 +118,7 @@ export default function DetailAppointment2({
         <CreateContract
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
-          userID={selectedData.user.id}
+          userID={selectedData}
         />
       </ComModal>
     </div>

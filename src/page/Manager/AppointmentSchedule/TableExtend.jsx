@@ -50,19 +50,19 @@ export default function TableExtend() {
       onFilter: (value, record) => record.status === value,
       render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
     },
-    {
-      title: "Thời gian đăng ký",
-      width: 200,
-      dataIndex: "createdAt",
-      key: "createdAt",
-      sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-      ...getColumnApprox("createdAt", "Thời gian đăng ký"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.createdAt}</ComDateConverter>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Thời gian đăng ký",
+    //   width: 200,
+    //   dataIndex: "createdAt",
+    //   key: "createdAt",
+    //   sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+    //   ...getColumnApprox("createdAt", "Thời gian đăng ký"),
+    //   render: (_, render) => (
+    //     <div>
+    //       <ComDateConverter>{render?.createdAt}</ComDateConverter>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Thời gian đến ",
       width: 200,

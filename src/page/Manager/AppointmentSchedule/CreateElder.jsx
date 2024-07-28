@@ -130,10 +130,13 @@ export default function CreateElder({ onClose, tableRef, userID }) {
     return urls.map((url) => ({ imageUrl: url }));
   }
   useEffect(() => {
-    setValue("userId", userID);
-    setSelectedUser(userID);
-    return () => {};
+    setValue("userId", userID?.user?.id);
+    setValue("nursingPackageId", userID?.nursingPackage?.id);
+    setSelectedUser(userID?.user?.id);
+    setSelectedPackage(userID?.nursingPackage?.id);
+    handleChange2(1, userID?.nursingPackage?.id);
   }, [userID]);
+  console.log(userID);
   const disabledDateEnd = (current) => {
     const oneMonths = moment().add(0, "months");
     const tenYearsLater = moment().add(10, "years");
@@ -289,6 +292,7 @@ export default function CreateElder({ onClose, tableRef, userID }) {
           label: `Phòng:${item.name}
           Khu:${item.name}
           Số giường trống:${item.totalBed - item.totalElder}`,
+          disabled: item.totalBed - item.totalElder === 0,
         }));
         setDataRoom(dataForSelect);
       })
@@ -453,7 +457,7 @@ export default function CreateElder({ onClose, tableRef, userID }) {
                           ?.toLowerCase()
                           ?.includes(inputValue?.toLowerCase())
                       }
-                      showSearch
+                      // showSearch
                       mode="default"
                       open={false}
                       options={dataUser}

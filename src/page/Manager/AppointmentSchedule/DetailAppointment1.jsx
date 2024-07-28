@@ -8,7 +8,11 @@ import CreateElder from "./CreateElder";
 import { useModalState } from "../../../hooks/useModalState";
 import { useNotification } from "../../../Notification/Notification";
 
-export default function DetailAppointment1({ selectedData, renderData, onClose }) {
+export default function DetailAppointment1({
+  selectedData,
+  renderData,
+  onClose,
+}) {
   const modal = useModalState();
   const { notificationApi } = useNotification();
 
@@ -27,7 +31,6 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
         "Cập nhật trạng thái thành công"
       );
       renderData();
-
     });
   };
   return (
@@ -78,28 +81,34 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
           </tbody>
         </table>
         <div className="flex m-1 gap-3 ">
-          <ComButton
-            onClick={() => {
-              modal?.handleOpen();
-            }}
-          >
-            Tạo hợp đồng
-          </ComButton>
-          <ComButton
-            onClick={() => {
-              update("ComPleted");
-            }}
-          >
-            Đã hoàn thành
-          </ComButton>
-          <ComButton
-            className={" bg-red-600 "}
-            onClick={() => {
-              update("Cancelled");
-            }}
-          >
-            Hủy hẹn
-          </ComButton>
+          {selectedData.status === "Pending" ? (
+            <>
+              <ComButton
+                onClick={() => {
+                  modal?.handleOpen();
+                }}
+              >
+                Tạo hợp đồng
+              </ComButton>
+              <ComButton
+                onClick={() => {
+                  update("ComPleted");
+                }}
+              >
+                Đã hoàn thành
+              </ComButton>
+              <ComButton
+                className={" bg-red-600 "}
+                onClick={() => {
+                  update("Cancelled");
+                }}
+              >
+                Hủy hẹn
+              </ComButton>
+            </>
+          ) : (
+            <></>
+          )}
           <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
           </ComButton>
@@ -114,7 +123,7 @@ export default function DetailAppointment1({ selectedData, renderData, onClose }
         <CreateElder
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
-          userID={selectedData.user.id}
+          userID={selectedData}
         />
       </ComModal>
     </div>
