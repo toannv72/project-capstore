@@ -1,21 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import TableCompleted from "./TableCompleted";
-import ComButton from "../../../Components/ComButton/ComButton";
-import { useModalState } from "../../../hooks/useModalState";
-import ComModal from "../../../Components/ComModal/ComModal";
-import CreateAll from "./CreateAll";
+import TableCompleted from "./TableProcedureCompletion";
+
 import TableVisitation from "./TableVisitation";
-import TableExtend from "./TableExtend";
+import TableExtend from "./TableConsultation";
+import TableCancel from "./TableCancel";
 
 function AppointmentSchedule() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const modal = useModalState();
+
   const cardData = [
     { title: "Lịch thăm nuôi", value: "10.678" },
     { title: "Lịch hoàn thiện thủ tục", value: "1.000" },
     { title: "Lịch gia hạn hợp đồng", value: "1.000" },
-    // { title: "Lịch hoàn thiện thủ tục", value: "1.000" },
+    { title: "Lịch hẹn hủy hợp đồng", value: "1.000" },
   ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
@@ -29,6 +27,8 @@ function AppointmentSchedule() {
 
       case 2:
         return <TableCompleted />;
+      case 3:
+        return <TableCancel />;
       default:
         break;
     }
@@ -36,7 +36,7 @@ function AppointmentSchedule() {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-4 pb-2">
+      <div className="grid grid-cols-4 gap-4 pb-2">
         {cardData.map((card, index) => (
           <ComCard
             key={index} // Sử dụng index làm key
@@ -50,9 +50,7 @@ function AppointmentSchedule() {
         <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
       </div> */}
       {viewTable()}
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <CreateAll isOpen={modal?.isModalOpen} onClose={modal?.handleClose} />
-      </ComModal>
+    
     </>
   );
 }

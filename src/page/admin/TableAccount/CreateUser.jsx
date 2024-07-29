@@ -145,10 +145,12 @@ setDisabled(true);
               tableRef.current.reloadData();
             }
           }, 100);
+          setDisabled(true);
           onClose();
         })
         .catch((error) => {
           handleErrors(error, setError, setFocus);
+          setDisabled(true);
           console.log("====================================");
           console.log(error);
           console.log("====================================");

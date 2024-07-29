@@ -4,17 +4,17 @@ import { LanguageContext } from "../../../contexts/LanguageContext";
 import { Badge, Table, Tooltip, Typography } from "antd";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
-import ComModal from "./../../../Components/ComModal/ComModal";
+import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
-import { useModalState } from "./../../../hooks/useModalState";
-import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
-import ComDateConverter from "./../../../Components/ComDateConverter/ComDateConverter";
+import { useModalState } from "../../../hooks/useModalState";
+import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
+import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import DetailAppointment from "./DetailAppointment";
-import DetailAppointment1 from './DetailAppointment1';
+import DetailAppointment2 from "./DetailAppointment2";
 import ComStatusConverter from "../../../Components/ComStatusConverter/ComStatusConverter";
-export default function TableExtend() {
+export default function TableProcedureCompletion() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
@@ -50,26 +50,13 @@ export default function TableExtend() {
       onFilter: (value, record) => record.status === value,
       render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
     },
-    // {
-    //   title: "Thời gian đăng ký",
-    //   width: 200,
-    //   dataIndex: "createdAt",
-    //   key: "createdAt",
-    //   sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-    //   ...getColumnApprox("createdAt", "Thời gian đăng ký"),
-    //   render: (_, render) => (
-    //     <div>
-    //       <ComDateConverter>{render?.createdAt}</ComDateConverter>
-    //     </div>
-    //   ),
-    // },
     {
       title: "Thời gian đến ",
       width: 200,
       dataIndex: "date",
       key: "date",
       sorter: (a, b) => new Date(a.date) - new Date(b.date),
-      ...getColumnApprox("date", "Thời gian đăng ký"),
+      ...getColumnApprox("date", "Thời gian đến"),
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.date}</ComDateConverter>
@@ -131,7 +118,6 @@ export default function TableExtend() {
               modal?.handleOpen();
               setSelectedData(record);
             }}
-            // extraMenuItems={extraMenuItems}
             excludeDefaultItems={["delete", "edit"]}
             // order={order}
           />
@@ -139,26 +125,27 @@ export default function TableExtend() {
       ),
     },
   ];
-    useEffect(() => {
-      renderData();
-    }, []);
-    const renderData = () => {
-      table.handleOpenLoading();
-      getData("/appointments?Type=Consultation&SortDir=Desc")
-        .then((e) => {
-          setData(e?.data?.contends);
-          table.handleCloseLoading();
-        })
-        .catch((error) => {
-          console.error("Error fetching items:", error);
-        });
-    };
+  useEffect(() => {
+    renderData();
+  }, []);
+  const renderData = () => {
+    table.handleOpenLoading();
+    getData("/appointments?Type=ProcedureCompletion&SortDir=Desc")
+      .then((e) => {
+        setData(e?.data?.contends);
+        console.log(e.data);
+        table.handleCloseLoading();
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  };
 
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <DetailAppointment1
+        <DetailAppointment2
           selectedData={selectedData}
           onClose={modal?.handleClose}
           renderData={renderData}

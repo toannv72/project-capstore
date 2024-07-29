@@ -19,6 +19,7 @@ import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter
 import DetailElder from "./../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import { useLocation } from "react-router-dom";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -29,6 +30,12 @@ export const Tables = forwardRef((props, ref) => {
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
+  const location = useLocation();
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
+  const director = getRoleFromPath(location.pathname) === "director";
 
   useEffect(() => {
     reloadData();
@@ -139,7 +146,9 @@ export const Tables = forwardRef((props, ref) => {
               showModalDetails={() => showModaldElder(record)}
               showModalEdit={showModalEdit}
               // extraMenuItems={extraMenuItems}
-              excludeDefaultItems={["delete", "edit"]}
+              // excludeDefaultItems={["delete", "edit"]}
+              excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
+
               // order={order}
             />
           </div>
@@ -284,7 +293,8 @@ export const Tables = forwardRef((props, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
+
             // order={order}
           />
         </div>
@@ -295,10 +305,14 @@ export const Tables = forwardRef((props, ref) => {
   return (
     <div>
       <ComTable
-        expandable={{
-          expandedRowRender,
-          defaultExpandedRowKeys: ["0"],
-        }}
+        expandable={
+          !director
+            ? {
+                expandedRowRender,
+                defaultExpandedRowKeys: ["0"],
+              }
+            : {}
+        }
         columns={columns}
         dataSource={data}
         loading={table.loading}
@@ -310,7 +324,7 @@ export const Tables = forwardRef((props, ref) => {
       >
         <DetailUser
           selectedUser={selectedUser}
-          isOpenEdit={modalEdit?.handleOpen}
+          isOpenEdit={!director ? modalEdit?.handleOpen : null}
           onClose={modalDetailUser?.handleClose}
         />
       </ComModal>

@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
@@ -14,8 +19,9 @@ import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneCon
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
+import { useLocation } from "react-router-dom";
 
-export const Tables = forwardRef((props, ref) => {
+export const Tables = forwardRef((props, roles, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
@@ -24,15 +30,24 @@ export const Tables = forwardRef((props, ref) => {
   const modalEdit = useModalState();
   const [selectedData, setSelectedData] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
-
+  const location = useLocation();
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
   useEffect(() => {
     reloadData();
   }, []);
+  const director = getRoleFromPath(location.pathname) === "director";
+
   console.log(data);
   const reloadData = () => {
-    getData(
-      "/users?RoleNames=Staff&RoleNames=Nurse&SortDir=Desc"
-    )
+    const link =
+      getRoleFromPath(location.pathname) === "director"
+        ? `RoleNames=Staff&RoleNames=Nurse&RoleNames=Manager&SortDir=Desc`
+        : `RoleNames=Staff&RoleNames=Nurse&SortDir=Desc`;
+
+    getData(`/users?${link}`)
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -193,7 +208,7 @@ export const Tables = forwardRef((props, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
             // order={order}
           />
         </div>
@@ -211,7 +226,8 @@ export const Tables = forwardRef((props, ref) => {
       >
         <DetailEmployee
           selectedData={selectedData}
-          isOpenEdit={modalEdit?.handleOpen}
+          // isOpenEdit={modalEdit?.handleOpen}
+          isOpenEdit={!director ? modalEdit?.handleOpen : null}
           onClose={modalDetailUser?.handleClose}
         />
       </ComModal>

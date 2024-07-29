@@ -34,8 +34,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const [dataPackage, setDataPackage] = useState([]);
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup
       .string()
       .matches(
@@ -117,17 +117,18 @@ const CreateProductMessenger = yup.object({
     methods;
 
   const onSubmit = (data) => {
-setDisabled(true);
-  
+    setDisabled(true);
+
     if (image) {
       firebaseImg(image).then((dataImg) => {
         const dataPut = { ...data, imageUrl: dataImg };
-        console.log(111111,dataPut);
+        console.log(111111, dataPut);
         putData(`/elders`, selectedData.id, dataPut)
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-            tableRef();setDisabled(false);
+            tableRef();
+            setDisabled(false);
             onClose();
           })
           .catch((error) => {
@@ -136,25 +137,27 @@ setDisabled(true);
               "error",
               "Chỉnh sửa không thành công ",
               "Chỉnh sửa"
-            );setDisabled(false);
+            );
+            setDisabled(false);
             handleErrors(error, setError, setFocus);
           });
       });
     } else {
       const dataPut = { ...data, imageUrl: selectedData.imageUrl };
-      console.log(22222222,dataPut);
+      console.log(22222222, dataPut);
       putData(`/elders`, selectedData.id, dataPut)
         .then((e) => {
           notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
           setTimeout(() => {}, 100);
-          tableRef();setDisabled(false);
+          tableRef();
+          setDisabled(false);
           onClose();
         })
         .catch((error) => {
-          console.log(error);setDisabled(false);
+          console.log(error);
+          setDisabled(false);
           notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
           handleErrors(error, setError, setFocus);
-          
         });
     }
   };

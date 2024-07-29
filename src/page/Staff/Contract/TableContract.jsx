@@ -27,7 +27,7 @@ export const TableContract = forwardRef((props, ref) => {
   } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
-  const modalEdit = useModalState();
+  const modalExtension = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   useImperativeHandle(ref, () => ({
     reloadData,
@@ -52,8 +52,8 @@ export const TableContract = forwardRef((props, ref) => {
     modalDetail.handleOpen();
     setSelectedUser(record);
   };
-  const showModalEdit = (record) => {
-    modalEdit.handleOpen();
+  const showModalExtension = (record) => {
+    modalExtension.handleOpen();
     setSelectedUser(record);
   };
   const columns = [
@@ -192,29 +192,33 @@ export const TableContract = forwardRef((props, ref) => {
     {
       label: "Gia hạn",
       onClick: (e) => {
-        showModalEdit(e);
+        showModalExtension(e);
       },
     },
   ];
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
-      {/* chi tiết người lớn tuôi */}
+
       <ComModal
         isOpen={modalDetail?.isModalOpen}
         onClose={modalDetail?.handleClose}
       >
-        <DetailContract selectedUser={selectedUser} />
+        <DetailContract
+          selectedUser={selectedUser}
+          onClose={modalDetail?.handleClose}
+          isOpenEdit={() => modalExtension?.handleOpen()}
+        />
       </ComModal>
-      {/* Gia hạn */}
+
       <ComModal
-        isOpen={modalEdit?.isModalOpen}
-        onClose={modalEdit?.handleClose}
+        isOpen={modalExtension?.isModalOpen}
+        onClose={modalExtension?.handleClose}
         width={800}
       >
         <ContractExtension
           selectedUser={selectedUser}
-          onClose={modalEdit?.handleClose}
+          onClose={modalExtension?.handleClose}
           reloadApi={reloadData}
         />
       </ComModal>

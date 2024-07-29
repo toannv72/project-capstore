@@ -30,6 +30,7 @@ import Dashboard from "./page/admin/Dashboard/Dashboard";
 import PaymentStatus from "./page/User/PaymentStatus";
 import AssignTasksManagement from "./page/Manager/AssignTasks/AssignTasksManagement";
 import TableAccount from "./page/admin/TableAccount/TableAccount";
+import ComHeaderDirector from "./Components/ComHeaderDirector/ComHeaderDirector";
 
 export const routers = createBrowserRouter([
   {
@@ -78,18 +79,18 @@ export const routers = createBrowserRouter([
         path: "*",
         element: <ErrorPage goTo={"/admin/institute"} statusCode={"404"} />,
       },
-      {
-        path: "/admin",
-        element: <Dashboard />,
-      },
-      {
-        path: "/admin/abc",
-        element: <TableUser />,
-      },
-      {
-        path: "/admin/institute",
-        element: <InstituteManagement />,
-      },
+      // {
+      //   path: "/admin",
+      //   element: <Dashboard />,
+      // },
+      // {
+      //   path: "/admin/abc",
+      //   element: <TableUser />,
+      // },
+      // {
+      //   path: "/admin/institute",
+      //   element: <InstituteManagement />,
+      // },
       {
         path: "/admin/account",
         element: <TableAccount />,
@@ -140,6 +141,77 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/admin/changePassword",
+        element: <ChangePassword />,
+      },
+      // Add other unprotected admin routes here (if any)
+    ],
+  },
+  {
+    path: "/director",
+    element: (
+      <ComHeaderDirector>
+        <Outlet />
+      </ComHeaderDirector>
+    ),
+    children: [
+      {
+        path: "*",
+        element: <ErrorPage goTo={"/director/dashboard"} statusCode={"404"} />,
+      },
+      {
+        path: "/director",
+        element: <Dashboard />,
+      },
+      {
+        path: "/director/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/director/user",
+        element: <TableUser />,
+      },
+      // {
+      //   path: "/director/elder",
+      //   element: <TableElder />,
+      // },
+      // {
+      //   path: "/director/elder/:id",
+      //   element: <DetailElderPage />,
+      // },
+      {
+        path: "/director/employee",
+        element: <TableEmployee  />,
+      },
+      // {
+      //   path: "/director/nursingPackage",
+      //   element: <NursingPackage />,
+      // },
+      {
+        path: "/director/appointmentSchedule",
+        element: <AppointmentSchedule />,
+      },
+      {
+        path: "/director/servicePackage",
+        element: <ServicePackage />,
+      },
+      {
+        path: "/director/activitie",
+        element: <ActivityCalendar />,
+      },
+      {
+        path: "/director/profile",
+        element: <ProfilePage />,
+      },
+      // {
+      //   path: "/director/createNotification",
+      //   element: <CreateNotification />,
+      // },
+      {
+        path: "/director/notification",
+        element: <Notification />,
+      },
+      {
+        path: "/director/changePassword",
         element: <ChangePassword />,
       },
       // Add other unprotected admin routes here (if any)

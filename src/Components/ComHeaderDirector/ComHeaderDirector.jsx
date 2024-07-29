@@ -28,30 +28,12 @@ const sortOptions = [
   { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
-  { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
-  { name: "Khách hàng", href: "/admin/user", icon: UserIcon },
-  { name: "Người cao tuổi", href: "/admin/elder", icon: UsersIcon },
-  { name: "Nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
-  {
-    name: "Lịch hẹn",
-    href: "/admin/appointmentSchedule",
-    icon: CalendarDaysIcon,
-  },
-  {
-    name: "Danh sách gói dưỡng lão",
-    href: "/admin/nursingPackage",
-    icon: QueueListIcon,
-  },
-  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
-  { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
-  // {
-  //   name: "Trung tâm thông báo",
-  //   href: "/admin/createNotification",
-  //   icon: BellIcon,
-  // },
+  { name: "Thống kê", href: "/director/dashboard", icon: BuildingOffice2Icon },
+  { name: "Khách hàng", href: "/director/user", icon: UserIcon },
+  { name: "Nhân viên", href: "/director/employee", icon: BriefcaseIcon },
 ];
 
-export default function ComHeaderAdmin({ children }) {
+export default function ComHeaderDirector({ children }) {
   const [mobileFiltersOpen, setMobileHeadersOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
@@ -59,7 +41,7 @@ export default function ComHeaderAdmin({ children }) {
   const navigate = useNavigate();
   useEffect(() => {
     setActiveCategory(currentPath);
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(
@@ -78,10 +60,10 @@ export default function ComHeaderAdmin({ children }) {
         }, 0);
         break;
       case "profile":
-        navigate("/admin/profile");
+        navigate("/director/profile");
         break;
       case "password":
-        navigate("/admin/changePassword");
+        navigate("/director/changePassword");
         break;
       default:
         navigate(option);

@@ -7,7 +7,7 @@ import { Select, message } from "antd";
 const { Option } = Select;
 
 const options = {
-  colors: ["#3C50E0", "#80CAEE"],
+  colors: ["#80CAEE", "#80CAEE"],
   chart: {
     fontFamily: "Satoshi, sans-serif",
     type: "bar",
