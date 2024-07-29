@@ -12,10 +12,10 @@ function Dashboard() {
   const totalPatients = 800; // Thay bằng dữ liệu thực tế của bạn
   const totalAmount = 500000; // Thay bằng dữ liệu thực tế của bạn
   useEffect(() => {
-    getData('/')
-    return () => {
+    // getData('/')
+    // return () => {
       
-    };
+    // };
   }, []);
 
   return (
