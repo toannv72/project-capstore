@@ -24,7 +24,8 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function EditBill({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -70,6 +71,7 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
+setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       if (dataImg) {
@@ -78,11 +80,13 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-            tableRef();
+        setDisabled(false);
+        tableRef();
             onClose();
           })
           .catch((e) => {
             console.log(e);
+            setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
@@ -93,12 +97,14 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-            tableRef();
+        setDisabled(false);
+        tableRef();
             onClose();
           })
           .catch((e) => {
             console.log(e);
             // set các trường hợp lỗi api
+        setDisabled(false);
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
@@ -211,6 +217,7 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

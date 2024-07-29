@@ -57,9 +57,9 @@ export default function LoginPage(props) {
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
   const onSubmit = (data) => {
+setDisabled(true);
     setLoginError(false);
     setLogin(false);
-    setDisabled(true);
     postData("/auth/login", data, {})
       .then((data) => {
         setToken(data?.accessToken);

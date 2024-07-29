@@ -12,13 +12,11 @@ import ComNumber from "./../../../Components/ComInput/ComNumber";
 import { postData } from "../../../api/api";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
-export  function CreateServicePackageCategories({
-  onClose,
-  tableRef,
-}) {
+export function CreateServicePackageCategories({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên thể loại"),
   });
@@ -34,6 +32,7 @@ export  function CreateServicePackageCategories({
     methods;
 
   const onSubmit = (data) => {
+    setDisabled(true);
     postData(`/service-package-categories`, data)
       .then((e) => {
         notificationApi(
@@ -50,10 +49,12 @@ export  function CreateServicePackageCategories({
         }, 100); // Thời gian trì hoãn (có thể điều chỉnh)
 
         onClose();
+        setDisabled(false);
       })
       .catch((error) => {
         console.log(error);
         handleErrors(error, setError, setFocus);
+        setDisabled(false);
         notificationApi(
           "error",
           "tạo không thành công",
@@ -90,6 +91,7 @@ export  function CreateServicePackageCategories({
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới

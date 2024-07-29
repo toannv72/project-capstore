@@ -23,6 +23,7 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function EditEmployee({ selectedData, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
@@ -69,8 +70,10 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
+setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
+      setDisabled(true);
       if (dataImg) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedData.id, dataPut)
@@ -78,12 +81,13 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
+            setDisabled(false);
             onClose();
           })
           .catch((error) => {
             console.log(error);
             handleErrors(error, setError, setFocus);
-
+            setDisabled(false);
             if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
@@ -98,17 +102,12 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();
+            onClose();setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
-            handleErrors(error, setError, setFocus);
-            if (error.status === 409) {
-              setError("phoneNumber", {
-                message: "Đã có số điện thoại này",
-              });
-              setFocus("phoneNumber");
-            }
+            handleErrors(error, setError, setFocus);setDisabled(false);
+            
           });
       }
     });
@@ -130,7 +129,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa Y tá 
+          Chỉnh sửa Y tá
         </h2>
         <FormProvider {...methods}>
           <form
@@ -219,6 +218,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

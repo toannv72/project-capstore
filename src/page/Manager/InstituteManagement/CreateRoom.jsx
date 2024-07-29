@@ -17,6 +17,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const { notificationApi } = useNotification();
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
     blockId: yup.string().required("Vui chọn khu"),
@@ -34,15 +35,18 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
     methods;
 
   const onSubmit = (data) => {
+    setDisabled(true);
     console.log(data);
     postData(`/room?blockId=${data?.blockId}`, data)
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
         getDataApi();
         onClose();
+        setDisabled(false);
       })
       .catch((error) => {
         console.log(error);
+        setDisabled(false);
         handleErrors(error, setError, setFocus);
         // if (error?.data?.status === 409) {
         //   setError("name", {
@@ -170,6 +174,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới

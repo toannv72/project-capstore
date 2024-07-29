@@ -6,12 +6,13 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
-import { useNotification } from '../../../Notification/Notification';
+import { useNotification } from "../../../Notification/Notification";
 
 export default function EditContract({ selectedUser, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("textApp.CreateProduct.message.name"),
     // phone: yup
@@ -20,9 +21,9 @@ export default function EditContract({ selectedUser, onClose }) {
     //   .matches(/^\d{10}$/, "textApp.CreateProduct.message.name")
     //   .required("textApp.CreateProduct.message.name"),
   });
- useEffect(() => {
-   setImages([]);
- }, [selectedUser]);
+  useEffect(() => {
+    setImages([]);
+  }, [selectedUser]);
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
@@ -34,11 +35,13 @@ export default function EditContract({ selectedUser, onClose }) {
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
   const onSubmit = (data) => {
+    setDisabled(true);
     console.log(data);
 
     firebaseImgs(image).then((dataImg) => {
+      setDisabled(false);
       console.log("ảnh nè : ", dataImg);
-      notificationApi("error", "tạo thành công", "đã tạo");
+      notificationApi("error", "chỉnh sửa thành công", "đã sửa");
       onClose();
     });
   };
@@ -93,6 +96,7 @@ export default function EditContract({ selectedUser, onClose }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Chỉnh sửa

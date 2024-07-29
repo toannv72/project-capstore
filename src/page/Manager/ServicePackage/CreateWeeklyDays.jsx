@@ -14,6 +14,7 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 import "tailwindcss/tailwind.css";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 const { Title } = Typography;
 
@@ -33,6 +34,7 @@ export default function CreateWeeklyDays({ onClose }) {
   const [category, setCategory] = useState([]);
   const [selectedDays, setSelectedDays] = useState([]);
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     price: yup
@@ -92,6 +94,7 @@ export default function CreateWeeklyDays({ onClose }) {
     );
   };
   const onSubmit = (data) => {
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -120,9 +123,12 @@ export default function CreateWeeklyDays({ onClose }) {
                 "đã tạo gói dịch vụ thành công!"
               );
               onClose();
+              setDisabled(false);
             })
             .catch((error) => {
               console.log(error);
+        handleErrors(error, setError, setFocus);
+        setDisabled(false);
               notificationApi(
                 "error",
                 "tạo không thành công",
@@ -136,7 +142,10 @@ export default function CreateWeeklyDays({ onClose }) {
           "Chọn ảnh gói dưỡng lão",
           "Vui lòng chọn ảnh!"
         );
+        setDisabled(false);
       }
+    } else {
+      setDisabled(false);
     }
   };
 
@@ -243,6 +252,7 @@ export default function CreateWeeklyDays({ onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D] text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới

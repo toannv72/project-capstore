@@ -17,6 +17,7 @@ import { Checkbox } from "antd";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditOneTime({ onClose, dataValue }) {
   const [image, setImages] = useState(null);
@@ -30,6 +31,7 @@ export default function EditOneTime({ onClose, dataValue }) {
   const [endDate, setEndDate] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     eventDate: yup.string().required("Vui lòng nhập thời gian"),
@@ -113,6 +115,7 @@ export default function EditOneTime({ onClose, dataValue }) {
     setSelectedCategorie(dataValue?.servicePackageCategoryId);
   }, [dataValue, category]);
   const onSubmit = (data) => {
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -136,9 +139,12 @@ export default function EditOneTime({ onClose, dataValue }) {
                 "đã cập nhật gói dịch vụ thành công!"
               );
               onClose();
+              setDisabled(false);
             })
             .catch((error) => {
               console.log(error);
+              handleErrors(error, setError, setFocus);
+              setDisabled(false);
               notificationApi(
                 "error",
                 "cập nhật không thành công",
@@ -163,9 +169,11 @@ export default function EditOneTime({ onClose, dataValue }) {
                 "cập nhật thành công",
                 "đã cập nhật gói dịch vụ thành công!"
               );
+              setDisabled(false);
               onClose();
             })
             .catch((error) => {
+              setDisabled(false);
               console.log(error);
               notificationApi(
                 "error",
@@ -176,6 +184,8 @@ export default function EditOneTime({ onClose, dataValue }) {
           onClose();
         });
       }
+    } else {
+      setDisabled(false);
     }
   };
 
@@ -327,6 +337,7 @@ export default function EditOneTime({ onClose, dataValue }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Cập nhật

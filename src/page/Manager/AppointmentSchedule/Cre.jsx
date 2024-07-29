@@ -12,7 +12,8 @@ export default function TableVisitation({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("textApp.CreateProduct.message.name"),
     // phone: yup
     //   .string()
@@ -31,12 +32,13 @@ export default function TableVisitation({ isOpen, onClose }) {
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
 
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
-
+setDisabled(true);
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       notificationApi("error", "tạo thành công", "đã tạo");
-      onClose();
+      onClose();setDisabled(false);
     });
   };
 
@@ -75,6 +77,7 @@ export default function TableVisitation({ isOpen, onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

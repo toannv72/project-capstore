@@ -40,7 +40,8 @@ export default function CreateElder({ onClose, tableRef }) {
   const [endDate, setEndDate] = useState(false);
   const [startDate, setStartDate] = useState(false);
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup
       .string()
       .matches(
@@ -215,6 +216,7 @@ export default function CreateElder({ onClose, tableRef }) {
   };
 
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(1111, image);
     if (!image) {
       return notificationApi(
@@ -239,7 +241,7 @@ export default function CreateElder({ onClose, tableRef }) {
             imageUrl: dataImg,
           })
             .then((e) => {
-              notificationApi("success", "tạo thành công", "đã tạo");
+              notificationApi("success", "tạo thành công", "đã tạo");setDisabled(false);
               setTimeout(() => {
                 if (tableRef.current) {
                   // Kiểm tra xem ref đã được gắn chưa
@@ -249,7 +251,7 @@ export default function CreateElder({ onClose, tableRef }) {
               onClose();
             })
             .catch((error) => {
-              console.log(error);
+              console.log(error);setDisabled(false);
               handleErrors(error, setError, setFocus);
               notificationApi("error", "tạo không thành công", "đã tạo");
             });
@@ -767,6 +769,7 @@ export default function CreateElder({ onClose, tableRef }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

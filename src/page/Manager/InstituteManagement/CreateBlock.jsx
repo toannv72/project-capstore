@@ -15,7 +15,8 @@ export default function CreateBlock({ isOpen, onClose, getDataApi }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhâp tên").trim(),
   });
 
@@ -29,16 +30,17 @@ export default function CreateBlock({ isOpen, onClose, getDataApi }) {
     methods;
 
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
 
     postData(`/block`, { ...data, totalFloor: 0 })
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
-        getDataApi();
+        getDataApi();setDisabled(false);
         onClose();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);setDisabled(false);
         if (error?.data?.status === 409) {
           setError("name", {
             message: "Đã có khu này rồi",
@@ -83,6 +85,7 @@ export default function CreateBlock({ isOpen, onClose, getDataApi }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

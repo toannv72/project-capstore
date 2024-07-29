@@ -16,7 +16,8 @@ import { useNotification } from "../../Notification/Notification";
 
 export default function Contact() {
   const { notificationApi } = useNotification();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -62,6 +63,7 @@ export default function Contact() {
   const { handleSubmit, register, setFocus, watch, setValue, setError, reset } =
     methods;
   const onSubmit = (data) => {
+setDisabled(true);
     postData("/potential-customer", {
       ...data,
     }).then((e) => {

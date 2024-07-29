@@ -30,7 +30,8 @@ export default function CreateUser({ onClose, tableRef }) {
 
   // const nameRegex =
   //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -121,6 +122,7 @@ export default function CreateUser({ onClose, tableRef }) {
     },
   ];
   const onSubmit = (data) => {
+setDisabled(true);
     if (!image) {
       console.log(123);
       return notificationApi(
@@ -312,6 +314,7 @@ export default function CreateUser({ onClose, tableRef }) {
             <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
             <div className="mt-10">
               <ComButton
+                disabled={disabled}
                 htmlType="submit"
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

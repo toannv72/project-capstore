@@ -21,6 +21,8 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState(null);
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   const inputMessenger = yup.object({
     // fullname: yup.string().required("Vui lòng nhập họ và tên"),
     address: yup.string().required("Vui lòng nhập địa chỉ"),
@@ -54,6 +56,7 @@ export default function ProfilePage() {
   });
   const { handleSubmit, register, setValue, reset } = methods;
   const onSubmit = (data) => {
+    
     // firebaseImg(image[0]).then((e) => {
     //   setValue("avatar", e);
     //   console.log(1111, { ...data, avatar: e });
@@ -252,7 +255,11 @@ export default function ProfilePage() {
                   <></>
                 ) : (
                   <div className="col-start-2 sm:col-start-3 md:col-start-3 col-span-2">
-                    <ComButton htmlType="submit" type="primary">
+                    <ComButton
+                      htmlType="submit"
+                      disabled={disabled}
+                      type="primary"
+                    >
                       Cập nhật
                     </ComButton>
                   </div>

@@ -17,7 +17,8 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const { notificationApi } = useNotification();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
     blockId: yup.string().required("Vui chọn khu"),
     nursingPackageId: yup.string().required("Vui chọn gói dưỡng lão "),
@@ -34,16 +35,18 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
     methods;
 
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
     postData(`/room?blockId=${data?.blockId}`, data)
       .then((e) => {
         notificationApi("success", "tạo thành công", "đã tạo phòng!");
         getDataApi();
         onClose();
+        setDisabled(false);
       })
       .catch((error) => {
         console.log(error);
-        handleErrors(error, setError, setFocus);
+        handleErrors(error, setError, setFocus);setDisabled(false);
         // if (error?.data?.status === 409) {
         //   setError("name", {
         //     message: "Đã có phòng này rồi",
@@ -169,6 +172,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
             <div className="mt-10 ">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

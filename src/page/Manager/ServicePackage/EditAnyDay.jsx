@@ -13,6 +13,7 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import { useNotification } from "../../../Notification/Notification";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 const { Title } = Typography;
 
@@ -21,7 +22,8 @@ export default function EditAnyDay({ onClose, dataValue }) {
   const { notificationApi } = useNotification();
   const [selectedCategorie, setSelectedCategorie] = useState();
   const [category, setCategory] = useState([]);
- const [mony, setMony] = useState(dataValue.price);
+  const [mony, setMony] = useState(dataValue.price);
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     price: yup
@@ -83,6 +85,7 @@ export default function EditAnyDay({ onClose, dataValue }) {
   };
 
   const onSubmit = (data) => {
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -103,48 +106,54 @@ export default function EditAnyDay({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "tạo thành công",
-                "đã tạo gói dịch vụ thành công!"
+                "cập nhật thành công",
+                "đã cập nhật gói dịch vụ thành công!"
               );
               onClose();
+              setDisabled(false);
             })
             .catch((error) => {
+              handleErrors(error, setError, setFocus);
               console.log(error);
+              setDisabled(false);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "cập nhật không thành công",
+                "cập nhật gói dịch vụ không thành công!"
               );
             });
         });
       } else {
-    
-       const dataPost = {
-         ...data,
-         imageUrl: dataValue.imageUrl,
-         price: change,
-         type: "AnyDay",
-       };
-       console.log(1111, dataPost);
-       putData(`/service-package`, dataValue.id, dataPost)
-         .then((e) => {
-           notificationApi(
-             "success",
-             "tạo thành công",
-             "đã tạo gói dịch vụ thành công!"
-           );
-           onClose();
-         })
-         .catch((error) => {
-           console.log(error);
-           notificationApi(
-             "error",
-             "tạo không thành công",
-             "tạo gói dịch vụ không thành công!"
-           );
-         });
-
+        const dataPost = {
+          ...data,
+          imageUrl: dataValue.imageUrl,
+          price: change,
+          type: "AnyDay",
+        };
+        console.log(1111, dataPost);
+        putData(`/service-package`, dataValue.id, dataPost)
+          .then((e) => {
+            notificationApi(
+              "success",
+              "cập nhật thành công",
+              "đã cập nhật gói dịch vụ thành công!"
+            );
+            onClose();
+            setDisabled(false);
+          })
+          .catch((error) => {
+            handleErrors(error, setError, setFocus);
+            console.log(error);
+            setDisabled(false);
+            notificationApi(
+              "error",
+              "cập nhật không thành công",
+              "cập nhật gói dịch vụ không thành công!"
+            );
+          });
       }
+    } else {
+      setDisabled(false);
     }
   };
 
@@ -240,6 +249,7 @@ export default function EditAnyDay({ onClose, dataValue }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D] text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Cập nhật

@@ -19,6 +19,7 @@ const uniqueMeasureUnitNames = (measureUnits) => {
 export default function CreateMeasureUnit({ onClose, getDataApi, dataSelect }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên chỉ số"),
     unitType: yup.string().required("Vui lòng nhập đơn vị chỉ số"),
@@ -63,7 +64,8 @@ export default function CreateMeasureUnit({ onClose, getDataApi, dataSelect }) {
     watch,
     setValue,
     setError,
-    control,reset,
+    control,
+    reset,
     formState: { errors },
   } = methods;
 
@@ -73,6 +75,7 @@ export default function CreateMeasureUnit({ onClose, getDataApi, dataSelect }) {
   });
 
   const onSubmit = (data) => {
+    setDisabled(true);
     console.log(data);
 
     postData(`/measure-unit?healthCategoryId=${dataSelect.id}`, { ...data })
@@ -80,10 +83,10 @@ export default function CreateMeasureUnit({ onClose, getDataApi, dataSelect }) {
         notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
         getDataApi();
         onClose();
-        reset()
+        reset();setDisabled(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);setDisabled(false);
         handleErrors(error, setError, setFocus);
       });
   };
@@ -153,6 +156,7 @@ export default function CreateMeasureUnit({ onClose, getDataApi, dataSelect }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

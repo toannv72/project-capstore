@@ -30,7 +30,8 @@ export default function CreateContract({ onClose, tableRef }) {
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
@@ -135,6 +136,7 @@ useEffect(() => {
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
 
     if (Array.isArray(image) && image.length === 0) {
@@ -153,6 +155,7 @@ useEffect(() => {
         };
         postData("/contract", datapost)
           .then((e) => {
+        setDisabled(false);
             notificationApi("success", "tạo thành công", "đã tạo");
             setTimeout(() => {
               if (tableRef.current) {
@@ -164,6 +167,7 @@ useEffect(() => {
           })
           .catch((error) => {
             console.log(error);
+        setDisabled(false);
             handleErrors(error, setError, setFocus);
             notificationApi("error", "tạo không thành công", "đã tạo");
           });
@@ -522,7 +526,6 @@ useEffect(() => {
                     placeholder="Vui lòng nhập ghi chú"
                     rows={5}
                     {...register("notes")}
-                    
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -539,6 +542,7 @@ useEffect(() => {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

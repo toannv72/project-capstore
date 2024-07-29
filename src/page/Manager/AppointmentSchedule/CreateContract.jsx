@@ -31,7 +31,8 @@ export default function CreateContract({ onClose, tableRef, userID }) {
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
@@ -147,8 +148,9 @@ export default function CreateContract({ onClose, tableRef, userID }) {
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
-
+setDisabled(true);
     if (Array.isArray(image) && image.length === 0) {
       notificationApi(
         "error",
@@ -166,12 +168,12 @@ export default function CreateContract({ onClose, tableRef, userID }) {
         postData("/contract", datapost)
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-
+setDisabled(false);
             onClose();
           })
           .catch((error) => {
             console.log(error);
-            handleErrors(error, setError, setFocus);
+            handleErrors(error, setError, setFocus);setDisabled(false);
             notificationApi("error", "tạo không thành công", "đã tạo");
           });
       });
@@ -544,6 +546,7 @@ export default function CreateContract({ onClose, tableRef, userID }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

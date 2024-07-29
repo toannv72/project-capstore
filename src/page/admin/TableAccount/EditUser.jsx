@@ -26,7 +26,8 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -72,8 +73,10 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
+setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
+      
       if (dataImg) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
@@ -81,12 +84,12 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();
+            onClose();setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
             handleErrors(error, setError, setFocus);
-
+setDisabled(false);
             if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
@@ -101,7 +104,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();
+            onClose();setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
@@ -110,7 +113,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });
-              setFocus("phoneNumber");
+              setFocus("phoneNumber");setDisabled(false);
             }
           });
       }
@@ -257,6 +260,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

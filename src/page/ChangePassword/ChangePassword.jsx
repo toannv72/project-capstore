@@ -28,6 +28,7 @@ export default function ChangePassword() {
   const navigate = useNavigate();
   const [oldPassword] = useState("abc");
   const [isOldPasswordIncorrect, setIsOldPasswordIncorrect] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const methods = useForm({
     resolver: yupResolver(passwordSchema),
@@ -64,6 +65,7 @@ export default function ChangePassword() {
   }, [newPassword, confirmPassword, setError, clearErrors]);
 
   const onSubmit = (data) => {
+setDisabled(true);
     if (data.password !== oldPassword) {
       setIsOldPasswordIncorrect(true);
     } else {
@@ -183,7 +185,12 @@ export default function ChangePassword() {
                 required
               />
 
-              <ComButton className="w-full" htmlType="submit" type="primary">
+              <ComButton
+                className="w-full"
+                htmlType="submit"
+                disabled={disabled}
+                type="primary"
+              >
                 Thay đổi mật khẩu
               </ComButton>
               <ComButton

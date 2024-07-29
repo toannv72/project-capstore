@@ -17,6 +17,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
 
+  const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói").trim(),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
@@ -59,6 +60,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
     // setFileList(data);
   };
   const onSubmit = (data) => {
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -80,11 +82,12 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                 tableRef.current.reloadData();
               }
               onClose();
+              setDisabled(false);
             })
             .catch((error) => {
               console.log(error);
               handleErrors(error, setError, setFocus);
-
+              setDisabled(false);
               notificationApi(
                 "error",
                 "tạo không thành công",
@@ -93,12 +96,15 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
             });
         });
       } else {
+        setDisabled(false);
         notificationApi(
           "error",
           "Chọn ảnh gói dưỡng lão",
           "Vui lòng chọn ảnh!"
         );
       }
+    } else {
+      setDisabled(false);
     }
   };
   return (
@@ -194,6 +200,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

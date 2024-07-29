@@ -26,7 +26,8 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -73,8 +74,9 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
+setDisabled(true);
     firebaseImg(image).then((dataImg) => {
-      console.log("ảnh nè : ", dataImg);
+      console.log("ảnh nè : ", dataImg);setDisabled(true);
       if (dataImg) {
         const dataPut = { ...data, imageUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
@@ -82,12 +84,12 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();
+            onClose();setDisabled(false);
           })
           .catch((e) => {
             console.log(e);
             // set các trường hợp lỗi api 
-            handleErrors(e, setError, setFocus);
+            handleErrors(e, setError, setFocus);setDisabled(false);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
       } else {
@@ -96,11 +98,11 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-            tableRef();
+            tableRef();setDisabled(false);
             onClose();
           })
           .catch((e) => {
-            console.log(e);
+            console.log(e);setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
@@ -251,6 +253,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Chỉnh sửa

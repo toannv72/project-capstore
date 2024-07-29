@@ -28,7 +28,8 @@ export default function EditNursingPackage({
     setLimit(selectedData.registrationLimit);
     setCapacitys(selectedData.capacity);
   }, [selectedData]);
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói"),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
     price: yup
@@ -62,6 +63,7 @@ export default function EditNursingPackage({
   };
 
   const onSubmit = (data) => {
+setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -84,10 +86,10 @@ export default function EditNursingPackage({
                 "đã cập nhật gói dịch vụ thành công!"
               );
               tableRef();
-              onClose();
+              onClose();setDisabled(false);
             })
             .catch((error) => {
-              console.log(error);
+              console.log(error);setDisabled(false);
               notificationApi(
                 "error",
                 "Cập nhật không thành công",
@@ -107,11 +109,11 @@ export default function EditNursingPackage({
                 "cập nhật thành công",
                 "đã cập nhật gói dịch vụ thành công!"
               );
-              tableRef();
+              tableRef();setDisabled(false);
               onClose();
             })
             .catch((error) => {
-              console.log(error);
+              console.log(error);setDisabled(false);
               notificationApi(
                 "error",
                 "Cập nhật không thành công",
@@ -122,6 +124,8 @@ export default function EditNursingPackage({
 
         onClose();
       });
+    } else {
+      setDisabled(false);
     }
   };
 
@@ -230,6 +234,7 @@ export default function EditNursingPackage({
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

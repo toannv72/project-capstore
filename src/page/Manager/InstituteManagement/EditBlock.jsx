@@ -14,7 +14,8 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function EditBlock({ dataSelect, onClose, getDataApi }) {
   const { notificationApi } = useNotification();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhâp tên").trim(),
   });
 
@@ -26,16 +27,17 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
     methods;
 
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
 
     putData(`/block`, dataSelect.id, { ...data })
       .then((e) => {
         notificationApi("success", "cập nhật thành công", "đã cập nhật phòng!");
         getDataApi();
-        onClose();
+        onClose();setDisabled(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);setDisabled(false);
         if (error?.response?.status === 409) {
           setError("name", {
             message: "Đã có tên khu này rồi",
@@ -48,9 +50,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
   return (
     <div>
       <div className="  bg-white ">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">
-          Cập nhật 
-        </h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Cập nhật</h2>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl ">
             <div className=" overflow-y-auto p-4">
@@ -83,6 +83,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

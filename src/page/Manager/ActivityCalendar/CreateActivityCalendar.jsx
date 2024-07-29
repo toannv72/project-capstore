@@ -16,7 +16,8 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("textApp.CreateProduct.message.name"),
     // phone: yup
     //   .string()
@@ -44,7 +45,8 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
     setImages(newImages);
   };
   const onSubmit = (data) => {
-    console.log(data);
+setDisabled(true);
+    console.log(data);setDisabled(true);
     // console.log(formatPriceToNumber(data.price));
     firebaseImgs(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
@@ -59,11 +61,11 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
             "success",
             "tạo thành công",
             "đã tạo gói dịch vụ thành công!"
-          );
+          );setDisabled(false);
           onClose();
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error);setDisabled(false);
           notificationApi(
             "error",
             "tạo không thành công",
@@ -114,6 +116,7 @@ export default function CreateNursingPackage({ isOpen, onClose }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

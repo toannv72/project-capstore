@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
 import ComInput from "../../../Components/ComInput/ComInput";
@@ -11,6 +11,8 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { useNotification } from "../../../Notification/Notification";
 export default function CreateNotification() {
   const { notificationApi } = useNotification();
+  const [disabled, setDisabled] = useState(false);
+
   const formMessenger = yup.object({
     // title: yup.string().required("Vui lòng nhập chủ đề"),
     // receiver: yup.string().required("Vui lòng chọn người nhận"),
@@ -43,12 +45,14 @@ export default function CreateNotification() {
   });
   const { handleSubmit, register, setFocus, watch, setValue, reset } = methods;
   const onSubmit = (data) => {
+setDisabled(true);
     console.log(data);
     notificationApi(
       "success",
       "tạo thành công",
       "đã tạo gói dịch vụ thành công!"
     );
+    setDisabled(false);
   };
   return (
     <>
@@ -93,7 +97,6 @@ export default function CreateNotification() {
                 <ComDatePicker
                   type="numbers"
                   disabledDate={disabledDate}
-                   
                   label={"Ngày thực hiện"}
                   placeholder={"Vui lòng chọn ngày"}
                   {...register("date")}
@@ -113,6 +116,7 @@ export default function CreateNotification() {
               <div className="col-start-3 col-span-2">
                 <ComButton
                   htmlType="submit"
+                  disabled={disabled}
                   type="primary"
                   className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >

@@ -20,7 +20,8 @@ import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneCon
 
 export default function DetailElderPage() {
   const { id } = useParams();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup

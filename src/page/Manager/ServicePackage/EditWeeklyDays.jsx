@@ -34,7 +34,8 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
   const [selectedDays, setSelectedDays] = useState([]);
   const [mony, setMony] = useState(dataValue.price);
   console.log(selectedDays);
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     price: yup
       .string()
@@ -92,6 +93,7 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
     );
   };
   const onSubmit = (data) => {
+setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -119,10 +121,10 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
                 "tạo thành công",
                 "đã tạo gói dịch vụ thành công!"
               );
-              onClose();
+              onClose();setDisabled(false);
             })
             .catch((error) => {
-              console.log(error);
+              console.log(error);setDisabled(false);
               notificationApi(
                 "error",
                 "tạo không thành công",
@@ -150,10 +152,10 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
                   "tạo thành công",
                   "đã tạo gói dịch vụ thành công!"
                 );
-                onClose();
+                onClose();setDisabled(false);
               })
               .catch((error) => {
-                console.log(error);
+                console.log(error);setDisabled(false);
                 notificationApi(
                   "error",
                   "tạo không thành công",
@@ -162,6 +164,8 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
               });
           });
       }
+    } else {
+      setDisabled(false);
     }
   };
   useEffect(() => {
@@ -279,6 +283,7 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D] text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Cập nhật

@@ -34,7 +34,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const [dataPackage, setDataPackage] = useState([]);
 
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     name: yup
       .string()
       .matches(
@@ -116,6 +117,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
     methods;
 
   const onSubmit = (data) => {
+setDisabled(true);
+  
     if (image) {
       firebaseImg(image).then((dataImg) => {
         const dataPut = { ...data, imageUrl: dataImg };
@@ -124,7 +127,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-            tableRef();
+            tableRef();setDisabled(false);
             onClose();
           })
           .catch((error) => {
@@ -133,7 +136,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
               "error",
               "Chỉnh sửa không thành công ",
               "Chỉnh sửa"
-            );
+            );setDisabled(false);
             handleErrors(error, setError, setFocus);
           });
       });
@@ -144,19 +147,14 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         .then((e) => {
           notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
           setTimeout(() => {}, 100);
-          tableRef();
+          tableRef();setDisabled(false);
           onClose();
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error);setDisabled(false);
           notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
           handleErrors(error, setError, setFocus);
-          if (error.status === 409) {
-            setError("phoneNumber", {
-              message: "Đã có số điện thoại này",
-            });
-            setFocus("phoneNumber");
-          }
+          
         });
     }
   };
@@ -481,6 +479,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Cập nhật

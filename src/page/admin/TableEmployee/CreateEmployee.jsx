@@ -27,7 +27,8 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function CreateEmployee({ onClose, tableRef }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
-  const CreateProductMessenger = yup.object({
+    const [disabled, setDisabled] = useState(false);
+const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -110,8 +111,9 @@ export default function CreateEmployee({ onClose, tableRef }) {
     },
   ];
   const onSubmit = (data) => {
+setDisabled(true);
     if (!image) {
-      console.log(123);
+      console.log(123);setDisabled(true);
       return notificationApi(
         "error",
         "Vui lòng chọn ảnh",
@@ -131,13 +133,13 @@ export default function CreateEmployee({ onClose, tableRef }) {
               // Kiểm tra xem ref đã được gắn chưa
               tableRef.current.reloadData();
             }
-          }, 100);
+          }, 100);setDisabled(false);
           onClose();
         })
         .catch((error) => {
           handleErrors(error, setError, setFocus);
           console.log("====================================");
-          console.log(error);
+          console.log(error);setDisabled(false);
           console.log("====================================");
         });
     });
@@ -303,6 +305,7 @@ export default function CreateEmployee({ onClose, tableRef }) {
               <ComButton
                 htmlType="submit"
                 type="primary"
+                disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Tạo mới
