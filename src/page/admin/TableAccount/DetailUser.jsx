@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import { Image } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import ComGenderConverter from "./../../../Components/ComGenderConverter/ComGenderConverter";
-import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
-import { getData } from "../../../api/api";
-import ComButton from "../../../Components/ComButton/ComButton";
+import ComButton from "./../../../Components/ComButton/ComButton";
 
-export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
-  const [data, setData] = useState({});
-  console.log(data);
-  useEffect(() => {
-    // setData(selectedData);
-
-    getData(`/users/${selectedData?.id}`)
-      .then((e) => {
-        setData(e?.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-  }, [selectedData]);
+export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
   return (
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết nhân viên
+          Chi tiết người dùng
         </h2>
         <table className="w-full">
           <tbody>
@@ -35,12 +19,12 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
                 Hình ảnh:
               </td>
               <td className="px-4 py-2">
-                {data?.avatarUrl ? (
+                {selectedUser?.avatarUrl ? (
                   <div className="w-24 h-24 flex items-center justify-center overflow-hidden">
                     <Image
                       wrapperClassName=" w-full h-full object-cover object-center flex items-center justify-center "
-                      src={data?.avatarUrl}
-                      alt={data?.avatarUrl}
+                      src={selectedUser?.avatarUrl}
+                      alt={selectedUser?.avatarUrl}
                       preview={{ mask: "Xem ảnh" }}
                     />
                   </div>
@@ -53,30 +37,16 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Họ và tên:
               </td>
-              <td className="px-4 py-2">{data?.fullName}</td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
-                Giới tính:
-              </td>
-              <td className="px-4 py-2">
-                <ComGenderConverter>{data?.gender}</ComGenderConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Chứ vụ:</td>
-              <td className="px-4 py-2">
-                <ComRoleConverter>
-                  {data?.roles ? data?.roles[0]?.name : ""}
-                </ComRoleConverter>
-              </td>
+              <td className="px-4 py-2">{selectedUser?.fullName}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Số điện thoại:
               </td>
               <td className="px-4 py-2">
-                <ComPhoneConverter>{data?.phoneNumber}</ComPhoneConverter>
+                <ComPhoneConverter>
+                  {selectedUser?.phoneNumber}
+                </ComPhoneConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -84,7 +54,9 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
                 CCCD or CMND:
               </td>
               <td className="px-4 py-2">
-                <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
+                <ComCccdOrCmndConverter>
+                  {selectedUser?.cccd}
+                </ComCccdOrCmndConverter>
               </td>
             </tr>
             <tr className="border-b">
@@ -92,13 +64,7 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
                 Ngày sinh:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
-              </td>
-            </tr>
-            <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Gmail:</td>
-              <td className="px-4 py-2">
-                {data?.email}
+                <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
@@ -119,7 +85,7 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
             </ComButton>
           </div>
         ) : (
-          <p></p>
+          <></>
         )}
       </div>
     </div>

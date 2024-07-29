@@ -19,7 +19,12 @@ import ContractExtension from "./ContractExtension";
 
 export const TableContract = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+  const {
+    getColumnSearchProps,
+    getColumnApprox,
+    getColumnFilterProps,
+    getUniqueValues,
+  } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
@@ -30,6 +35,9 @@ export const TableContract = forwardRef((props, ref) => {
   useEffect(() => {
     reloadData();
   }, []);
+
+  const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
+
   const reloadData = () => {
     getData("/contract?SortDir=Desc")
       .then((e) => {
@@ -102,11 +110,16 @@ export const TableContract = forwardRef((props, ref) => {
     {
       title: "Gói dưỡng lão",
       width: 100,
-      dataIndex: "nursingPackage.name",
-      key: "nursingPackage.name",
+      dataIndex: "nursingPackage",
+      key: "nursingPackage",
       sorter: (a, b) =>
         a?.nursingPackage?.name?.localeCompare(b?.nursingPackage?.name),
-      ...getColumnSearchProps("nursingPackage.name", "Gói"),
+      ...getColumnFilterProps(
+        "nursingPackage.name",
+        "Loại phòng",
+        uniquePackageValues
+      ),
+      render: (render) => <div>{render.name}</div>,
     },
     {
       title: "Ngày kí ",

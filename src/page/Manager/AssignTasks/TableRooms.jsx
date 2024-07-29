@@ -25,7 +25,8 @@ export const TableRooms = forwardRef((props, ref) => {
   const modalCalendar = useModalState();
   const modal = useModalState();
   const modalScheduled = useModalState();
-  const { getColumnSearchProps } = useColumnSearch();
+  const { getColumnSearchProps, getUniqueValues, getColumnFilterProps } =
+    useColumnSearch();
   const {
     text: {
       InstituteManagement,
@@ -40,6 +41,9 @@ export const TableRooms = forwardRef((props, ref) => {
     modalDetailElder.handleOpen();
     setSelectedElder(record);
   };
+
+  const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
+
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -218,24 +222,37 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       sorter: (a, b) =>
         a.nursingPackage?.name?.localeCompare(b.nursingPackage?.name),
-      ...getColumnSearchProps("nursingPackage.name", "Loại phòng"),
+      ...getColumnFilterProps(
+        "nursingPackage.name",
+        "Loại phòng",
+        uniquePackageValues
+      ),
+      render: (render) => <div>{render?.name}</div>,
     },
     {
-      title: "Số giường",
+      title: "Số giường trống",
+      dataIndex: "totalBed-userBed",
+      key: "totalBed-userBed",
+      width: 100,
+      sorter: (a, b) => a.totalBed - a.userBed - (b.totalBed - b.userBed),
+      render: (render, data) => <div>{data?.totalBed - data?.userBed}</div>,
+      // ...getColumnSearchProps("totalBed-userBed", "Số người trong phòng"),
+    },
+    {
+      title: "Số người trong phòng",
       dataIndex: "userBed",
       key: "userBed",
       width: 100,
       sorter: (a, b) => a.userBed - b.userBed,
-
-      ...getColumnSearchProps("userBed", "Số giường"),
+      ...getColumnSearchProps("userBed", "Số người trong phòng"),
     },
     {
-      title: "Số giường trống",
-      dataIndex: "unusedBed",
-      key: "unusedBed",
+      title: "Tổng số giường",
+      dataIndex: "totalBed",
+      key: "totalBed",
       width: 100,
-      sorter: (a, b) => a.unusedBed - b.unusedBed,
-      ...getColumnSearchProps("unusedBed", "Số giường trống"),
+      sorter: (a, b) => a.totalBed - b.totalBed,
+      ...getColumnSearchProps("totalBed", "Tổng số giường"),
     },
     {
       title: "Thao tác",

@@ -21,89 +21,93 @@ export const TableRooms = forwardRef((props, ref) => {
   const modalDetailElder = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
   const modal = useModalState();
-  const { getColumnSearchProps, getColumnApprox,getColumnFilterProps, getUniqueValues } =
-    useColumnSearch();
+  const {
+    getColumnSearchProps,
+    getColumnApprox,
+    getColumnFilterProps,
+    getUniqueValues,
+  } = useColumnSearch();
   const {
     text: {
       InstituteManagement,
       common: { button },
     },
   } = useContext(LanguageContext);
- const uniqueBlockValues = getUniqueValues(data, "block.name");
- const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
- 
+  const uniqueBlockValues = getUniqueValues(data, "block.name");
+  const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
+
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
-    const showModaldElder = (record) => {
-      modalDetailElder.handleOpen();
-      setSelectedElder(record);
-    };
+  const showModaldElder = (record) => {
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
+  };
   const expandedRowRender = (record) => {
-   const columns = [
-     {
-       title: "Tên người cao tuổi",
-       fixed: "left",
-       width: 100,
-       dataIndex: "name",
-       key: "name",
-       sorter: (a, b) => a.name?.localeCompare(b.name),
-       ...getColumnSearchProps("name", "Tên người cao tuổi"),
-     },
-     {
-       title: "Giới tính",
-       width: 100,
-       dataIndex: "gender",
-       key: "gender",
-       sorter: (a, b) => a.gender?.localeCompare(b.gender),
+    const columns = [
+      {
+        title: "Tên người cao tuổi",
+        fixed: "left",
+        width: 100,
+        dataIndex: "name",
+        key: "name",
+        sorter: (a, b) => a.name?.localeCompare(b.name),
+        ...getColumnSearchProps("name", "Tên người cao tuổi"),
+      },
+      {
+        title: "Giới tính",
+        width: 100,
+        dataIndex: "gender",
+        key: "gender",
+        sorter: (a, b) => a.gender?.localeCompare(b.gender),
 
-       filters: [
-         { text: "Nam", value: "Male" },
-         { text: "Nữ", value: "Female" },
-       ],
-       onFilter: (value, record) => record.gender === value,
-       render: (_, record) => (
-         <div>
-           <ComGenderConverter>{record?.gender}</ComGenderConverter>
-         </div>
-       ),
-     },
-   
-     {
-       title: "Địa chỉ",
-       width: 100,
-       dataIndex: "address",
-       key: "address",
-       sorter: (a, b) => a.address?.localeCompare(b.address),
-       ...getColumnSearchProps("address", "Địa chỉ"),
-     },
-     {
-       title: "Ghi chú",
-       width: 100,
-       dataIndex: "notes",
-       key: "notes",
-       sorter: (a, b) => a.notes?.localeCompare(b.notes),
+        filters: [
+          { text: "Nam", value: "Male" },
+          { text: "Nữ", value: "Female" },
+        ],
+        onFilter: (value, record) => record.gender === value,
+        render: (_, record) => (
+          <div>
+            <ComGenderConverter>{record?.gender}</ComGenderConverter>
+          </div>
+        ),
+      },
 
-       ...getColumnSearchProps("notes", "Ghi chú"),
-     },
-     {
-       title: "Thao tác",
-       key: "operation",
-       fixed: "right",
-       width: 50,
-       render: (_, record) => (
-         <div className="flex items-center flex-col">
-           <ComMenuButonTable
-             record={record}
-             showModalDetails={() => showModaldElder(record)}
-             // extraMenuItems={extraMenuItems}
-             excludeDefaultItems={["delete", "edit"]}
-             // order={order}
-           />
-         </div>
-       ),
-     },
-   ];
+      {
+        title: "Địa chỉ",
+        width: 100,
+        dataIndex: "address",
+        key: "address",
+        sorter: (a, b) => a.address?.localeCompare(b.address),
+        ...getColumnSearchProps("address", "Địa chỉ"),
+      },
+      {
+        title: "Ghi chú",
+        width: 100,
+        dataIndex: "notes",
+        key: "notes",
+        sorter: (a, b) => a.notes?.localeCompare(b.notes),
+
+        ...getColumnSearchProps("notes", "Ghi chú"),
+      },
+      {
+        title: "Thao tác",
+        key: "operation",
+        fixed: "right",
+        width: 50,
+        render: (_, record) => (
+          <div className="flex items-center flex-col">
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModaldElder(record)}
+              // extraMenuItems={extraMenuItems}
+              excludeDefaultItems={["delete", "edit"]}
+              // order={order}
+            />
+          </div>
+        ),
+      },
+    ];
     return (
       <Table
         scroll={{
@@ -121,7 +125,7 @@ export const TableRooms = forwardRef((props, ref) => {
       />
     );
   };
-
+  console.log(data);
   const columns = [
     {
       title: "Tên phòng",
@@ -164,21 +168,29 @@ export const TableRooms = forwardRef((props, ref) => {
     //   ...getColumnSearchProps("status", InstituteManagement?.status),
     // },
     {
-      title: "Số giường",
+      title: "Số giường trống",
+      dataIndex: "totalBed-userBed",
+      key: "totalBed-userBed",
+      width: 100,
+      sorter: (a, b) => a.totalBed - a.userBed - (b.totalBed - b.userBed),
+      render: (render, data) => <div>{data?.totalBed - data?.userBed}</div>,
+      // ...getColumnSearchProps("totalBed-userBed", "Số người trong phòng"),
+    },
+    {
+      title: "Số người trong phòng",
       dataIndex: "userBed",
       key: "userBed",
       width: 100,
       sorter: (a, b) => a.userBed - b.userBed,
-
-      ...getColumnSearchProps("userBed", "Số giường"),
+      ...getColumnSearchProps("userBed", "Số người trong phòng"),
     },
     {
-      title: "Số giường trống",
-      dataIndex: "unusedBed",
-      key: "unusedBed",
+      title: "Tổng số giường",
+      dataIndex: "totalBed",
+      key: "totalBed",
       width: 100,
-      sorter: (a, b) => a.unusedBed - b.unusedBed,
-      ...getColumnSearchProps("unusedBed", "Số giường trống"),
+      sorter: (a, b) => a.totalBed - b.totalBed,
+      ...getColumnSearchProps("totalBed", "Tổng số giường"),
     },
     {
       title: "Thao tác",

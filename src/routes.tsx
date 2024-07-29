@@ -29,6 +29,7 @@ import DetailElderPage from "./page/admin/TableElder/DetailElderPage";
 import Dashboard from "./page/admin/Dashboard/Dashboard";
 import PaymentStatus from "./page/User/PaymentStatus";
 import AssignTasksManagement from "./page/Manager/AssignTasks/AssignTasksManagement";
+import TableAccount from "./page/admin/TableAccount/TableAccount";
 
 export const routers = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/institute",
         element: <InstituteManagement />,
+      },
+      {
+        path: "/admin/account",
+        element: <TableAccount />,
       },
       {
         path: "/admin/user",

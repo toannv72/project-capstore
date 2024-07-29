@@ -7,26 +7,29 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
-import ComSelect from "../../../Components/ComInput/ComSelect";
-import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
-import moment from "moment";
-import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { postData } from "../../../api/api";
 import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
 import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
+import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
+import { disabledDate } from "../../../Components/ComDateDisabled";
+import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
 import {
-  phoneNumberRegex,
-  cccdRegex,
-  nameRegex,
   addressRegex,
-  usernameRegex,
+  cccdRegex,
   emailRegex,
-} from "./../../../regexPatterns";
-import { postData } from "../../../api/api";
+  nameRegex,
+  phoneNumberRegex,
+  usernameRegex,
+} from "../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import ComSelect from "../../../Components/ComInput/ComSelect";
 
-export default function CreateEmployee({ onClose, tableRef }) {
-  const [image, setImages] = useState(null);
+export default function CreateUser({ onClose, tableRef }) {
+  const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
+
+  // const nameRegex =
+  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
@@ -95,8 +98,16 @@ export default function CreateEmployee({ onClose, tableRef }) {
       value: "Nurse",
     },
     {
+      label: "Khách hàng",
+      value: "Customer",
+    },
+    {
       label: "Nhân viên",
       value: "Staff",
+    },
+    {
+      label: "Quản lý",
+      value: "Manager",
     },
   ];
   const dataGender = [

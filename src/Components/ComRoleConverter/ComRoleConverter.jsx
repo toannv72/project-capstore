@@ -11,10 +11,12 @@ function ComRoleConverter({ children }) {
         return "Nhân viên";
       case "nurse":
         return "Y tá";
+      case "director":
+        return "Giám đốc";
       case "customer":
         return "Khách hàng";
       default:
-        return " "; // Giá trị mặc định nếu không khớp
+        return ""; // Giá trị mặc định nếu không khớp
     }
   };
 

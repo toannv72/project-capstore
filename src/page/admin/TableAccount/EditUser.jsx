@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComButton from "./../../../Components/ComButton/ComButton";
 import { FormProvider, useForm } from "react-hook-form";
 import ComInput from "./../../../Components/ComInput/ComInput";
@@ -7,25 +7,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
-import ComSelect from "../../../Components/ComInput/ComSelect";
+import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
-import moment from "moment";
 import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
-import ComUpImgOne from "./../../../Components/ComUpImg/ComUpImgOne";
-import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
+import dayjs from "dayjs";
+import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
+import { postData, putData } from "../../../api/api";
 import {
-  phoneNumberRegex,
-  cccdRegex,
-  nameRegex,
   addressRegex,
-  usernameRegex,
+  cccdRegex,
   emailRegex,
-} from "./../../../regexPatterns";
-import { postData } from "../../../api/api";
+  nameRegex,
+  phoneNumberRegex,
+} from "../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
+import ComSelect from "../../../Components/ComInput/ComSelect";
 
-export default function CreateEmployee({ onClose, tableRef }) {
-  const [image, setImages] = useState(null);
+export default function EditUser({ selectedUser, onClose, tableRef }) {
+  const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
     fullName: yup
@@ -37,34 +36,11 @@ export default function CreateEmployee({ onClose, tableRef }) {
       .required("Vui lòng nhập tên")
       .min(2, "Tên quá ngắn, vui lòng nhập tối thiểu 2 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
-    email: yup
-      .string()
-      .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
-      .required("Vui lòng nhập đầy đủ email"),
-    userName: yup
-      .string()
-      .required("Vui lòng nhập tên đăng nhập")
-      .matches(
-        usernameRegex,
-        "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
-      .min(7, "Tên quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
-      .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
-    password: yup
-      .string()
-      .required("Vui lòng nhập mật khẩu")
-      .matches(
-        usernameRegex,
-        "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
-      .min(7, "Mật khẩu quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
-      .max(50, "Mật khẩu quá dài, vui lòng nhập tối đa 50 ký tự"),
-    role: yup.string().required("Vui lòng chọn chức vụ"),
-    gender: yup.string().required("Vui lòng chọn giới tính"),
-    phoneNumber: yup
-      .string()
-      .required("Vui lòng nhập đủ số điện thoại")
-      .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
+    // phoneNumber: yup
+    //   .string()
+    //   // .required("Vui lòng nhập đủ số điện thoại")
+    //   .nullable()
+    //   .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
     cccd: yup
       .string()
       .matches(
@@ -78,71 +54,71 @@ export default function CreateEmployee({ onClose, tableRef }) {
       .required("Vui lòng nhập địa chỉ")
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
-    dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
+    email: yup
+      .string()
+      .matches(emailRegex, "Vui lòng nhập địa chỉ email hợp lệ")
+      .notRequired(),
   });
-
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     defaultValues: {
+      name: "",
       phoneNumber: "",
+      dateOfBirth: selectedUser?.dateOfBirth ? selectedUser?.dateOfBirth : null,
     },
+    values: selectedUser,
   });
+
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
-  const dataRole = [
-    {
-      label: "Y tá",
-      value: "Nurse",
-    },
-    {
-      label: "Nhân viên",
-      value: "Staff",
-    },
-  ];
-  const dataGender = [
-    {
-      label: "Nam",
-      value: "Male",
-    },
-    {
-      label: "Nữ",
-      value: "Female",
-    },
-  ];
   const onSubmit = (data) => {
-    if (!image) {
-      console.log(123);
-      return notificationApi(
-        "error",
-        "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh"
-      );
-    }
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      postData(`/users/system-register?roleRegister=${data.role}`, {
-        ...data,
-        avatarUrl: dataImg,
-      })
-        .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo");
-          setTimeout(() => {
-            if (tableRef.current) {
-              // Kiểm tra xem ref đã được gắn chưa
-              tableRef.current.reloadData();
+      if (dataImg) {
+        const dataPut = { ...data, avatarUrl: dataImg };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((data) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+
+            if (error.status === 409) {
+              setError("phoneNumber", {
+                message: "Đã có số điện thoại này",
+              });
+              setFocus("phoneNumber");
             }
-          }, 100);
-          onClose();
-        })
-        .catch((error) => {
-          handleErrors(error, setError, setFocus);
-          console.log("====================================");
-          console.log(error);
-          console.log("====================================");
-        });
+          });
+      } else {
+        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((data) => {
+            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+          })
+          .catch((error) => {
+            console.log(error);
+            handleErrors(error, setError, setFocus);
+            if (error.status === 409) {
+              setError("phoneNumber", {
+                message: "Đã có số điện thoại này",
+              });
+              setFocus("phoneNumber");
+            }
+          });
+      }
     });
   };
-
+  useEffect(() => {
+    setImages([]);
+  }, [selectedUser]);
   const onChange = (data) => {
     const selectedImages = data;
 
@@ -156,8 +132,8 @@ export default function CreateEmployee({ onClose, tableRef }) {
   return (
     <div>
       <div className="p-4 bg-white ">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">
-          Tạo tài khoản nhân viên
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Chỉnh sửa tài khoản
         </h2>
         <FormProvider {...methods}>
           <form
@@ -180,48 +156,7 @@ export default function CreateEmployee({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Tên đăng nhập"}
-                      placeholder={"Vui lòng nhập Tên đăng nhập"}
-                      {...register("userName")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="password"
-                      label={"Mật khẩu"}
-                      placeholder={"Vui lòng nhập Tên mật khẩu"}
-                      {...register("password")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      type="role"
-                      size={"large"}
-                      style={{
-                        width: "100%",
-                      }}
-                      label="Chọn chức vụ"
-                      placeholder="Chức vụ"
-                      // mode="tags"
-                      onChangeValue={(e, data) => setValue(e, data)}
-                      mode="default"
-                      options={dataRole}
-                      required
-                      {...register("role")}
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
+                {/* <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
@@ -231,7 +166,8 @@ export default function CreateEmployee({ onClose, tableRef }) {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
+
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -257,31 +193,46 @@ export default function CreateEmployee({ onClose, tableRef }) {
                 </div>
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
-                    <ComInput
-                      type="text"
-                      label={"Gmail"}
-                      placeholder={"Vui lòng nhập Gmail"}
-                      {...register("email")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
                     <ComSelect
-                      type="role"
                       size={"large"}
                       style={{
                         width: "100%",
                       }}
                       label="Chọn giới tính"
                       placeholder="Giới tính"
-                      // mode="tags"
-                      onChangeValue={(e, data) => setValue(e, data)}
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("gender", null, { shouldValidate: true });
+                        } else {
+                          setValue("gender", value, { shouldValidate: true });
+                        }
+                      }}
+                      // value={selectedGender}
+                      value={watch("gender")}
                       mode="default"
-                      options={dataGender}
+                      options={[
+                        {
+                          value: "Male",
+                          label: `Nam`,
+                        },
+                        {
+                          value: "Female",
+                          label: `Nữ`,
+                        },
+                      ]}
                       required
                       {...register("gender")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="text"
+                      label={"Gmail"}
+                      placeholder={"Vui lòng nhập Gmail"}
+                      {...register("email")}
+                      // required
                     />
                   </div>
                 </div>
@@ -298,14 +249,18 @@ export default function CreateEmployee({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne
+              imgUrl={selectedUser.avatarUrl}
+              onChange={onChange}
+              label={"Hình ảnh"}
+            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Tạo mới
+                Chỉnh sửa
               </ComButton>
             </div>
           </form>
