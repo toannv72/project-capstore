@@ -28,22 +28,22 @@ const sortOptions = [
   { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
-  { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
+  // { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
   { name: "Khách hàng", href: "/admin/user", icon: UserIcon },
-  { name: "Người cao tuổi", href: "/admin/elder", icon: UsersIcon },
+  // { name: "Người cao tuổi", href: "/admin/elder", icon: UsersIcon },
   { name: "Nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
-  {
-    name: "Lịch hẹn",
-    href: "/admin/appointmentSchedule",
-    icon: CalendarDaysIcon,
-  },
-  {
-    name: "Danh sách gói dưỡng lão",
-    href: "/admin/nursingPackage",
-    icon: QueueListIcon,
-  },
-  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
-  { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
+  // {
+  //   name: "Lịch hẹn",
+  //   href: "/admin/appointmentSchedule",
+  //   icon: CalendarDaysIcon,
+  // },
+  // {
+  //   name: "Danh sách gói dưỡng lão",
+  //   href: "/admin/nursingPackage",
+  //   icon: QueueListIcon,
+  // },
+  // { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
+  // { name: "Lịch hoạt động", href: "/admin/activitie", icon: Cog6ToothIcon },
   // {
   //   name: "Trung tâm thông báo",
   //   href: "/admin/createNotification",

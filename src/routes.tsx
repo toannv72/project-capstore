@@ -31,6 +31,7 @@ import PaymentStatus from "./page/User/PaymentStatus";
 import AssignTasksManagement from "./page/Manager/AssignTasks/AssignTasksManagement";
 import TableAccount from "./page/admin/TableAccount/TableAccount";
 import ComHeaderDirector from "./Components/ComHeaderDirector/ComHeaderDirector";
+import ComHeaderManager from "./Components/ComHeaderManager/ComHeaderManager";
 
 export const routers = createBrowserRouter([
   {
@@ -180,7 +181,7 @@ export const routers = createBrowserRouter([
       // },
       {
         path: "/director/employee",
-        element: <TableEmployee  />,
+        element: <TableEmployee />,
       },
       // {
       //   path: "/director/nursingPackage",
@@ -295,6 +296,93 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/staff/health",
+        element: <Health />,
+      },
+      // Add other unprotected admin routes here (if any)
+    ],
+  },
+  {
+    path: "/manager",
+    element: (
+      <ComHeaderManager>
+        <Outlet />
+      </ComHeaderManager>
+    ),
+    children: [
+      {
+        path: "*",
+        element: <ErrorPage goTo={"/manager/assignTask"} statusCode={"404"} />,
+      },
+      {
+        path: "/manager",
+        element: <Admin />,
+      },
+      {
+        path: "/manager/institute",
+        element: <InstituteManagement />,
+      },
+      {
+        path: "/manager/contract",
+        element: <Contract />,
+      },
+      {
+        path: "/manager/assignTask",
+        element: <AssignTasksManagement />,
+      },
+      {
+        path: "/manager/user",
+        element: <TableUser />,
+      },
+      {
+        path: "/manager/elder",
+        element: <TableElder />,
+      },
+      {
+        path: "/manager/elder/:id",
+        element: <DetailElderPage />,
+      },
+      {
+        path: "/manager/employee",
+        element: <TableEmployee />,
+      },
+      {
+        path: "/manager/nursingPackage",
+        element: <NursingPackage />,
+      },
+      {
+        path: "/manager/appointmentSchedule",
+        element: <AppointmentSchedule />,
+      },
+      {
+        path: "/manager/servicePackage",
+        element: <ServicePackage />,
+      },
+      {
+        path: "/manager/potentialCustomer",
+        element: <PotentialCustomer />,
+      },
+      {
+        path: "/manager/profile",
+        element: <ProfilePage />,
+      },
+      {
+        path: "/manager/notification",
+        element: <Notification />,
+      },
+      {
+        path: "/manager/changePassword",
+        element: <ChangePassword />,
+      },
+      {
+        path: "/manager/feedback",
+        element: <Feedback />,
+      },
+      {
+        path: "/manager/bill",
+        element: <Bill />,
+      },
+      {
+        path: "/manager/health",
         element: <Health />,
       },
       // Add other unprotected admin routes here (if any)

@@ -22,71 +22,86 @@ import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 
 const sortOptions = [
-  { name: "Thông tin", href: "#" },
-  { name: "Thay đổi mật khẩu", href: "#" },
-  { name: "Đăng xuất", href: "/login" },
+  { name: "Thông tin", href: "profile" },
+  { name: "Thay đổi mật khẩu", href: "password" },
+  { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
-  { name: "Quản lý viện", href: "/admin/institute", icon: BuildingOffice2Icon },
-  { name: "Quản lý khách hàng", href: "/admin/user", icon: UserIcon },
-  { name: "Quản lý người cao tuổi", href: "/admin/elder", icon: UsersIcon },
-  { name: "Quản lý nhân viên", href: "/admin/staff", icon: BriefcaseIcon },
+  {
+    name: "Quản lý viện",
+    href: "/manager/institute",
+    icon: BuildingOffice2Icon,
+  },
+  { name: "Quản lý khách hàng", href: "/manager/user", icon: UserIcon },
+  { name: "Quản lý người cao tuổi", href: "/manager/elder", icon: UsersIcon },
+  { name: "Quản lý nhân viên", href: "/manager/employee", icon: BriefcaseIcon },
   {
     name: "Lịch hẹn",
-    href: "/admin/appointmentSchedule",
+    href: "/manager/appointmentSchedule",
     icon: CalendarDaysIcon,
   },
-  { name: "Danh sách dịch vụ", href: "/admin/servicePackage", icon: Bars3Icon },
   {
     name: "Danh sách gói dưỡng lão",
-    href: "/admin/nursingPackage",
+    href: "/manager/nursingPackage",
     icon: QueueListIcon,
   },
-  { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
+  {
+    name: "Danh sách dịch vụ",
+    href: "/manager/servicePackage",
+    icon: Bars3Icon,
+  },
+
+  // { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
 ];
 
 export default function ComHeaderManager({ children }) {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const location = useLocation();
-  const currentPath = location.pathname;
-  const [activeCategory, setActiveCategory] = useState(null);
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  useEffect(() => {
-    setActiveCategory(currentPath);
-     window.scrollTo(0, 0);
-  }, [currentPath]);
-  function findNameByPathname() {
-    const matchingCategory = subCategories.find(
-      (category) => category.href === currentPath
-    );
-    return matchingCategory ? matchingCategory.name : null;
-  }
-  const handSend = (option) => {
-    switch (option) {
-      case "/login":
-        localStorage.removeItem("accessToken");
-        // localStorage.clear(); // xóa tất cả
-        setTimeout(() => {
-          navigate("/login");
-        }, 0);
-        break;
-
-      default:
-        navigate(option);
-        break;
-    }
-  };
+ const [mobileFiltersOpen, setMobileHeadersOpen] = useState(false);
+ const location = useLocation();
+ const currentPath = location.pathname;
+ const [activeCategory, setActiveCategory] = useState(null);
+ const navigate = useNavigate();
+ useEffect(() => {
+   setActiveCategory(currentPath);
+   window.scrollTo(0, 0);
+ }, [currentPath]);
+ function findNameByPathname() {
+   const matchingCategory = subCategories.find(
+     (category) => category.href === currentPath
+   );
+   return matchingCategory ? matchingCategory.name : null;
+ }
+ const handSend = (option) => {
+   switch (option) {
+     case "login":
+       localStorage.removeItem("accessToken");
+       localStorage.removeItem("use");
+       //localStorage.clear(); // xóa tất cả
+       setTimeout(() => {
+         navigate("/login");
+       }, 0);
+       break;
+     case "profile":
+       navigate("/manager/profile");
+       break;
+     case "password":
+       navigate("/manager/changePassword");
+       break;
+     default:
+       navigate(option);
+       break;
+   }
+ };
   return (
-    <div className="bg-white flex">
-      <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
-        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2">
-          <div className="text-white px-10 py-10 text-center text-3xl">
+    <div className="bg-[#f9fafb] flex">
+      <Affix offsetTop={0} className="hidden lg:block fixed-sidebar ">
+        <div className="bg-[#0F296D] h-screen w-[260px]  pr-2 overflow-y-auto pb-4">
+          <div className="text-white px-10 py-4 text-center text-3xl">
             CareConnect
           </div>
           <div className="text-white flex flex-col gap-5">
             {subCategories.map((category) => (
-              <div
+              <Link
+                to={category.href}
                 key={category.name}
                 className={`${
                   category?.href === activeCategory
@@ -94,8 +109,8 @@ export default function ComHeaderManager({ children }) {
                     : "hover:bg-gray-200 hover:rounded-r-full hover:text-[#0F296D] "
                 } p-3 flex items-center cursor-pointer`}
                 onClick={() => {
-                  setActiveCategory(category.href);
-                  navigate(category.href);
+                  // setActiveCategory(category.href);
+                  // navigate(category.href);
                 }}
               >
                 <category.icon
@@ -113,7 +128,7 @@ export default function ComHeaderManager({ children }) {
                 >
                   {category.name}
                 </h1>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -123,7 +138,7 @@ export default function ComHeaderManager({ children }) {
           <Dialog
             as="div"
             className="relative z-40 lg:hidden"
-            onClose={setMobileFiltersOpen}
+            onClose={setMobileHeadersOpen}
           >
             <Transition.Child
               as={Fragment}
@@ -150,24 +165,24 @@ export default function ComHeaderManager({ children }) {
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
                     <h2 className="text-lg font-medium text-gray-900">
-                      Filters
+                      CareConnect
                     </h2>
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                      onClick={() => setMobileFiltersOpen(false)}
+                      onClick={() => setMobileHeadersOpen(false)}
                     >
                       <span className="sr-only">Close menu</span>
                       <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
 
-                  {/* Filters */}
+                  {/* Header */}
                   <form className="mt-4 border-t border-gray-200">
-                    <h3 className="sr-only">Categories</h3>
+                    <h3 className="sr-only">CareConnect</h3>
                     <ul
                       role="list"
-                      className="px-2 py-3 font-medium text-gray-900"
+                      className="px-2 py-3 font-medium text-gray-900 scrollbar scrollbar-thin"
                     >
                       {subCategories.map((category) => (
                         <li key={category.name}>
@@ -183,9 +198,9 @@ export default function ComHeaderManager({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
-        <Affix offsetTop={0} className="w-full">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 py-3">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+        <Affix offsetTop={0} className="w-full ">
+          <div className="bg-white flex items-baseline justify-between border-b border-gray-200 z-20">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}
             </h1>
@@ -193,7 +208,10 @@ export default function ComHeaderManager({ children }) {
             <div className="flex items-center">
               <Space size="large">
                 <Badge count={0} overflowCount={9}>
-                  <BellOutlined style={{ fontSize: "30px" }} />
+                  <BellOutlined
+                    style={{ fontSize: "30px" }}
+                    onClick={() => navigate("/manager/notification")}
+                  />
                 </Badge>
                 <div className="text-lg">Xin chào! Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
@@ -236,7 +254,7 @@ export default function ComHeaderManager({ children }) {
                 <button
                   type="button"
                   className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-                  onClick={() => setMobileFiltersOpen(true)}
+                  onClick={() => setMobileHeadersOpen(true)}
                 >
                   <span className="sr-only">Menu</span>
                   {/* <MenuFoldOutlined /> */}
@@ -252,10 +270,10 @@ export default function ComHeaderManager({ children }) {
 
         <section
           aria-labelledby="products-heading"
-          className="px-4 pt-4 sm:px-6 lg:px-8 "
+          className="px-4 pt-2 sm:px-6 lg:px-8 "
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
-            <div className="lg:col-span-6 overflow-y-auto h-full w-full">
+            <div className="lg:col-span-6  h-full w-full">
               <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]">
                 {/* {user?.role === "admin" ? (
                   children
