@@ -117,6 +117,7 @@ const ComSelect = React.forwardRef(
               <Select.Option
                 key={option.value}
                 value={option.value}
+                disabled={option.disabled}
                 label={option.label.split("\n")[0]}
                 searchString={option?.label}
               >
