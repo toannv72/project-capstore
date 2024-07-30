@@ -36,7 +36,10 @@ export default function DetailBill({ selectedData, onClose }) {
                     </ComDateConverter>
                   ),
                 },
-                { label: "Giá tiền:", value: selectedData?.amount?.toFixed(2) },
+                {
+                  label: "Giá tiền:",
+                  value: formatCurrency(selectedData?.amount),
+                },
                 { label: "Ghi chú:", value: selectedData?.notes },
               ].map((item, index) => (
                 <tr key={index} className="border-b">

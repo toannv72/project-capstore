@@ -327,6 +327,8 @@ export const TableRooms = forwardRef((props, ref) => {
         dataSource={data}
         loading={table.loading}
       />
+
+      {/* xếp lịch  */}
       <ComModal
         width={800}
         isOpen={modal?.isModalOpen}

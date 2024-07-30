@@ -98,6 +98,7 @@ export default function EditOneTime({ onClose, dataValue }) {
   }, []);
   useEffect(() => {
     setMony(dataValue.price);
+    setregistrationLimit(dataValue.registrationLimit);
     setTimeout(() => {
       setValue("endRegistrationDate", dataValue.endRegistrationDate);
     }, 100);
@@ -300,7 +301,8 @@ export default function EditOneTime({ onClose, dataValue }) {
                         }}
                         defaultValue={registrationLimit}
                         min={1}
-                        max={10000}
+                        value={registrationLimit}
+                        // max={10000}
                         label={"Số lượng người có thể tham gia"}
                         placeholder={"Vui lòng nhập số lượng có thể tham gia"}
                         {...register("registrationLimit")}

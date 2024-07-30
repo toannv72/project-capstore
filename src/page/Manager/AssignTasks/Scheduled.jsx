@@ -66,18 +66,7 @@ setDisabled(true);
                     />
                   </div>
                 </div>
-                {/* <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComTextArea
-                      type="text"
-                      rows={5}
-                      label={"Thông tin bổ sung"}
-                      placeholder={"Thông tin bổ sung"}
-                      {...register("description")}
-                      required
-                    />
-                  </div>
-                </div> */}
+   
               </div>
             </div>
             <div className="mt-10">

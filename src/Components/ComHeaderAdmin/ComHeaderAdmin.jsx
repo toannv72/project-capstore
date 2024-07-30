@@ -204,12 +204,12 @@ export default function ComHeaderAdmin({ children }) {
 
             <div className="flex items-center">
               <Space size="large">
-                <Badge count={0} overflowCount={9}>
+                {/* <Badge count={0} overflowCount={9}>
                   <BellOutlined
                     style={{ fontSize: "30px" }}
                     onClick={() => navigate("/admin/notification")}
                   />
-                </Badge>
+                </Badge> */}
                 <div className="text-lg">Xin chào! Gia Thành</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
