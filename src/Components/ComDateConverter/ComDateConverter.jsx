@@ -4,7 +4,11 @@ import moment from "moment";
 function ComDateConverter({ children, formatData = "YYYY-MM-DD" }) {
   const handleDate = () => {
     try {
-      const date = moment(children, formatData, true); // Strict parsing to ensure format
+      // Check if the date is in ISO 8601 format
+      const date = moment(children, moment.ISO_8601, true).isValid()
+        ? moment(children)
+        : moment(children, formatData, true);
+
       const formattedDate = date.isValid() ? date.format("DD-MM-YYYY") : ""; // Return empty string if invalid
       return formattedDate;
     } catch (error) {

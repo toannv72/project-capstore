@@ -208,8 +208,12 @@ export const TableBills = forwardRef((props, ref) => {
       <ComModal
         isOpen={modalDetailBill?.isModalOpen}
         onClose={modalDetailBill?.handleClose}
+        width={800}
       >
-        <DetailBill selectedData={selectedBill} />
+        <DetailBill
+          selectedData={selectedBill}
+          onClose={modalDetailBill?.handleClose}
+        />
       </ComModal>
 
       {/* chỉnh sửa user */}

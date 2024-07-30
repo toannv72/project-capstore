@@ -20,6 +20,7 @@ import DetailElder from "./../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComRoleConverter from "./../../../Components/ComRoleConverter/ComRoleConverter";
+import ChangePassword from "./ChangePassword";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -28,6 +29,7 @@ export const Tables = forwardRef((props, ref) => {
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
   const modalEdit = useModalState();
+  const modalChangePassword = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
 
@@ -282,15 +284,26 @@ export const Tables = forwardRef((props, ref) => {
             record={record}
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
-            // extraMenuItems={extraMenuItems}
+            extraMenuItems={extraMenuItems}
             excludeDefaultItems={["delete"]}
-            // order={order}
+            order={order}
           />
         </div>
       ),
     },
   ];
-  console.log(data);
+  const order = ["details", "Đổi mật khẩu", "edit", "delete"];
+
+  const extraMenuItems = [
+    {
+      label: "Đổi mật khẩu",
+      onClick: (e) => {
+        console.log("Đổi mật khẩu clicked");
+        modalChangePassword.handleOpen();
+      },
+    },
+  ];
+
   return (
     <div>
       <ComTable
@@ -330,6 +343,19 @@ export const Tables = forwardRef((props, ref) => {
           selectedUser={selectedUser}
           onClose={modalEdit?.handleClose}
           tableRef={reloadData}
+        />
+      </ComModal>
+
+      {/* Đổi mk */}
+      <ComModal
+        isOpen={modalChangePassword?.isModalOpen}
+        onClose={modalChangePassword?.handleClose}
+        width={800}
+      >
+        <ChangePassword
+          selectedUser={selectedUser}
+          onClose={modalChangePassword?.handleClose}
+          // tableRef={reloadData}
         />
       </ComModal>
     </div>

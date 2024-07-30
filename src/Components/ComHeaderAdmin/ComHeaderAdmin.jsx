@@ -29,7 +29,7 @@ const sortOptions = [
 ];
 const subCategories = [
   // { name: "Tổng quát", href: "/admin/institute", icon: BuildingOffice2Icon },
-  { name: "Khách hàng", href: "/admin/user", icon: UserIcon },
+  { name: "Tài khoản", href: "/admin/account", icon: UserIcon },
   // { name: "Người cao tuổi", href: "/admin/elder", icon: UsersIcon },
   { name: "Nhân viên", href: "/admin/employee", icon: BriefcaseIcon },
   // {
