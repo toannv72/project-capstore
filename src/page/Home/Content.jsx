@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Content() {
- 
   return (
     <div id="content" className="no-sidebar">
       <section className="banner-module">
@@ -52,45 +51,8 @@ export default function Content() {
             </h1>
             <div className="banner-module__description">
               Cho dù ba mẹ bạn đang ở giai đoạn nào trong hành trình chăm sóc
-              sức khỏe, đội ngũ tận tâm và đáng tin cậy của Care Connect luôn
-              sẵn sàng đồng hành cùng gia đình bạn.
-            </div>
-
-            <div className="banner-module__tag">
-              <Link
-                to="/"
-                className=" bg-sky-600 border-y rounded-lg text-white banner-module__cta button yellow button--icon button--large gtrackexternal"
-                href="/"
-              >
-                Tìm hiểu thêm
-                <span className="button__icon">
-                  <svg
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 18 15"
-                  >
-                    <defs></defs>
-                    <line
-                      className="cls-1"
-                      x1="2.12"
-                      y1="7.66"
-                      x2="16.18"
-                      y2="7.66"
-                    ></line>
-                    <polyline
-                      className="cls-1"
-                      points="10.29 2.18 16.18 7.66 10.29 13.13"
-                    ></polyline>
-                  </svg>
-                </span>
-              </Link>
-              <div className="banner-module__supporting-image">
-                <img
-                  className="skip-lazy"
-                  src="https://www.careconnect.org.au/wp-content/uploads/2022/12/life-made-easier.png"
-                  alt="Life made easier"
-                />
-              </div>
+              sức khỏe, đội ngũ tận tâm và đáng tin cậy của CareConnect luôn sẵn
+              sàng đồng hành cùng gia đình bạn.
             </div>
           </div>
         </div>
@@ -100,7 +62,7 @@ export default function Content() {
         <div className="wrap cf ">
           <div className="intro__wrapper intro__wrapper--center ">
             <h2 className="intro__title">
-              Care Connect - Vì một tuổi già an yên cho ba mẹ và sự an tâm cho
+              CareConnect - Vì một tuổi già an yên cho ba mẹ và sự an tâm cho
               bạn, hãy kết nối với chúng tôi ngay hôm nay.
             </h2>
 
@@ -121,11 +83,11 @@ export default function Content() {
             </noscript>
             <div className="intro__description">
               <p>
-                Care Connect tạo ra một môi trường sống ấm áp, thân thiện và đầy
+                CareConnect tạo ra một môi trường sống ấm áp, thân thiện và đầy
                 tình yêu thương cho người cao tuổi.
               </p>
               <p>
-                Viện dưỡng lão không chỉ cung cấp các dịch vụ chăm sóc cơ bản mà
+                CareConnect không chỉ cung cấp các dịch vụ chăm sóc cơ bản mà
                 còn quan tâm đến đời sống tinh thần, giúp người cao tuổi cảm
                 thấy được kết nối và yêu thương.
               </p>
@@ -137,7 +99,7 @@ export default function Content() {
       <section className="tile-grid tile-grid--eggshell">
         <div className="wrap cf">
           <h2 className="tile-grid__title">
-            Care Connect có thể giúp gì cho bạn?
+            CareConnect có thể giúp gì cho bạn?
           </h2>
 
           <ul className="tile-grid__row tile-grid__row--simple">
@@ -163,10 +125,7 @@ export default function Content() {
                   </noscript>
                 </div>
 
-                <p className="tile-grid__tile-title">
-                  Cung cấp sự rõ ràng về tất cả các lựa chọn chăm sóc cho người
-                  cao tuổi tại Care Connect
-                </p>
+                <p className="tile-grid__tile-title">Tín nhiệm và tin tưởng</p>
 
                 <p className="tile-grid__description"></p>
               </div>
@@ -193,10 +152,7 @@ export default function Content() {
                   </noscript>
                 </div>
 
-                <p className="tile-grid__tile-title">
-                  Hỗ trợ bạn tìm hiểu và sử dụng hệ thống chăm sóc người cao
-                  tuổi.
-                </p>
+                <p className="tile-grid__tile-title">Quan tâm và theo dõi</p>
 
                 <p className="tile-grid__description"></p>
               </div>
@@ -223,42 +179,12 @@ export default function Content() {
                   </noscript>
                 </div>
 
-                <p className="tile-grid__tile-title">
-                  Hợp tác với bạn để đạt được kết quả tốt nhất có thể.
-                </p>
+                <p className="tile-grid__tile-title">Chưa bao giờ là muộn</p>
 
                 <p className="tile-grid__description"></p>
               </div>
             </li>
           </ul>
-
-          <Link
-            to="/"
-            className="tile-grid__button button yellow button--icon button--large gtrackexternal bg-sky-600 border-y rounded-lg text-white "
-            href=""
-          >
-            Tìm hiểu thêm
-            <span className="button__icon">
-              <svg
-                data-name="Layer 1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 18 15"
-              >
-                <defs></defs>
-                <line
-                  className="cls-1"
-                  x1="2.12"
-                  y1="7.66"
-                  x2="16.18"
-                  y2="7.66"
-                ></line>
-                <polyline
-                  className="cls-1"
-                  points="10.29 2.18 16.18 7.66 10.29 13.13"
-                ></polyline>
-              </svg>
-            </span>
-          </Link>
         </div>
       </section>
 
@@ -277,7 +203,7 @@ export default function Content() {
                   <img
                     className="quote__image skip-lazy"
                     src="https://i.ytimg.com/vi/qRu9N3gteT8/mqdefault.jpg"
-                    alt="Graham, Jocelyn &amp; Carissa | Care Connect"
+                    alt="Graham, Jocelyn &amp; Carissa | CareConnect"
                     srcSet="
                             https://i.ytimg.com/vi/qRu9N3gteT8/mqdefault.jpg     480w,
                             https://i.ytimg.com/vi/qRu9N3gteT8/maxresdefault.jpg
@@ -295,41 +221,12 @@ export default function Content() {
 
             <div className="quote__box quote__box--pale-blue">
               <h3 className="quote__opening">
-                Nhờ Care Connect, tôi luôn được thông báo kịp thời về mọi thay
+                Nhờ CareConnect, tôi luôn được thông báo kịp thời về mọi thay
                 đổi trong chế độ chăm sóc của ba mẹ, đồng thời thấy được sự quan
                 tâm và thấu hiểu của đội ngũ chăm sóc qua những thông tin chi
                 tiết và hình ảnh được chia sẻ.
+                <span className="quote__closing"></span>
               </h3>
-
-              <p className="quote__closing"></p>
-
-              <Link
-                to="/"
-                className="quote__button button--icon button--large gtrackexternal"
-                href="https://www.careconnect.org.au/support/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-              >
-                Tìm hiểu cách Care Connect hỗ trợ bạn
-                <span className="button__icon">
-                  <svg
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 18 15"
-                  >
-                    <defs></defs>
-                    <line
-                      className="cls-1"
-                      x1="2.12"
-                      y1="7.66"
-                      x2="16.18"
-                      y2="7.66"
-                    ></line>
-                    <polyline
-                      className="cls-1"
-                      points="10.29 2.18 16.18 7.66 10.29 13.13"
-                    ></polyline>
-                  </svg>
-                </span>
-              </Link>
             </div>
           </div>
         </div>
@@ -341,10 +238,10 @@ export default function Content() {
         <div className="wrap cf">
           <div className="intro__wrapper intro__wrapper--center">
             <h2 className="intro__title">
-              Care Connect là một nền tảng trực tuyến hoặc ứng dụng di động giúp
+              CareConnect là một nền tảng trực tuyến và là ứng dụng di động giúp
               kết nối người cao tuổi, gia đình họ và nhân viên viện dưỡng lão.
               Nền tảng này có thể cung cấp các tính năng như theo dõi sức khỏe,
-              đặt lịch hẹn, chia sẻ thông tin và giao tiếp trực tuyến.
+              đặt lịch hẹn, lựa chọn dịch vụ cho người cao tuổi.
             </h2>
 
             <img
@@ -365,156 +262,6 @@ export default function Content() {
           </div>
         </div>
       </section>
-
-      <section className="banner-module tabbed-carousel">
-        <div className="banner-module__image-wrapper">
-          <img
-            className="banner-module__image tabbed-carousel__image lazyautosizes ls-is-cached lazyloaded"
-            src="https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg"
-            alt="A man pruning bushes in his garden while a women in the background is mowing the lawn"
-            data-src="https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg"
-            decoding="async"
-            data-srcset="https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-928x448.jpeg 800w, https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg"
-            data-sizes="auto"
-            data-eio-rwidth="1856"
-            data-eio-rheight="896"
-            sizes="1430px"
-            srcSet="
-                    https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-928x448.jpeg  800w,
-                    https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg
-                  "
-          />
-          <noscript>
-            <img
-              className="banner-module__image tabbed-carousel__image"
-              src="https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg"
-              alt="A man pruning bushes in his garden while a women in the background is mowing the lawn"
-              srcSet="
-                      https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-928x448.jpeg  800w,
-                      https://www.careconnect.org.au/wp-content/uploads/2022/12/banner-hcp-1856x896.jpeg
-                    "
-              sizes="100vw"
-              data-eio="l"
-            />
-          </noscript>
-        </div>
-
-        <div className="banner-module__wrapper tabbed-carousel__wrapper wrap cf">
-          <div className="tabs" role="list">
-            <div className="tablist-border">
-              <div
-                className="tablist"
-                role="tablist"
-                data-js-draggable=""
-                style={{ cursor: "grab" }}
-              >
-                <button
-                  className="tab-button"
-                  role="tab"
-                  aria-selected="true"
-                  id="module-8-slide-1"
-                >
-                  <span aria-labelledby="card-module-8-slide-1">
-                    <h2
-                      className="tab-button-text"
-                      id="card-module-8-slide-1"
-                      role="paragraph"
-                    >
-                      Gói chăm sóc tại viện dưỡng lão là gì?
-                    </h2>
-                  </span>
-                </button>
-                <button
-                  className="tab-button"
-                  role="tab"
-                  aria-selected="false"
-                  id="module-8-slide-2"
-                >
-                  <span aria-labelledby="card-module-8-slide-2">
-                    <h2
-                      className="tab-button-text"
-                      id="card-module-8-slide-2"
-                      role="paragraph"
-                    >
-                      Nó hoạt động như thế nào?
-                    </h2>
-                  </span>
-                </button>
-                <button
-                  className="tab-button"
-                  role="tab"
-                  aria-selected="false"
-                  id="module-8-slide-3"
-                >
-                  <span aria-labelledby="card-module-8-slide-3">
-                    <h2
-                      className="tab-button-text"
-                      id="card-module-8-slide-3"
-                      role="paragraph"
-                    >
-                      Tôi sử dụng như thế nào?
-                    </h2>
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div
-              role="tabpanel"
-              aria-labelledby="module-8-slide-1"
-              className=""
-            >
-              <div className="banner-module__textbox tabbed-carousel__textbox tabbed-carousel__textbox--single banner-module__textbox--white translucent">
-                <div className="col-left">
-                  <div className="col-left__body">
-                    <p className="tabbed-carousel__paragraph--lead">
-                      Gói chăm sóc tại viện dưỡng lão là lựa chọn toàn diện,
-                      mang đến sự an tâm cho người cao tuổi và gia đình. Chúng
-                      tôi cung cấp dịch vụ chăm sóc cá nhân, y tế, tinh thần và
-                      môi trường sống ấm cúng, tiện nghi. Người nhà dễ dàng theo
-                      dõi tình hình sức khỏe người thân qua ứng dụng, giúp kết
-                      nối mọi lúc mọi nơi.
-                    </p>
-                    <p className="tabbed-carousel__paragraph"></p>
-                  </div>
-                  <Link
-                    to="/"
-                    href="https://www.careconnect.org.au/packages/home-care-package-2/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                    className="button--tertiary button--icon button--large gtrackexternal"
-                  >
-                    <span className="hide-on-mobile--inline">
-                      Tìm hiểu thêm về Gói chăm sóc tại viện dưỡng lão
-                    </span>
-                    <span className="hide-on-desktop--inline">Learn more</span>
-                    <span className="button__icon">
-                      <svg
-                        data-name="Layer 1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 18 15"
-                      >
-                        <defs></defs>
-                        <line
-                          className="cls-1"
-                          x1="2.12"
-                          y1="7.66"
-                          x2="16.18"
-                          y2="7.66"
-                        ></line>
-                        <polyline
-                          className="cls-1"
-                          points="10.29 2.18 16.18 7.66 10.29 13.13"
-                        ></polyline>
-                      </svg>
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="donotremove"></div>
-          </div>
-        </div>
-      </section>
-
       <div className="spacer--sm"></div>
 
       <section className="quote quote--white">
@@ -530,7 +277,7 @@ export default function Content() {
                   <img
                     className="quote__image skip-lazy"
                     src="https://i.ytimg.com/vi/rLnH4RDBGvk/mqdefault.jpg"
-                    alt="Kevin &amp; Aurelie | Care Connect"
+                    alt="Kevin &amp; Aurelie | CareConnect"
                     srcSet="
                             https://i.ytimg.com/vi/rLnH4RDBGvk/mqdefault.jpg     480w,
                             https://i.ytimg.com/vi/rLnH4RDBGvk/maxresdefault.jpg
@@ -548,49 +295,19 @@ export default function Content() {
 
             <div className="quote__box quote__box--green">
               <h3 className="quote__opening">
-                Tôi rất hài lòng với cách Care Connect chăm sóc cho gia đình tôi
+                Tôi rất hài lòng với cách CareConnect chăm sóc cho gia đình tôi
               </h3>
 
               <p className="quote__closing">
                 Họ rất nhiệt tình và luôn tìm cách giải quyết mọi nhu cầu của
                 gia đình tôi.
               </p>
-
-              <Link
-                to="/"
-                className="quote__button button--icon button--large gtrackexternal"
-                href="https://www.careconnect.org.au/support/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-              >
-                Tìm hiểu cách Care Connect có thể hỗ trợ bạn
-                <span className="button__icon">
-                  <svg
-                    data-name="Layer 1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 18 15"
-                  >
-                    <defs></defs>
-                    <line
-                      className="cls-1"
-                      x1="2.12"
-                      y1="7.66"
-                      x2="16.18"
-                      y2="7.66"
-                    ></line>
-                    <polyline
-                      className="cls-1"
-                      points="10.29 2.18 16.18 7.66 10.29 13.13"
-                    ></polyline>
-                  </svg>
-                </span>
-              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="spacer--negative-md"></div>
-
-      <section className="latest-news">
+      {/* <section className="latest-news">
         <div className="wrap">
           <div className="latest-news__inner">
             <h2 className="latest-news__title">Tin tức mới nhất</h2>
@@ -846,7 +563,7 @@ export default function Content() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(true);
@@ -97,41 +97,10 @@ export default function Header() {
               } `}
               id="mobile-nav-menu"
               aria-hidden={open}
-              style={{ display: !open?"block":"" }}
+              style={{ display: !open ? "block" : "" }}
             >
               <div className="nav-mobile__scroll-container">
                 <div className="nav-mobile__inner">
-                  <div id="search-form-mobile">
-                    <form
-                      role="search"
-                      method="get"
-                      id="searchform-mobile"
-                      className="searchform m-bx2"
-                      data-hs-cf-bound="true"
-                    >
-                      <div className="searchform__row">
-                        <input
-                          type="search"
-                          id="search-mobile"
-                          className="searchform__input"
-                          name="s"
-                          placeholder="Search..."
-                          aria-label="Search Field"
-                        />
-                        <button
-                          type="submit"
-                          className="searchform__submit button blue"
-                          id="searchsubmit-mobile"
-                        >
-                          <img
-                            src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify.svg"
-                            alt="Submit Search"
-                            className="skip-lazy"
-                          />
-                        </button>
-                      </div>
-                    </form>
-                  </div>
                   <div className="nav-mobile__primary">
                     <ul
                       id="menu-main-navigation"
@@ -151,23 +120,6 @@ export default function Header() {
                           >
                             Chương trình
                           </Link>
-                          <button
-                            className="nav-mobile__accordion-toggle"
-                            aria-controls="nav-submenu-0"
-                            aria-expanded="false"
-                            aria-labelledby="nav-submenu-parent-0"
-                          >
-                            <svg
-                              viewBox="0 0 18 18"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M16.1442 7.21425H10.787V1.8571C10.787 1.19974 10.2539 0.666626 9.59654 0.666626H8.40606C7.7487 0.666626 7.21559 1.19974 7.21559 1.8571V7.21425H1.85845C1.20108 7.21425 0.667969 7.74736 0.667969 8.40472V9.5952C0.667969 10.2526 1.20108 10.7857 1.85845 10.7857H7.21559V16.1428C7.21559 16.8002 7.7487 17.3333 8.40606 17.3333H9.59654C10.2539 17.3333 10.787 16.8002 10.787 16.1428V10.7857H16.1442C16.8015 10.7857 17.3346 10.2526 17.3346 9.5952V8.40472C17.3346 7.74736 16.8015 7.21425 16.1442 7.21425Z"
-                                fill="currentColor"
-                              ></path>
-                            </svg>
-                          </button>
                         </div>
                         <div
                           role="region"
@@ -234,23 +186,6 @@ export default function Header() {
                           >
                             Hỗ trợ
                           </Link>
-                          <button
-                            className="nav-mobile__accordion-toggle"
-                            aria-controls="nav-submenu-1"
-                            aria-expanded="false"
-                            aria-labelledby="nav-submenu-parent-1"
-                          >
-                            <svg
-                              viewBox="0 0 18 18"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M16.1442 7.21425H10.787V1.8571C10.787 1.19974 10.2539 0.666626 9.59654 0.666626H8.40606C7.7487 0.666626 7.21559 1.19974 7.21559 1.8571V7.21425H1.85845C1.20108 7.21425 0.667969 7.74736 0.667969 8.40472V9.5952C0.667969 10.2526 1.20108 10.7857 1.85845 10.7857H7.21559V16.1428C7.21559 16.8002 7.7487 17.3333 8.40606 17.3333H9.59654C10.2539 17.3333 10.787 16.8002 10.787 16.1428V10.7857H16.1442C16.8015 10.7857 17.3346 10.2526 17.3346 9.5952V8.40472C17.3346 7.74736 16.8015 7.21425 16.1442 7.21425Z"
-                                fill="currentColor"
-                              ></path>
-                            </svg>
-                          </button>
                         </div>
                         <div
                           role="region"
@@ -322,25 +257,8 @@ export default function Header() {
                             aria-expanded="false"
                             className="nav__parent-link nav-mobile__parent-link"
                           >
-                            Services
+                            Dịch vụ
                           </Link>
-                          <button
-                            className="nav-mobile__accordion-toggle"
-                            aria-controls="nav-submenu-2"
-                            aria-expanded="false"
-                            aria-labelledby="nav-submenu-parent-2"
-                          >
-                            <svg
-                              viewBox="0 0 18 18"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M16.1442 7.21425H10.787V1.8571C10.787 1.19974 10.2539 0.666626 9.59654 0.666626H8.40606C7.7487 0.666626 7.21559 1.19974 7.21559 1.8571V7.21425H1.85845C1.20108 7.21425 0.667969 7.74736 0.667969 8.40472V9.5952C0.667969 10.2526 1.20108 10.7857 1.85845 10.7857H7.21559V16.1428C7.21559 16.8002 7.7487 17.3333 8.40606 17.3333H9.59654C10.2539 17.3333 10.787 16.8002 10.787 16.1428V10.7857H16.1442C16.8015 10.7857 17.3346 10.2526 17.3346 9.5952V8.40472C17.3346 7.74736 16.8015 7.21425 16.1442 7.21425Z"
-                                fill="currentColor"
-                              ></path>
-                            </svg>
-                          </button>
                         </div>
                         <div
                           role="region"
@@ -521,25 +439,8 @@ export default function Header() {
                             aria-expanded="false"
                             className="nav__parent-link nav-mobile__parent-link"
                           >
-                            About
+                            Thông tin
                           </Link>
-                          <button
-                            className="nav-mobile__accordion-toggle"
-                            aria-controls="nav-submenu-3"
-                            aria-expanded="false"
-                            aria-labelledby="nav-submenu-parent-3"
-                          >
-                            <svg
-                              viewBox="0 0 18 18"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M16.1442 7.21425H10.787V1.8571C10.787 1.19974 10.2539 0.666626 9.59654 0.666626H8.40606C7.7487 0.666626 7.21559 1.19974 7.21559 1.8571V7.21425H1.85845C1.20108 7.21425 0.667969 7.74736 0.667969 8.40472V9.5952C0.667969 10.2526 1.20108 10.7857 1.85845 10.7857H7.21559V16.1428C7.21559 16.8002 7.7487 17.3333 8.40606 17.3333H9.59654C10.2539 17.3333 10.787 16.8002 10.787 16.1428V10.7857H16.1442C16.8015 10.7857 17.3346 10.2526 17.3346 9.5952V8.40472C17.3346 7.74736 16.8015 7.21425 16.1442 7.21425Z"
-                                fill="currentColor"
-                              ></path>
-                            </svg>
-                          </button>
                         </div>
                         <div
                           role="region"
@@ -588,110 +489,6 @@ export default function Header() {
                         </div>
                       </li>
                     </ul>
-                  </div>
-                  <div className="nav-mobile__secondary">
-                    <ul
-                      id="menu-new-top-menu"
-                      className="nav-mobile__secondary-list"
-                    >
-                      <li
-                        id="menu-item-4620"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4620"
-                      >
-                        <Link
-                          to="/"
-                          href="https://www.careconnect.org.au/news/latest-news/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          News
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-8786"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8786"
-                      >
-                        <Link
-                          to="/"
-                          href="https://www.careconnect.org.au/careers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          Careers
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-8955"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8955"
-                      >
-                        <Link
-                          to="/"
-                          href="https://www.careconnect.org.au/providers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          Providers
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-4201"
-                        className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4201"
-                      >
-                        <Link
-                          to="/"
-                          target="_blank"
-                          rel="noopener"
-                          href="https://compacks.careconnect.org.au/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          OHC
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-7316"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-7316"
-                      >
-                        <Link
-                          to="/"
-                          href="https://www.careconnect.org.au/information-sheets/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          Resources
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-4199"
-                        className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4199"
-                      >
-                        <Link
-                          to="/"
-                          target="_blank"
-                          rel="noopener"
-                          href="https://myportal.careconnect.org.au/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          Login
-                        </Link>
-                      </li>
-                      <li
-                        id="menu-item-8142"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8142"
-                      >
-                        <Link
-                          to="/"
-                          href="https://www.careconnect.org.au/contact-us/feedback/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          className="gtrackexternal"
-                        >
-                          Feedback
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="nav-mobile__cta-container">
-                    <Link
-                      to="/"
-                      href="https://www.careconnect.org.au/contact-us/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                      className="header__contact-cta button yellow gtrackexternal"
-                    >
-                      Enquire now
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -1219,175 +1016,6 @@ export default function Header() {
               >
                 Đăng nhập ngay
               </Link>
-            </div>
-            <div className="header__desktop-top">
-              <nav className="nav" role="navigation" aria-label="Secondary">
-                <div className="nav__secondary">
-                  <ul id="menu-new-top-menu-1" className="nav__secondary-list">
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4620">
-                      <Link
-                        to="/"
-                        href="https://www.careconnect.org.au/news/latest-news/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Tin tức
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8786">
-                      <Link
-                        to="/"
-                        href="https://www.careconnect.org.au/careers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Tuyển dụng
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8955">
-                      <Link
-                        to="/"
-                        href="https://www.careconnect.org.au/providers/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Nhà cung cấp
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4201">
-                      <Link
-                        to="/"
-                        target="_blank"
-                        rel="noopener"
-                        href="https://compacks.careconnect.org.au/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        OHC
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-7316">
-                      <Link
-                        to="/"
-                        href="https://www.careconnect.org.au/information-sheets/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Nguồn lực
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-4199">
-                      <Link
-                        to="/"
-                        target="_blank"
-                        rel="noopener"
-                        href="https://myportal.careconnect.org.au/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Đăng nhập
-                      </Link>
-                    </li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-8142">
-                      <Link
-                        to="/"
-                        href="https://www.careconnect.org.au/contact-us/feedback/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                        className="gtrackexternal"
-                      >
-                        Phản hồi
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-              <div className="header__call" aria-label="Contact Number">
-                <Link
-                  to="/"
-                  href="tel:1800692464"
-                  aria-label="phone number link"
-                  className="gtrackexternal"
-                >
-                  1800 692 464
-                </Link>
-              </div>
-              <div className="header__search">
-                <button
-                  className="header__search-toggle"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  aria-controls="search-menu"
-                  aria-label="Open search"
-                >
-                  <img
-                    src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                    alt="người cao tuổi"
-                    data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                    decoding="async"
-                    className="lazyloaded"
-                  />
-                  <noscript>
-                    <img
-                      src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/magnify-blue.svg"
-                      alt="người cao tuổi"
-                      data-eio="l"
-                    />
-                  </noscript>
-                </button>
-
-                <div className="header__search-overlay" id="search-menu">
-                  <div className="header__search-container">
-                    <div className="header__search-grid wrap">
-                      <form
-                        role="search"
-                        method="get"
-                        id="searchform"
-                        className="searchform"
-                        action="https://www.careconnect.org.au/"
-                        data-hs-cf-bound="true"
-                      >
-                        <div className="searchform__row">
-                          <input
-                            type="search"
-                            id="s"
-                            name="s"
-                            value=""
-                            placeholder="Type here what you are looking for ..."
-                            aria-label="Search Field"
-                            className="searchform__input searchform__input--desktop"
-                          />
-                          <button
-                            aria-label="Submit Search"
-                            type="submit"
-                            className="searchform__submit button blue"
-                            id="searchsubmit"
-                          >
-                            Search
-                          </button>
-                        </div>
-                      </form>
-                      <div className="flex align-center justify-end">
-                        <button
-                          className="header__search-close"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                          aria-controls="search-menu"
-                          aria-label="Close search"
-                        >
-                          Close
-                          <img
-                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                            alt="người cao tuổi"
-                            data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
-                            decoding="async"
-                            className="lazyload"
-                          />
-                          <noscript>
-                            <img
-                              src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/close-thick-blue.svg"
-                              alt="người cao tuổi"
-                              data-eio="l"
-                            />
-                          </noscript>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

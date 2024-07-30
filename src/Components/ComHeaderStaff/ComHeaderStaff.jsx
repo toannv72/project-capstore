@@ -4,6 +4,7 @@ import {
   Bars3Icon,
   CalendarDaysIcon,
   QueueListIcon,
+  UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Affix, Badge, Space } from "antd";
@@ -21,7 +22,7 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
-
+import { getData } from "../../api/api";
 const sortOptions = [
   { name: "Thông tin", href: "profile" },
   { name: "Thay đổi mật khẩu", href: "password" },
@@ -57,6 +58,7 @@ export default function ComHeaderStaff({ children }) {
   const [mobileFiltersOpen, setMobileHeadersOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const [userData, setUserData] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -91,6 +93,18 @@ export default function ComHeaderStaff({ children }) {
         break;
     }
   };
+  const getAPI = () => {
+    getData("/users/profile")
+      .then((response) => {
+        setUserData(response?.data);
+      })
+      .catch((er) => {
+        console.error("Error fetching items:", er);
+      });
+  };
+  useEffect(() => {
+    getAPI();
+  }, []);
   return (
     <div className="bg-[#f9fafb] flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">
@@ -118,7 +132,7 @@ export default function ComHeaderStaff({ children }) {
                     category?.href === activeCategory
                       ? "text-[#0F296D]"
                       : "text-white"
-                  }`}
+                  }hover:text-[#0F296D]`}
                   aria-hidden="true"
                 />
                 <h1
@@ -198,8 +212,8 @@ export default function ComHeaderStaff({ children }) {
             </div>
           </Dialog>
         </Transition.Root>
-        <Affix offsetTop={0} className="w-full">
-          <div className="bg-white flex items-baseline justify-between border-b border-gray-200">
+        <Affix offsetTop={0} className="w-full sticky top-0 z-30">
+          <div className="bg-white flex items-center justify-between border-b border-gray-200 h-17">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 px-3">
               {/* đổi Tên */}
               {findNameByPathname()}
@@ -207,21 +221,27 @@ export default function ComHeaderStaff({ children }) {
 
             <div className="flex items-center">
               <Space size="large">
-                <Badge count={0} overflowCount={9}>
+                {/* <Badge count={0} overflowCount={9}>
                   <BellOutlined
                     style={{ fontSize: "30px" }}
                     onClick={() => navigate("/admin/notification")}
                   />
-                </Badge>
-                <div className="text-lg">Xin chào! Gia Thành</div>
+                </Badge> */}
+                <div className="text-lg">{userData?.fullName}</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                      <img
-                        className="h-11 w-11 rounded-full border border-gray-400"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
+                      {userData && userData.avatarUrl ? (
+                        <img
+                          className="h-10 w-10 rounded-full border border-gray-400 justify-center items-center mt-2"
+                          src={userData.avatarUrl}
+                          alt=""
+                        />
+                      ) : (
+                        <div className="bg-white">
+                          <UserCircleIcon className="h-10 w-10" />
+                        </div>
+                      )}
                     </Menu.Button>
                   </div>
 
