@@ -21,9 +21,8 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
   const [dataPackage, setDataPackage] = useState([]);
   const [dataUser, setDataUser] = useState([]);
   const { notificationApi } = useNotification();
-
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
     date: yup.string().required("Vui lòng chọn tháng"),
     blockId: yup.number().required("Vui chọn khu"),
@@ -52,14 +51,15 @@ const CreateProductMessenger = yup.object({
       nurseSchedules: dataSelect.nurseSchedules || [
         {
           shiftWorkerName: "Employee_01",
-          userNurseSchedules: [{}],
+          userNurseSchedules: [{}, {}, {}],
         },
-        { shiftWorkerName: "Employee_02", userNurseSchedules: [{}], },
-        { shiftWorkerName: "Employee_03", userNurseSchedules: [{}], },
-        { shiftWorkerName: "Employee_04", userNurseSchedules: [{}], },
+        { shiftWorkerName: "Employee_02", userNurseSchedules: [{}, {}, {}] },
+        { shiftWorkerName: "Employee_03", userNurseSchedules: [{}, {}, {}] },
       ],
     },
   });
+
+
   const {
     handleSubmit,
     register,
@@ -80,13 +80,14 @@ const CreateProductMessenger = yup.object({
   }, [dataSelect, setValue]);
 
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     console.log(data);
     putData(`/room`, data?.id, data)
       .then((e) => {
         notificationApi("success", "Cập nhật thành công", "Đã cập nhật phòng!");
         getDataApi();
-        onClose();setDisabled(false);
+        onClose();
+        setDisabled(false);
       })
       .catch((error) => {
         handleErrors(error, setError, setFocus);
@@ -94,7 +95,8 @@ setDisabled(true);
           "error",
           "Cập nhật không thành công",
           "Cập nhật không thành công phòng!"
-        );setDisabled(false);
+        );
+        setDisabled(false);
         if (error?.response?.data?.status === 409) {
           setError("name", {
             message: "Đã có phòng này rồi",

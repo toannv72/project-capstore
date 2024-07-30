@@ -27,7 +27,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       });
     }
   }
-
+console.log(data);
   const columns = [
     {
       title: "Tên gói",
@@ -63,12 +63,12 @@ export const TableNursingPackage = forwardRef((props, ref) => {
       dataIndex: "price",
       key: "price",
       sorter: (a, b) => a.price - b.price,
+      ...getColumnPriceRangeProps("price", "Giá Tiền"),
       render: (_, record) => (
         <div>
           <h1>{formatCurrency(record.price)}</h1>
         </div>
       ),
-      ...getColumnPriceRangeProps("price", "Giá Tiền"),
     },
     {
       title: "Số người 1 phòng",

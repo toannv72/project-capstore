@@ -19,17 +19,17 @@ export default function EditNursingPackage({
 }) {
   const [image, setImages] = useState([]);
   const [mony, setMony] = useState(selectedData.price);
-  const [limit, setLimit] = useState(selectedData.registrationLimit);
+  const [limit, setLimit] = useState(selectedData.numberOfNurses);
   const [capacitys, setCapacitys] = useState(selectedData.capacity);
   const { notificationApi } = useNotification();
   // console.log(selectedData);
   useEffect(() => {
     setMony(selectedData.price);
-    setLimit(selectedData.registrationLimit);
+    setLimit(selectedData.numberOfNurses);
     setCapacitys(selectedData.capacity);
   }, [selectedData]);
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên gói"),
     description: yup.string().required("Vui lòng nhập chi tiết gói"),
     price: yup
@@ -63,7 +63,8 @@ const CreateProductMessenger = yup.object({
   };
 
   const onSubmit = (data) => {
-setDisabled(true);
+    console.log(data);
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -86,10 +87,12 @@ setDisabled(true);
                 "đã cập nhật gói dịch vụ thành công!"
               );
               tableRef();
-              onClose();setDisabled(false);
+              onClose();
+              setDisabled(false);
             })
             .catch((error) => {
-              console.log(error);setDisabled(false);
+              console.log(error);
+              setDisabled(false);
               notificationApi(
                 "error",
                 "Cập nhật không thành công",
@@ -109,11 +112,13 @@ setDisabled(true);
                 "cập nhật thành công",
                 "đã cập nhật gói dịch vụ thành công!"
               );
-              tableRef();setDisabled(false);
+              tableRef();
+              setDisabled(false);
               onClose();
             })
             .catch((error) => {
-              console.log(error);setDisabled(false);
+              console.log(error);
+              setDisabled(false);
               notificationApi(
                 "error",
                 "Cập nhật không thành công",

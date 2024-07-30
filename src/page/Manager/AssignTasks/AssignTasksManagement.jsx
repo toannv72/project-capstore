@@ -32,29 +32,9 @@ function AssignTasksManagement() {
 
   return (
     <>
-      {/* <div className="grid grid-cols-3 gap-4 pb-2">
-        {cardData.map((card, index) => (
-          <ComCard
-            key={index} // Sử dụng index làm key
-            onClick={() => handleCardClick(index)}
-            isSelected={selectedCardIndex === index}
-            {...card}
-          />
-        ))}
-      </div> */}
-      {/* <div className="flex justify-end pb-2">
-        <div>
-          <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
-        </div>
-      </div> */}
+      
       {viewTable()}
-      <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <CreateAll
-          isOpen={modal?.isModalOpen}
-          onClose={modal?.handleClose}
-          tableRef={tableRef}
-        />
-      </ComModal>
+ 
     </>
   );
 }

@@ -9,7 +9,7 @@ import { getData, postData, putData } from "../../../api/api";
 import ComSelect from "./../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
-import { error } from './../../../language/vn';
+import { error } from "./../../../language/vn";
 
 export default function EditRoom({ dataSelect, onClose, getDataApi }) {
   const [dataBlock, setDataBlock] = useState([]);
@@ -18,8 +18,8 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
   const [selectedPackage, setSelectedPackage] = useState();
   const { notificationApi } = useNotification();
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên phòng").trim(),
     blockId: yup.number().required("Vui chọn khu"),
     nursingPackageId: yup.number().required("Vui chọn gói dưỡng lão "),
@@ -32,24 +32,22 @@ const CreateProductMessenger = yup.object({
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   console.log(dataSelect);
-  
+
   useEffect(() => {
     setSelectedPackage(dataSelect?.nursingPackageId);
     setSelectedBlock(dataSelect?.blockId);
     return () => {};
   }, [dataSelect]);
   const onSubmit = (data) => {
-setDisabled(true);
-    console.log(11111111111,data);
+    setDisabled(true);
+    console.log(11111111111, data);
     putData(`/room`, data?.id, data)
-      .then((e) => {setDisabled(false);
-        notificationApi(
-          "success",
-          "cập nhật thành công",
-          "đã cập nhật phòng!"
-        );
+      .then((e) => {
+        setDisabled(false);
+        notificationApi("success", "cập nhật thành công", "đã cập nhật phòng!");
         getDataApi();
         onClose();
+        setDisabled(false);
       })
       .catch((error) => {
         console.log(error);
@@ -59,12 +57,13 @@ setDisabled(true);
           "cập nhật không thành công",
           "cập nhật không thành công phòng!"
         );
+        setDisabled(false);
 
-        if (error?.response?.data?.status === 409) {
-          setError("name", {
-            message: "Đã có phòng này rồi",
-          });
-        }
+        // if (error?.response?.data?.status === 409) {
+        //   setError("name", {
+        //     message: "Đã có phòng này rồi",
+        //   });
+        // }
       });
   };
 

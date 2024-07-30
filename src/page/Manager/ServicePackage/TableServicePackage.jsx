@@ -79,12 +79,12 @@ export default function TableServicePackage() {
       dataIndex: "price",
       key: "price",
       sorter: (a, b) => a.price - b.price,
+      ...getColumnPriceRangeProps("price", "Giá Tiền"),
       render: (_, record) => (
         <div>
           <h1>{formatCurrency(record.price)}</h1>
         </div>
       ),
-      ...getColumnPriceRangeProps("price", "Giá Tiền"),
     },
     {
       title: "Thể loại dịch vụ",
