@@ -224,11 +224,7 @@ export default function ComHeaderAdmin({ children }) {
                     onClick={() => navigate("/admin/notification")}
                   />
                 </Badge> */}
-<<<<<<< HEAD
                 <div className="text-lg">{userData?.fullName}</div>
-=======
-                <div className="text-lg">Xin chào! Gia Thành</div>
->>>>>>> 7d0a2df7c54f8f9b7fce90f46a66dc6e8778e482
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="h-11 w-11 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
