@@ -184,7 +184,7 @@ export default function Header() {
                             aria-expanded="false"
                             className="nav__parent-link nav-mobile__parent-link"
                           >
-                            Hỗ trợ
+                            Dịch vụvụ
                           </Link>
                         </div>
                         <div
@@ -257,7 +257,7 @@ export default function Header() {
                             aria-expanded="false"
                             className="nav__parent-link nav-mobile__parent-link"
                           >
-                            Dịch vụ
+                            Hỗ trợtrợ
                           </Link>
                         </div>
                         <div
