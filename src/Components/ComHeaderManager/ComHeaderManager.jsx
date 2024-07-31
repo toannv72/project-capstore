@@ -130,9 +130,9 @@ export default function ComHeaderManager({ children }) {
                 <category.icon
                   className={`h-6 w-6 mr-2 ${
                     category?.href === activeCategory
-                      ? "text-[#0F296D]"
-                      : "text-white"
-                  }hover:text-[#0F296D]`}
+                      ? "text-[#0F296D] hover:text-[#0F296D]"
+                      : "text-whitehover:text-[#0F296D]"
+                  }`}
                   aria-hidden="true"
                 />
                 <h1
