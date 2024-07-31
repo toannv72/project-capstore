@@ -72,7 +72,7 @@
   font-family: "MuseoSansRounded-700", sans-serif;
   font-weight: 500;
   line-height: 105%;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 @media screen and (min-width: 48em) {
   .image-textbox__title,
@@ -81,7 +81,7 @@
   .quote__opening,
   .tile-grid__title,
   .contact-cta__text-wrapper h2 {
-    font-size: 2.375rem;
+    font-size: 1.25rem;
   }
 }
 .package-process__resource-heading,
@@ -104,7 +104,7 @@ h5,
   font-family: "MuseoSansRounded-700", sans-serif;
   font-weight: 700;
   line-height: 105%;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 /*  */
@@ -126,7 +126,7 @@ h5,
   h5,
   .h5,
   .page .article-header h1 {
-    font-size: 1.5625rem;
+    font-size: 1rem;
   }
 }
 .stepped-process__copy p,
@@ -162,7 +162,7 @@ form .gfield--type-fileupload .gform_drop_instructions,
   form .gfield--type-fileupload .gform_drop_instructions,
   .lead,
   .p-feedback__description p:first-of-type {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 }
 .image-textbox__box,
@@ -5095,7 +5095,7 @@ span.accordion-menu-toggle {
   line-height: 105%;
   margin: 0 0 0.66em;
   max-width: 46.25rem;
-  padding: 0;font-size: 3rem;
+  padding: 0;font-size: 1.25rem;
 }
 .gform_body ul.gform_fields li.gfield .ginput_container,
 .gform_body ul.gform_fields .gfield .ginput_container,
@@ -12652,7 +12652,7 @@ footer#footer-bottom #footer-bottom-right {
 }
 @media screen and (min-width: 48em) {
   .card--featured-news .card__title {
-    font-size: 2.375rem;
+    font-size: 1.5rem;
     line-height: 1.2;
   }
 }
@@ -14091,7 +14091,7 @@ footer#footer-bottom #footer-bottom-right {
 }
 @media screen and (min-width: 48em) {
   .intro__description p {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 }
 .tile-grid {
@@ -14227,7 +14227,7 @@ footer#footer-bottom #footer-bottom-right {
 }
 .tile-grid__tile-title {
   color: #001777;
-  padding: 0 0 1rem;
+  padding: 0 0 0.75rem;
 }
 .tile-grid__tile-title:last-child {
   padding: 0;
