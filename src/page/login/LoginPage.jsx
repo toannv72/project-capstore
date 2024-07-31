@@ -57,7 +57,7 @@ export default function LoginPage(props) {
   });
   const { handleSubmit, register, setFocus, watch, setValue } = methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     setLoginError(false);
     setLogin(false);
     postData("/auth/login", data, {})
@@ -73,9 +73,14 @@ setDisabled(true);
 
                 break;
               case "Admin":
-                navigate("/admin/user");
+                navigate("/admin/account");
                 break;
-
+              case "Manager":
+                navigate("/manager/institute");
+                break;
+              case "Director":
+                navigate("/director/dashboard");
+                break;
               default:
                 break;
             }
