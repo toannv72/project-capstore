@@ -33,7 +33,7 @@ export const TableRooms = forwardRef((props, ref) => {
       common: { button },
     },
   } = useContext(LanguageContext);
-  console.log(data);
+
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
@@ -73,31 +73,7 @@ export const TableRooms = forwardRef((props, ref) => {
           </div>
         ),
       },
-      // {
-      //   title: "Ngày có hiệu lực",
-      //   width: 100,
-      //   dataIndex: "effectiveDate",
-      //   key: "effectiveDate",
-      //   sorter: (a, b) => a.effectiveDate - b.effectiveDate,
 
-      //   render: (_, render) => (
-      //     <div>
-      //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-      //     </div>
-      //   ),
-      // },
-      // {
-      //   title: "Ngày hết hạn",
-      //   width: 100,
-      //   dataIndex: "expiryDate",
-      //   key: "expiryDate",
-      //   sorter: (a, b) => a.expiryDate - b.expiryDate,
-      //   render: (_, render) => (
-      //     <div>
-      //       <ComDateConverter>{render?.expiryDate}</ComDateConverter>
-      //     </div>
-      //   ),
-      // },
       {
         title: "Địa chỉ",
         width: 100,
@@ -340,6 +316,7 @@ export const TableRooms = forwardRef((props, ref) => {
           getDataApi={reloadData}
         />
       </ComModal>
+      {/*cập nhật xếp lịch  */}
       <ComModal
         isOpen={modalScheduled?.isModalOpen}
         onClose={modalScheduled?.handleClose}
@@ -351,6 +328,8 @@ export const TableRooms = forwardRef((props, ref) => {
           getDataApi={reloadData}
         />
       </ComModal>
+      {/* chi tiết người già */}
+
       <ComModal
         isOpen={modalDetailElder?.isModalOpen}
         onClose={modalDetailElder?.handleClose}
@@ -358,6 +337,7 @@ export const TableRooms = forwardRef((props, ref) => {
         <DetailElder selectedData={selectedElder} />
       </ComModal>
 
+      {/* chi tiết lịch */}
       <ComModal
         isOpen={modalCalendar?.isModalOpen}
         onClose={modalCalendar?.handleClose}
@@ -367,8 +347,8 @@ export const TableRooms = forwardRef((props, ref) => {
           Ca làm việc
         </h2>
         <ComCalendar
-          selectedData={selectedElder}
-          dateCellRender={dateCellRender}
+          selectedData={dataSelect}
+          // dateCellRender={dateCellRender}
         />
       </ComModal>
     </div>
