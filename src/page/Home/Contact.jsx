@@ -16,8 +16,8 @@ import { useNotification } from "../../Notification/Notification";
 
 export default function Contact() {
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -49,7 +49,9 @@ const CreateProductMessenger = yup.object({
       })
     ),
   });
-
+  const focusFrom = () => {
+    setFocus("fullName");
+  };
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {
@@ -63,7 +65,7 @@ const CreateProductMessenger = yup.object({
   const { handleSubmit, register, setFocus, watch, setValue, setError, reset } =
     methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     postData("/potential-customer", {
       ...data,
     }).then((e) => {
@@ -87,7 +89,7 @@ setDisabled(true);
       </div>
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Gửi báo phiếu
+          Gửi hỗ trợ
         </h2>
       </div>
       <FormProvider {...methods}>

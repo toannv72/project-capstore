@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Content() {
+export default function Content({ focusFrom  }) {
   return (
     <div id="content" className="no-sidebar">
       <section className="banner-module">

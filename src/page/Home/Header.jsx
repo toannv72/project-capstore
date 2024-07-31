@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Header() {
+export default function Header({ focusFrom }) {
   const [open, setOpen] = useState(true);
+  const elementRef = useRef(null);
+    const scrollEnd = () => {
+       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    };
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1180) {
@@ -11,6 +15,8 @@ export default function Header() {
         // setOpen(false);
       }
     };
+
+  
 
     // Lắng nghe sự kiện thay đổi kích thước cửa sổ
     window.addEventListener("resize", handleResize);
@@ -252,6 +258,7 @@ export default function Header() {
                         <div className="nav-mobile__accordion-header">
                           <Link
                             to="/"
+                            onClick={focusFrom}
                             id="nav-submenu-parent-2"
                             aria-controls="nav-menu-panel-4209"
                             aria-expanded="false"
@@ -437,6 +444,7 @@ export default function Header() {
                             id="nav-submenu-parent-3"
                             aria-controls="nav-menu-panel-7622"
                             aria-expanded="false"
+                            onClick={scrollEnd}
                             className="nav__parent-link nav-mobile__parent-link"
                           >
                             Thông tin
@@ -623,6 +631,7 @@ export default function Header() {
                         id="nav-menu-parent-7309"
                         aria-controls="nav-menu-panel-7309"
                         aria-expanded="false"
+                        onClick={focusFrom}
                         className="nav__parent-link"
                       >
                         Hỗ trợ
@@ -913,6 +922,7 @@ export default function Header() {
                         href="#"
                         id="nav-menu-parent-7622"
                         aria-controls="nav-menu-panel-7622"
+                        onClick={scrollEnd}
                         aria-expanded="false"
                         className="nav__parent-link"
                       >
