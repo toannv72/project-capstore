@@ -224,7 +224,7 @@ export default function ComHeaderAdmin({ children }) {
                     onClick={() => navigate("/admin/notification")}
                   />
                 </Badge> */}
-                <div className="text-lg">{userData?.fullName}</div>
+                <div className="text-lg">Xin chào! {userData?.fullName}</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="h-11 w-11 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -270,7 +270,7 @@ export default function ComHeaderAdmin({ children }) {
 
                 <button
                   type="button"
-                  className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                  className="-m-2 ml-1 p-2 text-gray-400 hover:text-gray-500 sm:ml-2 lg:hidden"
                   onClick={() => setMobileHeadersOpen(true)}
                 >
                   <span className="sr-only">Menu</span>

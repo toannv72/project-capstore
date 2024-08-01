@@ -194,7 +194,9 @@ setDisabled(true);
                 Thay đổi mật khẩu
               </ComButton>
               <ComButton
-                className="w-full bg-transparent border-none text-white shadow-none"
+                // className="w-full bg-transparent border-none text-white shadow-none"
+                className="w-full bg-transparent border-none shadow-none bg-white  "
+                textColor={"text-black"}
                 onClick={handleCancelClick}
               >
                 Hủy

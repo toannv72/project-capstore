@@ -186,6 +186,7 @@ export default function ChangePassword({ onClose, selectedUser }) {
 
               <ComButton
                 className="w-full"
+                // className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 htmlType="submit"
                 disabled={disabled}
                 type="primary"
@@ -193,7 +194,8 @@ export default function ChangePassword({ onClose, selectedUser }) {
                 Thay đổi mật khẩu
               </ComButton>
               <ComButton
-                className="w-full bg-transparent border-none shadow-none bg-white text-slate-950 "
+                className="w-full bg-transparent border-none shadow-none bg-white  "
+                textColor={"text-black"}
                 onClick={handleCancelClick}
               >
                 Hủy
