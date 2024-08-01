@@ -9,16 +9,9 @@ import CreateAll from "./CreateAll";
 
 function AssignTasksManagement() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
-  const modal = useModalState();
+
   const tableRef = useRef(null);
 
-  const cardData = [
-    { title: "Khu", value: "10.678" },
-    { title: "Phòng", value: "1.000" },
-  ];
-  const handleCardClick = (index) => {
-    setSelectedCardIndex(index);
-  };
   const viewTable = () => {
     switch (selectedCardIndex) {
       case 0:
@@ -30,13 +23,7 @@ function AssignTasksManagement() {
     }
   };
 
-  return (
-    <>
-      
-      {viewTable()}
- 
-    </>
-  );
+  return <>{viewTable()}</>;
 }
 
 export default AssignTasksManagement;

@@ -23,18 +23,15 @@ api.interceptors.request.use(
 // Đặt cookies vào tiêu đề yêu cầu (nếu có)
 
 export const getData = async (endpoint, params = {}, headers = {}) => {
-
-
   try {
     const response = await api.get(endpoint, { params, headers });
     return response;
   } catch (error) {
     if (error.response && error.response.status === 401) {
       window.location.href = "/login";
-      throw error; 
-      
+      throw error;
     } else {
-      throw error; 
+      throw error;
     }
   }
 };
@@ -52,7 +49,6 @@ export const postData = async (endpoint, data, headers = {}) => {
   }
 };
 
-
 export const putData = async (endpoint, id, data, headers = {}) => {
   try {
     const response = await api.put(`${endpoint}/${id}`, data, { headers });
@@ -68,7 +64,7 @@ export const putData = async (endpoint, id, data, headers = {}) => {
 
 export const deleteData = async (endpoint, id, data, headers = {}) => {
   try {
-    const response = await api.delete(`${endpoint}/${id}`, data, { headers });
+    const response = await api.delete(`${endpoint}/${id}`, { headers, data });
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {

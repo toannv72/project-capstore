@@ -133,6 +133,12 @@ const CreateProductMessenger = yup.object({
                   <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
+                  CMND hoặc CCCD:{" "}
+                  <ComCccdOrCmndConverter>
+                    {data?.cccd}
+                  </ComCccdOrCmndConverter>
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.gender}</ComGenderConverter>
                 </div>

@@ -6,10 +6,10 @@ import { deleteData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
 import { useModalState } from "../../../hooks/useModalState";
 import * as yup from "yup";
-import useNotification from "antd/es/notification/useNotification";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
+import { useNotification } from './../../../Notification/Notification';
 
 export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
   const imageUrls = selectedUser.images.map((image) => image.imageUrl);
@@ -30,6 +30,7 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
 
   const onSubmit = (data) => {
     console.log(data);
+    console.log(selectedUser);
     setDisabled(true);
     deleteData("/contract", selectedUser.id, {
       reasonForCanceling: data.reasonForCanceling,

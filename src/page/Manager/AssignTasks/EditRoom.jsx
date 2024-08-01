@@ -22,7 +22,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
   const [selectedNurses, setSelectedNurses] = useState([]);
   const { notificationApi } = useNotification();
   const [disabled, setDisabled] = useState(false);
-  console.log(dataSelect.nursingPackage.numberOfNurses);
+  console.log(dataSelect.nursingPackage?.numberOfNurses);
   console.log(employeeType);
   const CreateProductMessenger = yup.object({
     date: yup.string().required("Vui lòng chọn tháng"),
@@ -47,7 +47,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
       ...dataSelect,
       rooms: dataSelect.rooms || [{ id: dataSelect.id }],
       employeeSchedules: generateEmployeeSchedules(
-        dataSelect.nursingPackage.numberOfNurses,
+        dataSelect.nursingPackage?.numberOfNurses,
         employeeTypeID1,
         employeeTypeID2,
         employeeTypeID3
@@ -60,7 +60,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
     const schedules = [];
     const numEmployeeTypes = employeeTypeIds.length;
 
-    for (let i = 0; i < numberOfNurses * numEmployeeTypes * 3; i++) {
+    for (let i = 0; i < numberOfNurses * numEmployeeTypes ; i++) {
       const employeeTypeId = employeeTypeIds[i % numEmployeeTypes];
       schedules.push({
         employeeTypeId,
@@ -160,9 +160,9 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
     getData("/employee-type")
       .then((e) => {
         setEmployeeType(e?.data?.contends);
-        // setEmployeeTypeID1(e?.data?.contends[0].id);
-        // setEmployeeTypeID2(e?.data?.contends[1].id);
-        // setEmployeeTypeID3(e?.data?.contends[2].id);
+        setEmployeeTypeID1(e?.data?.contends[0].id);
+        setEmployeeTypeID2(e?.data?.contends[1].id);
+        setEmployeeTypeID3(e?.data?.contends[2].id);
       })
       .catch((error) => {
         console.error("Error fetching items:", error);
@@ -306,7 +306,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
                 .map((shift, shiftIndex) => (
                   <div key={shiftIndex} className="border p-4 mt-4">
                     <label className="text-paragraph font-bold">
-                      {`Ca trực ${shift.employeeTypeId}`}
+                      {`Ca trực ${shiftIndex+1}`}
                     </label>
                     <div className="sm:col-span-2">
                       {shift.fields.map((item) => (
