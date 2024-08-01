@@ -14026,7 +14026,7 @@ footer#footer-bottom #footer-bottom-right {
   transform: translateX(400%);
 }
 .intro {
-  margin: 120px 0;
+  margin: 50px 0;
 }
 @media screen and (max-width: 73.6875em) {
   .intro {
@@ -14282,16 +14282,16 @@ li.tile-grid__tile-wrapper {
   }
 }
 .quote {
-  padding: 120px 0;
+  padding: 30px 0;
 }
 @media screen and (max-width: 73.6875em) {
   .quote {
-    padding: 90px 0;
+    padding: 10px 0;
   }
 }
 @media screen and (min-width: 20em) and (max-width: 47.9375em) {
   .quote {
-    padding: 60px 0;
+    padding: 10px 0;
   }
 }
 .quote--pale-blue {
@@ -14467,7 +14467,7 @@ li.tile-grid__tile-wrapper {
 .quote__opening {
   color: #001777;
   padding: 0;
-  margin-bottom: 1.25rem;
+  margin-bottom: 3.25rem;
   position: relative;
 }
 .quote__opening:before {

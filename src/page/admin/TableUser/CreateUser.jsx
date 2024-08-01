@@ -29,8 +29,8 @@ export default function CreateUser({ onClose, tableRef }) {
 
   // const nameRegex =
   //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -75,8 +75,9 @@ const CreateProductMessenger = yup.object({
     methods;
 
   const onSubmit = (data) => {
-setDisabled(true);
-    console.log(data);setDisabled(true);
+    setDisabled(true);
+    console.log(data);
+    setDisabled(true);
     if (!image) {
       return notificationApi(
         "error",
@@ -95,11 +96,12 @@ setDisabled(true);
               tableRef.current.reloadData();
             }
           }, 100);
-          onClose();setDisabled(false);
+          onClose();
+          setDisabled(false);
         })
         .catch((error) => {
           handleErrors(error, setError, setFocus);
-setDisabled(false);
+          setDisabled(false);
           console.log("====================================");
           console.log(error);
           if (error.status === 409) {

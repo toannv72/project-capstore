@@ -81,6 +81,14 @@ export default function LoginPage(props) {
               case "Director":
                 navigate("/director/dashboard");
                 break;
+              case "Nurse":
+                setDisabled(false);
+                setLogin(true);
+
+                setErrorMessage(
+                  "Tài khoản không được phép đăng nhập vào hệ thống"
+                );
+                break;
               default:
                 break;
             }

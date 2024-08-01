@@ -225,14 +225,14 @@ export default function Content({ focusFrom  }) {
                 đổi trong chế độ chăm sóc của ba mẹ, đồng thời thấy được sự quan
                 tâm và thấu hiểu của đội ngũ chăm sóc qua những thông tin chi
                 tiết và hình ảnh được chia sẻ.
-                <span className="quote__closing"></span>
+                {/* <span className="quote__closing"></span> */}
               </h3>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="spacer--negative-md"></div>
+      {/* <div className="spacer--negative-md"></div> */}
 
       <section className="intro">
         <div className="wrap cf">
@@ -262,7 +262,7 @@ export default function Content({ focusFrom  }) {
           </div>
         </div>
       </section>
-      <div className="spacer--sm"></div>
+      {/* <div className="spacer--sm"></div> */}
 
       <section className="quote quote--white">
         <div className="wrap cf">
