@@ -267,6 +267,9 @@ export const TableRooms = forwardRef((props, ref) => {
         isOpen={modal?.isModalOpen}
         onClose={modal?.handleClose}
       >
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+         Xếp lịch
+        </h2>
         <EditRoom
           onClose={modal?.handleClose}
           dataSelect={dataSelect}

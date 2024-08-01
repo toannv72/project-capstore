@@ -110,11 +110,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
           "Xếp lịch không thành công !"
         );
         setDisabled(false);
-        if (error?.response?.data?.status === 409) {
-          setError("name", {
-            message: "Đã có phòng này rồi",
-          });
-        }
+     
       });
   };
 
