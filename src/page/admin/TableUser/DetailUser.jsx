@@ -67,6 +67,14 @@ export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
                 <ComDateConverter>{selectedUser?.dateOfBirth}</ComDateConverter>
               </td>
             </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Địa chỉ:
+              </td>
+              <td className="px-4 py-2">
+                {selectedUser?.address}
+              </td>
+            </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
@@ -77,7 +85,6 @@ export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
                 onClose();
                 isOpenEdit();
               }}
-              
               type="primary"
               className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >

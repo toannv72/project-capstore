@@ -32,7 +32,7 @@ export const TableBills = forwardRef((props, ref) => {
   }, []);
   console.log(data);
   const reloadData = () => {
-    getData("/orders?Status=Paid&SortDir=Desc")
+    getData("/orders?SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

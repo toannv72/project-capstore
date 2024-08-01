@@ -30,8 +30,8 @@ export default function CreateUser({ onClose, tableRef }) {
 
   // const nameRegex =
   //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -48,19 +48,19 @@ const CreateProductMessenger = yup.object({
     userName: yup
       .string()
       .required("Vui lòng nhập tên đăng nhập")
-      .matches(
-        usernameRegex,
-        "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
+      // .matches(
+      //   usernameRegex,
+      //   "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      // )
       .min(7, "Tên quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
     password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")
-      .matches(
-        usernameRegex,
-        "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
+      // .matches(
+      //   usernameRegex,
+      //   "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      // )
       .min(7, "Mật khẩu quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
       .max(50, "Mật khẩu quá dài, vui lòng nhập tối đa 50 ký tự"),
     role: yup.string().required("Vui lòng chọn chức vụ"),
@@ -91,7 +91,7 @@ const CreateProductMessenger = yup.object({
       phoneNumber: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+  const { handleSubmit, register, setFocus, watch, setValue, setError, reset } =
     methods;
   const dataRole = [
     {
@@ -121,8 +121,9 @@ const CreateProductMessenger = yup.object({
       value: "Female",
     },
   ];
+
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     if (!image) {
       console.log(123);
       return notificationApi(
@@ -145,12 +146,13 @@ setDisabled(true);
               tableRef.current.reloadData();
             }
           }, 100);
-          setDisabled(true);
+          reset();
+          setDisabled(false);
           onClose();
         })
         .catch((error) => {
           handleErrors(error, setError, setFocus);
-          setDisabled(true);
+          setDisabled(false);
           console.log("====================================");
           console.log(error);
           console.log("====================================");
@@ -160,7 +162,6 @@ setDisabled(true);
 
   const onChange = (data) => {
     const selectedImages = data;
-
     // Tạo một mảng chứa đối tượng 'originFileObj' của các tệp đã chọn
     // const newImages = selectedImages.map((file) => file.originFileObj);
     // Cập nhật trạng thái 'image' bằng danh sách tệp mới

@@ -98,22 +98,22 @@ export default function TableConsultation() {
       sorter: (a, b) => a.name?.localeCompare(b.name),
       ...getColumnSearchProps("name", "Tên loại hẹn"),
     },
-    {
-      title: "Nội dung",
-      width: 200,
-      dataIndex: "description",
-      key: "description",
-      sorter: (a, b) => a.description?.localeCompare(b.description),
+    // {
+    //   title: "Nội dung",
+    //   width: 200,
+    //   dataIndex: "description",
+    //   key: "description",
+    //   sorter: (a, b) => a.description?.localeCompare(b.description),
 
-      ...getColumnSearchProps("description", "Nội dung"),
-    },
-    {
-      title: "Ghi chú",
-      width: 200,
-      dataIndex: "notes",
-      key: "notes",
-      ...getColumnSearchProps("notes", "Ghi chú"),
-    },
+    //   ...getColumnSearchProps("description", "Nội dung"),
+    // },
+    // {
+    //   title: "Ghi chú",
+    //   width: 200,
+    //   dataIndex: "notes",
+    //   key: "notes",
+    //   ...getColumnSearchProps("notes", "Ghi chú"),
+    // },
     {
       title: "Thao tác",
       key: "operation",

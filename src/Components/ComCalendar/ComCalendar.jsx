@@ -139,7 +139,7 @@ const ComCalendar = ({ selectedData, ...props }) => {
       </Card>
       <Modal
         title={`Chi tiết ca việc  ${
-          selectedDate ? selectedDate.format("YYYY-MM-DD") : ""
+          selectedDate ? selectedDate.format("DD-MM-YYYY") : ""
         }`}
         visible={!!selectedDate}
         onCancel={() => setSelectedDate(null)}
