@@ -6,6 +6,7 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComButton from "../../../Components/ComButton/ComButton";
 import { putData } from "../../../api/api";
 import { useNotification } from "../../../Notification/Notification";
+import ComGenderConverter from "./../../../Components/ComGenderConverter/ComGenderConverter";
 
 export default function DetailBill({ selectedData, onClose, reloadData }) {
   const { notificationApi } = useNotification();
@@ -29,8 +30,8 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
         putData(`${apiPath}`, id, body)
           .then((e) => {
             onSuccess();
-            reloadData()
-            onClose()
+            reloadData();
+            onClose();
           })
           .catch((error) => {
             failed();
@@ -157,7 +158,14 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
                       </ComDateConverter>
                     ),
                   },
-                  { label: "Giới tính:", value: data?.elder?.gender },
+                  {
+                    label: "Giới tính:",
+                    value: (
+                      <ComGenderConverter>
+                        {data?.elder?.gender}
+                      </ComGenderConverter>
+                    ),
+                  },
                   { label: "CCCD:", value: data?.elder?.cccd },
                   { label: "Địa chỉ:", value: data?.elder?.address },
                   {

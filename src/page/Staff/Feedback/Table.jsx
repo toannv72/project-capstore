@@ -5,21 +5,38 @@ import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
 import ComModal from "../../../Components/ComModal/ComModal";
-import DetailFeedback from "./DetailFeedback";
-import { getData } from './../../../api/api';
+import { getData } from "./../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
+import ComMenuButonTable from './../../../Components/ComMenuButonTable/ComMenuButonTable';
 
 const Table = () => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modalDetail = useModalState();
-  const [selectedUser, setSelectedUser] = useState(null);
-  const { getColumnSearchProps,getColumnApprox } = useColumnSearch();
+  const [selectedFeedback, setSelectedFeedback] = useState(null);
+  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+
   const showModal = (record) => {
     modalDetail.handleOpen();
-    setSelectedUser(record);
+    setSelectedFeedback(record);
   };
-  console.log(data);
+  const ratingFilters = [
+    { text: "Rất hài lòng", value: "VerySatisfied" },
+    { text: "Bình thường", value: "Neutral" },
+    { text: "Không hài lòng", value: "Unsatisfied" },
+  ];
+  const rating = (rating) => {
+    switch (rating) {
+      case "VerySatisfied":
+        return "Rất hài lòng";
+      case "Neutral":
+        return "Bình thường";
+      case "Unsatisfied":
+        return "Không hài lòng";
+      default:
+        return rating;
+    }
+  }
   const columns = [
     {
       title: "Người đánh giá",
@@ -28,8 +45,12 @@ const Table = () => {
       key: "user.fullName",
       fixed: "left",
       sorter: (a, b) => a.name?.fullName?.localeCompare(b.name?.fullName),
-
       ...getColumnSearchProps("user.fullName", "Họ và tên"),
+      render: (text, record) => (
+        <Typography.Link onClick={() => showModal(record)}>
+          {record.user.fullName}
+        </Typography.Link>
+      ),
     },
     {
       title: "Dịch vụ",
@@ -49,10 +70,8 @@ const Table = () => {
       key: "createdAt",
       sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
       ...getColumnApprox("createdAt", "Ngày thực hiện"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.createdAt}</ComDateConverter>
-        </div>
+      render: (text, record) => (
+        <ComDateConverter>{record?.createdAt}</ComDateConverter>
       ),
     },
     {
@@ -61,7 +80,20 @@ const Table = () => {
       dataIndex: "ratings",
       key: "ratings",
       sorter: (a, b) => a?.ratings?.localeCompare(b?.ratings),
-      ...getColumnSearchProps("ratings", "Đánh giá"),
+      filters: ratingFilters,
+      onFilter: (value, record) => record.ratings === value,
+      render: (rating) => {
+        switch (rating) {
+          case "VerySatisfied":
+            return "Rất hài lòng";
+          case "Neutral":
+            return "Bình thường";
+          case "Unsatisfied":
+            return "Không hài lòng";
+          default:
+            return rating;
+        }
+      },
     },
     {
       title: "Chi tiết đánh giá",
@@ -71,23 +103,22 @@ const Table = () => {
       sorter: (a, b) => a?.title?.localeCompare(b?.title),
       ...getColumnSearchProps("title", "Chi tiết đánh giá"),
     },
-
-    // {
-    //   key: "operation",
-    //   fixed: "right",
-    //   width: 30,
-    //   render: (_, record) => (
-    //     <div className="flex items-center flex-col">
-    //       <div>
-    //         <div>
-    //           <Typography.Link onClick={() => showModal(record)}>
-    //             Chi tiết
-    //           </Typography.Link>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Thao tác",
+      key: "operation",
+      fixed: "right",
+      width: 20,
+      render: (_, record) => (
+        <div className="flex items-center flex-col">
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModal(record)}
+            // showModalEdit={() => modal?.handleOpen(record)}
+            excludeDefaultItems={["delete", "edit"]}
+          />
+        </div>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -100,6 +131,7 @@ const Table = () => {
         console.error("Error fetching items:", error);
       });
   }, []);
+
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
@@ -108,10 +140,63 @@ const Table = () => {
         onClose={modalDetail?.handleClose}
         width={"50%"}
       >
-        <DetailFeedback
-          selectedUser={selectedUser}
-          onClose={modalDetail?.handleClose}
-        />
+        {selectedFeedback && (
+          <div className="p-4 bg-white">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Chi tiết đánh giá
+            </h2>
+            <table className="w-full">
+              <tbody>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Người đánh giá:
+                  </td>
+                  <td className="px-4 py-2">
+                    {selectedFeedback.user.fullName}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Dịch vụ:
+                  </td>
+                  <td className="px-4 py-2">
+                    {selectedFeedback.orderDetail.servicePackage.name}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Ngày thực hiện:
+                  </td>
+                  <td className="px-4 py-2">
+                    <ComDateConverter>
+                      {selectedFeedback.createdAt}
+                    </ComDateConverter>
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Đánh giá:
+                  </td>
+                  <td className="px-4 py-2">
+                    {rating(selectedFeedback.ratings)}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Chi tiết đánh giá:
+                  </td>
+                  <td className="px-4 py-2">{selectedFeedback.title}</td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Nội dung:
+                  </td>
+                  <td className="px-4 py-2">{selectedFeedback.content}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </ComModal>
     </div>
   );

@@ -132,7 +132,7 @@ export const Tables = forwardRef((props, ref) => {
     },
     {
       title: "Năm sinh người cao tuổi",
-      width: 120,
+      width: 160,
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
       sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),

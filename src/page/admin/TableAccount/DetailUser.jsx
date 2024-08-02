@@ -4,6 +4,7 @@ import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/C
 import { Image } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComButton from "./../../../Components/ComButton/ComButton";
+import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 
 export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
   return (
@@ -38,6 +39,14 @@ export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
                 Họ và tên:
               </td>
               <td className="px-4 py-2">{selectedUser?.fullName}</td>
+            </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Giới tính:
+              </td>
+              <td className="px-4 py-2">
+                <ComGenderConverter>{selectedUser?.gender}</ComGenderConverter>
+              </td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">

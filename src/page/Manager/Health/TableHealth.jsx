@@ -198,7 +198,7 @@ export const TableHealth = forwardRef((props, ref) => {
       title: "Thao tác",
       key: "operation",
       fixed: "right",
-      width: 40,
+      width: 80,
       render: (_, record) => (
         <div className="flex items-center flex-col">
           <ComMenuButonTable

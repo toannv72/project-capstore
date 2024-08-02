@@ -340,6 +340,7 @@ export const Tables = forwardRef((props, ref) => {
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}
+        width={800}
       >
         <EditUser
           selectedUser={selectedUser}
