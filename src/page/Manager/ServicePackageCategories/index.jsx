@@ -13,8 +13,8 @@ export default function ServicePackageCategories() {
   const tableRef = useRef(null);
   return (
     <>
-      <div className="flex items-end pb-2">
-        <ComButton onClick={modal.handleOpen}>Tạo mới thể loại </ComButton>
+      <div className="flex justify-end pb-2">
+       <div> <ComButton onClick={modal.handleOpen}>Tạo mới thể loại </ComButton></div>
       </div>
       <TableServicePackageCategories ref={tableRef} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>

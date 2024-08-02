@@ -11,7 +11,6 @@ import { useModalState } from "./../../../hooks/useModalState";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
-import EditRoom from "./EditRoom";
 import DetailElder from "../../admin/TableElder/DetailElder";
 import Scheduled from "./Scheduled";
 import ComCalendar from "./../../../Components/ComCalendar/ComCalendar";
@@ -198,19 +197,51 @@ export const TableRooms = forwardRef((props, ref) => {
           <ComMenuButonTable
             record={record}
             // showModalDetails={() => showModaldElder(record)}
-            extraMenuItems={extraMenuItems}
+            extraMenuItems={
+              record?.elders.length !== 0 ? extraMenuItems : extraMenuItems1
+            }
             showModalEdit={() => {
               modal?.handleOpen(record);
               setDataSelect(record);
             }}
-            excludeDefaultItems={["delete", "details", "edit"]}
+            excludeDefaultItems={
+              record?.elders.length !== 0
+                ? ["delete", "details", "edit"]
+                : ["delete", "details", "edit", "Xếp lịch"]
+            }
             // order={order}
           />
         </div>
       ),
     },
   ];
+  // sắp xếp thứ tự hiển thị
   const order = ["Xếp lịch"];
+  const extraMenuItems1 = [
+    {
+      label: "Xem chi tiết",
+
+      onClick: (record) => {
+        modalCalendar?.handleOpen(record);
+        setDataSelect(record);
+      },
+    },
+    // {
+    //   label: "Xếp lịch",
+
+    //   onClick: (record) => {
+    //     modal?.handleOpen(record);
+    //     setDataSelect(record);
+    //   },
+    // },
+    // {
+    //   label: "Cập nhật lịch",
+    //   onClick: (e) => {
+    //     modalScheduled?.handleOpen(e);
+    //     setDataSelect(e);
+    //   },
+    // },
+  ];
   const extraMenuItems = [
     {
       label: "Xem chi tiết",
@@ -268,10 +299,8 @@ export const TableRooms = forwardRef((props, ref) => {
         isOpen={modal?.isModalOpen}
         onClose={modal?.handleClose}
       >
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-         Xếp lịch
-        </h2>
-        <EditRoom
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Xếp lịch</h2>
+        <Scheduled
           onClose={modal?.handleClose}
           dataSelect={dataSelect}
           getDataApi={reloadData}

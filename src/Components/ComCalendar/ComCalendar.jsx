@@ -4,12 +4,13 @@ import { getData } from "../../api/api";
 import ComModal from "../ComModal/ComModal";
 import { useModalState } from "../../hooks/useModalState";
 import DetailEmployee from "../../page/admin/TableEmployee/DetailEmployee";
+import ComPhoneConverter from "../ComPhoneConverter/ComPhoneConverter";
 
 const ComCalendar = ({ selectedData, ...props }) => {
   const [employeeSchedule, setEmployeeSchedule] = useState([]);
   const [employeeType, setEmployeeType] = useState([]);
   const currentDate = new Date();
-  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0"); // Lấy tháng hiện tại và thêm số 0 nếu cần
+  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
   const currentYear = String(currentDate.getFullYear());
   const [careMonth, setCareMonth] = useState(currentMonth);
   const [careYear, setCareYear] = useState(currentYear);
@@ -19,7 +20,6 @@ const ComCalendar = ({ selectedData, ...props }) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
     const newMonth = value.format("MM");
     const newYear = value.format("YYYY");
     setCareMonth(newMonth);
@@ -27,13 +27,8 @@ const ComCalendar = ({ selectedData, ...props }) => {
   };
 
   const onSelect = (date) => {
-    console.log("Selected date:", date.format("YYYY-MM-DD"));
     const listData = getListData(date);
-
-    if (
-      (date.format("MM") === careMonth) &
-      (date.format("YYYY") === careYear)
-    ) {
+    if (date.format("MM") === careMonth && date.format("YYYY") === careYear) {
       setSelectedDate(date);
       setSelectedListData(listData);
     }
@@ -43,22 +38,18 @@ const ComCalendar = ({ selectedData, ...props }) => {
     const fetchEmployeeType = async () => {
       const response = await getData(`/employee-type`);
       setEmployeeType(response?.data?.contends);
-      console.log(response?.data?.contends);
     };
     fetchEmployeeType();
   }, []);
 
   useEffect(() => {
     const fetchEmployeeSchedule = async () => {
-      // Xóa dữ liệu cũ trước khi cập nhật dữ liệu mới
       setEmployeeSchedule([]);
       const response = await getData(
         `/employee-schedule?CareMonth=${careMonth}&CareYear=${careYear}&RoomId=${selectedData.id}`
       );
       setEmployeeSchedule(response?.data?.contends);
-      console.log(response?.data?.contends);
     };
-
     fetchEmployeeSchedule();
   }, [selectedData, careMonth, careYear]);
 
@@ -71,11 +62,15 @@ const ComCalendar = ({ selectedData, ...props }) => {
           detail.shifts.forEach((shift) => {
             employeeSchedule.forEach((schedule) => {
               if (schedule.employeeType.name === employee.name) {
+                const formatTime = (time) => {
+                  const [hour, minute] = time.split(":");
+                  return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`;
+                };
                 listData.push({
-                  type: "success", // Customize the type based on your needs
-                  content: `${schedule.user.fullName}  ${shift.startTime} - ${shift.endTime}`,
-                  startTime: shift.startTime,
-                  endTime: shift.endTime,
+                  type: "success",
+                  content: `${schedule.user.fullName}`,
+                  startTime: formatTime(shift.startTime),
+                  endTime: formatTime(shift.endTime),
                   user: schedule.user,
                 });
               }
@@ -84,49 +79,64 @@ const ComCalendar = ({ selectedData, ...props }) => {
         }
       });
     });
-    // Sắp xếp listData theo startTime và endTime
-    listData.sort((a, b) => {
-      const startTimeA = a.startTime.split(":").map(Number);
-      const startTimeB = b.startTime.split(":").map(Number);
-      const endTimeA = a.endTime.split(":").map(Number);
-      const endTimeB = b.endTime.split(":").map(Number);
 
-      if (startTimeA[0] !== startTimeB[0]) {
-        return startTimeA[0] - startTimeB[0];
-      }
-      if (startTimeA[1] !== startTimeB[1]) {
-        return startTimeA[1] - startTimeB[1];
-      }
-      if (endTimeA[0] !== endTimeB[0]) {
-        return endTimeA[0] - endTimeB[0];
-      }
-      return endTimeA[1] - endTimeB[1];
+    // Sort by start time first, then by end time
+    listData.sort((a, b) => {
+      const [startHourA, startMinuteA] = a.startTime.split(":").map(Number);
+      const [startHourB, startMinuteB] = b.startTime.split(":").map(Number);
+      const [endHourA, endMinuteA] = a.endTime.split(":").map(Number);
+      const [endHourB, endMinuteB] = b.endTime.split(":").map(Number);
+
+      if (startHourA !== startHourB) return startHourA - startHourB;
+      if (startMinuteA !== startMinuteB) return startMinuteA - startMinuteB;
+      if (endHourA !== endHourB) return endHourA - endHourB;
+      return endMinuteA - endMinuteB;
     });
 
-    return listData;
+    // Group shifts with the same start and end times
+    const groupedShifts = [];
+    listData.forEach((item) => {
+      const existingGroup = groupedShifts.find(
+        (group) =>
+          group.startTime === item.startTime && group.endTime === item.endTime
+      );
+      if (existingGroup) {
+        existingGroup.content += `, ${item.content}`;
+        existingGroup.users.push(item.user);
+      } else {
+        groupedShifts.push({ ...item, users: [item.user] });
+      }
+    });
+
+    return groupedShifts;
   };
 
   const dateCellRender = (value) => {
-    // Check if the date is in the current month
     if (value.month() + 1 !== parseInt(careMonth)) {
-      return null; // Don't render anything for dates not in the current month
+      return null;
     }
     const listData = getListData(value);
     return (
       <ul className="events">
-        {listData.map((item) => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+        {listData.map((item, index) => (
+          <li key={index}>
+            <Badge
+              status="success"
+              text={`Ca ${index + 1}: ${item.content} (${item.startTime} - ${
+                item.endTime
+              })`}
+            />
           </li>
         ))}
       </ul>
     );
   };
+
   const showModaldUser = (record) => {
-    console.log(record);
     modalDetailUser.handleOpen();
     setSelectedUser(record);
   };
+
   return (
     <div className="">
       <Card>
@@ -138,7 +148,7 @@ const ComCalendar = ({ selectedData, ...props }) => {
         />
       </Card>
       <Modal
-        title={`Chi tiết ca việc  ${
+        title={`Chi tiết ca việc ngày ${
           selectedDate ? selectedDate.format("DD-MM-YYYY") : ""
         }`}
         visible={!!selectedDate}
@@ -148,14 +158,29 @@ const ComCalendar = ({ selectedData, ...props }) => {
         <List
           itemLayout="horizontal"
           dataSource={selectedListData}
-          renderItem={(item) => (
-            <List.Item>
+          renderItem={(item, index) => (
+            <List.Item key={index}>
               <List.Item.Meta
-                avatar={<Avatar src={item.user.avatarUrl} />}
-                title={
-                  <Typography.Link onClick={() => showModaldUser(item.user)}>
-                    {item.content}
-                  </Typography.Link>
+                title={`Ca ${index + 1} Từ ${item.startTime} đến ${
+                  item.endTime
+                }`}
+                description={
+                  <>
+                    {item.users.map((user) => (
+                      <div key={user.id} className="flex gap-3 items-center">
+                        <Avatar src={user.avatarUrl} />
+                        <Typography.Link onClick={() => showModaldUser(user)}>
+                          {user.fullName}
+                        </Typography.Link>
+                        <div className="text-black">
+                          Số điện thoại:
+                          <ComPhoneConverter>
+                            {user.phoneNumber}
+                          </ComPhoneConverter>
+                        </div>
+                      </div>
+                    ))}
+                  </>
                 }
               />
             </List.Item>
@@ -168,8 +193,6 @@ const ComCalendar = ({ selectedData, ...props }) => {
       >
         <DetailEmployee
           selectedData={selectedUser}
-          // isOpenEdit={modalEdit?.handleOpen}
-          // isOpenEdit={!director ? modalEdit?.handleOpen : null}
           onClose={modalDetailUser?.handleClose}
         />
       </ComModal>

@@ -18,8 +18,11 @@ export default function NursingPackage() {
   return (
     <>
       <div className="grid grid-cols-3 gap-4 pb-2"></div>
-      <div className="flex items-end pb-2">
-        <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+      <div className="flex justify-end pb-2">
+        <div>
+        
+          <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+        </div>
       </div>
       <TableNursingPackage ref={tableRef} />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
@@ -29,7 +32,6 @@ export default function NursingPackage() {
           tableRef={tableRef}
         />
       </ComModal>
-      
     </>
   );
 }

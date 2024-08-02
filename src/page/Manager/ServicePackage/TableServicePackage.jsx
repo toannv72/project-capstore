@@ -266,8 +266,8 @@ export default function TableServicePackage() {
   };
   return (
     <div>
-      <div className="flex items-end pb-2">
-        <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton>
+      <div className="flex justify-end pb-2">
+       <div> <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton></div>
       </div>
       <ComModal
         width={800}

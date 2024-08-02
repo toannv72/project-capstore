@@ -94,8 +94,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
           "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
           (value) => parseFloat(value) <= 200
         ),
-      underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-      note: yup.string().required("Vui lòng nhập ghi chú"),
+      // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+      // note: yup.string().required("Vui lòng nhập ghi chú"),
     }),
   });
 
@@ -455,7 +455,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Bệnh lý"}
                       rows={5}
                       {...register("medicalRecord.underlyingDisease")}
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -467,7 +467,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Ghi chú"}
                       rows={5}
                       {...register("medicalRecord.note")}
-                      required
+                      // required
                     />
                   </div>
                 </div>
