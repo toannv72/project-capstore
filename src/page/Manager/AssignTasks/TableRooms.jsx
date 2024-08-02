@@ -291,6 +291,7 @@ export const TableRooms = forwardRef((props, ref) => {
         columns={columns}
         dataSource={data}
         loading={table.loading}
+        y={"70vh"}
       />
 
       {/* xếp lịch  */}

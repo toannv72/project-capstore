@@ -1,11 +1,14 @@
 import React from "react";
 import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
-import { Image } from "antd";
+import { Image, Modal } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComButton from "../../../Components/ComButton/ComButton";
+import { putData } from "../../../api/api";
+import { useNotification } from "../../../Notification/Notification";
 
-export default function DetailBill({ selectedData, onClose }) {
+export default function DetailBill({ selectedData, onClose, reloadData }) {
+  const { notificationApi } = useNotification();
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
     if (typeof number === "number") {
@@ -15,7 +18,33 @@ export default function DetailBill({ selectedData, onClose }) {
       });
     }
   }
-
+  const ConfirmPay = async (apiPath, id, body, onSuccess, failed) => {
+    Modal.confirm({
+      title: "Xác nhận Thanh toán",
+      content: "xác nhận thanh toán bằng tiền mặt cho hóa đơn này?",
+      okText: "Xóa",
+      okType: "danger",
+      cancelText: "Hủy",
+      onOk: () => {
+        putData(`${apiPath}`, id, body)
+          .then((e) => {
+            onSuccess();
+            reloadData()
+            onClose()
+          })
+          .catch((error) => {
+            failed();
+            console.log("error", error);
+          });
+      },
+    });
+  };
+  const notificationSuccess = () => {
+    notificationApi("success", "thành công", "Đã thành công");
+  };
+  const notificationError = () => {
+    notificationApi("error", "Lỗi", "Không thành công!");
+  };
   return (
     <>
       <div>
@@ -236,7 +265,30 @@ export default function DetailBill({ selectedData, onClose }) {
           )}
         </div>
       ))}
-      <ComButton onClick={onClose}>Đóng</ComButton>
+      <div className="flex gap-3">
+        <ComButton className={" bg-white "} onClick={onClose}>
+          <div className="text-black">Đóng</div>
+        </ComButton>
+        {selectedData.status === "UnPaid" ? (
+          <ComButton
+            onClick={() =>
+              ConfirmPay(
+                `orders/${selectedData.id}`,
+                "change-method",
+                {
+                  method: "Cash",
+                },
+                notificationSuccess,
+                notificationError
+              )
+            }
+          >
+            Thanh toán tiền mặt
+          </ComButton>
+        ) : (
+          <></>
+        )}
+      </div>
     </>
   );
 }

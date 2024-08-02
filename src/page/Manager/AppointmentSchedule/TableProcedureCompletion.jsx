@@ -1,7 +1,5 @@
 import React from "react";
-import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../../../contexts/LanguageContext";
-import { Badge, Table, Tooltip, Typography } from "antd";
+import { useEffect, useState } from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import ComModal from "../../../Components/ComModal/ComModal";
@@ -11,7 +9,6 @@ import { useModalState } from "../../../hooks/useModalState";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
-import DetailAppointment from "./DetailAppointment";
 import DetailAppointment2 from "./DetailAppointment2";
 import ComStatusConverter from "../../../Components/ComStatusConverter/ComStatusConverter";
 export default function TableProcedureCompletion() {
@@ -51,6 +48,14 @@ export default function TableProcedureCompletion() {
       render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
     },
     {
+      title: "Tên loại hẹn",
+      width: 200,
+      dataIndex: "name",
+      key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+      ...getColumnSearchProps("name", "Tên loại hẹn"),
+    },
+    {
       title: "Thời gian đến ",
       width: 200,
       dataIndex: "date",
@@ -77,23 +82,16 @@ export default function TableProcedureCompletion() {
         </div>
       ),
     },
-    {
-      title: "Tên loại hẹn",
-      width: 200,
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.name?.localeCompare(b.name),
-      ...getColumnSearchProps("name", "Tên loại hẹn"),
-    },
-    {
-      title: "Nội dung",
-      width: 200,
-      dataIndex: "description",
-      key: "description",
-      sorter: (a, b) => a.description?.localeCompare(b.description),
 
-      ...getColumnSearchProps("description", "Nội dung"),
-    },
+    // {
+    //   title: "Nội dung",
+    //   width: 200,
+    //   dataIndex: "description",
+    //   key: "description",
+    //   sorter: (a, b) => a.description?.localeCompare(b.description),
+
+    //   ...getColumnSearchProps("description", "Nội dung"),
+    // },
     {
       title: "Ghi chú",
       width: 200,

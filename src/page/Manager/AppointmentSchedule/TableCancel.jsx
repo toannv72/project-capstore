@@ -52,6 +52,14 @@ export default function TableCancel() {
       render: (text, record) => <ComStatusConverter>{text}</ComStatusConverter>,
     },
     {
+      title: "Tên loại hẹn",
+      width: 200,
+      dataIndex: "name",
+      key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+      ...getColumnSearchProps("name", "Tên loại hẹn"),
+    },
+    {
       title: "Thời gian đến ",
       width: 200,
       dataIndex: "date",
@@ -78,23 +86,16 @@ export default function TableCancel() {
         </div>
       ),
     },
-    {
-      title: "Tên loại hẹn",
-      width: 200,
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.name?.localeCompare(b.name),
-      ...getColumnSearchProps("name", "Tên loại hẹn"),
-    },
-    {
-      title: "Nội dung",
-      width: 200,
-      dataIndex: "description",
-      key: "description",
-      sorter: (a, b) => a.description?.localeCompare(b.description),
 
-      ...getColumnSearchProps("description", "Nội dung"),
-    },
+    // {
+    //   title: "Nội dung",
+    //   width: 200,
+    //   dataIndex: "description",
+    //   key: "description",
+    //   sorter: (a, b) => a.description?.localeCompare(b.description),
+
+    //   ...getColumnSearchProps("description", "Nội dung"),
+    // },
     {
       title: "Ghi chú",
       width: 200,

@@ -34,7 +34,7 @@ function TableUser() {
           tableRef={tableRef}
         />
       </ComModal>
-      <Tables ref={tableRef} />
+      <Tables ref={tableRef}  />
     </div>
   );
 }

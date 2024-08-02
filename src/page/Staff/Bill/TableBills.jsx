@@ -145,8 +145,7 @@ export const TableBills = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "amount",
       key: "amount",
-
-      sorter: (a, b) => a.price - b.price,
+      sorter: (a, b) => a.amount - b.amount,
       render: (_, record) => (
         <div>
           <h1>{formatCurrency(record.amount)}</h1>
@@ -204,7 +203,12 @@ export const TableBills = forwardRef((props, ref) => {
 
   return (
     <div>
-      <ComTable columns={columns} dataSource={data} loading={table.loading} />
+      <ComTable
+        y={"70vh"}
+        columns={columns}
+        dataSource={data}
+        loading={table.loading}
+      />
       {/* chi tiêt của user  */}
       <ComModal
         isOpen={modalDetailUser?.isModalOpen}
@@ -221,6 +225,7 @@ export const TableBills = forwardRef((props, ref) => {
         <DetailBill
           selectedData={selectedBill}
           onClose={modalDetailBill?.handleClose}
+          reloadData={reloadData}
         />
       </ComModal>
 

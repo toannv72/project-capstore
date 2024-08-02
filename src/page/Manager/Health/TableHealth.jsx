@@ -12,6 +12,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailEmployee from "./../../admin/TableEmployee/DetailEmployee";
 import DetailElder from "../../admin/TableElder/DetailElder";
+import DetailHealthElder from "./DetailHealthElder";
 
 export const TableHealth = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -19,6 +20,7 @@ export const TableHealth = forwardRef((props, ref) => {
   const modal = useModalState();
   const modalDetailEmployee = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
+  const [selectedHealth, setSelectedHealth] = useState(null);
   console.log(selectedElder);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
@@ -59,7 +61,6 @@ export const TableHealth = forwardRef((props, ref) => {
       {
         title: "Ghi chú",
         fixed: "left",
-
         dataIndex: "healthReportDetailMeasures",
         key: "healthReportDetailMeasures",
         render: (record) => (
@@ -120,6 +121,11 @@ export const TableHealth = forwardRef((props, ref) => {
     modalDetailElder.handleOpen();
     setSelectedElder(record);
   };
+
+  const showModaldHealth = (record) => {
+    modal.handleOpen();
+    setSelectedHealth(record);
+  };
   const columns = [
     {
       title: "Tên người cao tuổi",
@@ -170,22 +176,40 @@ export const TableHealth = forwardRef((props, ref) => {
         </div>
       ),
     },
-    // {
-    //   title: "Thao tác",
-    //   key: "operation",
-    //   fixed: "right",
-    //   width: 40,
-    //   render: (_, record) => (
-    //     <div className="flex items-center flex-col">
-    //       <ComMenuButonTable
-    //         record={record}
-    //         // showModalDetails={() => showModaldElder(record)}
-    //         showModalEdit={() => modal?.handleOpen(record)}
-    //         excludeDefaultItems={["delete", "details"]}
-    //       />
-    //     </div>
-    //   ),
-    // },
+    {
+      title: "Ghi chú",
+      width: 200,
+      fixed: "left",
+      dataIndex: "notes",
+      key: "notes",
+      render: (data, record) => (
+        <div>
+          <div className="gap-2">
+            <p className="flex flex-col">
+              <div className={`${record?.isWarning ? " text-red-600" : ""} `}>
+                {data}
+              </div>
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Thao tác",
+      key: "operation",
+      fixed: "right",
+      width: 40,
+      render: (_, record) => (
+        <div className="flex items-center flex-col">
+          <ComMenuButonTable
+            record={record}
+            showModalDetails={() => showModaldHealth(record)}
+            // showModalEdit={() => modal?.handleOpen(record)}
+            excludeDefaultItems={["delete", "edit"]}
+          />
+        </div>
+      ),
+    },
   ];
   console.log(data);
   const reloadData = () => {
@@ -221,8 +245,12 @@ export const TableHealth = forwardRef((props, ref) => {
         }}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
-        <div key={2}>heloo</div>
+        <DetailHealthElder
+          selectedHealth={selectedHealth}
+          onClose={modal?.handleClose}
+        />
       </ComModal>
+
       <ComModal
         isOpen={modalDetailEmployee?.isModalOpen}
         onClose={modalDetailEmployee?.handleClose}

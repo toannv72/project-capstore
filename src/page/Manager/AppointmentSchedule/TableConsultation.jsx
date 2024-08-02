@@ -64,6 +64,14 @@ export default function TableConsultation() {
     //   ),
     // },
     {
+      title: "Tên loại hẹn",
+      width: 200,
+      dataIndex: "name",
+      key: "name",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
+      ...getColumnSearchProps("name", "Tên loại hẹn"),
+    },
+    {
       title: "Thời gian đến ",
       width: 200,
       dataIndex: "date",
@@ -90,14 +98,7 @@ export default function TableConsultation() {
         </div>
       ),
     },
-    {
-      title: "Tên loại hẹn",
-      width: 200,
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.name?.localeCompare(b.name),
-      ...getColumnSearchProps("name", "Tên loại hẹn"),
-    },
+  
     // {
     //   title: "Nội dung",
     //   width: 200,
