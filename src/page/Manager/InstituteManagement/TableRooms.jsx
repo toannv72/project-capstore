@@ -141,7 +141,7 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "block",
       key: "block",
-      sorter: (a, b) => a.block?.localeCompare(b.block),
+      sorter: (a, b) => a.block?.name?.localeCompare(b.block?.name),
       // ...getColumnSearchProps("block.name", "Khu"),
       ...getColumnFilterProps("block.name", "Khu", uniqueBlockValues),
       render: (render) => <div>{render?.name}</div>,

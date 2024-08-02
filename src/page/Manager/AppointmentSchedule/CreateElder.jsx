@@ -27,7 +27,7 @@ import {
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import moment from "moment";
 
-export default function CreateElder({ onClose, tableRef, userID }) {
+export default function CreateElder({ onClose, tableRef, userID, update }) {
   const [image, setImages] = useState(null);
   const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
@@ -40,8 +40,8 @@ export default function CreateElder({ onClose, tableRef, userID }) {
   const [endDate, setEndDate] = useState(false);
   const [startDate, setStartDate] = useState(false);
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup
       .string()
       .matches(
@@ -224,8 +224,9 @@ const CreateProductMessenger = yup.object({
   };
 
   const onSubmit = (data) => {
-setDisabled(true);
-    console.log(1111, image);setDisabled(true);
+    setDisabled(true);
+    console.log(1111, image);
+    setDisabled(true);
     if (!image) {
       return notificationApi(
         "error",
@@ -251,11 +252,14 @@ setDisabled(true);
             .then((e) => {
               notificationApi("success", "tạo thành công", "đã tạo");
               setTimeout(() => {}, 100);
-              onClose();setDisabled(false);
+              onClose();
+              setDisabled(false);
+              update()
             })
             .catch((error) => {
               console.log(error);
-              handleErrors(error, setError, setFocus);setDisabled(false);
+              handleErrors(error, setError, setFocus);
+              setDisabled(false);
               notificationApi("error", "tạo không thành công", "đã tạo");
             });
         });

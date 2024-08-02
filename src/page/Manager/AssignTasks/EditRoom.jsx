@@ -302,7 +302,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
                 .map((shift, shiftIndex) => (
                   <div key={shiftIndex} className="border p-4 mt-4">
                     <label className="text-paragraph font-bold">
-                      {`Ca trực ${shiftIndex+1}`}
+                      {`Nhân viên nhóm ${shiftIndex+1}`}
                     </label>
                     <div className="sm:col-span-2">
                       {shift.fields.map((item) => (

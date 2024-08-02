@@ -159,9 +159,9 @@ export default function DetailAppointment({
           ) : (
             <></>
           )}
-          <ComButton className={" bg-white "} onClick={onClose}>
+          {/* <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
-          </ComButton>
+          </ComButton> */}
         </div>
       </div>
 

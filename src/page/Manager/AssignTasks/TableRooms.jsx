@@ -43,6 +43,7 @@ export const TableRooms = forwardRef((props, ref) => {
   };
 
   const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
+  const uniqueBlockValues = getUniqueValues(data, "block.name");
 
   const expandedRowRender = (record) => {
     const columns = [
@@ -143,10 +144,10 @@ export const TableRooms = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "block",
       key: "block",
-      // render: (render) => <div>{render?.name}</div>,
-      sorter: (a, b) => a.block?.localeCompare(b.block),
+      sorter: (a, b) => a.block?.name?.localeCompare(b.block?.name),
 
-      ...getColumnSearchProps("block.name", "Khu"),
+      ...getColumnFilterProps("block.name", "Khu", uniqueBlockValues),
+      render: (render) => <div>{render?.name}</div>,
     },
     {
       title: "Loại phòng",

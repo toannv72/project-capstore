@@ -29,36 +29,34 @@ export default function DetailAppointment3({
     reasonForCanceling: yup.string().required("Vui lòng lý do hủy"),
   });
 
- const methods = useForm({
-   resolver: yupResolver(CreateProductMessenger),
- });
+  const methods = useForm({
+    resolver: yupResolver(CreateProductMessenger),
+  });
 
- const { handleSubmit, register, setFocus, watch, setValue, setError } =
-   methods;
+  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+    methods;
 
- const onSubmit = (data) => {
-   console.log(data);
-   console.log(selectedData);
-   setDisabled(true);
-   deleteData("/contract", selectedData.contract.id, {
-     reasonForCanceling: data.reasonForCanceling,
-   })
-     .then((e) => {
-       console.log(e);
-       onClose();
-       setDisabled(false);
-       modal.handleClose();
-       notificationApi(
-         "success",
-         "Thành công",
-         "Hủy hợp đồng thành công"
-       );
-     })
-     .catch((e) => {
-       setDisabled(false);
-       console.log(e);
-     });
- };
+  const onSubmit = (data) => {
+    console.log(data);
+
+    console.log(selectedData);
+    setDisabled(true);
+    deleteData("/contract", selectedData.contract.id, {
+      reasonForCanceling: data.reasonForCanceling,
+    })
+      .then((e) => {
+        update("ComPleted");
+        console.log(e);
+        onClose();
+        setDisabled(false);
+        modal.handleClose();
+        notificationApi("success", "Thành công", "Hủy hợp đồng thành công");
+      })
+      .catch((e) => {
+        setDisabled(false);
+        console.log(e);
+      });
+  };
   console.log("====================================");
   console.log(selectedData);
   console.log("====================================");
@@ -67,12 +65,7 @@ export default function DetailAppointment3({
       ...selectedData,
       status: status,
     }).then((e) => {
-      onClose();
-      notificationApi(
-        "success",
-        "Thành công",
-        "Cập nhật trạng thái thành công"
-      );
+      // onClose();
       renderData();
     });
   };
@@ -259,6 +252,14 @@ export default function DetailAppointment3({
           {selectedData.status === "Pending" ? (
             <>
               <ComButton
+                // className={" bg-red-600 "}
+                onClick={() => {
+                  update("Cancelled");
+                }}
+              >
+                Hủy hẹn
+              </ComButton>
+              <ComButton
                 onClick={() => {
                   modal?.handleOpen();
                 }}
@@ -266,28 +267,20 @@ export default function DetailAppointment3({
               >
                 Hủy hợp đồng
               </ComButton>
-              <ComButton
+              {/* <ComButton
                 onClick={() => {
                   update("ComPleted");
                 }}
               >
                 Đã hoàn thành
-              </ComButton>
-              <ComButton
-                className={" bg-red-600 "}
-                onClick={() => {
-                  update("Cancelled");
-                }}
-              >
-                Hủy hẹn
-              </ComButton>
+              </ComButton> */}
             </>
           ) : (
             <></>
           )}
-          <ComButton className={" bg-white "} onClick={onClose}>
+          {/* <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
-          </ComButton>
+          </ComButton> */}
         </div>
       </div>
       <ComModal

@@ -24,12 +24,12 @@ export default function DetailAppointment1({
       ...selectedData,
       status: status,
     }).then((e) => {
-      onClose();
-      notificationApi(
-        "success",
-        "Thành công",
-        "Cập nhật trạng thái thành công"
-      );
+      // onClose();
+      // notificationApi(
+      //   "success",
+      //   "Thành công",
+      //   "Cập nhật trạng thái thành công"
+      // );
       renderData();
     });
   };
@@ -37,7 +37,7 @@ export default function DetailAppointment1({
     <div>
       <div className="p-4 bg-white">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chi tiết lịch hẹn
+          Chi tiết lịch hẹn hoàn thành thủ tục
         </h2>
         <table className="w-full">
           <tbody>
@@ -90,13 +90,13 @@ export default function DetailAppointment1({
               >
                 Tạo hợp đồng
               </ComButton>
-              <ComButton
+              {/* <ComButton
                 onClick={() => {
                   update("ComPleted");
                 }}
               >
                 Đã hoàn thành
-              </ComButton>
+              </ComButton> */}
               <ComButton
                 className={" bg-red-600 "}
                 onClick={() => {
@@ -109,9 +109,9 @@ export default function DetailAppointment1({
           ) : (
             <></>
           )}
-          <ComButton className={" bg-white "} onClick={onClose}>
+          {/* <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
-          </ComButton>
+          </ComButton> */}
         </div>
       </div>
 
@@ -124,6 +124,7 @@ export default function DetailAppointment1({
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
           userID={selectedData}
+          update={()=>update("ComPleted")}
         />
       </ComModal>
     </div>
