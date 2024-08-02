@@ -9,12 +9,13 @@ import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import { useNotification } from './../../../Notification/Notification';
+import { useNotification } from "./../../../Notification/Notification";
 
 export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
   const imageUrls = selectedUser.images.map((image) => image.imageUrl);
   const modal = useModalState();
   const [disabled, setDisabled] = useState(false);
+  console.log(selectedUser);
 
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
@@ -145,17 +146,19 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
           ) : (
             <></>
           )}
+            {selectedUser.status !== "Cancelled" ? (
           <div className="mt-10">
-            <ComButton
-              onClick={() => {
-                modal?.handleOpen();
-              }}
-              type="primary"
-              className={" bg-red-600 "}
-            >
-              Hủy hợp đồng
-            </ComButton>
+              <ComButton
+                onClick={() => {
+                  modal?.handleOpen();
+                }}
+                type="primary"
+                className={" bg-red-600 "}
+              >
+                Hủy hợp đồng
+              </ComButton>
           </div>
+            ) : null}
         </div>
 
         <ComModal

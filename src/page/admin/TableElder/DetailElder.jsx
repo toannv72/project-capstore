@@ -11,7 +11,7 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [error, setErrorApi] = useState(false);
-  console.log(location);
+  console.log(selectedData);
   useEffect(() => {
     setData(selectedData);
 
@@ -68,7 +68,7 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
               </td>
               <td className="px-4 py-2">{data.room?.type}</td>
             </tr>
-          
+
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
                 Ngày có hiệu lực:

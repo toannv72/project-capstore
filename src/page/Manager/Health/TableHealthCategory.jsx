@@ -129,10 +129,10 @@ export const TableHealthCategory = forwardRef((props, ref) => {
     );
   };
   const notificationSuccess = () => {
-    notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+    notificationApi("success", "thành công", "Đã thành công");
   };
   const notificationError = () => {
-    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+    notificationApi("error", "Lỗi", "Không thành công!");
   };
   const columns = [
     {

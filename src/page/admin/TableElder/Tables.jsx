@@ -18,31 +18,6 @@ import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
-const useColumnSearchAndFilter = (data) => {
-  const { getColumnSearchProps, getColumnFilterProps } = useColumnSearch(data);
-
-  const getColumnSearchAndFilterProps = (dataIndex, title, uniqueValues) => {
-    const searchProps = getColumnSearchProps(dataIndex, title);
-    const filterProps = getColumnFilterProps(dataIndex, title, uniqueValues);
-
-    return {
-      ...searchProps,
-      ...filterProps,
-      filterDropdown: (props) => (
-        <div>
-          {searchProps.filterDropdown(props)}
-          {filterProps.filterDropdown
-            ? filterProps.filterDropdown(props)
-            : null}
-        </div>
-      ),
-    };
-  };
-
-  return {
-    getColumnSearchAndFilterProps,
-  };
-};
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -58,8 +33,6 @@ export const Tables = forwardRef((props, ref) => {
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
- const { getColumnSearchAndFilterProps } = useColumnSearchAndFilter(data);
-
 
   useEffect(() => {
     reloadData();
@@ -101,11 +74,17 @@ export const Tables = forwardRef((props, ref) => {
     },
   ];
 
-    const uniqueRoomValues = getUniqueValues(data, "room.name");
-    const uniquePackageValues = getUniqueValues(
-      data,
-      "contractsInUse.nursingPackage.name"
-    );
+  const uniqueRoomValues = getUniqueValues(data, "room.name");
+  const uniquePackageValues = getUniqueValues(
+    data,
+    "contractsInUse.nursingPackage.name"
+  );
+  function ComContractInUseStatusConverter({ contractsInUse }) {
+    const status = contractsInUse ? "Đang được hoạt động" : "Đã hủy";
+    const className = contractsInUse ? "text-blue-600" : "text-red-600";
+
+    return <div className={className}>{status}</div>;
+  }
   const columns = [
     {
       title: "Họ và tên người cao tuổi",
@@ -114,7 +93,6 @@ export const Tables = forwardRef((props, ref) => {
       key: "name",
       fixed: "left",
       sorter: (a, b) => a?.name?.localeCompare(b?.name),
-
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
@@ -153,7 +131,7 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Năm sinh",
+      title: "Năm sinh người cao tuổi",
       width: 120,
       dataIndex: "dateOfBirth",
       key: "dateOfBirth",
@@ -199,6 +177,38 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
+      title: "Trạng thái hợp đồng",
+      dataIndex: "contractsInUses",
+      key: "contractStatuss",
+      width: 150,
+      filters: [
+        { text: "Đang được hoạt động", value: "active" },
+        { text: "Đã hủy", value: "cancelled" },
+      ],
+      onFilter: (value, record) => {
+        const isActive =
+          record.contractsInUse &&
+          Object.keys(record.contractsInUse).length > 0;
+        return (
+          (value === "active" && isActive) ||
+          (value === "cancelled" && !isActive)
+        );
+      },
+      sorter: (a, b) => {
+        if (a.contractsInUse === b.contractsInUse) {
+          return 0;
+        }
+        return a.contractsInUse ? -1 : 1;
+      },
+      render: (_, record) => (
+        <div>
+          <ComContractInUseStatusConverter
+            contractsInUse={record.contractsInUse}
+          />
+        </div>
+      ),
+    },
+    {
       title: "Phòng hiện tại",
       width: 150,
       dataIndex: "room",
@@ -206,7 +216,7 @@ export const Tables = forwardRef((props, ref) => {
       sorter: (a, b) => a?.room?.name?.localeCompare(b?.room?.name),
       // ...getColumnSearchProps("room.name", "Phòng hiện tại"),
       ...getColumnFilterProps("room.name", "Phòng hiện tại", uniqueRoomValues),
-    
+
       render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {

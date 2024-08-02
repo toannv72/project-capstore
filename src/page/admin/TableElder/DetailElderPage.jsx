@@ -199,7 +199,7 @@ const CreateProductMessenger = yup.object({
         <div className="col-span-3 2xl:col-span-2">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-smdark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <h3 class="mb-4 text-xl font-semibold dark:text-white">
-              Chi tiết hợp đồng
+              Chi tiết hợp đồng đang được sử dụng
             </h3>
             <FormProvider {...methods}>
               <form

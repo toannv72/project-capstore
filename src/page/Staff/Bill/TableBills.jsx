@@ -16,6 +16,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import DetailBill from "./DetailBill";
 import EditBill from "./EditBill";
 import DetailUser from "../../admin/TableUser/DetailUser";
+import ComBillStatusConverter from './../../../Components/ComStatusConverter/ComBillStatusConverter';
 
 export const TableBills = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -44,15 +45,15 @@ export const TableBills = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
-    function formatCurrency(number) {
-      // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
-      if (typeof number === "number") {
-        return number.toLocaleString("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        });
-      }
+  function formatCurrency(number) {
+    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+    if (typeof number === "number") {
+      return number.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
     }
+  }
 
   const showModaldUser = (record) => {
     console.log(record);
@@ -133,7 +134,9 @@ export const TableBills = forwardRef((props, ref) => {
       // ...getColumnSearchProps("method", "Thanh toán bằng"),
       render: (_, record) => (
         <div>
-          <h1>{(record.status)}</h1>
+          <h1>
+            <ComBillStatusConverter>{record.status}</ComBillStatusConverter>
+          </h1>
         </div>
       ),
     },

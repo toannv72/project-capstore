@@ -4,20 +4,20 @@ function ComStatusConverter({ children }) {
   const convertStatus = (type) => {
     switch (type) {
       case "Completed":
-        return <p className="text-blue-600">Đã hoàn thành</p>;;
+        return <p className="text-blue-600">Đã hoàn thành</p>;
       case "Cancelled":
         return <p className="text-red-600">Đã hủy</p>;
       case "Pending":
         return "Đang chờ";
- 
+
       default:
         return " "; // Giá trị mặc định nếu không khớp
     }
   };
 
-  const translatedRole = convertStatus(children);
+  const translated = convertStatus(children);
 
-  return <>{translatedRole}</>;
+  return <>{translated}</>;
 }
 
 export default ComStatusConverter;

@@ -141,7 +141,7 @@ export const TableBlock = forwardRef((props, ref) => {
     notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
   };
   const notificationError = () => {
-    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+    notificationApi("error", "Không thành công", "đã xóa tạo phòng!");
   };
   const reloadData = () => {
     table.handleOpenLoading();

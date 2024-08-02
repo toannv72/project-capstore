@@ -16,6 +16,7 @@ import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ContractExtension from "./ContractExtension";
+import ComContractStatusConverter from "../../../Components/ComStatusConverter/ComContractStatusConverter";
 
 export const TableContract = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -106,6 +107,26 @@ export const TableContract = forwardRef((props, ref) => {
           </div>
         );
       },
+    },
+    {
+      title: "Trạng thái",
+      width: 100,
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        { text: "Đang được sử dụng", value: "Valid" },
+        { text: "Chưa chưa đến hẹn sửa dụng", value: "Pending" },
+        { text: "Đã hủy", value: "Cancelled" },
+        { text: "Hết hạn", value: "Expired" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      sorter: (a, b) => a?.status?.localeCompare(b?.status),
+      // ...getColumnSearchProps("method", "Thanh toán bằng"),
+      render: (_, record) => (
+        <div>
+          <ComContractStatusConverter>{record.status}</ComContractStatusConverter>
+        </div>
+      ),
     },
     {
       title: "Gói dưỡng lão",

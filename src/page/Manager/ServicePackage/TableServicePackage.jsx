@@ -194,10 +194,10 @@ export default function TableServicePackage() {
     },
   ];
   const notificationSuccess = () => {
-    notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+    notificationApi("success", "Đã xóa", "Đã xóa dịch vụ không thành công!");
   };
   const notificationError = () => {
-    notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+    notificationApi("error", "Không thành công ", "Không thành công");
   };
   const showTypePackageDay = (type, data) => {
     switch (type) {
