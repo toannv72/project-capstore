@@ -16,11 +16,13 @@ import ComWeekConverter from "../../../Components/ComWeekConverter/ComWeekConver
 import EditServicePackage from "./EditServicePackage";
 import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
 import { useNotification } from "../../../Notification/Notification";
+import DetailServicePackage from "./DetailServicePackage";
 export default function TableServicePackage() {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const modalDetail = useModalState();
+  const modalDetailService = useModalState();
   const [selectedData, setSelectedData] = useState(null);
   console.log(selectedData);
   const { notificationApi } = useNotification();
@@ -171,7 +173,10 @@ export default function TableServicePackage() {
         <div className="flex items-center flex-col">
           <ComMenuButonTable
             record={record}
-            // showModalDetails={() => showModaldElder(record)}
+            showModalDetails={() => {
+              modalDetailService.handleOpen();
+              setSelectedData(record);
+            }}
             showModalEdit={() => {
               modalDetail.handleOpen();
               setSelectedData(record);
@@ -187,7 +192,7 @@ export default function TableServicePackage() {
               );
             }}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["details"]}
+            // excludeDefaultItems={["details"]}
           />
         </div>
       ),
@@ -267,7 +272,10 @@ export default function TableServicePackage() {
   return (
     <div>
       <div className="flex justify-end pb-2">
-       <div> <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton></div>
+        <div>
+          {" "}
+          <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton>
+        </div>
       </div>
       <ComModal
         width={800}
@@ -297,6 +305,18 @@ export default function TableServicePackage() {
           isOpen={modalDetail?.isModalOpen}
           onClose={modalDetail?.handleClose}
           type={selectedData?.type}
+          selectedData={selectedData}
+        />
+      </ComModal>
+      {/* chi tiêt  */}
+      <ComModal
+        isOpen={modalDetailService?.isModalOpen}
+        onClose={modalDetailService?.handleClose}
+        width={800}
+      >
+        <DetailServicePackage
+          isOpen={modalDetailService?.isModalOpen}
+          onClose={modalDetailService?.handleClose}
           selectedData={selectedData}
         />
       </ComModal>

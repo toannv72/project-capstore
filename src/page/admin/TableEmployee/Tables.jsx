@@ -43,7 +43,7 @@ export const Tables = forwardRef((props, roles, ref) => {
   console.log(data);
   const reloadData = () => {
     const link =
-      getRoleFromPath(location.pathname) === "director"
+      getRoleFromPath(location.pathname) !== "manager"
         ? `RoleNames=Staff&RoleNames=Nurse&RoleNames=Manager&SortDir=Desc`
         : `RoleNames=Staff&RoleNames=Nurse&SortDir=Desc`;
 
@@ -116,6 +116,7 @@ export const Tables = forwardRef((props, roles, ref) => {
       filters: [
         { text: "Y tá", value: "Nurse" },
         { text: "Nhân viên", value: "Staff" },
+        { text: "Quản lý", value: "Manager" },
       ],
       onFilter: (value, record) => record?.roles[0]?.name === value,
       sorter: (a, b) => a?.roles[0]?.name?.localeCompare(b?.roles[0]?.name),

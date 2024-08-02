@@ -95,10 +95,10 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
     },
   ];
         const notificationSuccess = () => {
-          notificationApi("success", "Đã xóa", "đã xóa tạo phòng!");
+          notificationApi("success", "Đã xóa", "đã xóa thể loại dịch vụ thành công!");
         };
         const notificationError = () => {
-          notificationApi("error", "Đã xóa", "đã xóa tạo phòng!");
+          notificationApi("error", "Không thành công ", "Chưa có api!");
         };
   return (
     <div>
