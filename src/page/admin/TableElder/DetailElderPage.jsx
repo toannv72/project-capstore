@@ -15,13 +15,13 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import ChartFour from "./ChartFour";
 import { Skeleton } from "antd";
 import ErrorPage from "../../404/ErrorPage";
-import Table from "./Table";
+import TableContract from "./TableContract";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
+import { TableHealth } from "../../Manager/Health/TableHealth";
 
 export default function DetailElderPage() {
   const { id } = useParams();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const CreateProductMessenger = yup.object({
     medicalRecord: yup.object({
       bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
       weight: yup
@@ -134,9 +134,7 @@ const CreateProductMessenger = yup.object({
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
                   CMND hoặc CCCD:{" "}
-                  <ComCccdOrCmndConverter>
-                    {data?.cccd}
-                  </ComCccdOrCmndConverter>
+                  <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
                   Giới tính:{" "}
@@ -389,10 +387,18 @@ const CreateProductMessenger = yup.object({
         </div>
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">
+            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white p-3">
               Thông tin hợp đồng
             </h3>
-            <Table idElder={id} />
+            <TableContract idElder={id} />
+          </div>
+        </div>
+        <div className=" col-span-3  ">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white p-3">
+              Thông tin chỉ số đo được
+            </h3>
+            <TableHealth idElder={id} />
           </div>
         </div>
       </div>

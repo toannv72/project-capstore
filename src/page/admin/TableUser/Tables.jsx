@@ -15,8 +15,8 @@ import EditUser from "./EditUser";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
-import ComCccdOrCmndConverter from "./../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
-import DetailElder from "./../TableElder/DetailElder";
+import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+import DetailElder from "../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import { useLocation } from "react-router-dom";
@@ -94,30 +94,6 @@ export const Tables = forwardRef((props, ref) => {
           </div>
         ),
       },
-      // {
-      //   title: "Ngày có hiệu lực",
-      //   width: 100,
-      //   dataIndex: "effectiveDate",
-      //   key: "effectiveDate",
-      //   render: (_, render) => (
-      //     <div>
-      //       <ComDateConverter>{render?.effectiveDate}</ComDateConverter>
-      //     </div>
-      //   ),
-      // },
-      // {
-      //   title: "Ngày hết hạn",
-      //   width: 100,
-      //   dataIndex: "expiryDate",
-      //   key: "expiryDate",
-      //   render: (_, render) => (
-      //     <div>
-      //       <ComDateConverter>
-      //         {render?.contractsInUse?.endDate}
-      //       </ComDateConverter>
-      //     </div>
-      //   ),
-      // },
       {
         title: "Địa chỉ",
         width: 100,
@@ -148,7 +124,6 @@ export const Tables = forwardRef((props, ref) => {
               // extraMenuItems={extraMenuItems}
               // excludeDefaultItems={["delete", "edit"]}
               excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
-
               // order={order}
             />
           </div>
@@ -294,7 +269,6 @@ export const Tables = forwardRef((props, ref) => {
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
             excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
-
             // order={order}
           />
         </div>

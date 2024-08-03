@@ -20,6 +20,7 @@ import ComGenderConverter from "../../../Components/ComGenderConverter/ComGender
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 
 export const Tables = forwardRef((props, ref) => {
+   const { idUser } = props;
   const [data, setData] = useState([]);
   const {
     getColumnSearchProps,
@@ -41,7 +42,12 @@ export const Tables = forwardRef((props, ref) => {
     reloadData,
   }));
   const reloadData = () => {
-    getData("/elders?SortDir=Desc")
+    const urlApi = idUser
+      ? `/elders?UserId=${idUser}&SortDir=Desc`
+      : `/elders?SortDir=Desc`;
+    console.log(urlApi);
+    
+    getData(urlApi)
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

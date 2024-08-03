@@ -32,6 +32,7 @@ import AssignTasksManagement from "./page/Manager/AssignTasks/AssignTasksManagem
 import TableAccount from "./page/admin/TableAccount/TableAccount";
 import ComHeaderDirector from "./Components/ComHeaderDirector/ComHeaderDirector";
 import ComHeaderManager from "./Components/ComHeaderManager/ComHeaderManager";
+import DetailUserPage from "./page/admin/TableUser/DetailUserPage";
 
 export const routers = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ export const routers = createBrowserRouter([
       {
         path: "/admin/elder/:id",
         element: <DetailElderPage />,
+      },
+      {
+        path: "/admin/user/:id",
+        element: <DetailUserPage />,
       },
       {
         path: "/admin/employee",
@@ -203,6 +208,10 @@ export const routers = createBrowserRouter([
         path: "/director/profile",
         element: <ProfilePage />,
       },
+      {
+        path: "/director/user/:id",
+        element: <DetailUserPage />,
+      },
       // {
       //   path: "/director/createNotification",
       //   element: <CreateNotification />,
@@ -253,6 +262,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/elder/:id",
         element: <DetailElderPage />,
+      },
+      {
+        path: "/staff/user/:id",
+        element: <DetailUserPage />,
       },
       {
         path: "/staff/employee",
@@ -336,6 +349,10 @@ export const routers = createBrowserRouter([
       {
         path: "/manager/elder",
         element: <TableElder />,
+      },
+      {
+        path: "/manager/user/:id",
+        element: <DetailUserPage />,
       },
       {
         path: "/manager/elder/:id",

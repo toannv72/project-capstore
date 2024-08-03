@@ -5,8 +5,16 @@ import { Image } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComButton from "./../../../Components/ComButton/ComButton";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
+import { useLocation } from "react-router-dom";
+import { ComLink } from "../../../Components/ComLink/ComLink";
 
 export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
+  const location = useLocation();
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
+ 
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -83,6 +91,15 @@ export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
+        <div className="flex items-center justify-center">
+          <ComLink
+            to={`/${getRoleFromPath(location.pathname)}/user/${
+              selectedUser?.id
+            }`}
+          >
+            Xem thêm
+          </ComLink>
+        </div>
         {isOpenEdit ? (
           <div className="mt-10">
             <ComButton

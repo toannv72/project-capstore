@@ -313,6 +313,7 @@ export const Tables = forwardRef((props, ref) => {
         // }}
         columns={columns}
         dataSource={data}
+        y={"60vh"}
         loading={table.loading}
       />
       {/* chi tiêt của user  */}

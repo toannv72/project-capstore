@@ -8,12 +8,18 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
-import DetailContract from './../../Staff/Contract/DetailContract';
-import ContractExtension from './../../Staff/Contract/ContractExtension';
+import DetailContract from "../../Staff/Contract/DetailContract";
+import ContractExtension from "../../Staff/Contract/ContractExtension";
+import ComContractStatusConverter from "../../../Components/ComStatusConverter/ComContractStatusConverter";
 
-export default function Table({ idElder }) {
+export default function TableContract({ idElder }) {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+  const {
+    getColumnSearchProps,
+    getColumnApprox,
+    getUniqueValues,
+    getColumnFilterProps,
+  } = useColumnSearch();
   const table = useTableState();
   const modalDetail = useModalState();
   const modalEdit = useModalState();
@@ -21,6 +27,7 @@ export default function Table({ idElder }) {
   console.log("====================================");
   console.log(selectedUser);
   console.log("====================================");
+  const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
 
   useEffect(() => {
     getData(`/contract?ElderId=${idElder}&SortDir=Desc`)
@@ -43,11 +50,12 @@ export default function Table({ idElder }) {
   };
   const columns = [
     {
-      title: "Hợp đồng số",
+      title: "Số hợp đồng",
       dataIndex: "name",
       width: 150,
       key: "name",
       fixed: "left",
+      sorter: (a, b) => a.name?.localeCompare(b.name),
       ...getColumnSearchProps("name", "Họ và tên"),
     },
     {
@@ -88,29 +96,61 @@ export default function Table({ idElder }) {
       },
     },
     {
+      title: "Trạng thái",
+      width: 100,
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        { text: "Đang được sử dụng", value: "Valid" },
+        { text: "Chưa chưa đến hẹn sửa dụng", value: "Pending" },
+        { text: "Đã hủy", value: "Cancelled" },
+        { text: "Hết hạn", value: "Expired" },
+      ],
+      onFilter: (value, record) => record.status === value,
+      sorter: (a, b) => a?.status?.localeCompare(b?.status),
+      // ...getColumnSearchProps("method", "Thanh toán bằng"),
+      render: (_, record) => (
+        <div>
+          <ComContractStatusConverter>
+            {record.status}
+          </ComContractStatusConverter>
+        </div>
+      ),
+    },
+    {
       title: "Gói dưỡng lão",
       width: 100,
-      dataIndex: "nursingPackage.name",
-      key: "nursingPackage.name",
-      ...getColumnSearchProps("nursingPackage.name", "Gói"),
+      dataIndex: "nursingPackage",
+      key: "nursingPackage",
+      sorter: (a, b) =>
+        a?.nursingPackage?.name?.localeCompare(b?.nursingPackage?.name),
+      ...getColumnFilterProps(
+        "nursingPackage.name",
+        "Loại phòng",
+        uniquePackageValues
+      ),
+      render: (render) => <div>{render.name}</div>,
     },
     {
       title: "Ngày kí ",
       width: 100,
       dataIndex: "signingDate",
       key: "signingDate",
+      sorter: (a, b) => new Date(a.signingDate) - new Date(b.signingDate),
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.signingDate}</ComDateConverter>
         </div>
       ),
-      ...getColumnApprox("startDate", "Gói"),
+      ...getColumnApprox("signingDate", "Gói"),
     },
     {
       title: "Ngày có hiệu lực",
       width: 100,
       dataIndex: "startDate",
       key: "startDate",
+      sorter: (a, b) => new Date(a.startDate) - new Date(b.startDate),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.startDate}</ComDateConverter>
@@ -123,6 +163,8 @@ export default function Table({ idElder }) {
       width: 100,
       dataIndex: "endDate",
       key: "endDate",
+      sorter: (a, b) => new Date(a.endDate) - new Date(b.endDate),
+
       render: (_, render) => (
         <div>
           <ComDateConverter>{render?.endDate}</ComDateConverter>
@@ -135,6 +177,9 @@ export default function Table({ idElder }) {
       width: 100,
       dataIndex: "notes",
       key: "notes",
+      sorter: (a, b) => a.notes?.localeCompare(b.notes),
+
+      ...getColumnSearchProps("notes", "Ghi chú"),
     },
     {
       title: "Thao tác",

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import ComCard from "../../../Components/ComCard/ComCard";
-import { Tables } from "./Table";
+import { Tables } from "./Tables";
 import ComButton from "../../../Components/ComButton/ComButton";
 import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";

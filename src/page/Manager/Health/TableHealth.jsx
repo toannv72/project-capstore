@@ -21,7 +21,7 @@ export const TableHealth = forwardRef((props, ref) => {
   const modalDetailEmployee = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
   const [selectedHealth, setSelectedHealth] = useState(null);
-  console.log(selectedElder);
+   const { idElder } = props;
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
   const expandedRowRender = (record) => {
@@ -211,10 +211,15 @@ export const TableHealth = forwardRef((props, ref) => {
       ),
     },
   ];
-  console.log(data);
+  // console.log(data);
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/health-report?SortDir=Desc")
+    const urlApi = idElder
+      ? `/health-report?ElderId=${idElder}&SortDir=Desc`
+      : `/health-report?SortDir=Desc`;
+    console.log(idElder);
+
+    getData(urlApi)
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
