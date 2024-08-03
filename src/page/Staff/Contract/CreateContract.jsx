@@ -30,8 +30,8 @@ export default function CreateContract({ onClose, tableRef }) {
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
@@ -45,45 +45,51 @@ const CreateProductMessenger = yup.object({
     // notes: yup.string().required("Vui lòng nhập ghi chú"),
     // description: yup.string().required("Vui lòng nhập mô tả"),
   });
-    const methods = useForm({
-      resolver: yupResolver(CreateProductMessenger),
-      values: {},
-    });
-    const { handleSubmit, register, setFocus, watch, setError, setValue } =
-      methods;
-const disabledDateEnd = (current) => {
-  const oneMonths = moment().add(0, "months");
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("startDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(1, "months") : null;
-  return (
-    current &&
-    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
-  );
-};
-const disabledDateStart = (current) => {
-  const oneMonths = moment().add(0, "months");
+  const methods = useForm({
+    resolver: yupResolver(CreateProductMessenger),
+    values: {},
+  });
+  const { handleSubmit, register, setFocus, watch, setError, setValue } =
+    methods;
+  const disabledDateEnd = (current) => {
+    const oneMonths = moment().add(0, "months");
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("startDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(1, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  const disabledDateStart = (current) => {
+    const oneMonths = moment().add(0, "months");
 
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("signingDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(0, "months") : null;
-  return (
-    current &&
-    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
-  );
-};
-useEffect(() => {
-  setEndDate((e) => !e);
-  setValue("endDate", null);
-  setTimeout(() => {
-    handleDurationChange(watch("time"));
-  }, 100);
-}, [watch("startDate")]);
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("signingDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(0, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
+  useEffect(() => {
+    setEndDate((e) => !e);
+    setValue("endDate", null);
+    setTimeout(() => {
+      handleDurationChange(watch("time"));
+    }, 100);
+  }, [watch("startDate")]);
 
-useEffect(() => {
-  setStartDate((e) => !e);
-  setValue("startDate", null);
-}, [watch("signingDate")]);
+  useEffect(() => {
+    setStartDate((e) => !e);
+    setValue("startDate", null);
+  }, [watch("signingDate")]);
 
   const handleDurationChange = (value) => {
     setValue("time", value);
@@ -130,13 +136,12 @@ useEffect(() => {
       }
     }
   };
-  
 
   function convertUrlsToObjects(urls) {
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     console.log(data);
 
     if (Array.isArray(image) && image.length === 0) {
@@ -155,7 +160,7 @@ setDisabled(true);
         };
         postData("/contract", datapost)
           .then((e) => {
-        setDisabled(false);
+            setDisabled(false);
             notificationApi("success", "tạo thành công", "đã tạo");
             setTimeout(() => {
               if (tableRef.current) {
@@ -167,7 +172,7 @@ setDisabled(true);
           })
           .catch((error) => {
             console.log(error);
-        setDisabled(false);
+            setDisabled(false);
             handleErrors(error, setError, setFocus);
             notificationApi("error", "tạo không thành công", "đã tạo");
           });
@@ -177,8 +182,6 @@ setDisabled(true);
   useEffect(() => {
     reloadData();
   }, []);
-
-
 
   const reloadData = () => {
     getData("/users?SortDir=Desc")

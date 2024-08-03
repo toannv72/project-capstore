@@ -53,7 +53,17 @@ const CreateProductMessenger = yup.object({
   });
   const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
+const disabledDateStart = (current) => {
+  const oneMonths = moment().add(0, "months");
 
+  const tenYearsLater = moment().add(10, "years");
+  const startDate = watch("signingDate");
+  const fixedFutureDate = startDate ? moment(startDate).add(0, "months") : null;
+  return (
+    current &&
+    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
+  );
+};
   useEffect(() => {
     setEndDate((e) => !e);
     setValue("endDate", null);
@@ -62,10 +72,10 @@ const CreateProductMessenger = yup.object({
     }, 100);
   }, [watch("startDate")]);
 
-  // useEffect(() => {
-  //   setStartDate((e) => !e);
-  //   setValue("startDate", null);
-  // }, [watch("signingDate")]);
+  useEffect(() => {
+    setStartDate((e) => !e);
+    setValue("startDate", null);
+  }, [watch("signingDate")]);
 
   const handleDurationChange = (value) => {
     setValue("time", value);
@@ -510,15 +520,28 @@ setDisabled(true);
                     {...register("time")}
                   />
                 </div>
-                <div className="sm:col-span-1">
-                  <ComDatePicker
-                    label="Ngày bắt đầu hợp đồng"
-                    disabledDate={DateOfContract}
-                    placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                    {...register("startDate")}
-                    required
-                  />
-                </div>
+                {startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("startDate")}
+                      required
+                    />
+                  </div>
+                )}
+                {!startDate || (
+                  <div className="sm:col-span-1">
+                    <ComDatePicker
+                      label="Ngày bắt đầu hợp đồng"
+                      disabledDate={disabledDateStart}
+                      placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
+                      {...register("startDate")}
+                      required
+                    />
+                  </div>
+                )}
                 {!endDate || (
                   <div className="sm:col-span-1">
                     <ComDatePicker
