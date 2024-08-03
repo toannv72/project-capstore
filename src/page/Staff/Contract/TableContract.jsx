@@ -17,6 +17,8 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ContractExtension from "./ContractExtension";
 import ComContractStatusConverter from "../../../Components/ComStatusConverter/ComContractStatusConverter";
+import DetailUser from "../../admin/TableUser/DetailUser";
+import DetailElder from './../../admin/TableElder/DetailElder';
 
 export const TableContract = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -30,12 +32,15 @@ export const TableContract = forwardRef((props, ref) => {
   const modalDetail = useModalState();
   const modalExtension = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedElder, setSelectedElder] = useState(null);
   useImperativeHandle(ref, () => ({
     reloadData,
   }));
   useEffect(() => {
     reloadData();
   }, []);
+  const modalDetailUser = useModalState();
+  const modalDetailElder = useModalState();
 
   const uniquePackageValues = getUniqueValues(data, "nursingPackage.name");
 
@@ -57,6 +62,16 @@ export const TableContract = forwardRef((props, ref) => {
     modalExtension.handleOpen();
     setSelectedUser(record);
   };
+    const showModaldUser = (record) => {
+      console.log(record);
+      modalDetailUser.handleOpen();
+      setSelectedUser(record);
+  };
+     const showModaldElder = (record) => {
+       console.log(record);
+       modalDetailElder.handleOpen();
+       setSelectedElder(record);
+     };
   const columns = [
     {
       title: "Số hợp đồng",
@@ -70,20 +85,29 @@ export const TableContract = forwardRef((props, ref) => {
     },
     {
       title: "Tên người cao tuổi",
-      dataIndex: "elder.name",
+      dataIndex: "elder",
       width: 150,
-      key: "elder.name",
+      key: "elder",
       sorter: (a, b) => a.elder?.name?.localeCompare(b.elder?.name),
-
       ...getColumnSearchProps("elder.name", "Họ và tên"),
+      render: (user) => (
+        <Typography.Link onClick={() => showModaldElder(user)}>
+          {user?.name}
+        </Typography.Link>
+      ),
     },
     {
       title: "Tên người thân",
-      dataIndex: "user.fullName",
+      dataIndex: "user",
       width: 150,
-      key: "user.fullName",
+      key: "user",
       sorter: (a, b) => a.user?.fullName?.localeCompare(b.user?.fullName),
       ...getColumnSearchProps("user.fullName", "Họ và tên"),
+      render: (user) => (
+        <Typography.Link onClick={() => showModaldUser(user)}>
+          {user?.fullName}
+        </Typography.Link>
+      ),
     },
     {
       title: "Ảnh hợp đồng",
@@ -124,7 +148,9 @@ export const TableContract = forwardRef((props, ref) => {
       // ...getColumnSearchProps("method", "Thanh toán bằng"),
       render: (_, record) => (
         <div>
-          <ComContractStatusConverter>{record.status}</ComContractStatusConverter>
+          <ComContractStatusConverter>
+            {record.status}
+          </ComContractStatusConverter>
         </div>
       ),
     },
@@ -242,6 +268,21 @@ export const TableContract = forwardRef((props, ref) => {
           onClose={modalExtension?.handleClose}
           reloadApi={reloadData}
         />
+      </ComModal>
+
+      {/* chi tiết người thân  */}
+      <ComModal
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
+      >
+        <DetailUser selectedUser={selectedUser} />
+      </ComModal>
+      {/* chi tiết người cao tuổi  */}
+      <ComModal
+        isOpen={modalDetailElder?.isModalOpen}
+        onClose={modalDetailElder?.handleClose}
+      >
+        <DetailElder selectedData={selectedElder} />
       </ComModal>
     </div>
   );
