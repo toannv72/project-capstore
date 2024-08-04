@@ -16,7 +16,8 @@ import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 import { FieldError } from "../../../Components/FieldError/FieldError";
 import ComNumber from "../../../Components/ComInput/ComNumber";
-
+import { differenceInMonths } from "date-fns";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 export default function CreateContract({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
@@ -30,7 +31,6 @@ export default function CreateContract({ onClose, tableRef }) {
   const [endDate, setEndDate] = useState(false);
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
-
   const [errorMessage, setErrorMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
@@ -156,53 +156,64 @@ export default function CreateContract({ onClose, tableRef }) {
     setDisabled(true);
     setErrorMessage(null);
     console.log(data);
-
-    if (Array.isArray(image) && image.length === 0) {
-      setDisabled(false);
-      notificationApi(
-        "error",
-        "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh hợp đồng "
-      );
-    } else {
-      firebaseImgs(image).then((dataImg1) => {
-        console.log(dataImg1);
-        setValue("images", convertUrlsToObjects(dataImg1));
-        const datapost = {
-          ...data,
-          images: convertUrlsToObjects(dataImg1),
-        };
-        postData("/contract", datapost)
-          .then((e) => {
-            setDisabled(false);
-            notificationApi(
-              "success",
-              "Tạo thành công",
-              "Tạo hợp đồng thành công"
-            );
-            setTimeout(() => {
-              if (tableRef.current) {
-                // Kiểm tra xem ref đã được gắn chưa
-                tableRef?.current.reloadData();
+    const change = MonyNumber(
+      data.price,
+      (message) => setError("price", { message }), // Đặt lỗi nếu có
+      () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
+    );
+    if (change !== null) {
+      if (Array.isArray(image) && image.length === 0) {
+        setDisabled(false);
+        notificationApi(
+          "error",
+          "Vui lòng chọn ảnh",
+          "Vui lòng chọn hình ảnh hợp đồng "
+        );
+      } else {
+        firebaseImgs(image).then((dataImg1) => {
+          console.log(dataImg1);
+          setValue("images", convertUrlsToObjects(dataImg1));
+          const datapost = {
+            ...data,
+            price:change,
+            images: convertUrlsToObjects(dataImg1),
+          };
+          console.log(11,datapost);
+          
+          postData("/contract", datapost)
+            .then((e) => {
+              setDisabled(false);
+              notificationApi(
+                "success",
+                "Tạo thành công",
+                "Tạo hợp đồng thành công"
+              );
+              setTimeout(() => {
+                if (tableRef.current) {
+                  // Kiểm tra xem ref đã được gắn chưa
+                  tableRef?.current.reloadData();
+                }
+              }, 100);
+              reset();
+              onClose();
+            })
+            .catch((error) => {
+              console.log(error);
+              setDisabled(false);
+              handleErrors(error, setError, setFocus);
+              if (error?.status === 616) {
+                setErrorMessage(error?.data?.detail);
               }
-            }, 100);
-            reset();
-            onClose();
-          })
-          .catch((error) => {
-            console.log(error);
-            setDisabled(false);
-            handleErrors(error, setError, setFocus);
-            if (error?.status === 616) {
-              setErrorMessage(error?.data?.detail);
-            }
-            notificationApi(
-              "error",
-              "Tạo không thành công",
-              "Tạo hợp đồng không thành công"
-            );
-          });
-      });
+              notificationApi(
+                "error",
+                "Tạo không thành công",
+                "Tạo hợp đồng không thành công"
+              );
+            });
+        });
+      }
+    } else {
+      setDisabled(false);
     }
   };
   useEffect(() => {
@@ -232,7 +243,8 @@ export default function CreateContract({ onClose, tableRef }) {
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -243,7 +255,8 @@ export default function CreateContract({ onClose, tableRef }) {
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `${item.name} ${formatCurrency(item.price)}/tháng`,
+          label: `${item.name} - ${formatCurrency(item.price)}/tháng`,
+          price: item.price,
         }));
         console.log(e?.data?.contends);
 
@@ -306,7 +319,8 @@ export default function CreateContract({ onClose, tableRef }) {
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -319,6 +333,20 @@ export default function CreateContract({ onClose, tableRef }) {
       setValue("nursingPackageId", value, { shouldValidate: true });
     }
   };
+
+  const calculatePrice = () => {
+    const selectedPackagePrice =
+      dataPackage.find((pkg) => pkg.value === selectedPackage)?.price || 0;
+    const totalPrice =
+      selectedPackagePrice *
+        differenceInMonths(watch("endDate"), watch("startDate")) || 0;
+
+    setValue("price", totalPrice);
+  };
+
+  useEffect(() => {
+    calculatePrice();
+  }, [watch("endDate"), watch("startDate"), watch("nursingPackageId")]);
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -544,7 +572,11 @@ export default function CreateContract({ onClose, tableRef }) {
                       type="text"
                       money
                       // defaultValue={1000}
-                      min={1000}
+                      value={watch("price")}
+                      min={0}
+                      onChangeValue={(name, value) => {
+                        setValue(name, value);
+                      }}
                       label={"Tổng số tiền hợp đồng"}
                       placeholder={"Vui lòng nhập số tiền"}
                       {...register("price")}

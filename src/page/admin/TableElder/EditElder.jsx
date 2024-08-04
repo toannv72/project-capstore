@@ -208,7 +208,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })

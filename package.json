@@ -16,6 +16,7 @@
     "apexcharts": "^3.49.2",
     "axios": "^1.6.8",
     "bignumber.js": "^9.1.2",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "firebase": "^10.11.1",
     "moment": "^2.30.1",

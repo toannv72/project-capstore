@@ -16,6 +16,9 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 import { FieldError } from "../../../Components/FieldError/FieldError";
+import { differenceInMonths } from "date-fns";
+import ComNumber from "../../../Components/ComInput/ComNumber";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
 export default function ContractExtension({
   onClose,
@@ -59,6 +62,16 @@ export default function ContractExtension({
   });
   const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
+
+  function formatCurrency(number) {
+    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+    if (typeof number === "number") {
+      return number.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+    }
+  }
   const disabledDateStart = (current) => {
     const oneMonths = moment().add(0, "months");
 
@@ -139,39 +152,47 @@ export default function ContractExtension({
     setDisabled(true);
     setErrorMessage(null);
     console.log(111111, data);
-
-    if (Array.isArray(image) && image.length === 0) {
-      setDisabled(false);
-      notificationApi(
-        "error",
-        "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh hợp đồng "
-      );
-    } else {
-      firebaseImgs(image).then((dataImg1) => {
-        console.log(dataImg1);
-        setValue("images", convertUrlsToObjects(dataImg1));
-
-        postData("/contract", {
-          ...data,
-          images: convertUrlsToObjects(dataImg1),
-        })
-          .then((e) => {
-            notificationApi("success", "tạo thành công", "đã tạo");
-            setDisabled(false);
-            reloadApi();
-            onClose();
+    const change = MonyNumber(
+      data.price,
+      (message) => setError("price", { message }), // Đặt lỗi nếu có
+      () => setFocus("price") // Đặt focus vào trường price nếu có lỗi
+    );
+    if (change !== null) {
+      if (Array.isArray(image) && image.length === 0) {
+        setDisabled(false);
+        notificationApi(
+          "error",
+          "Vui lòng chọn ảnh",
+          "Vui lòng chọn hình ảnh hợp đồng "
+        );
+      } else {
+        firebaseImgs(image).then((dataImg1) => {
+          console.log(dataImg1);
+          setValue("images", convertUrlsToObjects(dataImg1));
+          postData("/contract", {
+            ...data,
+            price: change,
+            images: convertUrlsToObjects(dataImg1),
           })
-          .catch((error) => {
-            setDisabled(false);
-            console.log(error);
-            if (error?.status === 616) {
-              setErrorMessage(error?.data?.detail);
-            }
-            handleErrors(error, setError, setFocus);
-            notificationApi("error", "tạo không thành công", "đã tạo");
-          });
-      });
+            .then((e) => {
+              notificationApi("success", "tạo thành công", "đã tạo");
+              setDisabled(false);
+              reloadApi();
+              onClose();
+            })
+            .catch((error) => {
+              setDisabled(false);
+              console.log(error);
+              if (error?.status === 616) {
+                setErrorMessage(error?.data?.detail);
+              }
+              handleErrors(error, setError, setFocus);
+              notificationApi("error", "tạo không thành công", "đã tạo");
+            });
+        });
+      }
+    } else {
+      setDisabled(false);
     }
   };
   const getCurrentDateFormatted = () => {
@@ -267,7 +288,8 @@ export default function ContractExtension({
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -278,7 +300,8 @@ export default function ContractExtension({
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: item.name,
+          label: `${item.name} - ${formatCurrency(item.price)}/tháng`,
+          price: item.price,
         }));
         setDataPackage(dataForSelects);
       })
@@ -347,7 +370,8 @@ export default function ContractExtension({
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -360,6 +384,20 @@ export default function ContractExtension({
       setValue("nursingPackageId", value, { shouldValidate: true });
     }
   };
+  const calculatePrice = () => {
+    const selectedPackagePrice =
+      dataPackage.find((pkg) => pkg.value === selectedPackage)?.price || 0;
+    const totalPrice =
+      selectedPackagePrice *
+        differenceInMonths(watch("endDate"), watch("startDate")) || 0;
+
+    setValue("price", totalPrice);
+  };
+
+  useEffect(() => {
+    calculatePrice();
+  }, [watch("endDate"), watch("startDate"), watch("nursingPackageId")]);
+
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -582,6 +620,24 @@ export default function ContractExtension({
                   <FieldError className="text-red-500 text-center">
                     {errorMessage}
                   </FieldError>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      money
+                      // defaultValue={1000}
+                      value={watch("price")}
+                      min={0}
+                      onChangeValue={(name, value) => {
+                        setValue(name, value);
+                      }}
+                      label={"Tổng số tiền hợp đồng"}
+                      placeholder={"Vui lòng nhập số tiền"}
+                      {...register("price")}
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="sm:col-span-2">
                   <ComUpImg

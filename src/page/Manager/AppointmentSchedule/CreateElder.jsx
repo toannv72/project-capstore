@@ -26,6 +26,9 @@ import {
 } from "./../../../regexPatterns";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 import moment from "moment";
+import ComNumber from "../../../Components/ComInput/ComNumber";
+import { differenceInMonths } from "date-fns";
+import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
 export default function CreateElder({ onClose, tableRef, userID, update }) {
   const [image, setImages] = useState(null);
@@ -151,6 +154,16 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
         (fixedFutureDate && current < fixedFutureDate))
     );
   };
+
+  function formatCurrency(number) {
+    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+    if (typeof number === "number") {
+      return number.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+    }
+  }
   const disabledDateStart = (current) => {
     const oneMonths = moment().add(0, "months");
 
@@ -225,45 +238,54 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
 
   const onSubmit = (data) => {
     setDisabled(true);
-    console.log(1111, image);
+    console.log(1111, data);
+    const change = MonyNumber(
+      data.contract.price,
+      (message) => setError("contract.price", { message }), // Đặt lỗi nếu có
+      () => setFocus("contract.price") // Đặt focus vào trường price nếu có lỗi
+    );
     setDisabled(true);
-    if (!image) {
-      return notificationApi(
-        "error",
-        "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh người cao tuổi "
-      );
-    }
-    if (Array.isArray(image1) && image1.length === 0) {
-      notificationApi(
-        "error",
-        "Vui lòng chọn ảnh",
-        "Vui lòng chọn hình ảnh hợp đồng "
-      );
-    } else {
-      firebaseImgs(image1).then((dataImg1) => {
-        console.log(dataImg1);
-        setValue("contract.images", convertUrlsToObjects(dataImg1));
-        firebaseImg(image).then((dataImg) => {
-          postData("/elders", {
-            ...data,
-            imageUrl: dataImg,
-          })
-            .then((e) => {
-              notificationApi("success", "tạo thành công", "đã tạo");
-              setTimeout(() => {}, 100);
-              onClose();
-              setDisabled(false);
-              update()
+    if (change !== null) {
+      if (!image) {
+        return notificationApi(
+          "error",
+          "Vui lòng chọn ảnh",
+          "Vui lòng chọn hình ảnh người cao tuổi "
+        );
+      }
+      if (Array.isArray(image1) && image1.length === 0) {
+        notificationApi(
+          "error",
+          "Vui lòng chọn ảnh",
+          "Vui lòng chọn hình ảnh hợp đồng "
+        );
+      } else {
+        firebaseImgs(image1).then((dataImg1) => {
+          console.log(dataImg1);
+          setValue("contract.images", convertUrlsToObjects(dataImg1));
+          firebaseImg(image).then((dataImg) => {
+            postData("/elders", {
+              ...data,
+              imageUrl: dataImg,
             })
-            .catch((error) => {
-              console.log(error);
-              handleErrors(error, setError, setFocus);
-              setDisabled(false);
-              notificationApi("error", "tạo không thành công", "đã tạo");
-            });
+              .then((e) => {
+                notificationApi("success", "tạo thành công", "đã tạo");
+                setTimeout(() => {}, 100);
+                onClose();
+                setDisabled(false);
+                update();
+              })
+              .catch((error) => {
+                console.log(error);
+                handleErrors(error, setError, setFocus);
+                setDisabled(false);
+                notificationApi("error", "tạo không thành công", "đã tạo");
+              });
+          });
         });
-      });
+      }
+    } else {
+      setDisabled(false);
     }
   };
 
@@ -299,7 +321,8 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -335,7 +358,8 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
             value: item.id,
             label: `Phòng:${item.name}
           Khu:${item.name}
-          Số giường trống:${item.totalBed - item.totalElder}`,
+          Số giường trống:${item.totalBed - item.totalElder}
+          Số người ở hiện tại:${item.totalElder}`,
           }));
         setDataRoom(dataForSelect);
       })
@@ -346,7 +370,8 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: item.name,
+          label: `${item.name} - ${formatCurrency(item.price)}/tháng`,
+          price: item.price,
         }));
         setDataPackage(dataForSelects);
       })
@@ -365,6 +390,26 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
     const newImages = selectedImages.map((file) => file.originFileObj);
     setImages1(newImages);
   };
+  const calculatePrice = () => {
+    const selectedPackagePrice =
+      dataPackage.find((pkg) => pkg.value === selectedPackage)?.price || 0;
+    const totalPrice =
+      selectedPackagePrice *
+        differenceInMonths(
+          watch("contract.endDate"),
+          watch("contract.startDate")
+        ) || 0;
+
+    setValue("contract.price", totalPrice);
+  };
+
+  useEffect(() => {
+    calculatePrice();
+  }, [
+    watch("contract.endDate"),
+    watch("contract.startDate"),
+    watch("nursingPackageId"),
+  ]);
 
   return (
     <div>
@@ -651,6 +696,24 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
                     />
                   </div>
                 )}
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      money
+                      // defaultValue={1000}
+                      value={watch("contract.price")}
+                      min={0}
+                      onChangeValue={(name, value) => {
+                        setValue(name, value);
+                      }}
+                      label={"Tổng số tiền hợp đồng"}
+                      placeholder={"Vui lòng nhập số tiền"}
+                      {...register("contract.price")}
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"
