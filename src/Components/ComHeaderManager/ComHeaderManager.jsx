@@ -227,7 +227,7 @@ export default function ComHeaderManager({ children }) {
                     onClick={() => navigate("/manager/notification")}
                   />
                 </Badge> */}
-                <div className="text-lg">Xin chào! {userData?.fullName}</div>
+                <div className="text-lg">{userData?.fullName}</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="h-11 w-11 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
