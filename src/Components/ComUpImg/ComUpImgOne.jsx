@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Upload, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { LoadingOutlined } from "@ant-design/icons";
+import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+
 const ComUpImgOne = ({
   onChange,
   numberImg,
@@ -11,11 +11,12 @@ const ComUpImgOne = ({
   required,
   label,
   imgUrl,
+  reset,
 }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(imgUrl);
-  const [fileList, setFileList] = useState([]);
   const maxImages = numberImg || 5;
+
   useEffect(() => {
     if (imgUrl) {
       setImageUrl(imgUrl);
@@ -23,13 +24,20 @@ const ComUpImgOne = ({
       setImageUrl("");
     }
   }, [imgUrl]);
+
+  useEffect(() => {
+    if (reset) {
+      setImageUrl("");
+    }
+  }, [reset]);
+
   const isImageFile = (file) => {
     const acceptedFormats = [".jpeg", ".jpg", ".png", ".gif"];
     const fileExtension = file.name.toLowerCase();
 
     if (!acceptedFormats.some((format) => fileExtension.endsWith(format))) {
       message.error("Chỉ cho phép chọn các tệp hình ảnh.");
-      return false; // Ngăn tải lên nếu không phải là hình ảnh
+      return false;
     }
 
     return true;
@@ -40,48 +48,25 @@ const ComUpImgOne = ({
     reader.addEventListener("load", () => callback(reader.result));
     reader.readAsDataURL(img);
   };
+
   const handleFileChange = (fileList) => {
     getBase64(fileList.file.originFileObj, (url) => {
       setLoading(false);
       setImageUrl(url);
     });
-    // console.log(fileList.file.originFileObj);
     onChange(fileList.file.originFileObj);
-    // setImageUrl(filteredFileList);
   };
 
   const uploadButton = (
-    <button
-      style={{
-        border: 0,
-        background: "none",
-      }}
-      type="button"
-    >
+    <button style={{ border: 0, background: "none" }} type="button">
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Hình ảnh
-      </div>
+      <div style={{ marginTop: 8 }}>Hình ảnh</div>
     </button>
   );
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
+
   return (
     <>
-      <div className="">
+      <div>
         {label && (
           <div className="mb-4 flex justify-between">
             <label htmlFor={inputId} className="text-paragraph font-bold">
@@ -99,9 +84,8 @@ const ComUpImgOne = ({
           listType="picture-card"
           className="avatar-uploader"
           showUploadList={false}
-          // beforeUpload={beforeUpload}
           onChange={handleFileChange}
-          accept=".jpg,.jpeg,.png,.gif" // Chỉ cho phép chọn các tệp hình ảnh
+          accept=".jpg,.jpeg,.png,.gif"
         >
           {imageUrl ? (
             <img

@@ -15,6 +15,7 @@ import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { FieldError } from "../../../Components/FieldError/FieldError";
 
 export default function CreateContract({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -30,6 +31,7 @@ export default function CreateContract({ onClose, tableRef }) {
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
 
+  const [errorMessage, setErrorMessage] = useState("");
   const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
@@ -49,7 +51,7 @@ export default function CreateContract({ onClose, tableRef }) {
     resolver: yupResolver(CreateProductMessenger),
     values: {},
   });
-  const { handleSubmit, register, setFocus, watch, setError, setValue } =
+  const { handleSubmit, register, setFocus, watch, setError, setValue, reset } =
     methods;
   const disabledDateEnd = (current) => {
     const oneMonths = moment().add(0, "months");
@@ -142,9 +144,11 @@ export default function CreateContract({ onClose, tableRef }) {
   }
   const onSubmit = (data) => {
     setDisabled(true);
+    setErrorMessage(null);
     console.log(data);
 
     if (Array.isArray(image) && image.length === 0) {
+      setDisabled(false);
       notificationApi(
         "error",
         "Vui lòng chọn ảnh",
@@ -161,20 +165,32 @@ export default function CreateContract({ onClose, tableRef }) {
         postData("/contract", datapost)
           .then((e) => {
             setDisabled(false);
-            notificationApi("success", "tạo thành công", "đã tạo");
+            notificationApi(
+              "success",
+              "Tạo thành công",
+              "Tạo hợp đồng thành công"
+            );
             setTimeout(() => {
               if (tableRef.current) {
                 // Kiểm tra xem ref đã được gắn chưa
                 tableRef?.current.reloadData();
               }
             }, 100);
+            reset();
             onClose();
           })
           .catch((error) => {
             console.log(error);
             setDisabled(false);
             handleErrors(error, setError, setFocus);
-            notificationApi("error", "tạo không thành công", "đã tạo");
+            if (error?.status === 616) {
+              setErrorMessage(error?.data?.detail);
+            }
+            notificationApi(
+              "error",
+              "Tạo không thành công",
+              "Tạo hợp đồng không thành công"
+            );
           });
       });
     }
@@ -506,6 +522,11 @@ export default function CreateContract({ onClose, tableRef }) {
                     />
                   </div>
                 )}
+               <div className="sm:col-span-2">
+                  <FieldError className="text-red-500 text-center">
+                    {errorMessage}
+                  </FieldError>
+               </div>
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"

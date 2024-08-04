@@ -15,6 +15,7 @@ import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { FieldError } from "../../../Components/FieldError/FieldError";
 
 export default function CreateContract({ onClose, tableRef, userID }) {
   const [image, setImages] = useState([]);
@@ -30,9 +31,10 @@ export default function CreateContract({ onClose, tableRef, userID }) {
   const [endDate, setEndDate] = useState(false);
   const [startDate, setStartDate] = useState(false);
   const [selectedTime, setSelectedTime] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
@@ -148,10 +150,11 @@ const CreateProductMessenger = yup.object({
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
+    setErrorMessage(null);
     console.log(data);
-setDisabled(true);
     if (Array.isArray(image) && image.length === 0) {
+      setDisabled(false);
       notificationApi(
         "error",
         "Vui lòng chọn ảnh",
@@ -168,12 +171,16 @@ setDisabled(true);
         postData("/contract", datapost)
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-setDisabled(false);
+            setDisabled(false);
             onClose();
           })
           .catch((error) => {
             console.log(error);
-            handleErrors(error, setError, setFocus);setDisabled(false);
+            handleErrors(error, setError, setFocus);
+            setDisabled(false);
+              if (error?.status === 616) {
+                setErrorMessage(error?.data?.detail);
+              }
             notificationApi("error", "tạo không thành công", "đã tạo");
           });
       });
@@ -507,6 +514,11 @@ setDisabled(false);
                     />
                   </div>
                 )}
+                <div className="sm:col-span-2">
+                  <FieldError className="text-red-500 text-center">
+                    {errorMessage}
+                  </FieldError>
+                </div>
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"

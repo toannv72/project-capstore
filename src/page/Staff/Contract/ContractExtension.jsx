@@ -15,8 +15,13 @@ import { getData, postData } from "../../../api/api";
 import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { FieldError } from "../../../Components/FieldError/FieldError";
 
-export default function ContractExtension({ onClose, selectedUser, reloadApi }) {
+export default function ContractExtension({
+  onClose,
+  selectedUser,
+  reloadApi,
+}) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -25,6 +30,7 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
   const [selectedElders, setSelectedElders] = useState();
   const [selectedUsers, setSelectedUsers] = useState();
   const [selectedTime, setSelectedTime] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [dataPackage, setDataPackage] = useState([]);
   const [dataUser, setDataUser] = useState([]);
@@ -32,8 +38,8 @@ export default function ContractExtension({ onClose, selectedUser, reloadApi }) 
   const [endDate, setEndDate] = useState(false);
   const [startDate, setStartDate] = useState(false);
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
@@ -53,17 +59,20 @@ const CreateProductMessenger = yup.object({
   });
   const { handleSubmit, register, setFocus, watch, setError, setValue } =
     methods;
-const disabledDateStart = (current) => {
-  const oneMonths = moment().add(0, "months");
+  const disabledDateStart = (current) => {
+    const oneMonths = moment().add(0, "months");
 
-  const tenYearsLater = moment().add(10, "years");
-  const startDate = watch("signingDate");
-  const fixedFutureDate = startDate ? moment(startDate).add(0, "months") : null;
-  return (
-    current &&
-    (current > tenYearsLater || (fixedFutureDate && current < fixedFutureDate))
-  );
-};
+    const tenYearsLater = moment().add(10, "years");
+    const startDate = watch("signingDate");
+    const fixedFutureDate = startDate
+      ? moment(startDate).add(0, "months")
+      : null;
+    return (
+      current &&
+      (current > tenYearsLater ||
+        (fixedFutureDate && current < fixedFutureDate))
+    );
+  };
   useEffect(() => {
     setEndDate((e) => !e);
     setValue("endDate", null);
@@ -127,10 +136,12 @@ const disabledDateStart = (current) => {
     return urls.map((url) => ({ imageUrl: url }));
   }
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
+    setErrorMessage(null);
     console.log(111111, data);
 
     if (Array.isArray(image) && image.length === 0) {
+      setDisabled(false);
       notificationApi(
         "error",
         "Vui lòng chọn ảnh",
@@ -147,13 +158,16 @@ setDisabled(true);
         })
           .then((e) => {
             notificationApi("success", "tạo thành công", "đã tạo");
-        setDisabled(false);
-        reloadApi();
+            setDisabled(false);
+            reloadApi();
             onClose();
           })
           .catch((error) => {
-        setDisabled(false);
+            setDisabled(false);
             console.log(error);
+            if (error?.status === 616) {
+              setErrorMessage(error?.data?.detail);
+            }
             handleErrors(error, setError, setFocus);
             notificationApi("error", "tạo không thành công", "đã tạo");
           });
@@ -172,7 +186,7 @@ setDisabled(true);
   // tải lại thông tin khi chọn hợp đồng khác
   useEffect(() => {
     reloadData();
-    setSelectedTime("")
+    setSelectedTime("");
     setSelectedUsers(selectedUser.user.id);
     setSelectedElders(selectedUser.elder.id);
     setSelectedPackage(selectedUser.nursingPackage.id);
@@ -564,7 +578,11 @@ setDisabled(true);
                     />
                   </div>
                 )}
-
+                <div className="sm:col-span-2">
+                  <FieldError className="text-red-500 text-center">
+                    {errorMessage}
+                  </FieldError>
+                </div>
                 <div className="sm:col-span-2">
                   <ComUpImg
                     onChange={onChange}

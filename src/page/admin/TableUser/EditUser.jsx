@@ -26,8 +26,8 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -71,38 +71,43 @@ const CreateProductMessenger = yup.object({
     values: selectedUser,
   });
 
-  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+  const { handleSubmit, register, setFocus, watch, setValue, setError, } =
     methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     firebaseImg(image).then((dataImg) => {
-      console.log("ảnh nè : ", dataImg);setDisabled(true);
+      setDisabled(true);
       if (dataImg) {
-        const dataPut = { ...data, imageUrl: dataImg };
+        console.log("ảnh nè : ", dataImg);
+        const dataPut = { ...data, avatarUrl: dataImg };
+        putData(`/users`, selectedUser.id, dataPut)
+          .then((e) => {
+            notificationApi("success", "Chỉnh sửa thành công ", "đã sửa");
+            setTimeout(() => {}, 100);
+            tableRef();
+            onClose();
+            setDisabled(false);
+          })
+          .catch((e) => {
+            console.log(e);
+            // set các trường hợp lỗi api
+            handleErrors(e, setError, setFocus);
+            setDisabled(false);
+            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
+          });
+      } else {
+        const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();setDisabled(false);
-          })
-          .catch((e) => {
-            console.log(e);
-            // set các trường hợp lỗi api 
-            handleErrors(e, setError, setFocus);setDisabled(false);
-            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
-          });
-      } else {
-        const dataPut = { ...data, imageUrl: selectedUser.imageUrl };
-        putData(`/users`, selectedUser.id, dataPut)
-          .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
-            setTimeout(() => {}, 100);
-            tableRef();setDisabled(false);
+            setDisabled(false);
             onClose();
           })
           .catch((e) => {
-            console.log(e);setDisabled(false);
+            console.log(e);
+            setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
@@ -113,7 +118,6 @@ setDisabled(true);
   useEffect(() => {
     setImages([]);
   }, [selectedUser]);
-
 
   const onChange = (data) => {
     const selectedImages = data;

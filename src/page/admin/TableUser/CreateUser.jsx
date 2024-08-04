@@ -26,10 +26,8 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 export default function CreateUser({ onClose, tableRef }) {
   const [image, setImages] = useState({});
   const { notificationApi } = useNotification();
-
-  // const nameRegex =
-  //   /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯăằắẳẵặâầấẩẫậêềếểễệôồốổỗộơờớởỡợưứừửữựỳỵỷỹý\s]+$/;
   const [disabled, setDisabled] = useState(false);
+  const [resetImg, setResetImg] = useState(false);
   const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
@@ -71,7 +69,7 @@ export default function CreateUser({ onClose, tableRef }) {
       phoneNumber: "",
     },
   });
-  const { handleSubmit, register, setFocus, watch, setValue, setError } =
+  const { handleSubmit, register, setFocus, watch, setValue, setError, reset } =
     methods;
 
   const onSubmit = (data) => {
@@ -96,6 +94,9 @@ export default function CreateUser({ onClose, tableRef }) {
               tableRef.current.reloadData();
             }
           }, 100);
+          reset();
+          setResetImg((e) => !e);
+          setImages({})
           onClose();
           setDisabled(false);
         })
@@ -195,7 +196,7 @@ export default function CreateUser({ onClose, tableRef }) {
                           setValue("gender", value, { shouldValidate: true });
                         }
                       }}
-                      // value={selectedUser}
+                      value={watch("gender")}
                       mode="default"
                       options={[
                         {
@@ -236,7 +237,7 @@ export default function CreateUser({ onClose, tableRef }) {
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne onChange={onChange} reset={resetImg} label={"Hình ảnh"} />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

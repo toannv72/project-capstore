@@ -34,6 +34,14 @@ export const handleErrors = (error, setError, setFocus) => {
       field: "nursingPackageId",
       message: "Gói dịch đã hết hạn, vui lòng chọn dịch vụ khác",
     },
+    616: {
+      field: "startDate",
+      message: "Thời gian trùng với ngày hợp đồng cũ",
+    },
+    617: {
+      field: "name",
+      message: "Phòng trống không được đặt lịch",
+    },
   };
 
   const status = error?.response?.data?.status || error?.data?.status;
