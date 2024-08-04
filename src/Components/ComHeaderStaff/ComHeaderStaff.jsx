@@ -131,7 +131,7 @@ export default function ComHeaderStaff({ children }) {
                   className={`h-6 w-6 mr-2 ${
                     category?.href === activeCategory
                       ? "text-[#0F296D] hover:text-[#0F296D]"
-                      : "text-whitehover:text-[#0F296D]"
+                      : "hover:text-[#0F296D]"
                   }`}
                   aria-hidden="true"
                 />
@@ -227,7 +227,7 @@ export default function ComHeaderStaff({ children }) {
                     onClick={() => navigate("/admin/notification")}
                   />
                 </Badge> */}
-                <div className="text-lg">Xin chào! {userData?.fullName}</div>
+                <div className="text-lg">{userData?.fullName}</div>
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
