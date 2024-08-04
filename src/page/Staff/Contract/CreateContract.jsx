@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { firebaseImgs } from "../../../upImgFirebase/firebaseImgs";
 import ComUpImg from "./../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "./../../../Notification/Notification";
-import ComRangePicker from "../../../Components/ComRangePicker/ComRangePicker";
 import moment from "moment";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import { handleErrors } from "../../../Components/errorUtils/errorUtils";
@@ -16,6 +15,7 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { DateOfLastDay } from "../../../Components/ComDateDisabled/DateOfBirth";
 import { FieldError } from "../../../Components/FieldError/FieldError";
+import ComNumber from "../../../Components/ComInput/ComNumber";
 
 export default function CreateContract({ onClose, tableRef }) {
   const [image, setImages] = useState([]);
@@ -37,20 +37,30 @@ export default function CreateContract({ onClose, tableRef }) {
     userId: yup.string().required("Vui lòng chọn người đăng ký"),
     elderId: yup.string().required("Vui lòng chọn người thân"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói dưỡng lão"),
-    roomId: yup.string().required("Vui lòng chọn phòng"),
+    // roomId: yup.string().required("Vui lòng chọn phòng"),
 
     name: yup.string().required("Vui lòng nhập số hợp đồng"),
     signingDate: yup.string().required("Vui lòng nhập ngày ký hợp đồng"),
     startDate: yup.string().required("Vui lòng nhập ngày bắt đầu hợp đồng"),
     endDate: yup.string().required("Vui lòng nhập ngày kết thúc hợp đồng"),
-    // content: yup.string().required("Vui lòng nhập nội dung hợp đồng"),
-    // notes: yup.string().required("Vui lòng nhập ghi chú"),
-    // description: yup.string().required("Vui lòng nhập mô tả"),
+    price: yup
+      .string()
+      .typeError("Vui lòng nhập giá tiền")
+      .required("Vui lòng nhập giá tiền"),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: {},
   });
+  function formatCurrency(number) {
+    // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
+    if (typeof number === "number") {
+      return number.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+      });
+    }
+  }
   const { handleSubmit, register, setFocus, watch, setError, setValue, reset } =
     methods;
   const disabledDateEnd = (current) => {
@@ -229,12 +239,14 @@ export default function CreateContract({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/nursing-package")
+    getData("/nursing-package?SortDir=Desc")
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: item.name,
+          label: `${item.name} ${formatCurrency(item.price)}/tháng`,
         }));
+        console.log(e?.data?.contends);
+
         setDataPackage(dataForSelects);
       })
       .catch((error) => {
@@ -474,7 +486,6 @@ export default function CreateContract({ onClose, tableRef }) {
                         label: `10 năm`,
                       },
                     ]}
-                    // required
                     {...register("time")}
                   />
                 </div>
@@ -522,11 +533,25 @@ export default function CreateContract({ onClose, tableRef }) {
                     />
                   </div>
                 )}
-               <div className="sm:col-span-2">
+                <div className="sm:col-span-2">
                   <FieldError className="text-red-500 text-center">
                     {errorMessage}
                   </FieldError>
-               </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComNumber
+                      type="text"
+                      money
+                      // defaultValue={1000}
+                      min={1000}
+                      label={"Tổng số tiền hợp đồng"}
+                      placeholder={"Vui lòng nhập số tiền"}
+                      {...register("price")}
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="sm:col-span-2">
                   <ComTextArea
                     type="text"
@@ -534,7 +559,6 @@ export default function CreateContract({ onClose, tableRef }) {
                     rows={5}
                     placeholder="Vui lòng nhập nội dung hợp đồng"
                     {...register("content")}
-                    // required
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -558,7 +582,6 @@ export default function CreateContract({ onClose, tableRef }) {
                     placeholder="Vui lòng nhập mô tả"
                     rows={5}
                     {...register("description")}
-                    // required
                   />
                 </div>
               </div>
