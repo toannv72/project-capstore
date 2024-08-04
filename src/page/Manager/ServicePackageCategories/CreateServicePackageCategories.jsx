@@ -55,6 +55,12 @@ export function CreateServicePackageCategories({ onClose, tableRef }) {
         console.log(error);
         handleErrors(error, setError, setFocus);
         setDisabled(false);
+         if (error.status === 409) {
+           setError("name", {
+             message: "Đã có tên thể loại này",
+           });
+           setFocus("name");
+         }
         notificationApi(
           "error",
           "tạo không thành công",

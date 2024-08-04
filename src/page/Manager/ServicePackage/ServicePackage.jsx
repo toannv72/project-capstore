@@ -10,8 +10,8 @@ export default function ServicePackage() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const modal = useModalState();
   const cardData = [
-    { title: "Số lượng dịch vụ", value: "10.678" },
-    { title: "Số lượng thể loại dịch vụ", value: "1.000" },
+    { title: "Dịch vụ", value: "10.678" },
+    { title: "Thể loại dịch vụ", value: "1.000" },
   ];
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);

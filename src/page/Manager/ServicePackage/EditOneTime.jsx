@@ -84,7 +84,7 @@ export default function EditOneTime({ onClose, dataValue }) {
     setImages(selectedImages);
   };
   useEffect(() => {
-    getData("/service-package-categories")
+    getData("/service-package-categories?State=Active")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,

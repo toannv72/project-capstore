@@ -8,9 +8,9 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "../../../api/api";
 import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
-import ComMenuButonTable from './../../../Components/ComMenuButonTable/ComMenuButonTable';
-import EditServicePackage from './../ServicePackage/EditServicePackage';
-import { EditServicePackageCategories } from './EditServicePackageCategories';
+import ComMenuButonTable from "./../../../Components/ComMenuButonTable/ComMenuButonTable";
+import EditServicePackage from "./../ServicePackage/EditServicePackage";
+import { EditServicePackageCategories } from "./EditServicePackageCategories";
 import { useNotification } from "../../../Notification/Notification";
 import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
 export const TableServicePackageCategories = forwardRef((props, ref) => {
@@ -25,7 +25,7 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
   console.log(data);
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/service-package-categories?SortDir=Desc")
+    getData("/service-package-categories?State=Active&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
@@ -79,12 +79,13 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
             }}
             showModalDelete={() => {
               ComConfirmDeleteModal(
-                `/your-delete-api-path/`,
+                `/service-package-categories`,
                 record.id,
                 `Bạn có chắc chắn muốn xóa?`,
                 reloadData,
                 notificationSuccess,
-                notificationError
+                notificationError,
+                "put"
               );
             }}
             // extraMenuItems={extraMenuItems}
@@ -94,12 +95,16 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
       ),
     },
   ];
-        const notificationSuccess = () => {
-          notificationApi("success", "Đã xóa", "đã xóa thể loại dịch vụ thành công!");
-        };
-        const notificationError = () => {
-          notificationApi("error", "Không thành công ", "Chưa có api!");
-        };
+  const notificationSuccess = () => {
+    notificationApi("success", "Đã xóa", "Đã xóa thể loại dịch vụ thành công!");
+  };
+  const notificationError = () => {
+    notificationApi(
+      "error",
+      "Không thành công ",
+      "Xóa thể loại dịch vụ không thành công!"
+    );
+  };
   return (
     <div>
       <ComTable
@@ -124,5 +129,4 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
       </ComModal>
     </div>
   );
-}
-)
+});

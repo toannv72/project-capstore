@@ -22,8 +22,8 @@ export default function CreateAnyDay({ onClose }) {
   const [selectedCategorie, setSelectedCategorie] = useState();
   const [category, setCategory] = useState([]);
 
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     price: yup
       .string()
@@ -59,7 +59,7 @@ const CreateProductMessenger = yup.object({
   };
 
   useEffect(() => {
-    getData("/service-package-categories")
+    getData("/service-package-categories?State=Active")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
@@ -82,9 +82,8 @@ const CreateProductMessenger = yup.object({
     }
   };
 
-
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -94,7 +93,6 @@ setDisabled(true);
     if (change !== null) {
       if (image) {
         firebaseImg(image).then((dataImg) => {
-     
           const dataPost = {
             ...data,
             imageUrl: dataImg,
@@ -109,10 +107,12 @@ setDisabled(true);
                 "tạo thành công",
                 "đã tạo gói dịch vụ thành công!"
               );
-              onClose();setDisabled(false);
+              onClose();
+              setDisabled(false);
             })
             .catch((error) => {
-              console.log(error);setDisabled(false);
+              console.log(error);
+              setDisabled(false);
               notificationApi(
                 "error",
                 "tạo không thành công",

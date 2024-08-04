@@ -42,32 +42,32 @@ export default function Header({ focusFrom }) {
         </nav>
         <div className="header__inner">
           <div className="header__logo">
-            <Link to="/" className="gtrackexternal">
+            <Link to="/" className="gtrackexternal ">
               <img
-                src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/new-logo-no-tag.svg"
+                src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                 alt="Care Connect. Homepage"
-                className="header__logo--mobile ls-is-cached lazyloaded"
-                data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/new-logo-no-tag.svg"
+                className="header__logo--mobile ls-is-cached lazyloaded "
+                data-src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                 decoding="async"
               />
               <noscript>
                 <img
-                  src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/new-logo-no-tag.svg"
+                  src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                   alt="Care Connect. Homepage"
                   className="header__logo--mobile"
                   data-eio="l"
                 />
               </noscript>
               <img
-                src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/care-connect-logo-new.svg"
+                src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                 alt="Care Connect. Homepage"
-                className="header__logo--desktop lazyloaded"
-                data-src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/care-connect-logo-new.svg"
+                className="header__logo--desktop lazyloaded pt-5"
+                data-src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                 decoding="async"
               />
               <noscript>
                 <img
-                  src="https://www.careconnect.org.au/wp-content/themes/careconnect2018/images/care-connect-logo-new.svg"
+                  src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Ff4dbf5a6-1495-4314-9e64-52e35d2564fd.png?alt=media&token=926dd20b-667a-431d-a1a7-dc7fec3243e5"
                   alt="Care Connect. Homepage"
                   className="header__logo--desktop"
                   data-eio="l"
@@ -78,9 +78,10 @@ export default function Header({ focusFrom }) {
 
           <Link
             to="/Login"
-            className="header__contact-cta button yellow header__contact-cta--mobile gtrackexternal"
+            // className=" bg-sky-600 border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
+            className="header__contact-cta button yellow header__contact-cta--mobile gtrackexternal  bg-sky-600 border-y rounded-lg  text-white p-2"
           >
-            Tìm hiểu ngay
+            Đăng nhập
           </Link>
           <nav className="nav-mobile" role="navigation" aria-label="Mobile">
             <button

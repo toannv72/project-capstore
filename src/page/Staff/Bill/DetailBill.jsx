@@ -269,7 +269,57 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
               </table>
             </div>
           ) : (
-            <></>
+            <div className="p-4 bg-white mt-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                Dịch vụ đăng ký
+              </h2>
+              <table className="w-full">
+                <tbody>
+                  {[
+                    {
+                      label: "Tên gói dưỡng lão:",
+                      value: data?.contract?.nursingPackage?.name,
+                    },
+                    {
+                      label: "Giá tiền:",
+                      value: formatCurrency(
+                        data?.contract?.nursingPackage?.price
+                      ),
+                    },
+                    // {
+                    //   label: "Mô tả:",
+                    //   value: data?.servicePackage?.description,
+                    // },
+                    // {
+                    //   label: "Ngày diễn ra sự kiện:",
+                    //   value: (
+                    //     <ComDateConverter>
+                    //       {data?.servicePackage?.eventDate}
+                    //     </ComDateConverter>
+                    //   ),
+                    // },
+
+                    {
+                      label: "Hình ảnh:",
+                      value: data?.contract?.nursingPackage?.imageUrl && (
+                        <ImagePreview
+                          url={data?.contract?.nursingPackage?.imageUrl}
+                          alt={data?.contract?.nursingPackage?.name}
+                        />
+                      ),
+                    },
+                    // { label: "Ghi chú:", value: data?.notes },
+                  ]?.map((item, index) => (
+                    <tr key={index} className="border-b">
+                      <td className="px-4 py-2 text-gray-600 font-medium">
+                        {item?.label}
+                      </td>
+                      <td className="px-4 py-2">{item?.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       ))}

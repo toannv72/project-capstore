@@ -188,7 +188,8 @@ export default function TableServicePackage() {
                 `Bạn có chắc chắn muốn xóa?`,
                 reloadData,
                 notificationSuccess,
-                notificationError
+                notificationError,
+                "put"
               );
             }}
             // extraMenuItems={extraMenuItems}
@@ -260,7 +261,7 @@ export default function TableServicePackage() {
   }, [modalDetail?.isModalOpen, modal?.isModalOpen]);
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/service-package?SortDir=Desc")
+    getData("/service-package?State=Active&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

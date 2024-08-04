@@ -117,6 +117,11 @@ export const TableBills = forwardRef((props, ref) => {
       onFilter: (value, record) => record.method === value,
       sorter: (a, b) => a?.method?.localeCompare(b?.method),
       // ...getColumnSearchProps("method", "Thanh toán bằng"),
+      render: (_, record) => (
+        <div>
+          <h1>{record.method === "Cash" ? "Tiền mặt" : record.method}</h1>
+        </div>
+      ),
     },
     {
       title: "Trạng thái",

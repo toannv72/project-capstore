@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { deleteData } from "../../api/api";
+import { deleteData, putData } from "../../api/api";
 
 const ComConfirmDeleteModal = async (
   apiPath,
@@ -7,26 +7,51 @@ const ComConfirmDeleteModal = async (
   message,
   onSuccess,
   oke,
-  failed
+  failed,
+  put
 ) => {
-  Modal.confirm({
-    title: "Xác nhận xóa",
-    content: message,
-    okText: "Xóa",
-    okType: "danger",
-    cancelText: "Hủy",
-    onOk: () => {
-      deleteData(`${apiPath}`, id)
-        .then((e) => {
-          onSuccess();
-          oke();
-        })
-        .catch((error) => {
-          failed();
-          console.log("error", error);
-        });
-    },
-  });
+  if (put) {
+     Modal.confirm({
+       title: "Xác nhận xóa",
+       content: message,
+       okText: "Xóa",
+       okType: "danger",
+       cancelText: "Hủy",
+       onOk: () => {
+         putData(`${apiPath}`, `${id}/change-state`, {
+           state: "Deleted",
+         })
+           .then((e) => {
+             onSuccess();
+             oke();
+           })
+           .catch((error) => {
+             failed();
+             console.log("error", error);
+           });
+       },
+     });
+  } else {
+     Modal.confirm({
+       title: "Xác nhận xóa",
+       content: message,
+       okText: "Xóa",
+       okType: "danger",
+       cancelText: "Hủy",
+       onOk: () => {
+         deleteData(`${apiPath}`, id)
+           .then((e) => {
+             onSuccess();
+             oke();
+           })
+           .catch((error) => {
+             failed();
+             console.log("error", error);
+           });
+       },
+     });
+  }
+ 
 };
 
 export default ComConfirmDeleteModal;

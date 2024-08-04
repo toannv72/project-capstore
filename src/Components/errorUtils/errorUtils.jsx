@@ -42,6 +42,14 @@ export const handleErrors = (error, setError, setFocus) => {
       field: "name",
       message: "Phòng trống không được đặt lịch",
     },
+    618: {
+      field: "name",
+      message: "Phòng trống không được đặt lịch",
+    },
+    619: {
+      field: "name",
+      message: "Phòng trống không được đặt lịch",
+    },
   };
 
   const status = error?.response?.data?.status || error?.data?.status;

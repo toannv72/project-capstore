@@ -62,7 +62,7 @@ const CreateProductMessenger = yup.object({
     setSelectedCategorie(dataValue?.servicePackageCategoryId);
   }, [dataValue, category]);
   useEffect(() => {
-    getData("/service-package-categories")
+    getData("/service-package-categories?State=Active")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
