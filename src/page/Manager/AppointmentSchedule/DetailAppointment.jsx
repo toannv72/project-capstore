@@ -10,6 +10,7 @@ import { useNotification } from "../../../Notification/Notification";
 import { Card } from "antd";
 import { ComLink } from "../../../Components/ComLink/ComLink";
 import { useLocation } from "react-router-dom";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export default function DetailAppointment({
   selectedData,
@@ -19,6 +20,7 @@ export default function DetailAppointment({
   const modal = useModalState();
   const { notificationApi } = useNotification();
   const location = useLocation();
+  const hasPermission = useRolePermission(["staff"]);
 
   console.log("====================================");
   console.log(selectedData);
@@ -37,10 +39,10 @@ export default function DetailAppointment({
       );
     });
   };
-    function getRoleFromPath(pathname) {
-      const parts = pathname.split("/");
-      return parts[1];
-    }
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
   return (
     <div>
       <div className="p-4 bg-white">
@@ -58,7 +60,7 @@ export default function DetailAppointment({
               </tr>{" "}
               <tr className="border-b">
                 <td className="px-4 py-2 text-gray-600 font-medium">
-                 Họ và tên:
+                  Họ và tên:
                 </td>
                 <td className="px-4 py-2">{selectedData?.user?.fullName}</td>
               </tr>
@@ -138,7 +140,7 @@ export default function DetailAppointment({
         </table>
 
         <div className="flex m-1 gap-3">
-          {selectedData.status === "Pending" ? (
+          {selectedData.status === "Pending" && hasPermission ? (
             <>
               <ComButton
                 onClick={() => {

@@ -76,7 +76,7 @@ const Home = () => {
       postData("/potential-customer", {
         ...data,
       }).then((e) => {
-        notificationApi("success", "tạo thành công", "đã tạo");
+        notificationApi("success", "Thành công", "Đã gửi phiếu hỗ trợ");
         reset();
       });
     };

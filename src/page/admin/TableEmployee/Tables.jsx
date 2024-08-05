@@ -20,6 +20,7 @@ import ComDateConverter from "../../../Components/ComDateConverter/ComDateConver
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConverter";
 import { useLocation } from "react-router-dom";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export const Tables = forwardRef((props, roles, ref) => {
   const [data, setData] = useState([]);
@@ -31,6 +32,8 @@ export const Tables = forwardRef((props, roles, ref) => {
   const [selectedData, setSelectedData] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
   const location = useLocation();
+  const hasPermission = useRolePermission(["admin"]);
+
   function getRoleFromPath(pathname) {
     const parts = pathname.split("/");
     return parts[1];
@@ -209,7 +212,9 @@ export const Tables = forwardRef((props, roles, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
+            excludeDefaultItems={
+              hasPermission ? ["delete"] : ["delete", "edit"]
+            }
             // order={order}
           />
         </div>

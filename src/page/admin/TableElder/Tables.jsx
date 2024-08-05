@@ -18,6 +18,7 @@ import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export const Tables = forwardRef((props, ref) => {
    const { idUser } = props;
@@ -34,6 +35,7 @@ export const Tables = forwardRef((props, ref) => {
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
+  const hasPermission = useRolePermission(["admin", "staff"]);
 
   useEffect(() => {
     reloadData();
@@ -326,7 +328,9 @@ export const Tables = forwardRef((props, ref) => {
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
             // showModalDelete={extraMenuItems}
-            excludeDefaultItems={["delete"]}
+            excludeDefaultItems={
+              hasPermission ? ["delete"] : ["delete", "edit"]
+            }
             // order={order}
           />
         </div>
@@ -343,7 +347,7 @@ export const Tables = forwardRef((props, ref) => {
       >
         <DetailElder
           selectedData={selectedElder}
-          isOpenEdit={modalEdit.handleOpen}
+          isOpenEdit={hasPermission?modalEdit.handleOpen:false}
           onClose={modalDetailElder?.handleClose}
         />
       </ComModal>

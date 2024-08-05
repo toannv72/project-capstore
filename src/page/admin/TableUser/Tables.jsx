@@ -20,6 +20,7 @@ import DetailElder from "../TableElder/DetailElder";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import { useLocation } from "react-router-dom";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -30,12 +31,9 @@ export const Tables = forwardRef((props, ref) => {
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
-  const location = useLocation();
-  function getRoleFromPath(pathname) {
-    const parts = pathname.split("/");
-    return parts[1];
-  }
-  const director = getRoleFromPath(location.pathname) === "director";
+
+    const hasPermission = useRolePermission(["admin", "staff"]);
+
 
   useEffect(() => {
     reloadData();
@@ -123,7 +121,9 @@ export const Tables = forwardRef((props, ref) => {
               showModalEdit={showModalEdit}
               // extraMenuItems={extraMenuItems}
               // excludeDefaultItems={["delete", "edit"]}
-              excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
+              excludeDefaultItems={
+               ["delete", "edit"]
+              }
               // order={order}
             />
           </div>
@@ -268,7 +268,7 @@ export const Tables = forwardRef((props, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={!director ? ["delete"] : ["delete", "edit"]}
+            excludeDefaultItems={hasPermission ? ["delete"] : ["delete", "edit"]}
             // order={order}
           />
         </div>
@@ -280,7 +280,7 @@ export const Tables = forwardRef((props, ref) => {
     <div>
       <ComTable
         expandable={
-          !director
+          hasPermission
             ? {
                 expandedRowRender,
                 defaultExpandedRowKeys: ["0"],
@@ -299,7 +299,7 @@ export const Tables = forwardRef((props, ref) => {
       >
         <DetailUser
           selectedUser={selectedUser}
-          isOpenEdit={!director ? modalEdit?.handleOpen : null}
+          isOpenEdit={hasPermission ? modalEdit?.handleOpen : null}
           onClose={modalDetailUser?.handleClose}
         />
       </ComModal>

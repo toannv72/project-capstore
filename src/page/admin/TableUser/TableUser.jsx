@@ -6,23 +6,21 @@ import { useModalState } from "../../../hooks/useModalState";
 import ComModal from "../../../Components/ComModal/ComModal";
 import CreateUser from "./CreateUser";
 import { useLocation } from "react-router-dom";
+import useRolePermission from "../../../hooks/useRolePermission";
 function TableUser() {
   const modal = useModalState();
   const tableRef = useRef(null);
-  const location = useLocation();
-  function getRoleFromPath(pathname) {
-    const parts = pathname.split("/");
-    return parts[1];
-  }
-  const director = getRoleFromPath(location.pathname) === "director";
+  const hasPermission = useRolePermission(["admin", "staff"]);
 
   return (
     <div>
-      {director||<div className="flex justify-end pb-2">
-        <div>
-          <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+      {hasPermission && (
+        <div className="flex justify-end pb-2">
+          <div>
+            <ComButton onClick={modal.handleOpen}>Tạo mới khách hàng</ComButton>
+          </div>
         </div>
-      </div>}
+      )}
       <ComModal
         width={800}
         isOpen={modal?.isModalOpen}
@@ -34,7 +32,7 @@ function TableUser() {
           tableRef={tableRef}
         />
       </ComModal>
-      <Tables ref={tableRef}  />
+      <Tables ref={tableRef} />
     </div>
   );
 }

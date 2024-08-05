@@ -14,13 +14,15 @@ function TableEmployee({  }) {
     const parts = pathname.split("/");
     return parts[1];
   }
-  const director = getRoleFromPath(location.pathname) === "director";
+  const director =
+    getRoleFromPath(location.pathname) === "staff" ||
+    getRoleFromPath(location.pathname) === "admin";
 
 
   return (
     <div>
       <div className="flex justify-end pb-2">
-        {!director?<div>
+        {director?<div>
           <ComButton onClick={modal.handleOpen}>Tạo mới nhân viên</ComButton>
         </div>:<></>}
       </div>

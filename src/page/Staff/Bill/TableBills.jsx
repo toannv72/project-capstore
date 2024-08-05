@@ -85,7 +85,7 @@ export const TableBills = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Ảnh ",
+      title: "Ảnh đại diện ",
       dataIndex: "user",
       key: "user.avatarUrl",
       width: 100,

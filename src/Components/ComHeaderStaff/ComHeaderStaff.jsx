@@ -31,10 +31,10 @@ const sortOptions = [
 const subCategories = [
   { name: "Phân công", href: "/staff/assignTask", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
-  { name: "Khách hàng", href: "/staff/user", icon: UsersIcon },
-  { name: "Người cao tuổi", href: "/staff/elder", icon: BriefcaseIcon },
+  { name: "Quản lý khách hàng", href: "/staff/user", icon: UsersIcon },
+  { name: "Quản lý người cao tuổi", href: "/staff/elder", icon: BriefcaseIcon },
   {
-    name: "Lịch hẹn",
+    name: "Quản lý lịch hẹn",
     href: "/staff/appointmentSchedule",
     icon: CalendarDaysIcon,
   },
@@ -45,8 +45,12 @@ const subCategories = [
     icon: QueueListIcon,
   },
   // { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
-  { name: "Danh sách hóa đơn", href: "/staff/bill", icon: Cog6ToothIcon },
-  { name: "Chỉ số sức khỏe", href: "/staff/health", icon: Cog6ToothIcon },
+  { name: "Quản lý hóa đơn", href: "/staff/bill", icon: Cog6ToothIcon },
+  {
+    name: "Quản lý chỉ số sức khỏe",
+    href: "/staff/health",
+    icon: Cog6ToothIcon,
+  },
   {
     name: "Khách hàng tiềm năng",
     href: "/staff/potentialCustomer",

@@ -7,6 +7,7 @@ import ComModal from "../../../Components/ComModal/ComModal";
 import CreateContract from "./CreateContract";
 import { useModalState } from "../../../hooks/useModalState";
 import { useNotification } from "../../../Notification/Notification";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export default function DetailAppointment2({
   selectedData,
@@ -15,6 +16,7 @@ export default function DetailAppointment2({
 }) {
   const modal = useModalState();
   const { notificationApi } = useNotification();
+    const hasPermission = useRolePermission([ "staff"]);
 
   console.log("====================================");
   console.log(selectedData);
@@ -77,7 +79,7 @@ export default function DetailAppointment2({
           </tbody>
         </table>
         <div className="flex m-1  gap-1 ">
-          {selectedData.status === "Pending" ? (
+          {selectedData.status === "Pending" && hasPermission ? (
             <>
               <ComButton
                 onClick={() => {

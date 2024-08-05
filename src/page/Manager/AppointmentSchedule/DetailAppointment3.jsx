@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Image } from "antd";
+import useRolePermission from "../../../hooks/useRolePermission";
 
 export default function DetailAppointment3({
   selectedData,
@@ -22,6 +23,7 @@ export default function DetailAppointment3({
   const imageUrls = selectedData?.contract?.images.map(
     (image) => image.imageUrl
   );
+    const hasPermission = useRolePermission([ "staff"]);
 
   const { notificationApi } = useNotification();
   const [disabled, setDisabled] = useState(false);
@@ -249,7 +251,7 @@ export default function DetailAppointment3({
           </ComModal>
         </div>
         <div className="flex m-1  gap-1 ">
-          {selectedData.status === "Pending" ? (
+          {selectedData.status === "Pending" && hasPermission ? (
             <>
               <ComButton
                 // className={" bg-red-600 "}
