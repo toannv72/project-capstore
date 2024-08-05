@@ -111,11 +111,11 @@ export const Tables = forwardRef((props, roles, ref) => {
       ),
     },
     {
-      title: "Chứ vụ",
+      title: "Chức vụ",
       width: 100,
       dataIndex: "roles",
       key: "roles",
-      // ...getColumnSearchProps("roles", "Chứ vụ"),
+      // ...getColumnSearchProps("roles", "Chức vụ"),
       filters: [
         { text: "Y tá", value: "Nurse" },
         { text: "Nhân viên", value: "Staff" },

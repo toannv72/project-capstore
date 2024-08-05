@@ -45,19 +45,19 @@ const CreateProductMessenger = yup.object({
     userName: yup
       .string()
       .required("Vui lòng nhập tên đăng nhập")
-      .matches(
-        usernameRegex,
-        "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
+      // .matches(
+      //   usernameRegex,
+      //   "Tên đăng nhập chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      // )
       .min(7, "Tên quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
       .max(50, "Tên quá dài, vui lòng nhập tối đa 50 ký tự"),
     password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")
-      .matches(
-        usernameRegex,
-        "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
-      )
+      // .matches(
+      //   usernameRegex,
+      //   "Mật khẩu chỉ được chứa chữ cái không có dấu và số, không có dấu cách và phải bắt đầu bằng chữ cái"
+      // )
       .min(7, "Mật khẩu quá ngắn, vui lòng nhập tối thiểu 7 ký tự")
       .max(50, "Mật khẩu quá dài, vui lòng nhập tối đa 50 ký tự"),
     role: yup.string().required("Vui lòng chọn chức vụ"),
@@ -95,9 +95,17 @@ const CreateProductMessenger = yup.object({
       label: "Y tá",
       value: "Nurse",
     },
+    // {
+    //   label: "Khách hàng",
+    //   value: "Customer",
+    // },
     {
       label: "Nhân viên",
       value: "Staff",
+    },
+    {
+      label: "Quản lý",
+      value: "Manager",
     },
   ];
   const dataGender = [

@@ -98,10 +98,10 @@ export default function CreateUser({ onClose, tableRef }) {
       label: "Y tá",
       value: "Nurse",
     },
-    {
-      label: "Khách hàng",
-      value: "Customer",
-    },
+    // {
+    //   label: "Khách hàng",
+    //   value: "Customer",
+    // },
     {
       label: "Nhân viên",
       value: "Staff",

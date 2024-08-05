@@ -12,9 +12,9 @@ export const MonyNumber = (number, setError, setFocus) => {
         if (parsedNumber < 1000) {
           throw new Error("Số tiền không được nhỏ hơn 1,000 VND");
         }
-        if (parsedNumber > 100000000) {
-          throw new Error("Số tiền không được vượt quá 100,000,000 VND");
-        }
+        // if (parsedNumber > 100000000) {
+        //   throw new Error("Số tiền không được vượt quá 100,000,000 VND");
+        // }
         // Kiểm tra nếu có 3 số 0 ở cuối
         if (!cleanedNumber.endsWith("000")) {
           throw new Error("Số tiền không hợp lệ");
@@ -31,9 +31,9 @@ export const MonyNumber = (number, setError, setFocus) => {
         if (parsedNumber < 1000) {
           throw new Error("Số tiền không được nhỏ hơn 1,000 VND");
         }
-        if (parsedNumber > 100000000) {
-          throw new Error("Số tiền không được vượt quá 100,000,000 VND");
-        }
+        // if (parsedNumber > 100000000) {
+        //   throw new Error("Số tiền không được vượt quá 100,000,000 VND");
+        // }
         // Kiểm tra nếu có 3 số 0 ở cuối
         if (parsedNumber % 100 !== 0) {
           throw new Error("Số tiền không hợp lệ");

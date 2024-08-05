@@ -3,6 +3,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   CalendarDaysIcon,
+  ChartPieIcon,
   QueueListIcon,
   UserCircleIcon,
   XMarkIcon,
@@ -29,7 +30,7 @@ const sortOptions = [
   { name: "Đăng xuất", href: "login" },
 ];
 const subCategories = [
-  { name: "Thống kê", href: "/director/dashboard", icon: BuildingOffice2Icon },
+  { name: "Thống kê", href: "/director/dashboard", icon: ChartPieIcon },
   { name: "Khách hàng", href: "/director/user", icon: UserIcon },
   { name: "Nhân viên", href: "/director/employee", icon: BriefcaseIcon },
 ];

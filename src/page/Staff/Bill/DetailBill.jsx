@@ -52,7 +52,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
         {/* Bill Details */}
         <div className="p-4 bg-white mt-4">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Chi tiết hóa đơn
+            Chi tiết thanh toán
           </h2>
           <table className="w-full">
             <tbody>

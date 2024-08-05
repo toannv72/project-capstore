@@ -3,6 +3,7 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   CalendarDaysIcon,
+  ClipboardDocumentListIcon,
   QueueListIcon,
   UserCircleIcon,
   XMarkIcon,
@@ -44,15 +45,13 @@ const subCategories = [
   {
     name: "Quản lý gói dưỡng lão",
     href: "/manager/nursingPackage",
-    icon: QueueListIcon,
+    icon: ClipboardDocumentListIcon,
   },
   {
     name: "Quản lý dịch vụ",
     href: "/manager/servicePackage",
     icon: Bars3Icon,
   },
-
-  // { name: "Lịch hoạt động", href: "#", icon: Cog6ToothIcon },
 ];
 
 export default function ComHeaderManager({ children }) {

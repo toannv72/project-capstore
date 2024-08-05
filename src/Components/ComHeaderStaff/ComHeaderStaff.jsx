@@ -3,6 +3,8 @@ import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   CalendarDaysIcon,
+  CreditCardIcon,
+  HeartIcon,
   QueueListIcon,
   UserCircleIcon,
   XMarkIcon,
@@ -38,18 +40,16 @@ const subCategories = [
     href: "/staff/appointmentSchedule",
     icon: CalendarDaysIcon,
   },
-  // { name: "Khác hàng tiềm năng", href: "/staff/servicePackage", icon: Bars3Icon },
   {
     name: "Danh sách đánh giá",
     href: "/staff/feedback",
     icon: QueueListIcon,
   },
-  // { name: "Tài khoản khách hàng", href: "#", icon: Cog6ToothIcon },
-  { name: "Quản lý hóa đơn", href: "/staff/bill", icon: Cog6ToothIcon },
+  { name: "Thông tin thanh toán", href: "/staff/bill", icon: CreditCardIcon },
   {
     name: "Quản lý chỉ số sức khỏe",
     href: "/staff/health",
-    icon: Cog6ToothIcon,
+    icon: HeartIcon,
   },
   {
     name: "Khách hàng tiềm năng",

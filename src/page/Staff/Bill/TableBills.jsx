@@ -20,7 +20,8 @@ import ComBillStatusConverter from './../../../Components/ComStatusConverter/Com
 
 export const TableBills = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
-  const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
+  const { getColumnSearchProps, getColumnApprox, getColumnPriceRangeProps } =
+    useColumnSearch();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailBill = useModalState();
@@ -151,6 +152,7 @@ export const TableBills = forwardRef((props, ref) => {
       dataIndex: "amount",
       key: "amount",
       sorter: (a, b) => a.amount - b.amount,
+      ...getColumnPriceRangeProps("amount", "Giá Tiền"),
       render: (_, record) => (
         <div>
           <h1>{formatCurrency(record.amount)}</h1>

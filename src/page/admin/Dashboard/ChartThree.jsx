@@ -1,6 +1,8 @@
 import { ApexOptions } from 'apexcharts';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { getData } from '../../../api/api';
+import moment from 'moment';
 
 const options = {
   chart: {
@@ -46,24 +48,64 @@ const options = {
 };
 
 const ChartThree= () => {
-  const [state, setState] = useState({
-    series: [65, 34, 12, 56],
-  });
+ const [state, setState] = useState({
+   series: [
+     {
+       name: "Gói điều dưỡng",
+       data: [],
+     },
 
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-      series: [65, 34, 12, 56],
-    }));
-  };
-  // handleReset()
+     {
+       name: "Gói dịch vụ",
+       data: [],
+     },
+   ],
+ });
+ const currentYear = moment().year();
+ const [selectedYear, setSelectedYear] = useState(currentYear);
+ const handleYearChange = (value) => {
+   setSelectedYear(value);
+   fetchData(value);
+ };
+ console.log(currentYear);
+ useEffect(() => {
+   fetchData();
+ }, []);
+
+ const fetchData = (year) => {
+   getData(`statistical/${year || selectedYear}`).then((data) => {
+     // Chuyển đổi dữ liệu từ API
+
+     const nursingPackageSeries = [];
+     const servicePackageSeries = [];
+
+     // Chuyển đổi dữ liệu từ API
+     for (let key in data?.data) {
+       nursingPackageSeries.push(data?.data[key].nursingPackage);
+       servicePackageSeries.push(data?.data[key].servicePackage);
+     }
+
+     setState({
+       series: [
+         {
+           name: "Gói điều dưỡng",
+           data: nursingPackageSeries,
+         },
+         {
+           name: "Gói dịch vụ",
+           data: servicePackageSeries,
+         },
+       ],
+     });
+   });
+ };
 
   return (
     <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
       <div className="mb-3 justify-between gap-4 sm:flex">
         <div>
           <h5 className="text-xl font-semibold text-black dark:text-white">
-            Visitors Analytics
+            Thống kê số tiền gói dịch vụ qua từng năm
           </h5>
         </div>
         <div>

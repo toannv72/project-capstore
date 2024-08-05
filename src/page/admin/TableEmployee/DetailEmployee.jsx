@@ -64,7 +64,7 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
               </td>
             </tr>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">Chứ vụ:</td>
+              <td className="px-4 py-2 text-gray-600 font-medium">Chức vụ:</td>
               <td className="px-4 py-2">
                 <ComRoleConverter>
                   {data?.roles ? data?.roles[0]?.name : ""}
