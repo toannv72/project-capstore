@@ -59,11 +59,11 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
         );
         setDisabled(false);
 
-        // if (error?.response?.data?.status === 409) {
-        //   setError("name", {
-        //     message: "Đã có phòng này rồi",
-        //   });
-        // }
+        if (error?.response?.data?.status === 409) {
+          setError("name", {
+            message: "Đã có phòng này rồi",
+          });
+        }
       });
   };
 
@@ -188,7 +188,7 @@ export default function EditRoom({ dataSelect, onClose, getDataApi }) {
                 type="primary"
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                cập nhật
+                Cập nhật
               </ComButton>
             </div>
           </form>
