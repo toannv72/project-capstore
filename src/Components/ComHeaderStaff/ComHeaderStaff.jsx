@@ -25,6 +25,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 import { getData } from "../../api/api";
+import { useStorage } from "../../hooks/useLocalStorage";
 const sortOptions = [
   { name: "Thông tin", href: "profile" },
   { name: "Thay đổi mật khẩu", href: "password" },
@@ -35,6 +36,11 @@ const subCategories = [
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
   { name: "Quản lý khách hàng", href: "/staff/user", icon: UsersIcon },
   { name: "Quản lý người cao tuổi", href: "/staff/elder", icon: BriefcaseIcon },
+  {
+    name: "Quản lý chuyển phòng",
+    href: "/staff/elderTransfer",
+    icon: BriefcaseIcon,
+  },
   {
     name: "Quản lý lịch hẹn",
     href: "/staff/appointmentSchedule",
@@ -65,10 +71,13 @@ export default function ComHeaderStaff({ children }) {
   const [userData, setUserData] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const [role, setRole, loadStoredValue] = useStorage("role", null);
+console.log(role);
+console.log(currentPath);
   useEffect(() => {
     setActiveCategory(currentPath);
     window.scrollTo(0, 0);
+    loadStoredValue();
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(
@@ -80,7 +89,7 @@ export default function ComHeaderStaff({ children }) {
     switch (option) {
       case "login":
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("use");
+        localStorage.removeItem("role");
         //localStorage.clear(); // xóa tất cả
         setTimeout(() => {
           navigate("/login");
@@ -109,6 +118,10 @@ export default function ComHeaderStaff({ children }) {
   useEffect(() => {
     getAPI();
   }, []);
+
+  if (role !== "Staff") {
+    return <ErrorPage goTo={"/"} statusCode={"404"} />;
+  }
   return (
     <div className="bg-[#f9fafb] flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar">

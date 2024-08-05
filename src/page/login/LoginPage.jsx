@@ -12,7 +12,6 @@ import { LanguageContext } from "../../contexts/LanguageContext";
 import loginImg from "../../assets/LoginImg.png";
 import { GoogleCircleFilled } from "@ant-design/icons";
 import { postData } from "../../api/api";
-import { useAuth } from "../../Auth/useAuth";
 
 export default function LoginPage(props) {
   const { loginImgUrl, bgColor, loginGoogle, pageTitle } = props;
@@ -25,12 +24,12 @@ export default function LoginPage(props) {
   } = useContext(LanguageContext);
 
   const [token, setToken] = useStorage("accessToken", null);
+  const [role, setRole,loadStoredValue] = useStorage("role", null);
   const [disabled, setDisabled] = useState(false);
   const [LoginState, setLogin] = useState(false);
   const [LoginError, setLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
   const defaultColor = "bg-cyan-600";
 
   const loginMessenger = yup.object({
@@ -63,6 +62,7 @@ export default function LoginPage(props) {
     postData("/auth/login", data, {})
       .then((data) => {
         setToken(data?.accessToken);
+        setRole(data?.listRole[0]);
         // Chờ setToken hoàn thành trước khi navigate
         return new Promise((resolve) => {
           setTimeout(() => {
@@ -70,7 +70,6 @@ export default function LoginPage(props) {
             switch (data?.listRole[0]) {
               case "Staff":
                 navigate("/staff/assignTask");
-
                 break;
               case "Admin":
                 navigate("/admin/account");

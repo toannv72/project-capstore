@@ -24,6 +24,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/useAuth";
 import ErrorPage from "../../page/404/ErrorPage";
 import { getData } from "../../api/api";
+import { useStorage } from "../../hooks/useLocalStorage";
 const sortOptions = [
   { name: "Thông tin", href: "profile" },
   { name: "Thay đổi mật khẩu", href: "password" },
@@ -42,9 +43,13 @@ export default function ComHeaderDirector({ children }) {
   const [userData, setUserData] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
+  const [role, setRole, loadStoredValue] = useStorage("role", null);
+
+
   useEffect(() => {
     setActiveCategory(currentPath);
     window.scrollTo(0, 0);
+    loadStoredValue();
   }, [currentPath]);
   function findNameByPathname() {
     const matchingCategory = subCategories.find(
@@ -56,7 +61,7 @@ export default function ComHeaderDirector({ children }) {
     switch (option) {
       case "login":
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("use");
+        localStorage.removeItem("role");
         //localStorage.clear(); // xóa tất cả
         setTimeout(() => {
           navigate("/login");
@@ -85,6 +90,9 @@ export default function ComHeaderDirector({ children }) {
   useEffect(() => {
     getAPI();
   }, []);
+  if (role !== "Director") {
+    return <ErrorPage goTo={"/"} statusCode={"404"} />;
+  }
   return (
     <div className="bg-[#f9fafb] flex">
       <Affix offsetTop={0} className="hidden lg:block fixed-sidebar ">

@@ -81,7 +81,7 @@ export default function ProfilePage() {
   };
   const handLogout = () => {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("use");
+    localStorage.removeItem("role");
     setTimeout(() => {
       navigate("/login");
     }, 0);

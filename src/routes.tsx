@@ -33,14 +33,15 @@ import TableAccount from "./page/admin/TableAccount/TableAccount";
 import ComHeaderDirector from "./Components/ComHeaderDirector/ComHeaderDirector";
 import ComHeaderManager from "./Components/ComHeaderManager/ComHeaderManager";
 import DetailUserPage from "./page/admin/TableUser/DetailUserPage";
+import TableElderTransfer from "./page/admin/TableElderTransfer/TableElderTransfer";
 
 export const routers = createBrowserRouter([
   {
     path: "*",
     element: (
-      <ComHeader>
-        <ErrorPage goTo={"/"} statusCode={"404"} />
-      </ComHeader>
+      // <ComHeader>
+      <ErrorPage goTo={"/"} statusCode={"404"} />
+      // {/* </ComHeader> */}
     ),
   },
   {
@@ -254,6 +255,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/user",
         element: <TableUser />,
+      },
+      {
+        path: "/staff/elderTransfer",
+        element: <TableElderTransfer />,
       },
       {
         path: "/staff/elder",

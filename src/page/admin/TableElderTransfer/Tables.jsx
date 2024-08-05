@@ -36,7 +36,6 @@ export const Tables = forwardRef((props, ref) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
   const hasPermission = useRolePermission(["admin", "staff"]);
-console.log(data);
 
   useEffect(() => {
     reloadData();
@@ -47,7 +46,7 @@ console.log(data);
   const reloadData = () => {
     const urlApi = idUser
       ? `/elders?UserId=${idUser}&SortDir=Desc`
-      : `/elders?SortDir=Desc`;
+      : `/elders?IsRoomTransfer=true&SortDir=Desc`;
     console.log(urlApi);
     
     getData(urlApi)
@@ -139,52 +138,52 @@ console.log(data);
         </Typography.Link>
       ),
     },
-    {
-      title: "Năm sinh người cao tuổi",
-      width: 160,
-      dataIndex: "dateOfBirth",
-      key: "dateOfBirth",
-      sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
-      ...getColumnApprox("dateOfBirth"),
+    // {
+    //   title: "Năm sinh người cao tuổi",
+    //   width: 160,
+    //   dataIndex: "dateOfBirth",
+    //   key: "dateOfBirth",
+    //   sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
+    //   ...getColumnApprox("dateOfBirth"),
 
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
-        </div>
-      ),
-    },
-    {
-      title: "CMND hoặc CCCD",
-      width: 150,
-      dataIndex: "cccd",
-      key: "cccd",
-      sorter: (a, b) => a.cccd - b.cccd,
+    //   render: (_, render) => (
+    //     <div>
+    //       <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   title: "CMND hoặc CCCD",
+    //   width: 150,
+    //   dataIndex: "cccd",
+    //   key: "cccd",
+    //   sorter: (a, b) => a.cccd - b.cccd,
 
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
-      render: (cccd) => (
-        <div>
-          <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
-        </div>
-      ),
-    },
-    {
-      title: "Giới tính",
-      width: 100,
-      dataIndex: "gender",
-      key: "gender",
-      filters: [
-        { text: "Nam", value: "Male" },
-        { text: "Nữ", value: "Female" },
-      ],
-      onFilter: (value, record) => record.gender === value,
-      sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
+    //   ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+    //   render: (cccd) => (
+    //     <div>
+    //       <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   title: "Giới tính",
+    //   width: 100,
+    //   dataIndex: "gender",
+    //   key: "gender",
+    //   filters: [
+    //     { text: "Nam", value: "Male" },
+    //     { text: "Nữ", value: "Female" },
+    //   ],
+    //   onFilter: (value, record) => record.gender === value,
+    //   sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
 
-      render: (_, record) => (
-        <div>
-          <ComGenderConverter>{record?.gender}</ComGenderConverter>
-        </div>
-      ),
-    },
+    //   render: (_, record) => (
+    //     <div>
+    //       <ComGenderConverter>{record?.gender}</ComGenderConverter>
+    //     </div>
+    //   ),
+    // },
     // {
     //   title: "Trạng thái hợp đồng",
     //   dataIndex: "contractsInUses",
@@ -226,7 +225,7 @@ console.log(data);
       // ...getColumnSearchProps("room.name", "Phòng hiện tại"),
       ...getColumnFilterProps("room.name", "Phòng hiện tại", uniqueRoomValues),
 
-      render: (_, render) => <div>{render?.room?.name}</div>,
+      render: (_, render) => <div className="text-red-600">{render?.room?.name}</div>,
     },
     {
       title: "Loại gói dưỡng lão",
