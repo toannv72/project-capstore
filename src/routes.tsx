@@ -101,14 +101,14 @@ export const routers = createBrowserRouter([
         path: "/admin/user",
         element: <TableUser />,
       },
-      {
-        path: "/admin/elder",
-        element: <TableElder />,
-      },
-      {
-        path: "/admin/elder/:id",
-        element: <DetailElderPage />,
-      },
+      // {
+      //   path: "/admin/elder",
+      //   element: <TableElder />,
+      // },
+      // {
+      //   path: "/admin/elder/:id",
+      //   element: <DetailElderPage />,
+      // },
       {
         path: "/admin/user/:id",
         element: <DetailUserPage />,
@@ -117,30 +117,30 @@ export const routers = createBrowserRouter([
         path: "/admin/employee",
         element: <TableEmployee />,
       },
-      {
-        path: "/admin/nursingPackage",
-        element: <NursingPackage />,
-      },
-      {
-        path: "/admin/appointmentSchedule",
-        element: <AppointmentSchedule />,
-      },
-      {
-        path: "/admin/servicePackage",
-        element: <ServicePackage />,
-      },
-      {
-        path: "/admin/activitie",
-        element: <ActivityCalendar />,
-      },
+      // {
+      //   path: "/admin/nursingPackage",
+      //   element: <NursingPackage />,
+      // },
+      // {
+      //   path: "/admin/appointmentSchedule",
+      //   element: <AppointmentSchedule />,
+      // },
+      // {
+      //   path: "/admin/servicePackage",
+      //   element: <ServicePackage />,
+      // },
+      // {
+      //   path: "/admin/activitie",
+      //   element: <ActivityCalendar />,
+      // },
       {
         path: "/admin/profile",
         element: <ProfilePage />,
       },
-      {
-        path: "/admin/createNotification",
-        element: <CreateNotification />,
-      },
+      // {
+      //   path: "/admin/createNotification",
+      //   element: <CreateNotification />,
+      // },
       {
         path: "/admin/notification",
         element: <Notification />,
@@ -267,22 +267,22 @@ export const routers = createBrowserRouter([
         path: "/staff/user/:id",
         element: <DetailUserPage />,
       },
-      {
-        path: "/staff/employee",
-        element: <TableEmployee />,
-      },
-      {
-        path: "/staff/nursingPackage",
-        element: <NursingPackage />,
-      },
+      // {
+      //   path: "/staff/employee",
+      //   element: <TableEmployee />,
+      // },
+      // {
+      //   path: "/staff/nursingPackage",
+      //   element: <NursingPackage />,
+      // },
       {
         path: "/staff/appointmentSchedule",
         element: <AppointmentSchedule />,
       },
-      {
-        path: "/staff/servicePackage",
-        element: <ServicePackage />,
-      },
+      // {
+      //   path: "/staff/servicePackage",
+      //   element: <ServicePackage />,
+      // },
       {
         path: "/staff/potentialCustomer",
         element: <PotentialCustomer />,
@@ -334,14 +334,14 @@ export const routers = createBrowserRouter([
         path: "/manager/institute",
         element: <InstituteManagement />,
       },
-      {
-        path: "/manager/contract",
-        element: <Contract />,
-      },
-      {
-        path: "/manager/assignTask",
-        element: <AssignTasksManagement />,
-      },
+      // {
+      //   path: "/manager/contract",
+      //   element: <Contract />,
+      // },
+      // {
+      //   path: "/manager/assignTask",
+      //   element: <AssignTasksManagement />,
+      // },
       {
         path: "/manager/user",
         element: <TableUser />,
@@ -363,21 +363,21 @@ export const routers = createBrowserRouter([
         element: <TableEmployee />,
       },
       {
-        path: "/manager/nursingPackage",
-        element: <NursingPackage />,
-      },
-      {
         path: "/manager/appointmentSchedule",
         element: <AppointmentSchedule />,
+      },
+      {
+        path: "/manager/nursingPackage",
+        element: <NursingPackage />,
       },
       {
         path: "/manager/servicePackage",
         element: <ServicePackage />,
       },
-      {
-        path: "/manager/potentialCustomer",
-        element: <PotentialCustomer />,
-      },
+      // {
+      //   path: "/manager/potentialCustomer",
+      //   element: <PotentialCustomer />,
+      // },
       {
         path: "/manager/profile",
         element: <ProfilePage />,
@@ -390,18 +390,18 @@ export const routers = createBrowserRouter([
         path: "/manager/changePassword",
         element: <ChangePassword />,
       },
-      {
-        path: "/manager/feedback",
-        element: <Feedback />,
-      },
-      {
-        path: "/manager/bill",
-        element: <Bill />,
-      },
-      {
-        path: "/manager/health",
-        element: <Health />,
-      },
+      // {
+      //   path: "/manager/feedback",
+      //   element: <Feedback />,
+      // },
+      // {
+      //   path: "/manager/bill",
+      //   element: <Bill />,
+      // },
+      // {
+      //   path: "/manager/health",
+      //   element: <Health />,
+      // },
       // Add other unprotected admin routes here (if any)
     ],
   },
