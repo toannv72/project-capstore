@@ -41,13 +41,15 @@ export default function EditNursingPackage({
       .max(20, "vui lòng nhập nhỏ hơn 20 người")
       .min(1, "vui lòng nhập lớn hơn 1 người")
       .required("Vui lòng nhập số lượng ")
-      .typeError("Vui lòng nhập số lượng "),
+      .typeError("Vui lòng nhập số lượng ")
+      .integer("Vui lòng nhập số nguyên"),
     numberOfNurses: yup
       .number()
       .max(20, "vui lòng nhập nhỏ hơn 20 người")
       .min(1, "vui lòng nhập lớn hơn 1 người")
       .required("Vui lòng nhập số lượng ")
-      .typeError("Vui lòng nhập số lượng "),
+      .typeError("Vui lòng nhập số lượng ")
+      .integer("Vui lòng nhập số nguyên"),
   });
 
   const methods = useForm({

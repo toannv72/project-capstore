@@ -20,7 +20,7 @@ import ComNumber from "../../../Components/ComInput/ComNumber";
 import { differenceInMonths } from "date-fns";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
-export default function CreateContract({ onClose, tableRef, userID }) {
+export default function CreateContract({ onClose, onClose1, tableRef, userID }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -195,6 +195,7 @@ export default function CreateContract({ onClose, tableRef, userID }) {
               notificationApi("success", "tạo thành công", "đã tạo");
               setDisabled(false);
               onClose();
+              onClose1()
             })
             .catch((error) => {
               console.log(error);
@@ -208,7 +209,7 @@ export default function CreateContract({ onClose, tableRef, userID }) {
         });
       }
     } else {
-        setDisabled(false);
+      setDisabled(false);
     }
   };
   useEffect(() => {

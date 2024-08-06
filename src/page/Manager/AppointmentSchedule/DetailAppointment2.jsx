@@ -119,6 +119,7 @@ export default function DetailAppointment2({
       >
         <CreateContract
           isOpen={modal?.isModalOpen}
+          onClose1={onClose}
           onClose={modal?.handleClose}
           userID={selectedData}
         />

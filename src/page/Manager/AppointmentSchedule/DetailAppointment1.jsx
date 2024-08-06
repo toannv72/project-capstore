@@ -125,6 +125,7 @@ export default function DetailAppointment1({
         <CreateElder
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
+          onClose1={onClose}
           userID={selectedData}
           update={() => update("ComPleted")}
         />

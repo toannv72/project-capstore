@@ -30,7 +30,7 @@ import ComNumber from "../../../Components/ComInput/ComNumber";
 import { differenceInMonths } from "date-fns";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
-export default function CreateElder({ onClose, tableRef, userID, update }) {
+export default function CreateElder({ onClose, onClose1, tableRef, userID, update }) {
   const [image, setImages] = useState(null);
   const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
@@ -247,7 +247,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
     setDisabled(true);
     if (change !== null) {
       if (!image) {
-         setDisabled(false);
+        setDisabled(false);
         return notificationApi(
           "error",
           "Vui lòng chọn ảnh",
@@ -255,7 +255,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
         );
       }
       if (Array.isArray(image1) && image1.length === 0) {
-         setDisabled(false);
+        setDisabled(false);
         notificationApi(
           "error",
           "Vui lòng chọn ảnh",
@@ -274,6 +274,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
                 notificationApi("success", "tạo thành công", "đã tạo");
                 setTimeout(() => {}, 100);
                 onClose();
+                onClose1();
                 setDisabled(false);
                 update();
               })

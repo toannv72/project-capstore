@@ -175,6 +175,7 @@ export default function DetailAppointment({
         <CreateElder
           isOpen={modal?.isModalOpen}
           onClose={modal?.handleClose}
+          onClose1={onClose}
           userID={selectedData}
         />
       </ComModal>

@@ -67,8 +67,8 @@ export default function DetailAppointment3({
       ...selectedData,
       status: status,
     }).then((e) => {
-      // onClose();
       renderData();
+      onClose();
     });
   };
   return (
