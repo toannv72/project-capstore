@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 export default function Header({ focusFrom }) {
   const [open, setOpen] = useState(true);
   const elementRef = useRef(null);
-    const scrollEnd = () => {
-       window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    };
+  const scrollEnd = () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  };
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1180) {
@@ -15,8 +15,6 @@ export default function Header({ focusFrom }) {
         // setOpen(false);
       }
     };
-
-  
 
     // Lắng nghe sự kiện thay đổi kích thước cửa sổ
     window.addEventListener("resize", handleResize);
@@ -79,7 +77,7 @@ export default function Header({ focusFrom }) {
           <Link
             to="/Login"
             // className=" bg-sky-600 border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
-            className="header__contact-cta button yellow header__contact-cta--mobile gtrackexternal  bg-sky-600 border-y rounded-lg  text-white p-2"
+            className="header__contact-cta button yellow header__contact-cta--mobile gtrackexternal  bg-[#0F296D] border-y rounded-lg  text-white p-2"
           >
             Đăng nhập
           </Link>
@@ -113,145 +111,6 @@ export default function Header({ focusFrom }) {
                       id="menu-main-navigation"
                       className="nav-mobile__primary-list"
                     >
-                      <li
-                        id="menu-item-4203"
-                        className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4203 nav__parent-item nav-mobile__parent-item"
-                      >
-                        <div className="nav-mobile__accordion-header">
-                          <Link
-                            to="/"
-                            id="nav-submenu-parent-0"
-                            aria-controls="nav-menu-panel-4203"
-                            aria-expanded="false"
-                            className="nav__parent-link nav-mobile__parent-link"
-                          >
-                            Chương trình
-                          </Link>
-                        </div>
-                        <div
-                          role="region"
-                          className="nav-mobile__accordion-panel"
-                          id="nav-submenu-0"
-                          aria-labelledby="nav-submenu-parent-0"
-                        >
-                          <ul className="sub-menu">
-                            <li
-                              id="menu-item-7991"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-7991"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Home Care Packages (HCP)
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-6030"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-6030"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Commonwealth Home Support Programme (CHSP)
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4222"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4222"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Out of Hospital Care (OHC)
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4217"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4217"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                HomeShare Program
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-5033"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-5033"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Home and Community Care Program for Young People
-                                (HACC-PYP) Linkages Program
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      <li
-                        id="menu-item-7309"
-                        className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7309 nav__parent-item nav-mobile__parent-item"
-                      >
-                        <div className="nav-mobile__accordion-header">
-                          <Link
-                            to="/"
-                            id="nav-submenu-parent-1"
-                            aria-controls="nav-menu-panel-7309"
-                            aria-expanded="false"
-                            className="nav__parent-link nav-mobile__parent-link"
-                          >
-                            Dịch vụ
-                          </Link>
-                        </div>
-                        <div
-                          role="region"
-                          className="nav-mobile__accordion-panel"
-                          id="nav-submenu-1"
-                          aria-labelledby="nav-submenu-parent-1"
-                        >
-                          <ul className="sub-menu">
-                            <li
-                              id="menu-item-7310"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-7310"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Managing your Home Care Package
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4206"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4206"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Change your Home Care Provider
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4207"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4207"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Personalised Home Care Package Plans
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4211"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4211"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Service Support
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4210"
-                              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4210"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Independent Advice
-                              </Link>
-                            </li>
-                            <li
-                              id="menu-item-4924"
-                              className="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4924"
-                            >
-                              <Link to="/" className="gtrackexternal">
-                                Client &amp; Carer Stories
-                              </Link>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
                       <li
                         id="menu-item-4209"
                         className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4209 nav__parent-item nav__menu--services nav__menu--columns nav-mobile__parent-item"
@@ -508,123 +367,6 @@ export default function Header({ focusFrom }) {
               <nav className="nav" role="navigation" aria-label="Primary">
                 <div className="nav__primary">
                   <ul id="menu-main-navigation-1" className="nav__primary-list">
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4203 nav__parent-item">
-                      <Link
-                        to="/"
-                        href="#"
-                        id="nav-menu-parent-4203"
-                        aria-controls="nav-menu-panel-4203"
-                        aria-expanded="false"
-                        className="nav__parent-link"
-                      >
-                        Chương trình
-                      </Link>
-
-                      <div
-                        role="region"
-                        className="nav__menu-panel"
-                        id="nav-menu-panel-4203"
-                        aria-labelledby="nav-menu-parent-4203"
-                      >
-                        <div className="nav__menu-inner wrap">
-                          <div className="nav__menu-main">
-                            <h3 className="m-tx0 blue" id="menu-title-4203">
-                              Chương trình
-                            </h3>
-                            <p className="nav__menu-description">
-                              Receive expert guidance and advice to determine
-                              the in-home care that best suits you at at no cost
-                              or obligation.
-                            </p>
-                            <Link
-                              to="/"
-                              href="https://www.careconnect.org.au/programs/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                              className="button yellow gtrackexternal"
-                              aria-labelledby="menu-title-4203"
-                            >
-                              Learn more
-                            </Link>
-                          </div>
-
-                          <ul className="sub-menu">
-                            <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-7991">
-                              <Link
-                                to="/"
-                                href="https://www.careconnect.org.au/programs/home-care-package-2/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                className="gtrackexternal"
-                              >
-                                Home Care Packages (HCP)
-                              </Link>
-                            </li>
-                            <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-6030">
-                              <Link
-                                to="/"
-                                href="https://www.careconnect.org.au/programs/commonwealth-home-support-program-chsp/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                className="gtrackexternal"
-                              >
-                                Commonwealth Home Support Programme (CHSP)
-                              </Link>
-                            </li>
-                            <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4222">
-                              <Link
-                                to="/"
-                                href="https://www.careconnect.org.au/programs/out-of-hospital-care-ohc-nsw/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                className="gtrackexternal"
-                              >
-                                Out of Hospital Care (OHC)
-                              </Link>
-                            </li>
-                            <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4217">
-                              <Link
-                                to="/"
-                                href="https://www.careconnect.org.au/programs/homeshare-program/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                className="gtrackexternal"
-                              >
-                                HomeShare Program
-                              </Link>
-                            </li>
-                            <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-5033">
-                              <Link
-                                to="/"
-                                href="https://www.careconnect.org.au/programs/home-and-community-care-hacc-services-vic/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                className="gtrackexternal"
-                              >
-                                Home and Community Care Program for Young People
-                                (HACC-PYP) Linkages Program
-                              </Link>
-                            </li>
-                          </ul>
-                          <Link
-                            to="/"
-                            className="nav__menu-card gtrackexternal"
-                            href="https://www.careconnect.org.au/programs/home-care-package-2/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                          >
-                            <div className="nav__menu-card-img">
-                              <img
-                                className="object-fit lazyload"
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZkAAAETAQMAAADeQOkzAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAACVJREFUaN7twTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAK4GOO8AASXwK+wAAAAASUVORK5CYII="
-                                alt="người cao tuổi "
-                                data-src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
-                                decoding="async"
-                                data-eio-rwidth="409"
-                                data-eio-rheight="275"
-                              />
-                              <noscript>
-                                <img
-                                  className="object-fit"
-                                  src="https://www.careconnect.org.au/wp-content/uploads/2020/10/img2.jpg"
-                                  alt="người cao tuổi "
-                                  data-eio="l"
-                                />
-                              </noscript>
-                            </div>
-                            <div className="nav__menu-card-label">
-                              Home Care Packages (HCP)
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </li>
                     <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7309 nav__parent-item">
                       <Link
                         to="/"
@@ -752,171 +494,7 @@ export default function Header({ focusFrom }) {
                         </div>
                       </div>
                     </li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4209 nav__parent-item nav__menu--services nav__menu--columns">
-                      <Link
-                        to="/"
-                        href="#"
-                        id="nav-menu-parent-4209"
-                        aria-controls="nav-menu-panel-4209"
-                        aria-expanded="false"
-                        className="nav__parent-link"
-                      >
-                        Dịch vụ
-                      </Link>
 
-                      <div
-                        role="region"
-                        className="nav__menu-panel"
-                        id="nav-menu-panel-4209"
-                        aria-labelledby="nav-menu-parent-4209"
-                      >
-                        <div className="nav__menu-inner wrap">
-                          <div className="nav__menu-main">
-                            <h3 className="m-tx0 blue" id="menu-title-4209">
-                              Services
-                            </h3>
-                            <p className="nav__menu-description">
-                              We make life easier for you by connecting you with
-                              the care you need to live happily at home. Our
-                              model allows us to draw on a wide network of
-                              vetted care workers, which offers flexibility and
-                              options to best suit you.
-                            </p>
-                            <Link
-                              to="/"
-                              href="https://www.careconnect.org.au/services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                              className="button yellow gtrackexternal"
-                              aria-labelledby="menu-title-4209"
-                            >
-                              Learn more
-                            </Link>
-                          </div>
-
-                          <ul className="sub-menu">
-                            <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7311">
-                              <Link to="/" href="#">
-                                Making life easier day-to-day
-                              </Link>
-                              <ul className="sub-menu">
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4212">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-allied-health-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Allied Health Services
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4218">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/in-home-care-nursing-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Home Nursing
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4219">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-personal-care-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Personal Care Services
-                                  </Link>
-                                </li>
-                              </ul>
-                            </li>
-                            <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7312">
-                              <Link to="/" href="#">
-                                Making life easier at home
-                              </Link>
-                              <ul className="sub-menu">
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4215">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-maintenance-handyman-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Maintenance &amp; Handyman Services
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4216">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-modifications-assessment/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Modifications Assessment
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4214">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-gardening-lawn-mowing-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Gardening &amp; Lawn Mowing Services
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4448">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-house-cleaning-services-for-elderly/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Cleaning Services
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4220">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-shopping-support-meal-preparation/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Shopping Support &amp; Meal Preparation
-                                  </Link>
-                                </li>
-                              </ul>
-                            </li>
-                            <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-7313">
-                              <Link to="/" href="#">
-                                Making life easier in your community
-                              </Link>
-                              <ul className="sub-menu">
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4449">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-social-support-activities/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Social Support &amp; Activities
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4242">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-mobility-aids-equipment-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Equipment and Mobility Aids
-                                  </Link>
-                                </li>
-                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-4223">
-                                  <Link
-                                    to="/"
-                                    href="https://www.careconnect.org.au/services/home-care-transport-services/?__hstc=19301799.15d70e64b6b039fda16f1889d927822c.1719083369639.1719083369639.1719083369639.1&amp;__hssc=19301799.5.1719083369639&amp;__hsfp=2748378142"
-                                    className="gtrackexternal"
-                                  >
-                                    Transport &amp; Outings
-                                  </Link>
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
                     <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7622 nav__parent-item">
                       <Link
                         to="/"
@@ -1023,7 +601,7 @@ export default function Header({ focusFrom }) {
 
               <Link
                 to="/login"
-                className=" bg-sky-600 border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
+                className=" bg-[#0F296D] border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
               >
                 Đăng nhập ngay
               </Link>

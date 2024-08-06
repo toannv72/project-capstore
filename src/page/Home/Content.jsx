@@ -8,30 +8,30 @@ export default function Content({ focusFrom  }) {
         <div className="banner-module__image-wrapper">
           <img
             className="banner-module__image lazyautosizes ls-is-cached lazyloaded"
-            src="https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg"
+            src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536"
             alt="A middle aged son and daughter walking with their elderly mother in a park"
             style={{ objectPosition: "66% 0%" }}
-            data-src="https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg"
+            data-src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536"
             decoding="async"
             data-srcset="https://www.careconnect.org.au/wp-content/uploads/2023/08/b-hp-mobile-var-1-928x448.jpg 768w,
-                    https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg"
+                    https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536"
             data-sizes="auto"
             data-eio-rwidth="1856"
             data-eio-rheight="896"
             sizes="1865px"
             srcSet="
                     https://www.careconnect.org.au/wp-content/uploads/2023/08/b-hp-mobile-var-1-928x448.jpg   768w,
-                    https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg
+                    https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536
                   "
           />
           <noscript>
             <img
               className="banner-module__image"
-              src="https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg"
+              src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536"
               alt="A middle aged son and daughter walking with their elderly mother in a park"
               srcSet="
                       https://www.careconnect.org.au/wp-content/uploads/2023/08/b-hp-mobile-var-1-928x448.jpg   768w,
-                      https://www.careconnect.org.au/wp-content/uploads/2023/08/ab-hp-desktop-var-1-1856x896.jpg
+                      https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536
                     "
               sizes="100vw"
               style={{ objectPosition: "66% 0%" }}
@@ -202,11 +202,11 @@ export default function Content({ focusFrom  }) {
                 >
                   <img
                     className="quote__image skip-lazy"
-                    src="https://i.ytimg.com/vi/qRu9N3gteT8/mqdefault.jpg"
+                    src="https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fefa81537-3099-48f3-a7a7-b53cb348f176.jpg?alt=media&token=c726b97d-06ce-4a89-b9ff-31b4dc8b61ad"
                     alt="Graham, Jocelyn &amp; Carissa | CareConnect"
                     srcSet="
-                            https://i.ytimg.com/vi/qRu9N3gteT8/mqdefault.jpg     480w,
-                            https://i.ytimg.com/vi/qRu9N3gteT8/maxresdefault.jpg
+                            https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fefa81537-3099-48f3-a7a7-b53cb348f176.jpg?alt=media&token=c726b97d-06ce-4a89-b9ff-31b4dc8b61ad     480w,
+                            https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fefa81537-3099-48f3-a7a7-b53cb348f176.jpg?alt=media&token=c726b97d-06ce-4a89-b9ff-31b4dc8b61ad
                           "
                     sizes="100vw"
                     loading="lazy"
@@ -280,7 +280,7 @@ export default function Content({ focusFrom  }) {
                     alt="Kevin &amp; Aurelie | CareConnect"
                     srcSet="
                             https://i.ytimg.com/vi/rLnH4RDBGvk/mqdefault.jpg     480w,
-                            https://i.ytimg.com/vi/rLnH4RDBGvk/maxresdefault.jpg
+                            https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2F0a1ec590-4196-4017-bf32-2bdda573de92.jpg?alt=media&token=615d7839-df83-4118-95d2-073c86b1762f
                           "
                     sizes="100vw"
                     loading="lazy"
