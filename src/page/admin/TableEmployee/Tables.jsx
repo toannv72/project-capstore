@@ -22,7 +22,7 @@ import ComRoleConverter from "../../../Components/ComRoleConverter/ComRoleConver
 import { useLocation } from "react-router-dom";
 import useRolePermission from "../../../hooks/useRolePermission";
 
-export const Tables = forwardRef((props, roles, ref) => {
+export const Tables = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
   const table = useTableState();
@@ -45,11 +45,14 @@ export const Tables = forwardRef((props, roles, ref) => {
 
   console.log(data);
   const reloadData = () => {
+
     const link =
       getRoleFromPath(location.pathname) !== "manager"
         ? `RoleNames=Staff&RoleNames=Nurse&RoleNames=Manager&SortDir=Desc`
         : `RoleNames=Staff&RoleNames=Nurse&SortDir=Desc`;
-
+console.log('====================================');
+console.log(link);
+console.log('====================================');
     getData(`/users?${link}`)
       .then((e) => {
         setData(e?.data?.contends);

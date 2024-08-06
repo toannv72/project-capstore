@@ -27,8 +27,8 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function CreateEmployee({ onClose, tableRef }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -119,7 +119,7 @@ const CreateProductMessenger = yup.object({
     },
   ];
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     if (!image) {
       console.log(123);
       setDisabled(false);
@@ -142,13 +142,15 @@ setDisabled(true);
               // Kiểm tra xem ref đã được gắn chưa
               tableRef.current.reloadData();
             }
-          }, 100);setDisabled(false);
+          }, 100);
+          setDisabled(false);
           onClose();
         })
         .catch((error) => {
           handleErrors(error, setError, setFocus);
           console.log("====================================");
-          console.log(error);setDisabled(false);
+          console.log(error);
+          setDisabled(false);
           console.log("====================================");
         });
     });
@@ -309,7 +311,7 @@ setDisabled(true);
                 </div>
               </div>
             </div>
-            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} />
+            <ComUpImgOne onChange={onChange} label={"Hình ảnh"} required />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
