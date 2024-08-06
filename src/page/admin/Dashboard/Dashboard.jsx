@@ -52,7 +52,7 @@ function Dashboard() {
           <p className="text-2xl">{totalStaff}</p>
         </div>
         <div className="p-4 bg-white shadow rounded">
-          <h2 className="text-xl font-bold">Tổng số bệnh nhân</h2>
+          <h2 className="text-xl font-bold">Tổng số người cao tuổi</h2>
           <p className="text-2xl">{totalPatients}</p>
         </div>
         <div className="p-4 bg-white shadow rounded">

@@ -35,7 +35,7 @@ export const TableHealth = forwardRef((props, ref) => {
         ...getColumnSearchProps("healthCategory.name", "Tên chỉ số"),
       },
       {
-        title: "Chỉ số do được ",
+        title: "Chỉ số đo được ",
 
         dataIndex: "healthReportDetailMeasures",
         key: "healthReportDetailMeasures",

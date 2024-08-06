@@ -13,7 +13,7 @@ function Health() {
   const modal = useModalState();
   const tableRef = useRef(null);
   const cardData = [
-    { title: "Chỉ số do", value: "10.678" },
+    { title: "Chỉ số đo", value: "10.678" },
     { title: "Các loại chỉ số", value: "1.000" },
   ];
   const handleCardClick = (index) => {
