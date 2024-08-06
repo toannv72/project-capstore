@@ -115,8 +115,8 @@ export default function DetailElderPage() {
             </h3>
           </div>
         </div>
-        <div className="col-span-3 2xl:col-span-1">
-          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2   sm:p-6  ">
+        <div className="grid grid-cols-2 col-span-3 2xl:col-span-3 gap-4">
+          <div class="col-span-2 p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:col-span-1   sm:p-3 ">
             <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
               <img
                 class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
@@ -150,7 +150,7 @@ export default function DetailElderPage() {
             </div>
           </div>
 
-          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2   sm:p-6  ">
+          <div class=" col-span-2 p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:col-span-1   sm:p-3  ">
             <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
               <img
                 class="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0 object-cover"
@@ -188,13 +188,8 @@ export default function DetailElderPage() {
               </div>
             </div>
           </div>
-          <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2   sm:p-6  ">
-            <div class="">
-              <ChartFour />
-            </div>
-          </div>
         </div>
-        <div className="col-span-3 2xl:col-span-2">
+        <div className="col-span-3 2xl:col-span-3">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-6  ">
             <h3 class="mb-4 text-xl font-semibold  ">
               Chi tiết hợp đồng đang được sử dụng
@@ -304,9 +299,7 @@ export default function DetailElderPage() {
         </div>
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm    sm:p-6  ">
-            <h3 class="mb-4 text-xl font-semibold  ">
-              Thông tin sức khỏe
-            </h3>
+            <h3 class="mb-4 text-xl font-semibold  ">Thông tin sức khỏe</h3>
             <FormProvider {...methods}>
               <form
                 // onSubmit={handleSubmit(onSubmit)}
@@ -322,7 +315,7 @@ export default function DetailElderPage() {
                         <ComInput
                           type="text"
                           label={"Nhóm máu"}
-showSearch
+                          showSearch
                           placeholder={"Vui lòng nhập Nhóm máu"}
                           readOnly
                           {...register("medicalRecord.bloodType")}

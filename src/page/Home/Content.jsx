@@ -211,10 +211,10 @@ export default function Content({ focusFrom  }) {
                     sizes="100vw"
                     loading="lazy"
                   />
-                  <div className="video-play-button">
+                  {/* <div className="video-play-button">
                     <i className="fa fa-play" aria-hidden="true"></i>
                     <span>Phát ngay</span>
-                  </div>
+                  </div> */}
                 </Link>
               </div>
             </div>
@@ -285,10 +285,10 @@ export default function Content({ focusFrom  }) {
                     sizes="100vw"
                     loading="lazy"
                   />
-                  <div className="video-play-button">
+                  {/* <div className="video-play-button">
                     <i className="fa fa-play" aria-hidden="true"></i>
                     <span>Phát ngay</span>
-                  </div>
+                  </div> */}
                 </Link>
               </div>
             </div>
