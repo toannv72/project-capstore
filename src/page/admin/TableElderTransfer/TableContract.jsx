@@ -186,16 +186,23 @@ export default function TableContract({ idElder }) {
       key: "operation",
       fixed: "right",
       width: 80,
-      render: (_, record) => (
-        <div className="flex items-center flex-col">
-          <ComMenuButonTable
-            record={record}
-            showModalDetails={() => showModal(record)}
-            extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "edit"]}
-          />
-        </div>
-      ),
+      render: (_, record) => {
+        const today = new Date();
+        const endDate = new Date(record.endDate);
+        const timeDiff = endDate - today;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        return (
+          <div className="flex items-center flex-col">
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModal(record)}
+              extraMenuItems={daysDiff < 30 ? extraMenuItems : []}
+              excludeDefaultItems={["delete", "edit"]}
+            />
+          </div>
+        );
+      },
     },
   ];
   const extraMenuItems = [
@@ -209,14 +216,18 @@ export default function TableContract({ idElder }) {
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
-      {/* chi tiết người lớn tuôi */}
+      {/* chi tiết hợp đồng */}
       <ComModal
         isOpen={modalDetail?.isModalOpen}
         onClose={modalDetail?.handleClose}
       >
-        <DetailContract selectedUser={selectedUser} />
+        <DetailContract
+          selectedUser={selectedUser}
+          onClose={modalDetail?.handleClose}
+          isOpenEdit={() => modalEdit?.handleOpen()}
+        />
       </ComModal>
-      {/* chỉnh sửa người cao tuổi */}
+      {/* gia hạn hợp đồng */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

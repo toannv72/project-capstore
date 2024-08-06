@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import { Image } from "antd";
 import ComButton from "../../../Components/ComButton/ComButton";
@@ -15,8 +15,19 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
   const imageUrls = selectedUser.images.map((image) => image.imageUrl);
   const modal = useModalState();
   const [disabled, setDisabled] = useState(false);
-  console.log(selectedUser);
-
+  const [daysDiff, setdaysDiff] = useState(false);
+  // console.log(selectedUser);
+  useEffect(() => {
+    const today = new Date();
+    const endDate = new Date(selectedUser.endDate);
+    const timeDiff = endDate - today;
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    const day = daysDiff < 30;
+    setdaysDiff(day);
+    console.log("====================================");
+    console.log(day);
+    console.log("====================================");
+  }, [selectedUser]);
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
     reasonForCanceling: yup.string().required("Vui lòng lý do hủy"),
@@ -131,7 +142,7 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
           </tbody>
         </table>
         <div className="flex items-center justify-around gap-4">
-          {isOpenEdit ? (
+          {isOpenEdit && daysDiff ? (
             <div className="mt-10">
               <ComButton
                 onClick={() => {
@@ -146,8 +157,8 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
           ) : (
             <></>
           )}
-            {selectedUser.status !== "Cancelled" ? (
-          <div className="mt-10">
+          {selectedUser.status !== "Cancelled" ? (
+            <div className="mt-10">
               <ComButton
                 onClick={() => {
                   modal?.handleOpen();
@@ -157,8 +168,8 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
               >
                 Hủy hợp đồng
               </ComButton>
-          </div>
-            ) : null}
+            </div>
+          ) : null}
         </div>
 
         <ComModal

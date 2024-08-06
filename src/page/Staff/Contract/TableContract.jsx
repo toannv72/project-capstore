@@ -223,16 +223,23 @@ export const TableContract = forwardRef((props, ref) => {
       key: "operation",
       fixed: "right",
       width: 80,
-      render: (_, record) => (
-        <div className="flex items-center flex-col">
-          <ComMenuButonTable
-            record={record}
-            showModalDetails={() => showModal(record)}
-            extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "edit"]}
-          />
-        </div>
-      ),
+      render: (_, record) => {
+        const today = new Date();
+        const endDate = new Date(record.endDate);
+        const timeDiff = endDate - today;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        return (
+          <div className="flex items-center flex-col">
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModal(record)}
+              extraMenuItems={daysDiff < 30 ? extraMenuItems : []}
+              excludeDefaultItems={["delete", "edit"]}
+            />
+          </div>
+        );
+      },
     },
   ];
   const extraMenuItems = [
