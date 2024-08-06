@@ -227,7 +227,7 @@ export default function EditAnyDay({ onClose, dataValue }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />

@@ -231,7 +231,7 @@ export default function CreateWeeklyDays({ onClose }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />

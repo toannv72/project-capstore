@@ -198,7 +198,7 @@ export default function CreateAnyDay({ onClose }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />

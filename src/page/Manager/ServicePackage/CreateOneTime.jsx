@@ -276,7 +276,7 @@ setDisabled(true);
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />

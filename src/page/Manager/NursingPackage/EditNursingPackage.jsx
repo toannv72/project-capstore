@@ -217,7 +217,7 @@ export default function EditNursingPackage({
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />

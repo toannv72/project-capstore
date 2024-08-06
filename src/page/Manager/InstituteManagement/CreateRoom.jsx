@@ -161,7 +161,7 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"description"}
+                      placeholder={"Miêu tả"}
                       {...register("description")}
                       required
                     />
