@@ -742,6 +742,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
                       size={"large"}
                       type="text"
                       label={"Nhóm máu"}
+                      showSearch
                       style={{
                         width: "100%",
                       }}
@@ -760,23 +761,63 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
                       options={[
                         {
                           value: "Chưa có",
-                          label: `Chưa có`,
+                          label: "Chưa có",
                         },
                         {
                           value: "A",
-                          label: `A`,
+                          label: "A",
                         },
                         {
                           value: "B",
-                          label: `B`,
+                          label: "B",
                         },
                         {
                           value: "AB",
-                          label: `AB`,
+                          label: "AB",
                         },
                         {
                           value: "O",
-                          label: `O`,
+                          label: "O",
+                        },
+                        {
+                          value: "A+",
+                          label: "A+",
+                        },
+                        {
+                          value: "A-",
+                          label: "A-",
+                        },
+                        {
+                          value: "B+",
+                          label: "B+",
+                        },
+                        {
+                          value: "B-",
+                          label: "B-",
+                        },
+                        {
+                          value: "AB+",
+                          label: "AB+",
+                        },
+                        {
+                          value: "AB-",
+                          label: "AB-",
+                        },
+                        {
+                          value: "O+",
+                          label: "O+",
+                        },
+                        {
+                          value: "O-",
+                          label: "O-",
+                        },
+                        {
+                          value: "hr+",
+                          label: "hr+",
+                        },
+                        {
+                          value: "hr-",
+                          label: "hr-",
                         },
                       ]}
                       placeholder={"Vui lòng chọn nhóm máu"}

@@ -369,6 +369,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       size={"large"}
                       type="text"
                       label={"Nhóm máu"}
+showSearch
                       style={{
                         width: "100%",
                       }}
@@ -385,27 +386,67 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       }}
                       mode="default"
                       options={[
-                        {
-                          value: "Chưa có",
-                          label: `Chưa có`,
-                        },
-                        {
-                          value: "A",
-                          label: `A`,
-                        },
-                        {
-                          value: "B",
-                          label: `B`,
-                        },
-                        {
-                          value: "AB",
-                          label: `AB`,
-                        },
-                        {
-                          value: "O",
-                          label: `O`,
-                        },
-                      ]}
+  {
+    value: "Chưa có",
+    label: "Chưa có",
+  },
+  {
+    value: "A",
+    label: "A",
+  },
+  {
+    value: "B",
+    label: "B",
+  },
+  {
+    value: "AB",
+    label: "AB",
+  },
+  {
+    value: "O",
+    label: "O",
+  },
+  {
+    value: "A+",
+    label: "A+",
+  },
+  {
+    value: "A-",
+    label: "A-",
+  },
+  {
+    value: "B+",
+    label: "B+",
+  },
+  {
+    value: "B-",
+    label: "B-",
+  },
+  {
+    value: "AB+",
+    label: "AB+",
+  },
+  {
+    value: "AB-",
+    label: "AB-",
+  },
+  {
+    value: "O+",
+    label: "O+",
+  },
+  {
+    value: "O-",
+    label: "O-",
+  },
+  {
+    value: "hr+",
+    label: "hr+",
+  },
+  {
+    value: "hr-",
+    label: "hr-",
+  },
+]}
                       placeholder={"Vui lòng chọn nhóm máu"}
                       {...register("medicalRecord.bloodType")}
                       required

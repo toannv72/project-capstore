@@ -322,6 +322,7 @@ export default function DetailElderPage() {
                         <ComInput
                           type="text"
                           label={"Nhóm máu"}
+showSearch
                           placeholder={"Vui lòng nhập Nhóm máu"}
                           readOnly
                           {...register("medicalRecord.bloodType")}

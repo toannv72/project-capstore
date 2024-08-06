@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
+
 function ComModal({ isOpen, onClose, children, title, width }) {
+  const [key, setKey] = useState(0);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setKey((prevKey) => prevKey + 1);
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       title={title}
@@ -9,7 +18,7 @@ function ComModal({ isOpen, onClose, children, title, width }) {
       onCancel={onClose}
       footer={null}
     >
-      <div className="">{children}</div>
+      <div key={key}>{children}</div>
     </Modal>
   );
 }
