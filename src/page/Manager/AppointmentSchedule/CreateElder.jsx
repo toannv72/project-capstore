@@ -247,6 +247,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
     setDisabled(true);
     if (change !== null) {
       if (!image) {
+         setDisabled(false);
         return notificationApi(
           "error",
           "Vui lòng chọn ảnh",

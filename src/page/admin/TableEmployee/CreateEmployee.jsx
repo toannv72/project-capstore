@@ -121,7 +121,8 @@ const CreateProductMessenger = yup.object({
   const onSubmit = (data) => {
 setDisabled(true);
     if (!image) {
-      console.log(123);setDisabled(true);
+      console.log(123);
+      setDisabled(false);
       return notificationApi(
         "error",
         "Vui lòng chọn ảnh",

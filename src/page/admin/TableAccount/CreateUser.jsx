@@ -125,7 +125,7 @@ export default function CreateUser({ onClose, tableRef }) {
   const onSubmit = (data) => {
     setDisabled(true);
     if (!image) {
-      console.log(123);
+       setDisabled(false);
       return notificationApi(
         "error",
         "Vui lòng chọn ảnh",
