@@ -13,6 +13,7 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import {
   DateOfBirth,
+  DateOfBirthElder,
   DateOfContract,
   DateOfLastDay,
 } from "../../../Components/ComDateDisabled/DateOfBirth";
@@ -452,7 +453,7 @@ export default function CreateElder({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComDatePicker
                       type="numbers"
-                      disabledDate={DateOfBirth}
+                      disabledDate={DateOfBirthElder}
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
@@ -738,7 +739,7 @@ export default function CreateElder({ onClose, tableRef }) {
                       size={"large"}
                       type="text"
                       label={"Nhóm máu"}
-showSearch
+                      showSearch
                       style={{
                         width: "100%",
                       }}
@@ -755,67 +756,67 @@ showSearch
                       }}
                       mode="default"
                       options={[
-  {
-    value: "Chưa có",
-    label: "Chưa có",
-  },
-  {
-    value: "A",
-    label: "A",
-  },
-  {
-    value: "B",
-    label: "B",
-  },
-  {
-    value: "AB",
-    label: "AB",
-  },
-  {
-    value: "O",
-    label: "O",
-  },
-  {
-    value: "A+",
-    label: "A+",
-  },
-  {
-    value: "A-",
-    label: "A-",
-  },
-  {
-    value: "B+",
-    label: "B+",
-  },
-  {
-    value: "B-",
-    label: "B-",
-  },
-  {
-    value: "AB+",
-    label: "AB+",
-  },
-  {
-    value: "AB-",
-    label: "AB-",
-  },
-  {
-    value: "O+",
-    label: "O+",
-  },
-  {
-    value: "O-",
-    label: "O-",
-  },
-  {
-    value: "hr+",
-    label: "hr+",
-  },
-  {
-    value: "hr-",
-    label: "hr-",
-  },
-]}
+                        {
+                          value: "Chưa có",
+                          label: "Chưa có",
+                        },
+                        {
+                          value: "A",
+                          label: "A",
+                        },
+                        {
+                          value: "B",
+                          label: "B",
+                        },
+                        {
+                          value: "AB",
+                          label: "AB",
+                        },
+                        {
+                          value: "O",
+                          label: "O",
+                        },
+                        {
+                          value: "A+",
+                          label: "A+",
+                        },
+                        {
+                          value: "A-",
+                          label: "A-",
+                        },
+                        {
+                          value: "B+",
+                          label: "B+",
+                        },
+                        {
+                          value: "B-",
+                          label: "B-",
+                        },
+                        {
+                          value: "AB+",
+                          label: "AB+",
+                        },
+                        {
+                          value: "AB-",
+                          label: "AB-",
+                        },
+                        {
+                          value: "O+",
+                          label: "O+",
+                        },
+                        {
+                          value: "O-",
+                          label: "O-",
+                        },
+                        {
+                          value: "hr+",
+                          label: "hr+",
+                        },
+                        {
+                          value: "hr-",
+                          label: "hr-",
+                        },
+                      ]}
                       placeholder={"Vui lòng chọn nhóm máu"}
                       {...register("medicalRecord.bloodType")}
                       required

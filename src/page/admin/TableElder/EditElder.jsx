@@ -16,7 +16,7 @@ import {
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComSelect from "../../../Components/ComInput/ComSelect";
-import { DateOfBirth } from "../../../Components/ComDateDisabled/DateOfBirth";
+import { DateOfBirth, DateOfBirthElder } from "../../../Components/ComDateDisabled/DateOfBirth";
 import { getData, putData } from "../../../api/api";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
@@ -275,7 +275,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComDatePicker
                       type="numbers"
-                      disabledDate={DateOfBirth}
+                      disabledDate={DateOfBirthElder}
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
@@ -383,7 +383,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       size={"large"}
                       type="text"
                       label={"Nhóm máu"}
-showSearch
+                      showSearch
                       style={{
                         width: "100%",
                       }}
@@ -400,67 +400,67 @@ showSearch
                       }}
                       mode="default"
                       options={[
-  {
-    value: "Chưa có",
-    label: "Chưa có",
-  },
-  {
-    value: "A",
-    label: "A",
-  },
-  {
-    value: "B",
-    label: "B",
-  },
-  {
-    value: "AB",
-    label: "AB",
-  },
-  {
-    value: "O",
-    label: "O",
-  },
-  {
-    value: "A+",
-    label: "A+",
-  },
-  {
-    value: "A-",
-    label: "A-",
-  },
-  {
-    value: "B+",
-    label: "B+",
-  },
-  {
-    value: "B-",
-    label: "B-",
-  },
-  {
-    value: "AB+",
-    label: "AB+",
-  },
-  {
-    value: "AB-",
-    label: "AB-",
-  },
-  {
-    value: "O+",
-    label: "O+",
-  },
-  {
-    value: "O-",
-    label: "O-",
-  },
-  {
-    value: "hr+",
-    label: "hr+",
-  },
-  {
-    value: "hr-",
-    label: "hr-",
-  },
-]}
+                        {
+                          value: "Chưa có",
+                          label: "Chưa có",
+                        },
+                        {
+                          value: "A",
+                          label: "A",
+                        },
+                        {
+                          value: "B",
+                          label: "B",
+                        },
+                        {
+                          value: "AB",
+                          label: "AB",
+                        },
+                        {
+                          value: "O",
+                          label: "O",
+                        },
+                        {
+                          value: "A+",
+                          label: "A+",
+                        },
+                        {
+                          value: "A-",
+                          label: "A-",
+                        },
+                        {
+                          value: "B+",
+                          label: "B+",
+                        },
+                        {
+                          value: "B-",
+                          label: "B-",
+                        },
+                        {
+                          value: "AB+",
+                          label: "AB+",
+                        },
+                        {
+                          value: "AB-",
+                          label: "AB-",
+                        },
+                        {
+                          value: "O+",
+                          label: "O+",
+                        },
+                        {
+                          value: "O-",
+                          label: "O-",
+                        },
+                        {
+                          value: "hr+",
+                          label: "hr+",
+                        },
+                        {
+                          value: "hr-",
+                          label: "hr-",
+                        },
+                      ]}
                       placeholder={"Vui lòng chọn nhóm máu"}
                       {...register("medicalRecord.bloodType")}
                       required

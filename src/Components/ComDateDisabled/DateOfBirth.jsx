@@ -9,6 +9,14 @@ export const DateOfBirth = (current) => {
 
   return current && (current < minDate || current > maxDate);
 };
+export const DateOfBirthElder = (current) => {
+  const minAge = 50;
+  const maxAge = 100;
+  const minDate = moment().subtract(maxAge, "years");
+  const maxDate = moment().subtract(minAge, "years");
+
+  return current && (current < minDate || current > maxDate);
+};
 export const DateOfLastDay = (current) => {
   const maxYearsPast = 80;
   const minDate = moment().subtract(maxYearsPast, "years");
