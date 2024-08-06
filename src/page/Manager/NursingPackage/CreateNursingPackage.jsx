@@ -179,7 +179,7 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"Miêu tả"}
+                      placeholder={"Vui lòng chi tiết gói"}
                       {...register("description")}
                       required
                     />

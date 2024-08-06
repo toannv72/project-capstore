@@ -317,7 +317,7 @@ export default function EditOneTime({ onClose, dataValue }) {
                       type="text"
                       rows={5}
                       label={"Chi tiết gói "}
-                      placeholder={"Miêu tả"}
+                      placeholder={"Vui lòng nhập chi tiết "}
                       {...register("description")}
                       required
                     />
