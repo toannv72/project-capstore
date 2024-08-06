@@ -121,6 +121,7 @@ export default function CreateAnyDay({ onClose }) {
             });
         });
       } else {
+         setDisabled(false);
         notificationApi(
           "error",
           "Chọn ảnh gói dưỡng lão",

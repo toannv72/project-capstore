@@ -135,6 +135,7 @@ setDisabled(true);
        
         });
       } else {
+         setDisabled(false);
         notificationApi(
           "error",
           "Chọn ảnh gói dưỡng lão",

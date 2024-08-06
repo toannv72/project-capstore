@@ -255,6 +255,7 @@ export default function CreateElder({ onClose, tableRef, userID, update }) {
         );
       }
       if (Array.isArray(image1) && image1.length === 0) {
+         setDisabled(false);
         notificationApi(
           "error",
           "Vui lòng chọn ảnh",
