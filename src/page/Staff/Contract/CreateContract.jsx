@@ -79,7 +79,7 @@ export default function CreateContract({ onClose, tableRef }) {
   const disabledDateStart = (current) => {
     const oneMonths = moment().add(0, "months");
 
-    const tenYearsLater = moment().add(10, "years");
+    const tenYearsLater = moment().add(1, "months");
     const startDate = watch("signingDate");
     const fixedFutureDate = startDate
       ? moment(startDate).add(0, "months")
