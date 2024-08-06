@@ -142,7 +142,7 @@ const ChartOne = () => {
 
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-7">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default     sm:px-7.5 xl:col-span-7">
       <p className="text-xl font-semibold text-black ">
         Thống kê số lượng đăng ký dịch vụ
       </p>
@@ -161,14 +161,14 @@ const ChartOne = () => {
             </div>
           </div>
         </div>
-        <div className="inline-flex items-center rounded-md bg-[#F5F7FD] p-1.5 dark:bg-[#313D4A]">
-          <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-[0px_1px_3px_rgba(0,0,0,0.12)] hover:bg-white dark:bg-[#24303F] dark:text-white dark:hover:bg-[#24303F]">
+        <div className="inline-flex items-center rounded-md bg-[#F5F7FD] p-1.5  ">
+          <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-[0px_1px_3px_rgba(0,0,0,0.12)] hover:bg-white    ">
             Day
           </button>
-          <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-[0px_1px_3px_rgba(0,0,0,0.12)] dark:text-white dark:hover:bg-[#24303F]">
+          <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-[0px_1px_3px_rgba(0,0,0,0.12)]  ">
             Week
           </button>
-          <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-[0px_1px_3px_rgba(0,0,0,0.12)] dark:text-white dark:hover:bg-[#24303F]">
+          <button className="rounded py-1 px-3 text-xs font-medium text-black hover:bg-white hover:shadow-[0px_1px_3px_rgba(0,0,0,0.12)]  ">
             Month
           </button>
         </div>

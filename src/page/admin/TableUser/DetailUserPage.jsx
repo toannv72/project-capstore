@@ -55,10 +55,10 @@ export default function DetailUserPage() {
   }
   return (
     <>
-      <div className="grid px-4 pt-6 grid-cols-3 xl:gap-4 dark:bg-gray-900">
+      <div className="grid px-4 pt-6 grid-cols-3 xl:gap-4  ">
         <div className=" col-span-3  ">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white p-3">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
+            <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
               Thông tin người dùng
             </h3>
             <div class=" gap-4  flex max-sm:flex-col items-start">
@@ -143,16 +143,16 @@ export default function DetailUserPage() {
         </div>
 
         <div className=" col-span-3  ">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white p-3">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
+            <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
               Danh sách hợp đồng
             </h3>
             <TableContract idUser={id} />
           </div>
         </div>
         <div className=" col-span-3  ">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white p-3">
+          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
+            <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
               Thông tin người cao tuổi đại diện
             </h3>
             <Tables idUser={id} />

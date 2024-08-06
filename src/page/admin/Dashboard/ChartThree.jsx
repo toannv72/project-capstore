@@ -101,10 +101,10 @@ const ChartThree= () => {
  };
 
   return (
-    <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-5">
+    <div className="sm:px-7.5 col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default     xl:col-span-5">
       <div className="mb-3 justify-between gap-4 sm:flex">
         <div>
-          <h5 className="text-xl font-semibold text-black dark:text-white">
+          <h5 className="text-xl font-semibold text-black  ">
             Thống kê số tiền gói dịch vụ qua từng năm
           </h5>
         </div>
@@ -115,10 +115,10 @@ const ChartThree= () => {
               id=""
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
-              <option value="" className="dark:bg-boxdark">
+              <option value="" className=" ">
                 Monthly
               </option>
-              <option value="" className="dark:bg-boxdark">
+              <option value="" className=" ">
                 Yearly
               </option>
             </select>
@@ -160,7 +160,7 @@ const ChartThree= () => {
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+            <p className="flex w-full justify-between text-sm font-medium text-black  ">
               <span> Desktop </span>
               <span> 65% </span>
             </p>
@@ -169,7 +169,7 @@ const ChartThree= () => {
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+            <p className="flex w-full justify-between text-sm font-medium text-black  ">
               <span> Tablet </span>
               <span> 34% </span>
             </p>
@@ -178,7 +178,7 @@ const ChartThree= () => {
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+            <p className="flex w-full justify-between text-sm font-medium text-black  ">
               <span> Mobile </span>
               <span> 45% </span>
             </p>
@@ -187,7 +187,7 @@ const ChartThree= () => {
         <div className="sm:w-1/2 w-full px-8">
           <div className="flex w-full items-center">
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
-            <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+            <p className="flex w-full justify-between text-sm font-medium text-black  ">
               <span> Unknown </span>
               <span> 12% </span>
             </p>
