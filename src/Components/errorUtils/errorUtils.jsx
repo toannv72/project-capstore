@@ -50,6 +50,16 @@ export const handleErrors = (error, setError, setFocus) => {
       field: "name",
       message: "Phòng trống không được đặt lịch",
     },
+    621: {
+      field: "capacity",
+      message:
+        "Đã có người sửa dụng nên không thể thay đổi số người trong phòng",
+    },
+    622: {
+      field: "numberOfNurses",
+      message:
+        "Đã có người sửa dụng nên không thể thay đổi số lượng điều dưỡng ",
+    },
   };
 
   const status = error?.response?.data?.status || error?.data?.status;

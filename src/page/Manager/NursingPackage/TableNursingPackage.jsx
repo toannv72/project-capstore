@@ -10,6 +10,9 @@ import { useTableState } from "../../../hooks/useTableState";
 import { useModalState } from "../../../hooks/useModalState";
 import EditNursingPackage from "./EditNursingPackage";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
+import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/ComConfirmDeleteModal";
+import { useNotification } from "../../../Notification/Notification";
+
 export const TableNursingPackage = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
@@ -17,6 +20,7 @@ export const TableNursingPackage = forwardRef((props, ref) => {
   const modal = useModalState();
   const { getColumnSearchProps, getColumnPriceRangeProps } = useColumnSearch();
   const modalEdit = useModalState();
+  const { notificationApi } = useNotification();
 
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
@@ -114,20 +118,37 @@ console.log(data);
             // showModalDetails={() => showModaldElder(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["delete", "details"]}
+            showModalDelete={() => {
+              ComConfirmDeleteModal(
+                `/nursing-package`,
+                record.id,
+                `Bạn có chắc chắn muốn xóa?`,
+                reloadData,
+                notificationSuccess,
+                notificationError,
+                "put"
+              );
+            }}
+            excludeDefaultItems={["details"]}
             // order={order}
           />
         </div>
       ),
     },
   ];
+   const notificationSuccess = () => {
+     notificationApi("success", "Đã xóa", "Đã xóa dịch vụ không thành công!");
+   };
+   const notificationError = () => {
+     notificationApi("error", "Không thành công ", "Không thành công");
+   };
   const showModalEdit = (record) => {
     modalEdit.handleOpen();
     setSelectedData(record);
   };
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/nursing-package?SortDir=Desc")
+    getData("/nursing-package?State=Active&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();

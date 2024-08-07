@@ -11,6 +11,7 @@ import { putData } from "../../../api/api";
 import { firebaseImg } from "../../../upImgFirebase/firebaseImg";
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
+import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 
 export default function EditNursingPackage({
   selectedData,
@@ -121,6 +122,7 @@ export default function EditNursingPackage({
             .catch((error) => {
               console.log(error);
               setDisabled(false);
+              handleErrors(error, setError, setFocus);
               notificationApi(
                 "error",
                 "Cập nhật không thành công",
@@ -129,7 +131,7 @@ export default function EditNursingPackage({
             });
         }
 
-        onClose();
+        
       });
     } else {
       setDisabled(false);

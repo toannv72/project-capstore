@@ -89,6 +89,14 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
             .catch((error) => {
               console.log(error);
               handleErrors(error, setError, setFocus);
+
+             if (error.status === 409) {
+               setError("name", {
+                 message: "Đã có tên gói dưỡng lão này!",
+               });
+               setFocus("name");
+             }
+
               setDisabled(false);
               notificationApi(
                 "error",
