@@ -16,7 +16,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import DetailBill from "./DetailBill";
 import EditBill from "./EditBill";
 import DetailUser from "../../admin/TableUser/DetailUser";
-import ComBillStatusConverter from './../../../Components/ComStatusConverter/ComBillStatusConverter';
+import ComBillStatusConverter from "./../../../Components/ComStatusConverter/ComBillStatusConverter";
 
 export const TableBills = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -106,7 +106,7 @@ export const TableBills = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Thanh toán bằng ",
+      title: "Thanh toán bằng",
       width: 100,
       dataIndex: "method",
       key: "method",
@@ -120,7 +120,13 @@ export const TableBills = forwardRef((props, ref) => {
       // ...getColumnSearchProps("method", "Thanh toán bằng"),
       render: (_, record) => (
         <div>
-          <h1>{record.method === "Cash" ? "Tiền mặt" : record.method}</h1>
+          <h1>
+            {record.method === "Cash"
+              ? "Tiền mặt"
+              : record.method === "None"
+              ? "Chưa thanh toán"
+              : record.method}
+          </h1>
         </div>
       ),
     },
@@ -164,6 +170,12 @@ export const TableBills = forwardRef((props, ref) => {
       width: 100,
       dataIndex: "notes",
       key: "notes",
+      render: (notes) => {
+        if (!notes || notes.toLowerCase() === "none") {
+          return "Không có";
+        }
+        return notes;
+      },
     },
     {
       title: "Thời gian thanh toán",
@@ -172,13 +184,16 @@ export const TableBills = forwardRef((props, ref) => {
       key: "paymentDate",
       sorter: (a, b) => new Date(a.paymentDate) - new Date(b.paymentDate),
       ...getColumnApprox("paymentDate", "Thời gian thanh toán"),
-      render: (data) => (
+      render: (paymentDate, record) => (
         <div>
-          <ComDateConverter>{data}</ComDateConverter>
+          {record.status === "Paid" ? (
+            <ComDateConverter>{paymentDate}</ComDateConverter>
+          ) : (
+            <span>Chưa thanh toán</span>
+          )}
         </div>
       ),
     },
-
     {
       title: "Địa chỉ",
       width: 100,

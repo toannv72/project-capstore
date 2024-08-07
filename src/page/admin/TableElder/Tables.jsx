@@ -21,7 +21,7 @@ import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/C
 import useRolePermission from "../../../hooks/useRolePermission";
 
 export const Tables = forwardRef((props, ref) => {
-   const { idUser } = props;
+  const { idUser } = props;
   const [data, setData] = useState([]);
   const {
     getColumnSearchProps,
@@ -36,7 +36,7 @@ export const Tables = forwardRef((props, ref) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
   const hasPermission = useRolePermission(["admin", "staff"]);
-console.log(data);
+  console.log(data);
 
   useEffect(() => {
     reloadData();
@@ -49,7 +49,7 @@ console.log(data);
       ? `/elders?UserId=${idUser}&SortDir=Desc`
       : `/elders?SortDir=Desc`;
     console.log(urlApi);
-    
+
     getData(urlApi)
       .then((e) => {
         setData(e?.data?.contends);
@@ -154,13 +154,13 @@ console.log(data);
       ),
     },
     {
-      title: "CMND hoặc CCCD",
+      title: "CMND/CCCD",
       width: 150,
       dataIndex: "cccd",
       key: "cccd",
       sorter: (a, b) => a.cccd - b.cccd,
 
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -348,7 +348,7 @@ console.log(data);
       >
         <DetailElder
           selectedData={selectedElder}
-          isOpenEdit={hasPermission?modalEdit.handleOpen:false}
+          isOpenEdit={hasPermission ? modalEdit.handleOpen : false}
           onClose={modalDetailElder?.handleClose}
         />
       </ComModal>

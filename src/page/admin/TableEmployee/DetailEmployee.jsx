@@ -81,7 +81,7 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                CCCD or CMND:
+                CMND/CCCD:
               </td>
               <td className="px-4 py-2">
                 <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
@@ -97,9 +97,7 @@ export default function DetailEmployee({ selectedData, isOpenEdit, onClose }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Gmail:</td>
-              <td className="px-4 py-2">
-                {data?.email}
-              </td>
+              <td className="px-4 py-2">{data?.email}</td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>

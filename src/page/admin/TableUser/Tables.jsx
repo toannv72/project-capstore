@@ -32,8 +32,7 @@ export const Tables = forwardRef((props, ref) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
 
-    const hasPermission = useRolePermission(["admin", "staff"]);
-
+  const hasPermission = useRolePermission(["admin", "staff"]);
 
   useEffect(() => {
     reloadData();
@@ -121,9 +120,7 @@ export const Tables = forwardRef((props, ref) => {
               showModalEdit={showModalEdit}
               // extraMenuItems={extraMenuItems}
               // excludeDefaultItems={["delete", "edit"]}
-              excludeDefaultItems={
-               ["delete", "edit"]
-              }
+              excludeDefaultItems={["delete", "edit"]}
               // order={order}
             />
           </div>
@@ -226,12 +223,12 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND hoặc CCCD",
+      title: "CMND/CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
       sorter: (a, b) => a.cccd - b.cccd,
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -268,7 +265,9 @@ export const Tables = forwardRef((props, ref) => {
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
             // extraMenuItems={extraMenuItems}
-            excludeDefaultItems={hasPermission ? ["delete"] : ["delete", "edit"]}
+            excludeDefaultItems={
+              hasPermission ? ["delete"] : ["delete", "edit"]
+            }
             // order={order}
           />
         </div>

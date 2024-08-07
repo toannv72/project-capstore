@@ -45,14 +45,13 @@ export const Tables = forwardRef((props, ref) => {
 
   console.log(data);
   const reloadData = () => {
-
     const link =
       getRoleFromPath(location.pathname) !== "manager"
         ? `RoleNames=Staff&RoleNames=Nurse&RoleNames=Manager&SortDir=Desc`
         : `RoleNames=Staff&RoleNames=Nurse&SortDir=Desc`;
-console.log('====================================');
-console.log(link);
-console.log('====================================');
+    console.log("====================================");
+    console.log(link);
+    console.log("====================================");
     getData(`/users?${link}`)
       .then((e) => {
         setData(e?.data?.contends);
@@ -176,12 +175,12 @@ console.log('====================================');
       ),
     },
     {
-      title: "CMND hoặc CCCD",
+      title: "CMND/CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
       sorter: (a, b) => a.cccd - b.cccd,
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>

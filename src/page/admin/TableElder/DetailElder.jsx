@@ -64,9 +64,11 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Loại phòng:
+                Gói dưỡng lão:
               </td>
-              <td className="px-4 py-2">{data.room?.type}</td>
+              <td className="px-4 py-2">
+                {data.contractsInUse?.nursingPackage?.name}
+              </td>
             </tr>
 
             <tr className="border-b">

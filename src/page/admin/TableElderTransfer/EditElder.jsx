@@ -48,7 +48,6 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
 
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
-
   });
 
   useEffect(() => {
@@ -230,8 +229,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

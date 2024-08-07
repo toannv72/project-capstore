@@ -41,11 +41,8 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
     //   .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
     cccd: yup
       .string()
-      .matches(
-        cccdRegex,
-        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
-      )
-      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+      .matches(cccdRegex, "Vui lòng nhập đúng số CMND/CCCD (9 hoặc 12 chữ số)")
+      .required("Vui lòng nhập đủ số CMND/CCCD"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -70,7 +67,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       setDisabled(true);
@@ -102,12 +99,13 @@ setDisabled(true);
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();setDisabled(false);
+            onClose();
+            setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
-            handleErrors(error, setError, setFocus);setDisabled(false);
-            
+            handleErrors(error, setError, setFocus);
+            setDisabled(false);
           });
       }
     });
@@ -167,8 +165,8 @@ setDisabled(true);
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

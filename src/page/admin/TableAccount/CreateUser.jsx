@@ -71,11 +71,8 @@ export default function CreateUser({ onClose, tableRef }) {
       .matches(phoneNumberRegex, "Vui lòng nhập số điện thoại hợp lệ"),
     cccd: yup
       .string()
-      .matches(
-        cccdRegex,
-        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
-      )
-      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+      .matches(cccdRegex, "Vui lòng nhập đúng số CMND/CCCD (9 hoặc 12 chữ số)")
+      .required("Vui lòng nhập đủ số CMND/CCCD"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -125,7 +122,7 @@ export default function CreateUser({ onClose, tableRef }) {
   const onSubmit = (data) => {
     setDisabled(true);
     if (!image) {
-       setDisabled(false);
+      setDisabled(false);
       return notificationApi(
         "error",
         "Vui lòng chọn ảnh",
@@ -252,8 +249,8 @@ export default function CreateUser({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

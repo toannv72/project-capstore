@@ -124,8 +124,8 @@ export default function EditDaily({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "tạo thành công",
-                "đã tạo gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
               setDisabled(false);
               onClose();
@@ -135,8 +135,8 @@ export default function EditDaily({ onClose, dataValue }) {
               console.log(error);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         });
@@ -158,8 +158,8 @@ export default function EditDaily({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "tạo thành công",
-                "đã tạo gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
               setDisabled(false);
               onClose();
@@ -169,8 +169,8 @@ export default function EditDaily({ onClose, dataValue }) {
               console.log(error);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         });
@@ -258,6 +258,7 @@ export default function EditDaily({ onClose, dataValue }) {
                               )
                             }
                             className="text-blue-600"
+                            disabled
                           >
                             {String(day + 1).padStart(2, "0")}
                           </Checkbox>
@@ -271,7 +272,7 @@ export default function EditDaily({ onClose, dataValue }) {
                     <ComTextArea
                       type="text"
                       rows={5}
-                      label={"Chi tiết gói "}
+                      label={"Chi tiết gói"}
                       placeholder={"Vui lòng nhập chi tiết "}
                       {...register("description")}
                       required

@@ -21,7 +21,7 @@ import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/C
 import useRolePermission from "../../../hooks/useRolePermission";
 
 export const Tables = forwardRef((props, ref) => {
-   const { idUser } = props;
+  const { idUser } = props;
   const [data, setData] = useState([]);
   const {
     getColumnSearchProps,
@@ -48,7 +48,7 @@ export const Tables = forwardRef((props, ref) => {
       ? `/elders?UserId=${idUser}&SortDir=Desc`
       : `/elders?IsRoomTransfer=true&SortDir=Desc`;
     console.log(urlApi);
-    
+
     getData(urlApi)
       .then((e) => {
         setData(e?.data?.contends);
@@ -153,13 +153,13 @@ export const Tables = forwardRef((props, ref) => {
     //   ),
     // },
     // {
-    //   title: "CMND hoặc CCCD",
+    //   title: "CMND/CCCD",
     //   width: 150,
     //   dataIndex: "cccd",
     //   key: "cccd",
     //   sorter: (a, b) => a.cccd - b.cccd,
 
-    //   ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+    //   ...getColumnSearchProps("cccd", "CMND/CCCD"),
     //   render: (cccd) => (
     //     <div>
     //       <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
@@ -225,7 +225,9 @@ export const Tables = forwardRef((props, ref) => {
       // ...getColumnSearchProps("room.name", "Phòng hiện tại"),
       ...getColumnFilterProps("room.name", "Phòng hiện tại", uniqueRoomValues),
 
-      render: (_, render) => <div className="text-red-600">{render?.room?.name}</div>,
+      render: (_, render) => (
+        <div className="text-red-600">{render?.room?.name}</div>
+      ),
     },
     {
       title: "Loại gói dưỡng lão",
@@ -347,7 +349,7 @@ export const Tables = forwardRef((props, ref) => {
       >
         <DetailElder
           selectedData={selectedElder}
-          isOpenEdit={hasPermission?modalEdit.handleOpen:false}
+          isOpenEdit={hasPermission ? modalEdit.handleOpen : false}
           onClose={modalDetailElder?.handleClose}
         />
       </ComModal>

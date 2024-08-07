@@ -133,7 +133,7 @@ export default function DetailElderPage() {
                   <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  CMND hoặc CCCD:{" "}
+                  CMND/CCCD:{" "}
                   <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
@@ -144,7 +144,7 @@ export default function DetailElderPage() {
                   Phòng: {data?.room?.name}
                 </div>
                 <div class="mb-4 text-sm text-gray-500  ">
-                  Gói đăng ký: {data?.room?.type}
+                  Gói dưỡng lão: {data?.contractsInUse?.nursingPackage?.name}
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function DetailElderPage() {
                   </ComPhoneConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  CMND hoặc CCCD:{" "}
+                  CMND/CCCD:{" "}
                   <ComCccdOrCmndConverter>
                     {data?.user?.cccd}
                   </ComCccdOrCmndConverter>

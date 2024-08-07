@@ -175,11 +175,11 @@ export default function CreateContract({ onClose, tableRef }) {
           setValue("images", convertUrlsToObjects(dataImg1));
           const datapost = {
             ...data,
-            price:change,
+            price: change,
             images: convertUrlsToObjects(dataImg1),
           };
-          console.log(11,datapost);
-          
+          console.log(11, datapost);
+
           postData("/contract", datapost)
             .then((e) => {
               setDisabled(false);
@@ -221,7 +221,7 @@ export default function CreateContract({ onClose, tableRef }) {
   }, []);
 
   const reloadData = () => {
-    getData("/users?SortDir=Desc")
+    getData("/users?RoleName=Customer&SortDir=Desc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,

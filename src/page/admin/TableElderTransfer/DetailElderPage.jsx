@@ -133,7 +133,7 @@ export default function DetailElderPage() {
                   <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  CMND hoặc CCCD:{" "}
+                  CMND/CCCD:{" "}
                   <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
@@ -177,7 +177,7 @@ export default function DetailElderPage() {
                   </ComPhoneConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  CMND hoặc CCCD:{" "}
+                  CMND/CCCD:{" "}
                   <ComCccdOrCmndConverter>
                     {data?.user?.cccd}
                   </ComCccdOrCmndConverter>
@@ -304,9 +304,7 @@ export default function DetailElderPage() {
         </div>
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm    sm:p-6  ">
-            <h3 class="mb-4 text-xl font-semibold  ">
-              Thông tin sức khỏe
-            </h3>
+            <h3 class="mb-4 text-xl font-semibold  ">Thông tin sức khỏe</h3>
             <FormProvider {...methods}>
               <form
                 // onSubmit={handleSubmit(onSubmit)}
@@ -322,7 +320,7 @@ export default function DetailElderPage() {
                         <ComInput
                           type="text"
                           label={"Nhóm máu"}
-showSearch
+                          showSearch
                           placeholder={"Vui lòng nhập Nhóm máu"}
                           readOnly
                           {...register("medicalRecord.bloodType")}

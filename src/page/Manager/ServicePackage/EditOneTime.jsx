@@ -136,8 +136,8 @@ export default function EditOneTime({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "cập nhật thành công",
-                "đã cập nhật gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
               onClose();
               setDisabled(false);
@@ -148,8 +148,8 @@ export default function EditOneTime({ onClose, dataValue }) {
               setDisabled(false);
               notificationApi(
                 "error",
-                "cập nhật không thành công",
-                "cập nhật gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
               onClose();
             });
@@ -167,8 +167,8 @@ export default function EditOneTime({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "cập nhật thành công",
-                "đã cập nhật gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
               setDisabled(false);
               onClose();
@@ -178,8 +178,8 @@ export default function EditOneTime({ onClose, dataValue }) {
               console.log(error);
               notificationApi(
                 "error",
-                "cập nhật không thành công",
-                "cập nhật gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
           onClose();

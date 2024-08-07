@@ -94,9 +94,7 @@ export default function DetailUserPage() {
                       Giới tính:
                     </td>
                     <td className="px-4 py-2">
-                      <ComGenderConverter>
-                        {data?.gender}
-                      </ComGenderConverter>
+                      <ComGenderConverter>{data?.gender}</ComGenderConverter>
                     </td>
                   </tr>
                   <tr className="border-b">
@@ -104,14 +102,12 @@ export default function DetailUserPage() {
                       Số điện thoại:
                     </td>
                     <td className="px-4 py-2">
-                      <ComPhoneConverter>
-                        {data?.phoneNumber}
-                      </ComPhoneConverter>
+                      <ComPhoneConverter>{data?.phoneNumber}</ComPhoneConverter>
                     </td>
                   </tr>
                   <tr className="border-b">
                     <td className="px-4 py-2 text-gray-600 font-medium">
-                      CCCD or CMND:
+                      CMND/CCCD:
                     </td>
                     <td className="px-4 py-2">
                       <ComCccdOrCmndConverter>
@@ -124,9 +120,7 @@ export default function DetailUserPage() {
                       Ngày sinh:
                     </td>
                     <td className="px-4 py-2">
-                      <ComDateConverter>
-                        {data?.dateOfBirth}
-                      </ComDateConverter>
+                      <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                     </td>
                   </tr>
                   <tr className="border-b">

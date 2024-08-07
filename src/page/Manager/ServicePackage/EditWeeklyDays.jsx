@@ -34,8 +34,8 @@ export default function EditWeeklyDays({ onClose, dataValue }) {
   const [selectedDays, setSelectedDays] = useState([]);
   const [mony, setMony] = useState(dataValue.price);
   console.log(selectedDays);
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên dịch vụ"),
     price: yup
       .string()
@@ -93,7 +93,7 @@ const CreateProductMessenger = yup.object({
     );
   };
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     const change = MonyNumber(
       data.price,
       (message) => setError("price", { message }), // Đặt lỗi nếu có
@@ -118,51 +118,55 @@ setDisabled(true);
             .then((e) => {
               notificationApi(
                 "success",
-                "tạo thành công",
-                "đã tạo gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
-              onClose();setDisabled(false);
+              onClose();
+              setDisabled(false);
             })
             .catch((error) => {
-              console.log(error);setDisabled(false);
+              console.log(error);
+              setDisabled(false);
               notificationApi(
                 "error",
-                "tạo không thành công",
-                "tạo gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         });
       } else {
-          firebaseImg(image).then((dataImg) => {
-            const servicePackageDates = selectedDays.map((day) => ({
-              dayOfWeek: day,
-            }));
-            const dataPost = {
-              ...data,
-              imageUrl: dataValue.imageUrl,
-              price: change,
-              type: "WeeklyDays",
-              servicePackageDates,
-            };
-            console.log(1111, dataPost);
-            putData(`/service-package`, dataValue.id, dataPost)
-              .then((e) => {
-                notificationApi(
-                  "success",
-                  "tạo thành công",
-                  "đã tạo gói dịch vụ thành công!"
-                );
-                onClose();setDisabled(false);
-              })
-              .catch((error) => {
-                console.log(error);setDisabled(false);
-                notificationApi(
-                  "error",
-                  "tạo không thành công",
-                  "tạo gói dịch vụ không thành công!"
-                );
-              });
-          });
+        firebaseImg(image).then((dataImg) => {
+          const servicePackageDates = selectedDays.map((day) => ({
+            dayOfWeek: day,
+          }));
+          const dataPost = {
+            ...data,
+            imageUrl: dataValue.imageUrl,
+            price: change,
+            type: "WeeklyDays",
+            servicePackageDates,
+          };
+          console.log(1111, dataPost);
+          putData(`/service-package`, dataValue.id, dataPost)
+            .then((e) => {
+              notificationApi(
+                "success",
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
+              );
+              onClose();
+              setDisabled(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              setDisabled(false);
+              notificationApi(
+                "error",
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
+              );
+            });
+        });
       }
     } else {
       setDisabled(false);
@@ -170,10 +174,10 @@ setDisabled(true);
   };
   useEffect(() => {
     setMony(dataValue.price);
-       const daysArray = dataValue?.servicePackageDates?.map((item) =>
-         item?.dayOfWeek?.toString()
-       );
-       setSelectedDays(daysArray);
+    const daysArray = dataValue?.servicePackageDates?.map((item) =>
+      item?.dayOfWeek?.toString()
+    );
+    setSelectedDays(daysArray);
   }, [dataValue]);
   return (
     <div>
@@ -247,6 +251,7 @@ setDisabled(true);
                             checked={selectedDays.includes(day.dayOfWeek)}
                             onChange={() => handleCheckboxChange(day.dayOfWeek)}
                             className="text-blue-600"
+                            disabled
                           >
                             {day.vi}
                           </Checkbox>

@@ -243,12 +243,12 @@ export const Tables = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "CMND hoặc CCCD",
+      title: "CMND/CCCD",
       width: 100,
       dataIndex: "cccd",
       key: "cccd",
       sorter: (a, b) => a.cccd - b.cccd,
-      ...getColumnSearchProps("cccd", "CMND hoặc CCCD"),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
       render: (cccd) => (
         <div>
           <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>

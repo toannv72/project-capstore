@@ -19,6 +19,11 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
       });
     }
   }
+  const statusMap = {
+    NotPerformed: "Quá ngày thực hiện",
+    InComplete: "Chưa hoàn thành",
+    Complete: "Đã hoàn thành",
+  };
   const ConfirmPay = async (apiPath, id, body, onSuccess, failed) => {
     Modal.confirm({
       title: "Xác nhận Thanh toán",
@@ -46,6 +51,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
   const notificationError = () => {
     notificationApi("error", "Lỗi", "Không thành công!");
   };
+
   return (
     <>
       <div>
@@ -110,7 +116,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
                   ),
                 },
                 {
-                  label: "CCCD or CMND:",
+                  label: "CMND/CCCD:",
                   value: (
                     <ComCccdOrCmndConverter>
                       {selectedData?.user?.cccd}
@@ -144,7 +150,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
           {/* Elder Details */}
           <div className="p-4 bg-white mt-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Người hưởng thụ
+              Người thụ hưởng
             </h2>
             <table className="w-full">
               <tbody>
@@ -166,7 +172,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
                       </ComGenderConverter>
                     ),
                   },
-                  { label: "CCCD:", value: data?.elder?.cccd },
+                  { label: "CMND/CCCD:", value: data?.elder?.cccd },
                   { label: "Địa chỉ:", value: data?.elder?.address },
                   {
                     label: "Hình ảnh:",
@@ -209,7 +215,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
                       <td className="px-4 py-2 text-gray-600 font-medium">
                         Trạng thái:
                       </td>
-                      <td className="px-4 py-2">{orderDate?.status}</td>
+                      <td>{statusMap[orderDate?.status]}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -238,12 +244,15 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
                     //   label: "Mô tả:",
                     //   value: data?.servicePackage?.description,
                     // },
+
                     {
-                      label: "Ngày diễn ra sự kiện:",
-                      value: (
+                      label: "Ngày diễn ra:",
+                      value: data?.servicePackage?.eventDate ? (
                         <ComDateConverter>
                           {data?.servicePackage?.eventDate}
                         </ComDateConverter>
+                      ) : (
+                        "Không có"
                       ),
                     },
 
@@ -271,7 +280,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
           ) : (
             <div className="p-4 bg-white mt-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Gói dưỡng lão 
+                Gói dưỡng lão
               </h2>
               <table className="w-full">
                 <tbody>

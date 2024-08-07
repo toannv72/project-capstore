@@ -60,7 +60,7 @@ export default function DetailUser({ selectedUser, isOpenEdit, onClose }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                CCCD or CMND:
+                CMND/CCCD:
               </td>
               <td className="px-4 py-2">
                 <ComCccdOrCmndConverter>

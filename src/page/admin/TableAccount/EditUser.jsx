@@ -26,8 +26,8 @@ import ComSelect from "../../../Components/ComInput/ComSelect";
 export default function EditUser({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -44,11 +44,8 @@ const CreateProductMessenger = yup.object({
     //   .matches(phoneNumberRegex, "Vui lòng nhập đúng số số điện thoại"),
     cccd: yup
       .string()
-      .matches(
-        cccdRegex,
-        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
-      )
-      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+      .matches(cccdRegex, "Vui lòng nhập đúng số CMND/CCCD (9 hoặc 12 chữ số)")
+      .required("Vui lòng nhập đủ số CMND/CCCD"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -73,10 +70,10 @@ const CreateProductMessenger = yup.object({
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
-      
+
       if (dataImg) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
@@ -84,12 +81,13 @@ setDisabled(true);
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();setDisabled(false);
+            onClose();
+            setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
             handleErrors(error, setError, setFocus);
-setDisabled(false);
+            setDisabled(false);
             if (error.status === 409) {
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
@@ -104,7 +102,8 @@ setDisabled(false);
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
-            onClose();setDisabled(false);
+            onClose();
+            setDisabled(false);
           })
           .catch((error) => {
             console.log(error);
@@ -113,7 +112,8 @@ setDisabled(false);
               setError("phoneNumber", {
                 message: "Đã có số điện thoại này",
               });
-              setFocus("phoneNumber");setDisabled(false);
+              setFocus("phoneNumber");
+              setDisabled(false);
             }
           });
       }
@@ -175,8 +175,8 @@ setDisabled(false);
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

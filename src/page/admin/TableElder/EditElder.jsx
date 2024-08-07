@@ -16,7 +16,10 @@ import {
 import ComUpImgOne from "../../../Components/ComUpImg/ComUpImgOne";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import ComSelect from "../../../Components/ComInput/ComSelect";
-import { DateOfBirth, DateOfBirthElder } from "../../../Components/ComDateDisabled/DateOfBirth";
+import {
+  DateOfBirth,
+  DateOfBirthElder,
+} from "../../../Components/ComDateDisabled/DateOfBirth";
 import { getData, putData } from "../../../api/api";
 import ComNumber from "../../../Components/ComInput/ComNumber";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
@@ -51,11 +54,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
     userId: yup.string().required("Vui lòng chọn người thân"),
     cccd: yup
       .string()
-      .matches(
-        cccdRegex,
-        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
-      )
-      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+      .matches(cccdRegex, "Vui lòng nhập đúng số CMND/CCCD (9 hoặc 12 chữ số)")
+      .required("Vui lòng nhập đủ số CMND/CCCD"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -264,8 +264,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

@@ -106,8 +106,8 @@ export default function EditAnyDay({ onClose, dataValue }) {
             .then((e) => {
               notificationApi(
                 "success",
-                "cập nhật thành công",
-                "đã cập nhật gói dịch vụ thành công!"
+                "Cập nhật thành công",
+                "Cập nhật gói dịch vụ thành công!"
               );
               onClose();
               setDisabled(false);
@@ -118,8 +118,8 @@ export default function EditAnyDay({ onClose, dataValue }) {
               setDisabled(false);
               notificationApi(
                 "error",
-                "cập nhật không thành công",
-                "cập nhật gói dịch vụ không thành công!"
+                "Cập nhật không thành công",
+                "Cập nhật gói dịch vụ không thành công!"
               );
             });
         });
@@ -135,8 +135,8 @@ export default function EditAnyDay({ onClose, dataValue }) {
           .then((e) => {
             notificationApi(
               "success",
-              "cập nhật thành công",
-              "đã cập nhật gói dịch vụ thành công!"
+              "Cập nhật thành công",
+              "Cập nhật gói dịch vụ thành công!"
             );
             onClose();
             setDisabled(false);

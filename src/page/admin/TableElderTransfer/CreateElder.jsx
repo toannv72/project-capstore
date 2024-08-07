@@ -63,11 +63,8 @@ export default function CreateElder({ onClose, tableRef }) {
     time: yup.string(),
     cccd: yup
       .string()
-      .matches(
-        cccdRegex,
-        "Vui lòng nhập đúng số CMND hoặc CCCD (9 hoặc 12 chữ số)"
-      )
-      .required("Vui lòng nhập đủ số CMND hoặc CCCD"),
+      .matches(cccdRegex, "Vui lòng nhập đúng số CMND/CCCD (9 hoặc 12 chữ số)")
+      .required("Vui lòng nhập đủ số CMND/CCCD"),
     address: yup
       .string()
       .matches(addressRegex, "Vui lòng nhập địa chỉ hợp lệ")
@@ -227,7 +224,7 @@ export default function CreateElder({ onClose, tableRef }) {
       () => setFocus("contract.price") // Đặt focus vào trường price nếu có lỗi
     );
     if (change !== null) {
-      setValue("contract.price", (change));
+      setValue("contract.price", change);
       if (!image) {
         setDisabled(false);
         return notificationApi(
@@ -245,10 +242,9 @@ export default function CreateElder({ onClose, tableRef }) {
         );
       } else {
         firebaseImgs(image1).then((dataImg1) => {
-          
           setValue("contract.images", convertUrlsToObjects(dataImg1));
           firebaseImg(image).then((dataImg) => {
-            console.log("tieeng",change);
+            console.log("tieeng", change);
 
             postData("/elders", {
               ...data,
@@ -442,8 +438,8 @@ export default function CreateElder({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />

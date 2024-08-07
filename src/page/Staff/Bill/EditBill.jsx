@@ -24,8 +24,8 @@ import { handleErrors } from "../../../Components/errorUtils/errorUtils";
 export default function EditBill({ selectedUser, onClose, tableRef }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     fullName: yup
       .string()
       .matches(
@@ -71,7 +71,7 @@ const CreateProductMessenger = yup.object({
   const { handleSubmit, register, setFocus, watch, setValue, setError } =
     methods;
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     firebaseImg(image).then((dataImg) => {
       console.log("ảnh nè : ", dataImg);
       if (dataImg) {
@@ -80,8 +80,8 @@ setDisabled(true);
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-        setDisabled(false);
-        tableRef();
+            setDisabled(false);
+            tableRef();
             onClose();
           })
           .catch((e) => {
@@ -97,14 +97,14 @@ setDisabled(true);
           .then((e) => {
             notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
             setTimeout(() => {}, 100);
-        setDisabled(false);
-        tableRef();
+            setDisabled(false);
+            tableRef();
             onClose();
           })
           .catch((e) => {
             console.log(e);
             // set các trường hợp lỗi api
-        setDisabled(false);
+            setDisabled(false);
             handleErrors(e, setError, setFocus);
             notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
           });
@@ -166,8 +166,8 @@ setDisabled(true);
                   <div className="mt-2.5">
                     <ComInput
                       type="numbers"
-                      label={"Số CMND hoặc CCCD "}
-                      placeholder={"Vui lòng nhập số CMND hoặc CCCD "}
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
                       {...register("cccd")}
                       required
                     />
