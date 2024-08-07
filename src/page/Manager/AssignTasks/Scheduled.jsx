@@ -127,7 +127,9 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
           disabled: false,
-          label: `Tên: ${item.fullName} Số Đt: ${item.phoneNumber} CCCD: ${item.cccd}`,
+          label: `Tên: ${item.fullName} 
+          Số Đt: ${item.phoneNumber} 
+          CCCD: ${item.cccd}`,
         }));
         setDataUser(dataForSelect);
       })
@@ -310,6 +312,7 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
                             size={"large"}
                             style={{ width: "100%" }}
                             label="Y tá"
+                            showSearch
                             placeholder="Y tá"
                             onChangeValue={(name, value) => {
                               handleNurseSelect(item.index, value);

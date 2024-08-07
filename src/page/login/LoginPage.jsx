@@ -159,9 +159,9 @@ export default function LoginPage(props) {
                   {...register("password")}
                   required
                 />
-                <ComLink className="text-right">
+                {/* <ComLink className="text-right">
                   {Login.link.forgetPassword}
-                </ComLink>
+                </ComLink> */}
 
                 <FieldError className="text-red-500 text-center">
                   {LoginState || LoginError ? errorMessage : ""}
