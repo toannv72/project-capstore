@@ -250,7 +250,7 @@ export default function EditDaily({ onClose, dataValue }) {
                         <Col span={3} key={day + 1}>
                           <Checkbox
                             checked={selectedDays.includes(
-                              String(day + 1).padStart(2, "0")
+                              String(day + 1)
                             )}
                             onChange={() =>
                               handleCheckboxChange(
