@@ -18,6 +18,7 @@ import ErrorPage from "../../404/ErrorPage";
 import TableContract from "./TableContract";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import { TableHealth } from "../../Manager/Health/TableHealth";
+import DetailElderInformation from "./DetailElder/DetailElderInformation";
 
 export default function DetailElderPage() {
   const { id } = useParams();
@@ -115,6 +116,7 @@ export default function DetailElderPage() {
             </h3>
           </div>
         </div>
+
         <div className="grid grid-cols-2 col-span-3 2xl:col-span-3 gap-4">
           <div class="col-span-2 p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:col-span-1   sm:p-3 ">
             <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
@@ -189,210 +191,9 @@ export default function DetailElderPage() {
             </div>
           </div>
         </div>
-        <div className="col-span-3 2xl:col-span-3">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-6  ">
-            <h3 class="mb-4 text-xl font-semibold  ">
-              Chi tiết hợp đồng đang được sử dụng
-            </h3>
-            <FormProvider {...methods}>
-              <form
-                // onSubmit={handleSubmit(onSubmit)}
-                className="mx-auto mt-2 max-w-xl "
-              >
-                <div className=" p-2">
-                  <div
-                    className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-                    // style={{ height: "65vh" }}
-                  >
-                    <div className="sm:col-span-1">
-                      <ComInput
-                        type="text"
-                        label="Hợp đồng số"
-                        placeholder="Vui lòng nhập số hợp đồng"
-                        readOnly
-                        {...register("contractsInUse.name")}
-                        required
-                      />
-                    </div>
-                    <div className="sm:col-span-1">
-                      <ComDatePicker
-                        label="Ngày ký hợp đồng"
-                        type="numbers"
-                        name={"contractsInUse.signingDate"}
-                        placeholder="Vui lòng nhập ngày ký hợp đồng"
-                        open={false}
-                        inputReadOnly
-                        {...register("contractsInUse.signingDate")}
-                        required
-                      />
-                    </div>
-                    <div className="sm:col-span-1">
-                      <ComDatePicker
-                        label="Ngày bắt đầu hợp đồng"
-                        placeholder="Vui lòng nhập ngày bắt đầu hợp đồng"
-                        // disabled
-                        open={false}
-                        inputReadOnly
-                        {...register("contractsInUse.startDate")}
-                        required
-                      />
-                    </div>
-                    <div className="sm:col-span-1">
-                      <ComDatePicker
-                        label="Ngày kết thúc hợp đồng"
-                        placeholder="Vui lòng nhập ngày kết thúc hợp đồng"
-                        open={false}
-                        inputReadOnly
-                        {...register("contractsInUse.endDate")}
-                        required
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <ComTextArea
-                        type="text"
-                        label="Nội dung hợp đồng"
-                        rows={5}
-                        placeholder="Vui lòng nhập nội dung hợp đồng"
-                        readOnly
-                        {...register("contractsInUse.content")}
-                        // required
-                      />
-                    </div>
-                    {/* <div className="sm:col-span-2">
-                    <ComInput
-                      type="text"
-                      label="URL hình ảnh"
-                      placeholder="Vui lòng nhập URL hình ảnh"
-                     readOnly 
-                      {...register("contractsInUse.imageUrl")}
-                      required
-                    />
-                  </div> */}
-
-                    <div className="sm:col-span-2">
-                      <ComTextArea
-                        label="Ghi chú hợp đồng"
-                        placeholder="Vui lòng nhập ghi chú"
-                        rows={5}
-                        readOnly
-                        {...register("contractsInUse.notes")}
-                        // required
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <ComTextArea
-                        label="Mô tả hợp đồng"
-                        placeholder="Vui lòng nhập mô tả"
-                        rows={5}
-                        name="contractsInUse"
-                        readOnly
-                        {...register("contractsInUse.description")}
-                        // required
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </FormProvider>
-          </div>
-        </div>
-        <div className=" col-span-3  ">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm    sm:p-6  ">
-            <h3 class="mb-4 text-xl font-semibold  ">Thông tin sức khỏe</h3>
-            <FormProvider {...methods}>
-              <form
-                // onSubmit={handleSubmit(onSubmit)}
-                className="mx-auto mt-2 max-w-xl "
-              >
-                <div className=" p-2">
-                  <div
-                    className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
-                    // style={{ height: "65vh" }}
-                  >
-                    <div className="sm:col-span-2">
-                      <div className="mt-2.5">
-                        <ComInput
-                          type="text"
-                          label={"Nhóm máu"}
-                          showSearch
-                          placeholder={"Vui lòng nhập Nhóm máu"}
-                          readOnly
-                          {...register("medicalRecord.bloodType")}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-1">
-                      <div className="mt-2.5">
-                        <ComInput
-                          type="numberFloat"
-                          label={"Cân nặng(KG)"}
-                          placeholder={"Vui lòng nhập Cân nặng"}
-                          readOnly
-                          {...register("medicalRecord.weight")}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-1">
-                      <div className="mt-2.5">
-                        <ComInput
-                          type="numberFloat"
-                          label={"Chiều cao(Cm)"}
-                          placeholder={"Vui lòng nhập Chiều cao"}
-                          readOnly
-                          {...register("medicalRecord.height")}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <div className="mt-2.5">
-                        <ComTextArea
-                          type="text"
-                          label={"Bệnh lý trước đó"}
-                          placeholder={"Vui lòng nhập Bệnh lý"}
-                          rows={5}
-                          readOnly
-                          {...register("medicalRecord.underlyingDisease")}
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <div className="mt-2.5">
-                        <ComTextArea
-                          type="text"
-                          label={"Ghi chú"}
-                          placeholder={"Vui lòng nhập Ghi chú"}
-                          rows={5}
-                          readOnly
-                          {...register("medicalRecord.note")}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </FormProvider>
-          </div>
-        </div>
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
-            <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
-              Thông tin hợp đồng
-            </h3>
-            <TableContract idElder={id} />
-          </div>
-        </div>
-        <div className=" col-span-3  ">
-          <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
-            <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
-              Thông tin chỉ số đo được
-            </h3>
-            <TableHealth idElder={id} />
+            <DetailElderInformation />
           </div>
         </div>
       </div>

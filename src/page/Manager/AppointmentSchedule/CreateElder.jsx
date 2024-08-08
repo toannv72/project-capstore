@@ -511,6 +511,7 @@ export default function CreateElder({
                       label="Chọn người thân"
                       placeholder="Người thân"
                       onChangeValue={handleChange}
+                      disabled
                       value={selectedUser}
                       filterOption={(inputValue, option) =>
                         option.searchString
