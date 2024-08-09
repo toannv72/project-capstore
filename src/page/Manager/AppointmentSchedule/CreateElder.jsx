@@ -434,25 +434,13 @@ export default function CreateElder({
                 className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
                 // style={{ height: "65vh" }}
               >
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
                       label={"Họ và Tên"}
                       placeholder={"Vui lòng nhập Họ và Tên"}
                       {...register("name")}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số CMND/CCCD "}
-                      placeholder={"Vui lòng nhập số CMND/CCCD "}
-                      {...register("cccd")}
                       required
                     />
                   </div>
@@ -465,6 +453,17 @@ export default function CreateElder({
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComInput
+                      type="numbers"
+                      label={"Số CMND/CCCD "}
+                      placeholder={"Vui lòng nhập số CMND/CCCD "}
+                      {...register("cccd")}
                       required
                     />
                   </div>
@@ -528,14 +527,14 @@ export default function CreateElder({
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
                       style={{
                         width: "100%",
                       }}
-                      label="Mối quan hệ với người thân"
+                      label="Mối quan hệ với người cao tuổi"
                       placeholder="Mối quan hệ"
                       onChangeValue={(e, value) => {
                         if (value.length === 0) {
@@ -551,17 +550,17 @@ export default function CreateElder({
                       // value={selectedUser}
                       mode="default"
                       options={[
+                        // {
+                        //   value: "Ba/mẹ",
+                        //   label: `Ba/mẹ`,
+                        // },
                         {
-                          value: "Ba/mẹ",
-                          label: `Ba/mẹ`,
+                          value: "Anh/Em",
+                          label: `Anh/Em`,
                         },
                         {
                           value: "Con",
                           label: `Con`,
-                        },
-                        {
-                          value: "Anh/Em",
-                          label: `Anh/Em`,
                         },
                         {
                           value: "Cháu",
