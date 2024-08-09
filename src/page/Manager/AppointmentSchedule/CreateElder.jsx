@@ -64,6 +64,7 @@ export default function CreateElder({
     dateOfBirth: yup.string().required("Vui lòng nhập đủ ngày tháng năm sinh"),
     nursingPackageId: yup.string().required("Vui lòng chọn gói"),
     roomId: yup.string().required("Vui lòng chọn phòng"),
+    relationship: yup.string().required("Vui lòng chọn mối quan hệ"),
     userId: yup.string().required("Vui lòng chọn người thân"),
     gender: yup.string().required("Vui lòng chọn chọn giới tính"),
     time: yup.string(),
@@ -527,7 +528,55 @@ export default function CreateElder({
                     />
                   </div>
                 </div>
-
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Mối quan hệ với người thân"
+                      placeholder="Mối quan hệ"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("relationship", null, {
+                            shouldValidate: true,
+                          });
+                        } else {
+                          setValue("relationship", value, {
+                            shouldValidate: true,
+                          });
+                        }
+                      }}
+                      // value={selectedUser}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Ba/mẹ",
+                          label: `Ba/mẹ`,
+                        },
+                        {
+                          value: "Con",
+                          label: `Con`,
+                        },
+                        {
+                          value: "Anh/Em",
+                          label: `Anh/Em`,
+                        },
+                        {
+                          value: "Cháu",
+                          label: `Cháu`,
+                        },
+                        {
+                          value: "Chính tôi",
+                          label: `Chính tôi`,
+                        },
+                      ]}
+                      required
+                      {...register("relationship")}
+                    />
+                  </div>
+                </div>
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComSelect
@@ -852,6 +901,18 @@ export default function CreateElder({
                       placeholder={"Vui lòng nhập Chiều cao"}
                       {...register("medicalRecord.height")}
                       required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      label={"Thói quen sinh hoạt"}
+                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
+                      rows={5}
+                      {...register("habits")}
+                      // required
                     />
                   </div>
                 </div>

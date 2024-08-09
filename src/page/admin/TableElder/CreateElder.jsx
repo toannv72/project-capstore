@@ -60,6 +60,8 @@ export default function CreateElder({ onClose, tableRef }) {
     roomId: yup.string().required("Vui lòng chọn phòng"),
     userId: yup.string().required("Vui lòng chọn người thân"),
     gender: yup.string().required("Vui lòng chọn chọn giới tính"),
+    relationship: yup.string().required("Vui lòng chọn mối quan hệ"),
+    // habits: yup.string().required("Vui lòng nhập nhập thói quen sinh hoạt"),
     time: yup.string(),
     cccd: yup
       .string()
@@ -464,30 +466,6 @@ export default function CreateElder({ onClose, tableRef }) {
                       style={{
                         width: "100%",
                       }}
-                      label="Chọn người thân"
-                      placeholder="Người thân"
-                      onChangeValue={handleChange}
-                      value={selectedUser}
-                      filterOption={(inputValue, option) =>
-                        option.searchString
-                          ?.toLowerCase()
-                          ?.includes(inputValue?.toLowerCase())
-                      }
-                      showSearch
-                      mode="default"
-                      options={dataUser}
-                      required
-                      {...register("userId")}
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      style={{
-                        width: "100%",
-                      }}
                       label="Chọn giới tính"
                       placeholder="Giới tính"
                       onChangeValue={(e, value) => {
@@ -511,6 +489,79 @@ export default function CreateElder({ onClose, tableRef }) {
                       ]}
                       required
                       {...register("gender")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn người thân"
+                      placeholder="Người thân"
+                      onChangeValue={handleChange}
+                      value={selectedUser}
+                      filterOption={(inputValue, option) =>
+                        option.searchString
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
+                      }
+                      showSearch
+                      mode="default"
+                      options={dataUser}
+                      required
+                      {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Mối quan hệ với người thân"
+                      placeholder="Mối quan hệ"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("relationship", null, {
+                            shouldValidate: true,
+                          });
+                        } else {
+                          setValue("relationship", value, {
+                            shouldValidate: true,
+                          });
+                        }
+                      }}
+                      // value={selectedUser}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Ba/mẹ",
+                          label: `Ba/mẹ`,
+                        },
+                        {
+                          value: "Con",
+                          label: `Con`,
+                        },
+                        {
+                          value: "Anh/Em",
+                          label: `Anh/Em`,
+                        },
+                        {
+                          value: "Cháu",
+                          label: `Cháu`,
+                        },
+                        {
+                          value: "Chính tôi",
+                          label: `Chính tôi`,
+                        },
+                      ]}
+                      required
+                      {...register("relationship")}
                     />
                   </div>
                 </div>
@@ -845,8 +896,20 @@ export default function CreateElder({ onClose, tableRef }) {
                   <div className="mt-2.5">
                     <ComTextArea
                       type="text"
+                      label={"Thói quen sinh hoạt"}
+                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
+                      rows={5}
+                      {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
                       label={"Bệnh lý trước đó"}
-                      placeholder={"Vui lòng nhập Bệnh lý"}
+                      placeholder={"Vui lòng nhập bệnh lý"}
                       rows={5}
                       {...register("medicalRecord.underlyingDisease")}
                       // required

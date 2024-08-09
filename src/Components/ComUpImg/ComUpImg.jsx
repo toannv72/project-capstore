@@ -11,7 +11,7 @@ const ComUpImg = ({
   label,
 }) => {
   const [fileList, setFileList] = useState([]);
-  const maxImages = numberImg || 5;
+  const maxImages = numberImg || 15;
   const isImageFile = (file) => {
     const acceptedFormats = [".jpeg", ".jpg", ".png", ".gif"];
     const fileExtension = file.name.toLowerCase();
