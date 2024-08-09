@@ -156,7 +156,7 @@ export const MedicalT = forwardRef((props, ref) => {
     },
     {
       title: "Gói dưỡng lão",
-      width: 100,
+      width: 130,
       dataIndex: "nursingPackage",
       key: "nursingPackage",
       sorter: (a, b) =>

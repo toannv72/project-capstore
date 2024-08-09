@@ -118,22 +118,22 @@ export const TableElderGuardians = forwardRef((props, ref) => {
       sorter: (a, b) => a?.address?.localeCompare(b?.address),
       ...getColumnSearchProps("address", "Địa chỉ"),
     },
-    {
-      title: "Thao tác",
-      key: "operation",
-      fixed: "right",
-      width: 80,
-      render: (_, record) => (
-        <div className="flex items-center flex-col">
-          <ComMenuButonTable
-            record={record}
-            showModalDetails={() => showModaldHealth(record)}
-            // showModalEdit={() => modal?.handleOpen(record)}
-            excludeDefaultItems={["delete", "edit"]}
-          />
-        </div>
-      ),
-    },
+    // {
+    //   title: "Thao tác",
+    //   key: "operation",
+    //   fixed: "right",
+    //   width: 80,
+    //   render: (_, record) => (
+    //     <div className="flex items-center flex-col">
+    //       <ComMenuButonTable
+    //         record={record}
+    //         showModalDetails={() => showModaldHealth(record)}
+    //         // showModalEdit={() => modal?.handleOpen(record)}
+    //         excludeDefaultItems={["delete", "edit"]}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
   // console.log(data);
   const reloadData = () => {

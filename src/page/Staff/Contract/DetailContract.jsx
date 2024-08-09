@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import { Image } from "antd";
+import { Image, Typography } from "antd";
 import ComButton from "../../../Components/ComButton/ComButton";
-import { deleteData } from "../../../api/api";
+import { deleteData, getData } from "../../../api/api";
 import ComModal from "../../../Components/ComModal/ComModal";
 import { useModalState } from "../../../hooks/useModalState";
 import * as yup from "yup";
@@ -10,13 +10,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ComTextArea from "../../../Components/ComInput/ComTextArea";
 import { useNotification } from "./../../../Notification/Notification";
+import ComContractStatusConverter from "../../../Components/ComStatusConverter/ComContractStatusConverter";
+import DetailEmployee from "../../admin/TableEmployee/DetailEmployee";
 
-export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
+export default function DetailContract({ selectedUser, onClose, isOpenEdit, reloadData }) {
   const imageUrls = selectedUser.images.map((image) => image.imageUrl);
   const modal = useModalState();
   const [disabled, setDisabled] = useState(false);
   const [daysDiff, setdaysDiff] = useState(false);
+  const [dataUser, setDataUser] = useState({});
   // console.log(selectedUser);
+  const modalDetailUser = useModalState();
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
   useEffect(() => {
     const today = new Date();
     const endDate = new Date(selectedUser.endDate);
@@ -24,9 +30,7 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     const day = daysDiff < 30;
     setdaysDiff(day);
-    console.log("====================================");
-    console.log(day);
-    console.log("====================================");
+;
   }, [selectedUser]);
   const { notificationApi } = useNotification();
   const CreateProductMessenger = yup.object({
@@ -52,17 +56,36 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
         onClose();
         setDisabled(false);
         modal.handleClose();
-        notificationApi(
-          "success",
-          "Thành công",
-          "Cập nhật trạng thái thành công"
-        );
+        notificationApi("success", "Thành công", "Hủy hợp đồng thành công");
+        reloadData();
       })
       .catch((e) => {
         setDisabled(false);
         console.log(e);
       });
   };
+  console.log("====================================");
+  console.log(selectedUser);
+  console.log("====================================");
+
+  useEffect(() => {
+    if (selectedUser.reasonForCanceling) {
+      getData(`/users/${selectedUser.modifiedBy}`)
+        .then((e) => {
+          setDataUser(e?.data);
+          console.log(1111,e.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching items:", error);
+        });
+    }
+    
+  }, [selectedUser]);
+      const showModaldUser = (record) => {
+        console.log(record);
+        modalDetailUser.handleOpen();
+        setSelectedEmployee(record);
+      };
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -97,6 +120,44 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
                 {selectedUser?.nursingPackage?.name}
               </td>
             </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Trạng thái:
+              </td>
+              <td className="px-4 py-2">
+                <ComContractStatusConverter>
+                  {selectedUser?.status}
+                </ComContractStatusConverter>
+              </td>
+            </tr>
+            {selectedUser?.reasonForCanceling && (
+              <>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Lý do hủy:
+                  </td>
+                  <td className="px-4 py-2">
+                    {selectedUser?.reasonForCanceling}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Thời gian hủy:
+                  </td>
+                  <td className="px-4 py-2"><ComDateConverter>{selectedUser?.modifiedAt}</ComDateConverter></td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Người hủy hợp đồng:
+                  </td>
+                  <td className="px-4 py-2">
+                    <Typography.Link onClick={() => showModaldUser(dataUser)}>
+                      {dataUser?.fullName}
+                    </Typography.Link>
+                  </td>
+                </tr>
+              </>
+            )}
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Ngày kí:</td>
               <td className="px-4 py-2">
@@ -213,6 +274,16 @@ export default function DetailContract({ selectedUser, onClose, isOpenEdit }) {
           </div>
         </ComModal>
       </div>
+
+      <ComModal
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
+      >
+        <DetailEmployee
+          selectedData={selectedEmployee}
+          onClose={modalDetailUser?.handleClose}
+        />
+      </ComModal>
     </div>
   );
 }

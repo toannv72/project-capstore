@@ -119,7 +119,7 @@ export default function TableContract({ idUser }) {
     },
     {
       title: "Gói dưỡng lão",
-      width: 100,
+      width: 130,
       dataIndex: "nursingPackage",
       key: "nursingPackage",
       sorter: (a, b) =>

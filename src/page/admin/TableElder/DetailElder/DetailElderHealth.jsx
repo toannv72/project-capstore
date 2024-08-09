@@ -106,6 +106,7 @@ export default function DetailElderHealth() {
                       label={"Thói quen sinh hoạt"}
                       placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
                       rows={5}
+                      readOnly
                       {...register("habits")}
                       // required
                     />
