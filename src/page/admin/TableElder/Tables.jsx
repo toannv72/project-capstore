@@ -5,7 +5,6 @@ import React, {
   useState,
 } from "react";
 import ComTable from "../../../Components/ComTable/ComTable";
-import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
 import { Image, Tooltip, Typography } from "antd";
@@ -19,6 +18,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import useRolePermission from "../../../hooks/useRolePermission";
+import useColumnFilters from "../../../Components/ComTable/utils";
 
 export const Tables = forwardRef((props, ref) => {
   const { idUser } = props;
@@ -28,7 +28,7 @@ export const Tables = forwardRef((props, ref) => {
     getColumnApprox,
     getColumnFilterProps,
     getUniqueValues,
-  } = useColumnSearch();
+  } = useColumnFilters();
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();

@@ -172,13 +172,7 @@ export default function DetailElderPage() {
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
                 </div>
-                <div class="text-sm text-gray-500  ">Quan hệ: </div>
-                {/* <div class="text-sm text-gray-500  ">
-                  CMND/CCCD:{" "}
-                  <ComCccdOrCmndConverter>
-                    {data?.user?.cccd}
-                  </ComCccdOrCmndConverter>
-                </div> */}
+     
                 <div class="text-sm text-gray-500  ">
                   Số điện thoại:{" "}
                   <ComPhoneConverter>
