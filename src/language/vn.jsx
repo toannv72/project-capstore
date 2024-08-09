@@ -27,7 +27,7 @@ export const vn = {
   },
   Login: {
     pageTitle: "Đăng nhập",
-    pageSubTitle: "Chào mừng đến với Viện Dưỡng Lão...!",
+    pageSubTitle: "Chào mừng đến với CareConnect!",
     label: {
       username: "Tên người dùng",
       phone: "Số điện thoại",
@@ -192,8 +192,10 @@ export const vn = {
       fail: "Thanh toán thất bại",
       error: "Xin lỗi vì sự bất tiện này",
       thankyou: "Cảm ơn bạn đã tin tưởng CareConnect",
-      successBackToApp: "Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và tiếp tục sử dụng CareConnect!",
-      failBackToApp: "Đã có lỗi xảy ra trong quá trình thánh toán. Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và thử lại!"
+      successBackToApp:
+        "Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và tiếp tục sử dụng CareConnect!",
+      failBackToApp:
+        "Đã có lỗi xảy ra trong quá trình thánh toán. Bạn vui lòng quay trở lại ứng dụng để có thể kiểm tra giao dịch và thử lại!",
     },
     btn: {
       home: "Trở về Trang Chủ",
