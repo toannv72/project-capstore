@@ -904,6 +904,7 @@ export default function CreateElder({ onClose, tableRef }) {
                     />
                   </div>
                 </div>
+                
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea

@@ -2,22 +2,16 @@
 import React, { useEffect, useState } from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import { getData } from "../../../api/api";
-import { useHref, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
-import { FormProvider, useForm } from "react-hook-form";
-import ComInput from "../../../Components/ComInput/ComInput";
-import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
+import {  useForm } from "react-hook-form";
 import * as yup from "yup";
 import { weightRegex } from "../../../regexPatterns";
 import { yupResolver } from "@hookform/resolvers/yup";
-import ComTextArea from "../../../Components/ComInput/ComTextArea";
-import ChartFour from "./ChartFour";
 import { Skeleton } from "antd";
 import ErrorPage from "../../404/ErrorPage";
-import TableContract from "./TableContract";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
-import { TableHealth } from "../../Manager/Health/TableHealth";
 import DetailElderInformation from "./DetailElder/DetailElderInformation";
 
 export default function DetailElderPage() {
@@ -172,13 +166,17 @@ export default function DetailElderPage() {
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
                 </div>
-     
+
                 <div class="text-sm text-gray-500  ">
                   Số điện thoại:{" "}
                   <ComPhoneConverter>
                     {data?.user?.phoneNumber}
                   </ComPhoneConverter>
                 </div>
+                <div class="text-sm text-gray-500  ">
+                  Mối quan hệ: {data?.relationship}
+                </div>
+
                 <div class="mb-4 text-sm text-gray-500  ">
                   Gmail: {data?.user?.email}
                 </div>

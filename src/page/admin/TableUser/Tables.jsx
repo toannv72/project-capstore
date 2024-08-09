@@ -33,7 +33,9 @@ export const Tables = forwardRef((props, ref) => {
   const [selectedElder, setSelectedElder] = useState(null);
 
   const hasPermission = useRolePermission(["admin", "staff"]);
-
+console.log('====================================');
+console.log(data);
+console.log('====================================');
   useEffect(() => {
     reloadData();
   }, []);

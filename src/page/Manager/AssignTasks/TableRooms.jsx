@@ -198,14 +198,14 @@ export const TableRooms = forwardRef((props, ref) => {
             record={record}
             // showModalDetails={() => showModaldElder(record)}
             extraMenuItems={
-              record?.elders.length !== 0 ? extraMenuItems : extraMenuItems1
+              record?.elders?.length !== 0 ? extraMenuItems : extraMenuItems1
             }
             showModalEdit={() => {
               modal?.handleOpen(record);
               setDataSelect(record);
             }}
             excludeDefaultItems={
-              record?.elders.length !== 0
+              record?.elders?.length !== 0
                 ? ["delete", "details", "edit"]
                 : ["delete", "details", "edit", "Xếp lịch"]
             }
