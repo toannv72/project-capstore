@@ -128,19 +128,19 @@ export default function DetailElderPage() {
 
               <div>
                 <h3 class="mb-1 text-xl font-bold text-gray-900  ">
-                  Cụ: {data?.name}
+                  Người cao tuổi: {data?.name}
                 </h3>
                 <div class="text-sm text-gray-500  ">
                   Năm sinh:{" "}
                   <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  CMND/CCCD:{" "}
-                  <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
-                </div>
-                <div class="text-sm text-gray-500  ">
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.gender}</ComGenderConverter>
+                </div>
+                <div class="text-sm text-gray-500  ">
+                  CMND/CCCD:{" "}
+                  <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
                   Phòng: {data?.room?.name}
@@ -162,7 +162,7 @@ export default function DetailElderPage() {
 
               <div>
                 <h3 class="mb-1 text-xl font-bold text-gray-900  ">
-                  Người thân: {data?.user?.fullName}
+                  Người giám hộ chính: {data?.user?.fullName}
                 </h3>
                 <div class="text-sm text-gray-500  ">
                   Năm sinh:{" "}
@@ -172,17 +172,18 @@ export default function DetailElderPage() {
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.user?.gender}</ComGenderConverter>
                 </div>
+                <div class="text-sm text-gray-500  ">Quan hệ: </div>
+                {/* <div class="text-sm text-gray-500  ">
+                  CMND/CCCD:{" "}
+                  <ComCccdOrCmndConverter>
+                    {data?.user?.cccd}
+                  </ComCccdOrCmndConverter>
+                </div> */}
                 <div class="text-sm text-gray-500  ">
                   Số điện thoại:{" "}
                   <ComPhoneConverter>
                     {data?.user?.phoneNumber}
                   </ComPhoneConverter>
-                </div>
-                <div class="text-sm text-gray-500  ">
-                  CMND/CCCD:{" "}
-                  <ComCccdOrCmndConverter>
-                    {data?.user?.cccd}
-                  </ComCccdOrCmndConverter>
                 </div>
                 <div class="mb-4 text-sm text-gray-500  ">
                   Gmail: {data?.user?.email}
