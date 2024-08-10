@@ -353,11 +353,11 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/users?SortDir=Desc")
+    getData("/users?RoleName=Customer&SortDir=Asc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Bệnh: ${item.fullName} 
+          label: `Tên: ${item.fullName} 
           Số Đt: ${item.phoneNumber} 
           CCCD: ${item.cccd}`,
         }));

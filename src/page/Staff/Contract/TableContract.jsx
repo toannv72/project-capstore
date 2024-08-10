@@ -18,7 +18,7 @@ import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButo
 import ContractExtension from "./ContractExtension";
 import ComContractStatusConverter from "../../../Components/ComStatusConverter/ComContractStatusConverter";
 import DetailUser from "../../admin/TableUser/DetailUser";
-import DetailElder from './../../admin/TableElder/DetailElder';
+import DetailElder from "./../../admin/TableElder/DetailElder";
 
 export const TableContract = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
@@ -62,16 +62,16 @@ export const TableContract = forwardRef((props, ref) => {
     modalExtension.handleOpen();
     setSelectedUser(record);
   };
-    const showModaldUser = (record) => {
-      console.log(record);
-      modalDetailUser.handleOpen();
-      setSelectedUser(record);
+  const showModaldUser = (record) => {
+    console.log(record);
+    modalDetailUser.handleOpen();
+    setSelectedUser(record);
   };
-     const showModaldElder = (record) => {
-       console.log(record);
-       modalDetailElder.handleOpen();
-       setSelectedElder(record);
-     };
+  const showModaldElder = (record) => {
+    console.log(record);
+    modalDetailElder.handleOpen();
+    setSelectedElder(record);
+  };
   const columns = [
     {
       title: "Số hợp đồng",
@@ -139,7 +139,7 @@ export const TableContract = forwardRef((props, ref) => {
       key: "status",
       filters: [
         { text: "Đang được sử dụng", value: "Valid" },
-        { text: "Chưa chưa đến hẹn sửa dụng", value: "Pending" },
+        { text: "Chưa đến hẹn sửa dụng", value: "Pending" },
         { text: "Đã hủy", value: "Cancelled" },
         { text: "Hết hạn", value: "Expired" },
       ],

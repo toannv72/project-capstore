@@ -302,7 +302,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       showSearch
                       mode="default"
                       options={dataUser}
-                      required
+                      disabled={true}
                       {...register("userId")}
                     />
                   </div>

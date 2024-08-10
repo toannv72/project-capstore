@@ -65,7 +65,7 @@ export default function EditDisease({ selectedData, onClose, tableRef }) {
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Tên: ${item.name}`,
+          label: `${item.name}`,
         }));
         setDataDisease(dataForSelect);
       })

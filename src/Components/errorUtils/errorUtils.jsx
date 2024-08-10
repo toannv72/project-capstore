@@ -53,12 +53,12 @@ export const handleErrors = (error, setError, setFocus) => {
     621: {
       field: "capacity",
       message:
-        "Đã có người sửa dụng nên không thể thay đổi số người trong phòng",
+        "Đã có người sử dụng nên không thể thay đổi số người trong phòng",
     },
     622: {
       field: "numberOfNurses",
       message:
-        "Đã có người sửa dụng nên không thể thay đổi số lượng điều dưỡng ",
+        "Đã có người sử dụng nên không thể thay đổi số lượng điều dưỡng ",
     },
   };
 

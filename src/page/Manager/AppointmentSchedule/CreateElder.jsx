@@ -366,7 +366,7 @@ export default function CreateElder({
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/users?SortDir=Desc")
+    getData("/users?RoleName=Customer&SortDir=Asc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
