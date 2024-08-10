@@ -16,7 +16,7 @@ export default function DetailAppointment1({
 }) {
   const modal = useModalState();
   const { notificationApi } = useNotification();
-    const hasPermission = useRolePermission(["staff"]);
+  const hasPermission = useRolePermission(["staff"]);
 
   console.log("====================================");
   console.log(selectedData);
@@ -26,7 +26,7 @@ export default function DetailAppointment1({
       ...selectedData,
       status: status,
     }).then((e) => {
-      // onClose();
+      onClose();
       // notificationApi(
       //   "success",
       //   "Thành công",

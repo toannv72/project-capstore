@@ -20,7 +20,12 @@ import ComNumber from "../../../Components/ComInput/ComNumber";
 import { differenceInMonths } from "date-fns";
 import { MonyNumber } from "../../../Components/MonyNumber/MonyNumber";
 
-export default function CreateContract({ onClose, onClose1, tableRef, userID }) {
+export default function CreateContract({
+  onClose,
+  onClose1,
+  tableRef,
+  userID,
+}) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
   const [dataRoom, setDataRoom] = useState([]);
@@ -195,7 +200,7 @@ export default function CreateContract({ onClose, onClose1, tableRef, userID }) 
               notificationApi("success", "tạo thành công", "đã tạo");
               setDisabled(false);
               onClose();
-              onClose1()
+              onClose1();
             })
             .catch((error) => {
               console.log(error);
@@ -217,7 +222,7 @@ export default function CreateContract({ onClose, onClose1, tableRef, userID }) 
   }, []);
 
   const reloadData = () => {
-    getData("/users?SortDir=Desc")
+    getData("/users?RoleName=Customer&SortDir=Asc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,

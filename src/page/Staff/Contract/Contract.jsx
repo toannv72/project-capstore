@@ -7,14 +7,12 @@ import CreateContract from "./CreateContract";
 import { useModalState } from "../../../hooks/useModalState";
 import { TableContract } from "./TableContract";
 export default function Contract() {
-    const tableRef = useRef(null);
+  const tableRef = useRef(null);
   const modal = useModalState();
-
 
   return (
     <div>
-    
-      <div className="flex  justify-end pb-2">
+      <div className="flex justify-end pb-2">
         <div>
           <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
         </div>

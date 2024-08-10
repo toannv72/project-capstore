@@ -27,7 +27,6 @@ export const TableElderGuardians = forwardRef((props, ref) => {
 
   const modalDetailElder = useModalState();
 
-
   const showModaldHealth = (record) => {
     modal.handleOpen();
     setSelectedHealth(record);
@@ -145,7 +144,10 @@ export const TableElderGuardians = forwardRef((props, ref) => {
 
     getData(urlApi)
       .then((e) => {
-        setData(e?.data?.contends);
+        const filteredData = e?.data?.contends?.filter(
+          (item) => item.state === "Active"
+        );
+        setData(filteredData);
         table.handleCloseLoading();
       })
       .catch((error) => {
