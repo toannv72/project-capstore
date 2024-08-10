@@ -110,7 +110,7 @@ export default function EditDisease({ selectedData, onClose, tableRef }) {
                   // mode="default"
                   options={dataDisease}
                   mode="multiple"
-                  placeholder={"Vui lòng chọn nhóm máu"}
+                  placeholder={"Vui lòng chọn căn bệnh"}
                   {...register("diseaseCategories")}
                   // required
                 />
