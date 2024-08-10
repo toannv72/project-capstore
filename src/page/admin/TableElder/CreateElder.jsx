@@ -550,14 +550,21 @@ export default function CreateElder({ onClose, tableRef }) {
                           value: "Con",
                           label: `Con`,
                         },
-
                         {
                           value: "Cháu",
                           label: `Cháu`,
                         },
                         {
+                          value: "Tổ chức",
+                          label: `Tổ chức`,
+                        },
+                        {
                           value: "Chính tôi",
                           label: `Chính tôi`,
+                        },
+                        {
+                          value: "Khác",
+                          label: `Khác`,
                         },
                       ]}
                       required

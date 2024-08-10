@@ -567,8 +567,16 @@ export default function CreateElder({
                           label: `Cháu`,
                         },
                         {
+                          value: "Tổ chức",
+                          label: `Tổ chức`,
+                        },
+                        {
                           value: "Chính tôi",
                           label: `Chính tôi`,
+                        },
+                        {
+                          value: "Khác",
+                          label: `Khác`,
                         },
                       ]}
                       required
