@@ -156,7 +156,7 @@ export const TableContract = forwardRef((props, ref) => {
     },
     {
       title: "Gói dưỡng lão",
-      width: 100,
+      width: 220,
       dataIndex: "nursingPackage",
       key: "nursingPackage",
       sorter: (a, b) =>
@@ -262,6 +262,7 @@ export const TableContract = forwardRef((props, ref) => {
           selectedUser={selectedUser}
           onClose={modalDetail?.handleClose}
           isOpenEdit={() => modalExtension?.handleOpen()}
+          reloadData={reloadData}
         />
       </ComModal>
 

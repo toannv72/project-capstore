@@ -229,8 +229,8 @@ export const Tables = forwardRef((props, ref) => {
       render: (_, render) => <div>{render?.room?.name}</div>,
     },
     {
-      title: "Loại gói dưỡng lão",
-      width: 150,
+      title: "Loại gói dưỡng lão hiện tại",
+      width: 200,
       dataIndex: "contractsInUse",
       key: "contractsInUse",
 
