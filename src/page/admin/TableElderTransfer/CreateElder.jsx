@@ -538,10 +538,10 @@ export default function CreateElder({ onClose, tableRef }) {
                       // value={selectedUser}
                       mode="default"
                       options={[
-                        // {
-                        //   value: "Ba/mẹ",
-                        //   label: `Ba/mẹ`,
-                        // },
+                        {
+                          value: "Ba/mẹ",
+                          label: `Ba/mẹ`,
+                        },
                         {
                           value: "Anh/Em",
                           label: `Anh/Em`,
@@ -553,10 +553,6 @@ export default function CreateElder({ onClose, tableRef }) {
                         {
                           value: "Cháu",
                           label: `Cháu`,
-                        },
-                        {
-                          value: "Tổ chức",
-                          label: `Tổ chức`,
                         },
                         {
                           value: "Chính tôi",
