@@ -1,6 +1,7 @@
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
+  ArrowsRightLeftIcon,
   Bars3Icon,
   CalendarDaysIcon,
   CreditCardIcon,
@@ -35,11 +36,11 @@ const subCategories = [
   { name: "Phân công", href: "/staff/assignTask", icon: BuildingOffice2Icon },
   { name: "Thông tin hợp đồng", href: "/staff/contract", icon: UserIcon },
   { name: "Quản lý khách hàng", href: "/staff/user", icon: UsersIcon },
-  { name: "Quản lý người cao tuổi", href: "/staff/elder", icon: BriefcaseIcon },
+  { name: "Quản lý người cao tuổi", href: "/staff/elder", icon: UserIcon },
   {
     name: "Quản lý chuyển phòng",
     href: "/staff/elderTransfer",
-    icon: BriefcaseIcon,
+    icon: ArrowsRightLeftIcon,
   },
   {
     name: "Quản lý lịch hẹn",

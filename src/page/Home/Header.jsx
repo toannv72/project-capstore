@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Header({ focusFrom }) {
+export default function Header({ focusFrom, login }) {
   const [open, setOpen] = useState(true);
   const elementRef = useRef(null);
   const scrollEnd = () => {
@@ -599,12 +599,14 @@ export default function Header({ focusFrom }) {
                 </div>
               </nav>
 
-              <Link
-                to="/login"
-                className=" bg-[#0F296D] border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
-              >
-                Đăng nhập ngay
-              </Link>
+              {!login && (
+                <Link
+                  to="/login"
+                  className=" bg-[#0F296D] border-y rounded-lg text-white header__contact-cta button yellow cta button--medium gtrackexternal"
+                >
+                  Đăng nhập ngay
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         console.log(111111, dataPut);
         putData(`/elders`, selectedData.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             setDisabled(false);
@@ -87,8 +87,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             console.log(error);
             notificationApi(
               "error",
-              "Chỉnh sửa không thành công ",
-              "Chỉnh sửa"
+              "Cập nhật không thành công ",
+              "Cập nhật"
             );
             setDisabled(false);
             handleErrors(error, setError, setFocus);
@@ -99,7 +99,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       console.log(22222222, dataPut);
       putData(`/elders`, selectedData.id, dataPut)
         .then((e) => {
-          notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+          notificationApi("success", "Cập nhật thành công", "đã sửa");
           setTimeout(() => {}, 100);
           tableRef();
           setDisabled(false);
@@ -108,7 +108,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         .catch((error) => {
           console.log(error);
           setDisabled(false);
-          notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
+          notificationApi("error", "Cập nhật không thành công ", "Cập nhật");
           handleErrors(error, setError, setFocus);
         });
     }

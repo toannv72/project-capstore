@@ -251,7 +251,7 @@ export const TableBills = forwardRef((props, ref) => {
         />
       </ComModal>
 
-      {/* chỉnh sửa user */}
+      {/* Cập nhật user */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

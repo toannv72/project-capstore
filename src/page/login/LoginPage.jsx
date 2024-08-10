@@ -5,13 +5,14 @@ import ComInput from "../../Components/ComInput/ComInput";
 import ComButton from "../../Components/ComButton/ComButton";
 import { ComLink } from "../../Components/ComLink/ComLink";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FieldError } from "../../Components/FieldError/FieldError";
 import { useStorage } from "../../hooks/useLocalStorage";
 import { LanguageContext } from "../../contexts/LanguageContext";
 import loginImg from "../../assets/LoginImg.png";
 import { GoogleCircleFilled } from "@ant-design/icons";
 import { postData } from "../../api/api";
+import Header from "../Home/Header";
 
 export default function LoginPage(props) {
   const { loginImgUrl, bgColor, loginGoogle, pageTitle } = props;
@@ -110,113 +111,76 @@ export default function LoginPage(props) {
 
   return (
     <>
-      <div className="flex flex-col justify-center rounded-3xl shadow-lg md:flex-row mx-3">
-        <div className="p-6 md:w-1/2 bg-gray-100 py-6 md:px-8  rounded-3xl md:rounded-tr-none md:rounded-br-none shadow-lg border-2 md:border-t-2 md:border-l-2 md:border-b-2">
-          <div className=" flex justify-center items-center md:hidden">
-            {loginImgUrl ? (
+      {/* <Header login={true} /> */}
+      <section
+        className="flex items-center justify-center h-screen w-screen bg-cover bg-center "
+        style={{
+          backgroundImage: `url(https://firebasestorage.googleapis.com/v0/b/careconnect-2d494.appspot.com/o/images%2Fab3611bf-a5f8-4b46-9f42-56fafbaefb5a.jpg?alt=media&token=bc958e0c-35f5-4592-a224-16d476a90536)`,
+        }}
+      >
+        <div className="w-full max-w-4xl h-auto bg-white bg-opacity-90 rounded-3xl shadow-lg">
+          <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg">
+            <div className="hidden lg:block">
               <img
-                src={loginImgUrl}
-                alt=" Login Image"
-                className="object-contain max-w-xs max-h-xs"
-              />
-            ) : (
-              <img
+                className="object-cover w-full h-full  p-14"
                 src={loginImg}
-                className="object-contain max-w-xs max-h-xs"
-                alt="Default Login Image"
+                alt="Login Image"
               />
-            )}
-          </div>
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900">
-              {pageTitle ? pageTitle : Login.pageTitle}
-            </h2>
-            <p className="mt-5 text-center leading-9 tracking-tight text-gray-500">
-              {Login.pageSubTitle}
-            </p>
-          </div>
-
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-            <FormProvider {...methods}>
-              <form
-                className="flex flex-col gap-5"
-                onSubmit={handleSubmit(onSubmit)}
-              >
-                <ComInput
-                  placeholder={Login.placeholder.phone}
-                  label={Login.label.phone}
-                  type="text"
-                  // maxLength={10}
-                  {...register("username")}
-                  required
-                />
-
-                <ComInput
-                  placeholder={Login.placeholder.password}
-                  label={Login.label.password}
-                  type="password"
-                  maxLength={16}
-                  {...register("password")}
-                  required
-                />
-                {/* <ComLink className="text-right">
-                  {Login.link.forgetPassword}
-                </ComLink> */}
-
-                <FieldError className="text-red-500 text-center">
-                  {LoginState || LoginError ? errorMessage : ""}
-                </FieldError>
-                <ComButton
-                  disabled={disabled}
-                  htmlType="submit"
-                  type="primary"
-                  className={bgColor ? bgColor : defaultColor}
-                >
-                  {Login.pageTitle}
-                </ComButton>
-              </form>
-            </FormProvider>
-            {loginGoogle && (
-              <>
-                <p className="flex my-4 justify-center">
-                  --- Or login with ---
+            </div>
+            <div className="flex flex-col justify-center p-10">
+              <div className="mt-8 space-y-6 mx-auto max-w-xl text-center ">
+                <h3 className="text-3xl font-bold text-gray-700">Đăng nhập</h3>
+                <p className="mt-2 text-gray-500">
+                  Chào mừng đến với CareConnect!
                 </p>
-
-                <ComButton
-                  disabled={disabled}
-                  htmlType="submit"
-                  type="primary"
-                  className={`w-1/2 ${
-                    bgColor ? bgColor : defaultColor
-                  } flex justify-center items-center`}
+              </div>
+              <FormProvider {...methods}>
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-8 space-y-6 mx-auto max-w-xl "
                 >
-                  <GoogleCircleFilled />
-                  Login with Google
-                </ComButton>
-              </>
-            )}
+                  <div>
+                    <ComInput
+                      placeholder={Login.placeholder.username}
+                      label={Login.label.username}
+                      type="text"
+                      {...register("username")}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <ComInput
+                      placeholder={Login.placeholder.password}
+                      label={Login.label.password}
+                      type="password"
+                      maxLength={16}
+                      {...register("password")}
+                      required
+                    />
+                  </div>
+                  <FieldError className="text-red-500 text-center">
+                    {LoginState || LoginError ? errorMessage : ""}
+                  </FieldError>
+                  <div className="mt-6 text-center gap-1 flex flex-col">
+                    <ComButton
+                      disabled={disabled}
+                      htmlType="submit"
+                      type="primary"
+                      className="w-full duration-300"
+                    >
+                      {Login.pageTitle}
+                    </ComButton>
+                    <p>&</p>
+                    <Link to="/" className=" text-sky-600">
+                      Trang chủ
+                    </Link>
+                  </div>
+                </form>
+              </FormProvider>
+            </div>
           </div>
         </div>
-        <div
-          className={`w-1/2 ${
-            bgColor ? bgColor : defaultColor
-          }  rounded-tr-3xl rounded-br-3xl shadow-lg md:flex hidden justify-center items-center  border-2 border-l-0`}
-        >
-          {loginImgUrl ? (
-            <img
-              src={loginImgUrl}
-              alt=" Login Image"
-              className="object-contain max-w-full max-h-full rounded-tr-3xl rounded-br-3xl "
-            />
-          ) : (
-            <img
-              src={loginImg}
-              className="object-contain max-w-full max-h-full"
-              alt="Default Login Image"
-            />
-          )}
-        </div>
-      </div>
+      </section>
     </>
   );
 }

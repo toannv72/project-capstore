@@ -79,7 +79,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công ", "đã sửa");
+            notificationApi("success", "Cập nhật thành công ", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             onClose();
@@ -90,13 +90,13 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             setDisabled(false);
-            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "đã sửa");
           });
       } else {
         const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             setDisabled(false);
@@ -107,7 +107,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
-            notificationApi("error", "Chỉnh sửa không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "đã sửa");
           });
       }
     });
@@ -130,7 +130,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa người dùng
+          Cập nhật người dùng
         </h2>
         <FormProvider {...methods}>
           <form
@@ -257,7 +257,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                 disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Chỉnh sửa
+                Cập nhật
               </ComButton>
             </div>
           </form>

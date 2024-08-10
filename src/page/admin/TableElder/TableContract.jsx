@@ -227,7 +227,7 @@ export default function TableContract({ idElder }) {
           isOpenEdit={() => modalEdit?.handleOpen()}
         />
       </ComModal>
-      {/* chỉnh sửa người cao tuổi */}
+      {/* Cập nhật người cao tuổi */}
       <ComModal
         isOpen={modalEdit?.isModalOpen}
         onClose={modalEdit?.handleClose}

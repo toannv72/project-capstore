@@ -111,7 +111,7 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
               type="primary"
               className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Chỉnh sửa
+              Cập nhật
             </ComButton>
           </div>
         ) : (

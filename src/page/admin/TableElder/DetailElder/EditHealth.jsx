@@ -75,7 +75,7 @@ export default function EditHealth({ selectedData, onClose, tableRef }) {
       diseaseCategories: diseaseCategories,
     })
       .then((e) => {
-        notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+        notificationApi("success", "Cập nhật thành công", "đã sửa");
 
         tableRef();
         setDisabled(false);
@@ -84,7 +84,7 @@ export default function EditHealth({ selectedData, onClose, tableRef }) {
       .catch((error) => {
         console.log(error);
         setDisabled(false);
-        notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
+        notificationApi("error", "Cập nhật không thành công ", "Cập nhật");
         handleErrors(error, setError, setFocus);
       });
   };

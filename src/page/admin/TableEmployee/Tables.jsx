@@ -240,7 +240,7 @@ export const Tables = forwardRef((props, ref) => {
         />
       </ComModal>
 
-      {/* chỉnh sửa nhân viên */}
+      {/* Cập nhật nhân viên */}
       <ComModal
         width={800}
         isOpen={modalEdit?.isModalOpen}

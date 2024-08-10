@@ -125,7 +125,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         console.log(111111, dataPut);
         putData(`/elders`, selectedData.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "đã sửa");
             setTimeout(() => {}, 100);
             tableRef();
             setDisabled(false);
@@ -135,8 +135,8 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
             console.log(error);
             notificationApi(
               "error",
-              "Chỉnh sửa không thành công ",
-              "Chỉnh sửa"
+              "Cập nhật không thành công ",
+              "Cập nhật"
             );
             setDisabled(false);
             handleErrors(error, setError, setFocus);
@@ -147,7 +147,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       console.log(22222222, dataPut);
       putData(`/elders`, selectedData.id, dataPut)
         .then((e) => {
-          notificationApi("success", "Chỉnh sửa thành công", "đã sửa");
+          notificationApi("success", "Cập nhật thành công", "đã sửa");
           setTimeout(() => {}, 100);
           tableRef();
           setDisabled(false);
@@ -156,7 +156,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
         .catch((error) => {
           console.log(error);
           setDisabled(false);
-          notificationApi("error", "Chỉnh sửa không thành công ", "Chỉnh sửa");
+          notificationApi("error", "Cập nhật không thành công ", "Cập nhật");
           handleErrors(error, setError, setFocus);
         });
     }
@@ -226,7 +226,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Chỉnh sửa thông tin người cao tuổi
+          Cập nhật thông tin người cao tuổi
         </h2>
         <FormProvider {...methods}>
           <form

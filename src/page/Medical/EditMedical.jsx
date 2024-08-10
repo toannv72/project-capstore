@@ -41,7 +41,7 @@ export default function EditMedical({ selectedUser, onClose }) {
     firebaseImgs(image).then((dataImg) => {
       setDisabled(false);
       console.log("ảnh nè : ", dataImg);
-      notificationApi("error", "chỉnh sửa thành công", "đã sửa");
+      notificationApi("error", "Cập nhật thành công", "đã sửa");
       onClose();
     });
   };
@@ -99,7 +99,7 @@ export default function EditMedical({ selectedUser, onClose }) {
                 disabled={disabled}
                 className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Chỉnh sửa
+                Cập nhật
               </ComButton>
             </div>
           </form>
