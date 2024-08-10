@@ -24,7 +24,7 @@ export default function LoginPage(props) {
   } = useContext(LanguageContext);
 
   const [token, setToken] = useStorage("accessToken", null);
-  const [role, setRole,loadStoredValue] = useStorage("role", null);
+  const [role, setRole, loadStoredValue] = useStorage("role", null);
   const [disabled, setDisabled] = useState(false);
   const [LoginState, setLogin] = useState(false);
   const [LoginError, setLoginError] = useState(false);
@@ -38,7 +38,7 @@ export default function LoginPage(props) {
     //     .trim()
     //     .matches(/^\d{10}$/, Login.message.phone)
     //     .required(Login.message.phoneRequired),
-    username: yup.string().required("Tên đăng nhập không được để trống"),
+    username: yup.string().trim().required("Tên đăng nhập không được để trống"),
     password: yup.string().required("Mật khẩu không được để trống"),
     // email: yup.string().trim().email(Login.message.emailInvalid).required(Login.message.emailRequired),
   });
