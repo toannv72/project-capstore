@@ -36,6 +36,7 @@ export default function CreateElder({ onClose, tableRef }) {
   const [image1, setImages1] = useState([]);
   const { notificationApi } = useNotification();
   const [dataUser, setDataUser] = useState([]);
+  const [dataDisease, setDataDisease] = useState([]);
   const [selectedUser, setSelectedUser] = useState();
   const [dataRoom, setDataRoom] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState();
@@ -219,7 +220,13 @@ export default function CreateElder({ onClose, tableRef }) {
 
   const onSubmit = (data) => {
     setDisabled(true);
-    console.log(1111, data.contract.price);
+    console.log(1111, data);
+    const diseaseCategories = data?.medicalRecord?.diseaseCategories?.map(
+      (item) => ({
+        id: item,
+      })
+    );
+
     const change = MonyNumber(
       data.contract.price,
       (message) => setError("contract.price", { message }), // Đặt lỗi nếu có
@@ -246,12 +253,14 @@ export default function CreateElder({ onClose, tableRef }) {
         firebaseImgs(image1).then((dataImg1) => {
           setValue("contract.images", convertUrlsToObjects(dataImg1));
           firebaseImg(image).then((dataImg) => {
-            console.log("tieeng", change);
-
             postData("/elders", {
               ...data,
               imageUrl: dataImg,
               price: change,
+              medicalRecord: {
+                ...data?.medicalRecord,
+                diseaseCategories: diseaseCategories,
+              },
             })
               .then((e) => {
                 notificationApi("success", "tạo thành công", "đã tạo");
@@ -333,11 +342,22 @@ export default function CreateElder({ onClose, tableRef }) {
     }
   };
   const reloadData = () => {
+    getData("/disease-category?SortDir=Desc")
+      .then((e) => {
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Tên: ${item.name}`,
+        }));
+        setDataDisease(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
     getData("/users?SortDir=Desc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
-          label: `Tên: ${item.fullName} 
+          label: `Bệnh: ${item.fullName} 
           Số Đt: ${item.phoneNumber} 
           CCCD: ${item.cccd}`,
         }));
@@ -407,7 +427,9 @@ export default function CreateElder({ onClose, tableRef }) {
     watch("contract.startDate"),
     watch("nursingPackageId"),
   ]);
-
+  console.log("====================================");
+  console.log(watch("medicalRecord.diseaseCategories"));
+  console.log("====================================");
   return (
     <div>
       <div className="p-4 bg-white ">
@@ -903,6 +925,36 @@ export default function CreateElder({ onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
                       rows={5}
                       {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      type="text"
+                      label={"Các loại bệnh đang mắc phải"}
+                      showSearch
+                      style={{
+                        width: "100%",
+                      }}
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("medicalRecord.diseaseCategories", null, {
+                            shouldValidate: true,
+                          });
+                        } else {
+                          setValue("medicalRecord.diseaseCategories", value, {
+                            shouldValidate: true,
+                          });
+                        }
+                      }}
+                      // mode="default"
+                      options={dataDisease}
+                      mode="multiple"
+                      placeholder={"Vui lòng chọn nhóm máu"}
+                      {...register("medicalRecord.diseaseCategories")}
                       // required
                     />
                   </div>

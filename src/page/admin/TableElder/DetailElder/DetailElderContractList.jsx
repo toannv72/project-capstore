@@ -50,7 +50,7 @@ export default function DetailElderContractList() {
   return (
     <div className=" col-span-3  ">
       <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
-        <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
+        <h3 className="mb-4 text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">
           Thông tin hợp đồng
         </h3>
         <TableContract idElder={id} />

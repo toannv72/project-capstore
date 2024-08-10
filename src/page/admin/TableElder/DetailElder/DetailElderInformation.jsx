@@ -5,6 +5,7 @@ import DetailElderHealth from "./DetailElderHealth";
 import DetailElderContractList from "./DetailElderContractList";
 import DetailElderHealthList from "./DetailElderHealthList";
 import DetailElderGuardians from "./DetailElderGuardians";
+import DetailElderDisease from "./DetailElderDisease";
 
 const onChange = (key) => {
   console.log(key);
@@ -14,6 +15,11 @@ const items = [
     key: "1",
     label: "Thông tin sức khỏe",
     children: <DetailElderHealth />,
+  },
+  {
+    key: "2",
+    label: "Danh sách bệnh người cao tuổi",
+    children: <DetailElderDisease />,
   },
   {
     key: "3",
@@ -31,7 +37,7 @@ const items = [
     children: <DetailElderContractList />,
   },
   {
-    key: "2",
+    key: "7",
     label: "Danh sách chỉ số đo",
     children: <DetailElderHealthList />,
   },

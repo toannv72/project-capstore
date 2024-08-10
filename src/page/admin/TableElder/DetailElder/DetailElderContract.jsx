@@ -49,7 +49,7 @@ export default function DetailElderContract() {
   return (
     <div className="col-span-3 2xl:col-span-3">
       <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm  sm:p-6  ">
-        <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
+        <h3 className="mb-4 text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">
           Chi tiết hợp đồng đang được sử dụng
         </h3>
         <FormProvider {...methods}>
