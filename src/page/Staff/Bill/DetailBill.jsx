@@ -204,20 +204,29 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
               </h2>
               <table className="w-full">
                 <tbody>
-                  {data?.orderDates?.map((orderDate) => (
-                    <tr key={orderDate?.id} className="border-b">
-                      <td className="px-4 py-2 text-gray-600 font-medium">
-                        Ngày:
-                      </td>
-                      <td className="px-4 py-2">
-                        <ComDateConverter>{orderDate?.date}</ComDateConverter>
-                      </td>
-                      <td className="px-4 py-2 text-gray-600 font-medium">
-                        Trạng thái:
-                      </td>
-                      <td>{statusMap[orderDate?.status]}</td>
-                    </tr>
-                  ))}
+                  {data?.orderDates
+                    ?.sort((a, b) => new Date(a.date) - new Date(b.date))
+                    ?.map((orderDate) => (
+                      <>
+                        {new Date(orderDate?.date) >=
+                          new Date(selectedData?.createdAt) && (
+                          <tr key={orderDate?.id} className="border-b">
+                            <td className="px-4 py-2 text-gray-600 font-medium">
+                              Ngày:
+                            </td>
+                            <td className="px-4 py-2">
+                              <ComDateConverter>
+                                {orderDate?.date}
+                              </ComDateConverter>
+                            </td>
+                            <td className="px-4 py-2 text-gray-600 font-medium">
+                              Trạng thái:
+                            </td>
+                            <td>{statusMap[orderDate?.status]}</td>
+                          </tr>
+                        )}
+                      </>
+                    ))}
                 </tbody>
               </table>
             </div>

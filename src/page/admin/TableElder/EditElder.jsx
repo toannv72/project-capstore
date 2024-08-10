@@ -238,7 +238,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                 className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2"
                 // style={{ height: "65vh" }}
               >
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
                       type="text"
@@ -249,17 +249,6 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-                {/* <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numbers"
-                      label={"Số điện thoại"}
-                      placeholder={"Vui lòng nhập số điện thoại"}
-                      {...register("phoneNumber")}
-                      required
-                    />
-                  </div>
-                </div> */}
                 <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComInput
@@ -280,30 +269,6 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
                       required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      style={{
-                        width: "100%",
-                      }}
-                      label="Chọn người thân"
-                      placeholder="Người thân"
-                      onChangeValue={handleChange}
-                      value={selectedUser}
-                      filterOption={(inputValue, option) =>
-                        option.searchString
-                          ?.toLowerCase()
-                          ?.includes(inputValue?.toLowerCase())
-                      }
-                      showSearch
-                      mode="default"
-                      options={dataUser}
-                      disabled={true}
-                      {...register("userId")}
                     />
                   </div>
                 </div>
@@ -338,6 +303,83 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       ]}
                       required
                       {...register("gender")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Chọn người thân"
+                      placeholder="Người thân"
+                      onChangeValue={handleChange}
+                      value={selectedUser}
+                      filterOption={(inputValue, option) =>
+                        option.searchString
+                          ?.toLowerCase()
+                          ?.includes(inputValue?.toLowerCase())
+                      }
+                      showSearch
+                      mode="default"
+                      options={dataUser}
+                      disabled={true}
+                      {...register("userId")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-1">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Mối quan hệ với người cao tuổi"
+                      placeholder="Mối quan hệ"
+                      onChangeValue={(e, value) => {
+                        if (value.length === 0) {
+                          setValue("relationship", null, {
+                            shouldValidate: true,
+                          });
+                        } else {
+                          setValue("relationship", value, {
+                            shouldValidate: true,
+                          });
+                        }
+                      }}
+                      value={watch("relationship")}
+                      mode="default"
+                      options={[
+                        {
+                          value: "Ba/mẹ",
+                          label: `Ba/mẹ`,
+                        },
+                        {
+                          value: "Anh/Em",
+                          label: `Anh/Em`,
+                        },
+                        {
+                          value: "Con",
+                          label: `Con`,
+                        },
+                        {
+                          value: "Cháu",
+                          label: `Cháu`,
+                        },
+                        {
+                          value: "Chính tôi",
+                          label: `Chính tôi`,
+                        },
+                        {
+                          value: "Khác",
+                          label: `Khác`,
+                        },
+                      ]}
+                      required
+                      {...register("relationship")}
                     />
                   </div>
                 </div>
