@@ -13,6 +13,7 @@ import { firebaseImg } from "./../../../upImgFirebase/firebaseImg";
 import ComDatePicker from "../../../Components/ComDatePicker/ComDatePicker";
 import {
   DateOfBirth,
+  DateOfBirthElder,
   DateOfContract,
   DateOfLastDay,
 } from "../../../Components/ComDateDisabled/DateOfBirth";
@@ -80,40 +81,40 @@ export default function CreateElder({
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     // notes: yup.string().required("Vui lòng nhập ghi chú"),
-    medicalRecord: yup.object({
-      bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
-      weight: yup
-        .string()
-        .typeError("Vui lòng nhập cân nặng")
-        .required("Vui lòng nhập cân nặng")
-        .matches(weightRegex, "Cân nặng phải là số")
-        .test(
-          "min",
-          "Cân nặng phải lớn hơn hoặc bằng 0",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Cân nặng phải nhỏ hơn hoặc bằng 220",
-          (value) => parseFloat(value) <= 220
-        ),
-      height: yup
-        .string()
-        .typeError("Vui lòng nhập chiều cao")
-        .required("Vui lòng nhập chiều cao")
-        .test(
-          "min",
-          "Chiều cao phải lớn hơn hoặc bằng 0 cm",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
-          (value) => parseFloat(value) <= 200
-        ),
-      // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-      // note: yup.string().required("Vui lòng nhập ghi chú"),
-    }),
+    // medicalRecord: yup.object({
+    //   bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
+    //   weight: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập cân nặng")
+    //     .required("Vui lòng nhập cân nặng")
+    //     .matches(weightRegex, "Cân nặng phải là số")
+    //     .test(
+    //       "min",
+    //       "Cân nặng phải lớn hơn hoặc bằng 0",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Cân nặng phải nhỏ hơn hoặc bằng 220",
+    //       (value) => parseFloat(value) <= 220
+    //     ),
+    //   height: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập chiều cao")
+    //     .required("Vui lòng nhập chiều cao")
+    //     .test(
+    //       "min",
+    //       "Chiều cao phải lớn hơn hoặc bằng 0 cm",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
+    //       (value) => parseFloat(value) <= 200
+    //     ),
+    //   // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+    //   // note: yup.string().required("Vui lòng nhập ghi chú"),
+    // }),
     // trường hợp đồng
     contract: yup.object({
       name: yup.string().required("Vui lòng nhập số hợp đồng"),
@@ -244,11 +245,11 @@ export default function CreateElder({
   const onSubmit = (data) => {
     setDisabled(true);
     console.log(1111, data);
-      const diseaseCategories = data?.medicalRecord?.diseaseCategories?.map(
-        (item) => ({
-          id: item,
-        })
-      );
+    const diseaseCategories = data?.medicalRecord?.diseaseCategories?.map(
+      (item) => ({
+        id: item,
+      })
+    );
     const change = MonyNumber(
       data.contract.price,
       (message) => setError("contract.price", { message }), // Đặt lỗi nếu có
@@ -354,17 +355,17 @@ export default function CreateElder({
     }
   };
   const reloadData = () => {
-        getData("/disease-category?SortDir=Desc")
-          .then((e) => {
-            const dataForSelect = e?.data?.contends.map((item) => ({
-              value: item.id,
-              label: `Tên: ${item.name}`,
-            }));
-            setDataDisease(dataForSelect);
-          })
-          .catch((error) => {
-            console.error("Error fetching items:", error);
-          });
+    getData("/disease-category?SortDir=Desc")
+      .then((e) => {
+        const dataForSelect = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `Tên: ${item.name}`,
+        }));
+        setDataDisease(dataForSelect);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
     getData("/users?SortDir=Desc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
@@ -471,7 +472,7 @@ export default function CreateElder({
                   <div className="mt-2.5">
                     <ComDatePicker
                       type="numbers"
-                      disabledDate={DateOfBirth}
+                      disabledDate={DateOfBirthElder}
                       label={"Ngày tháng năm sinh"}
                       placeholder={"Vui lòng nhập Ngày tháng năm sinh "}
                       {...register("dateOfBirth")}
@@ -662,6 +663,25 @@ export default function CreateElder({
                   />
                 </div>
                 <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      label={"Thói quen sinh hoạt"}
+                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
+                      rows={5}
+                      {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <ComUpImgOne
+                    onChange={onChange}
+                    label={"Hình ảnh người cao tuổi"}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Thông tin hợp đồng
                   </h3>
@@ -813,195 +833,9 @@ export default function CreateElder({
                     required
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-red-600 mb-2">
-                  Hồ sơ người cao tuổi
-                </h3>
-
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      type="text"
-                      label={"Nhóm máu"}
-                      showSearch
-                      style={{
-                        width: "100%",
-                      }}
-                      onChangeValue={(e, value) => {
-                        if (value.length === 0) {
-                          setValue("medicalRecord.bloodType", null, {
-                            shouldValidate: true,
-                          });
-                        } else {
-                          setValue("medicalRecord.bloodType", value, {
-                            shouldValidate: true,
-                          });
-                        }
-                      }}
-                      mode="default"
-                      options={[
-                        {
-                          value: "Chưa có",
-                          label: "Chưa có",
-                        },
-                        {
-                          value: "A",
-                          label: "A",
-                        },
-                        {
-                          value: "B",
-                          label: "B",
-                        },
-                        {
-                          value: "AB",
-                          label: "AB",
-                        },
-                        {
-                          value: "O",
-                          label: "O",
-                        },
-                        {
-                          value: "A+",
-                          label: "A+",
-                        },
-                        {
-                          value: "A-",
-                          label: "A-",
-                        },
-                        {
-                          value: "B+",
-                          label: "B+",
-                        },
-                        {
-                          value: "B-",
-                          label: "B-",
-                        },
-                        {
-                          value: "AB+",
-                          label: "AB+",
-                        },
-                        {
-                          value: "AB-",
-                          label: "AB-",
-                        },
-                        {
-                          value: "O+",
-                          label: "O+",
-                        },
-                        {
-                          value: "O-",
-                          label: "O-",
-                        },
-                        {
-                          value: "hr+",
-                          label: "hr+",
-                        },
-                        {
-                          value: "hr-",
-                          label: "hr-",
-                        },
-                      ]}
-                      placeholder={"Vui lòng chọn nhóm máu"}
-                      {...register("medicalRecord.bloodType")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numberFloat"
-                      label={"Cân nặng(KG)"}
-                      placeholder={"Vui lòng nhập Cân nặng"}
-                      {...register("medicalRecord.weight")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-1">
-                  <div className="mt-2.5">
-                    <ComInput
-                      type="numberFloat"
-                      label={"Chiều cao(Cm)"}
-                      placeholder={"Vui lòng nhập Chiều cao"}
-                      {...register("medicalRecord.height")}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComTextArea
-                      type="text"
-                      label={"Thói quen sinh hoạt"}
-                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
-                      rows={5}
-                      {...register("habits")}
-                      // required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComSelect
-                      size={"large"}
-                      type="text"
-                      label={"Các loại bệnh đang mắc phải"}
-                      showSearch
-                      style={{
-                        width: "100%",
-                      }}
-                      onChangeValue={(e, value) => {
-                        if (value.length === 0) {
-                          setValue("medicalRecord.diseaseCategories", null, {
-                            shouldValidate: true,
-                          });
-                        } else {
-                          setValue("medicalRecord.diseaseCategories", value, {
-                            shouldValidate: true,
-                          });
-                        }
-                      }}
-                      // mode="default"
-                      options={dataDisease}
-                      mode="multiple"
-                      placeholder={"Vui lòng chọn nhóm máu"}
-                      {...register("medicalRecord.diseaseCategories")}
-                      // required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComTextArea
-                      type="text"
-                      label={"Bệnh lý trước đó"}
-                      placeholder={"Vui lòng nhập Bệnh lý"}
-                      rows={5}
-                      {...register("medicalRecord.underlyingDisease")}
-                      // required
-                    />
-                  </div>
-                </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComTextArea
-                      type="text"
-                      label={"Ghi chú"}
-                      placeholder={"Vui lòng nhập Ghi chú"}
-                      rows={5}
-                      {...register("medicalRecord.note")}
-                      // required
-                    />
-                  </div>
-                </div>
               </div>
             </div>
-            <ComUpImgOne
-              onChange={onChange}
-              label={"Hình ảnh người cao tuổi"}
-              required
-            />
+
             <div className="mt-10">
               <ComButton
                 disabled={disabled}

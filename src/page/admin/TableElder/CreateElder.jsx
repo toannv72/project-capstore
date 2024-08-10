@@ -75,40 +75,40 @@ export default function CreateElder({ onClose, tableRef }) {
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     // notes: yup.string().required("Vui lòng nhập ghi chú"),
-    medicalRecord: yup.object({
-      bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
-      weight: yup
-        .string()
-        .typeError("Vui lòng nhập cân nặng")
-        .required("Vui lòng nhập cân nặng")
-        .matches(weightRegex, "Cân nặng phải là số")
-        .test(
-          "min",
-          "Cân nặng phải lớn hơn hoặc bằng 0",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Cân nặng phải nhỏ hơn hoặc bằng 220",
-          (value) => parseFloat(value) <= 220
-        ),
-      height: yup
-        .string()
-        .typeError("Vui lòng nhập chiều cao")
-        .required("Vui lòng nhập chiều cao")
-        .test(
-          "min",
-          "Chiều cao phải lớn hơn hoặc bằng 0 cm",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
-          (value) => parseFloat(value) <= 200
-        ),
-      // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-      // note: yup.string().required("Vui lòng nhập ghi chú"),
-    }),
+    // medicalRecord: yup.object({
+    //   bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
+    //   weight: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập cân nặng")
+    //     .required("Vui lòng nhập cân nặng")
+    //     .matches(weightRegex, "Cân nặng phải là số")
+    //     .test(
+    //       "min",
+    //       "Cân nặng phải lớn hơn hoặc bằng 0",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Cân nặng phải nhỏ hơn hoặc bằng 220",
+    //       (value) => parseFloat(value) <= 220
+    //     ),
+    //   height: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập chiều cao")
+    //     .required("Vui lòng nhập chiều cao")
+    //     .test(
+    //       "min",
+    //       "Chiều cao phải lớn hơn hoặc bằng 0 cm",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
+    //       (value) => parseFloat(value) <= 200
+    //     ),
+    //   // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+    //   // note: yup.string().required("Vui lòng nhập ghi chú"),
+    // }),
     // trường hợp đồng
     contract: yup.object({
       name: yup.string().required("Vui lòng nhập số hợp đồng"),
@@ -650,6 +650,25 @@ export default function CreateElder({ onClose, tableRef }) {
                   />
                 </div>
                 <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      label={"Thói quen sinh hoạt"}
+                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
+                      rows={5}
+                      {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <ComUpImgOne
+                    onChange={onChange}
+                    label={"Hình ảnh người cao tuổi"}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Thông tin hợp đồng
                   </h3>
@@ -801,11 +820,11 @@ export default function CreateElder({ onClose, tableRef }) {
                     required
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-red-600 mb-2">
+                {/* <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Hồ sơ người cao tuổi
-                </h3>
+                </h3> */}
 
-                <div className="sm:col-span-2">
+                {/* <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComSelect
                       size={"large"}
@@ -982,14 +1001,10 @@ export default function CreateElder({ onClose, tableRef }) {
                       // required
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
-            <ComUpImgOne
-              onChange={onChange}
-              label={"Hình ảnh người cao tuổi"}
-              required
-            />
+
             <div className="mt-10">
               <ComButton
                 htmlType="submit"

@@ -9,9 +9,14 @@ import ErrorPage from "../../../404/ErrorPage";
 import ComInput from "../../../../Components/ComInput/ComInput";
 import ComTextArea from "../../../../Components/ComInput/ComTextArea";
 import ComDatePicker from "../../../../Components/ComDatePicker/ComDatePicker";
+import ComModal from "../../../../Components/ComModal/ComModal";
+import EditHealth from './EditHealth';
+import { useModalState } from "../../../../hooks/useModalState";
+import ComMenuButonTable from "../../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 export default function DetailElderHealth() {
   const { id } = useParams();
+  const modal = useModalState();
 
   const [loading, setLoading] = useState(true);
   const [error, setErrorApi] = useState(false);
@@ -49,8 +54,14 @@ export default function DetailElderHealth() {
   return (
     <div className=" col-span-3  ">
       <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm    sm:p-6  ">
-        <h3 className="mb-4 text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">
-          Thông tin sức khỏe
+        <h3 className="flex justify-between mb-4 text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">
+          <> Thông tin sức khỏe</>
+          <ComMenuButonTable
+            // record={record}
+            // showModalDetails={() => showModal(record)}
+            showModalEdit={() => modal?.handleOpen()}
+            excludeDefaultItems={["delete", "details"]}
+          />
         </h3>
         <FormProvider {...methods}>
           <form
@@ -99,19 +110,7 @@ export default function DetailElderHealth() {
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
-                  <div className="mt-2.5">
-                    <ComTextArea
-                      type="text"
-                      label={"Thói quen sinh hoạt"}
-                      // placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
-                      rows={5}
-                      readOnly
-                      {...register("habits")}
-                      // required
-                    />
-                  </div>
-                </div>
+            
 
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
@@ -144,6 +143,18 @@ export default function DetailElderHealth() {
           </form>
         </FormProvider>
       </div>
+
+      <ComModal
+        isOpen={modal?.isModalOpen}
+        onClose={modal?.handleClose}
+        width={800}
+      >
+        <EditHealth
+          selectedData={data?.medicalRecord}
+          onClose={modal?.handleClose}
+          tableRef={reloadData}
+        />
+      </ComModal>
     </div>
   );
 }

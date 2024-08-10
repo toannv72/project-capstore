@@ -63,40 +63,40 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       .min(5, "Địa chỉ quá ngắn, vui lòng nhập tối thiểu 5 ký tự")
       .max(100, "Địa chỉ quá dài, vui lòng nhập tối đa 100 ký tự"),
     // Hồ sơ người cao tuổi
-    medicalRecord: yup.object({
-      bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
-      weight: yup
-        .string()
-        .typeError("Vui lòng nhập cân nặng")
-        .required("Vui lòng nhập cân nặng")
-        .matches(weightRegex, "Cân nặng phải là số")
-        .test(
-          "min",
-          "Cân nặng phải lớn hơn hoặc bằng 0",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Cân nặng phải nhỏ hơn hoặc bằng 220",
-          (value) => parseFloat(value) <= 220
-        ),
-      height: yup
-        .string()
-        .typeError("Vui lòng nhập chiều cao")
-        .required("Vui lòng nhập chiều cao")
-        .test(
-          "min",
-          "Chiều cao phải lớn hơn hoặc bằng 0 cm",
-          (value) => parseFloat(value) >= 0
-        )
-        .test(
-          "max",
-          "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
-          (value) => parseFloat(value) <= 200
-        ),
-      // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
-      // note: yup.string().required("Vui lòng nhập ghi chú"),
-    }),
+    // medicalRecord: yup.object({
+    //   bloodType: yup.string().required("Vui lòng nhập nhóm máu"),
+    //   weight: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập cân nặng")
+    //     .required("Vui lòng nhập cân nặng")
+    //     .matches(weightRegex, "Cân nặng phải là số")
+    //     .test(
+    //       "min",
+    //       "Cân nặng phải lớn hơn hoặc bằng 0",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Cân nặng phải nhỏ hơn hoặc bằng 220",
+    //       (value) => parseFloat(value) <= 220
+    //     ),
+    //   height: yup
+    //     .string()
+    //     .typeError("Vui lòng nhập chiều cao")
+    //     .required("Vui lòng nhập chiều cao")
+    //     .test(
+    //       "min",
+    //       "Chiều cao phải lớn hơn hoặc bằng 0 cm",
+    //       (value) => parseFloat(value) >= 0
+    //     )
+    //     .test(
+    //       "max",
+    //       "Chiều cao phải nhỏ hơn hoặc bằng 200 cm",
+    //       (value) => parseFloat(value) <= 200
+    //     ),
+    //   // underlyingDisease: yup.string().required("Vui lòng nhập đủ bệnh lý"),
+    //   // note: yup.string().required("Vui lòng nhập ghi chú"),
+    // }),
   });
 
   useEffect(() => {
@@ -361,8 +361,19 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                     />
                   </div>
                 </div>
-
-                {/* tạo bệnh án  */}
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      label={"Thói quen sinh hoạt"}
+                      placeholder={"Vui lòng nhập Thói quen sinh hoạt"}
+                      rows={5}
+                      {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div>
+                {/* tạo bệnh án 
                 <h3 className="text-lg font-semibold text-red-600 mb-2">
                   Hồ sơ người cao tuổi
                 </h3>
@@ -524,7 +535,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       // required
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <ComUpImgOne
