@@ -52,7 +52,7 @@ export default function DetailElderContract() {
         <h3 className="mb-4 text-2xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2">
           Chi tiết hợp đồng đang được sử dụng
         </h3>
-        <FormProvider {...methods}>
+       {data.contractsInUse? <FormProvider {...methods}>
           <form
             // onSubmit={handleSubmit(onSubmit)}
             className="mx-auto mt-2  "
@@ -152,7 +152,7 @@ export default function DetailElderContract() {
               </div>
             </div>
           </form>
-        </FormProvider>
+        </FormProvider>:<span className="font-medium">Hiện tại chưa có hợp đồng nào đang được sửa dụng</span>}
       </div>
     </div>
   );
