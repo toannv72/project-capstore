@@ -112,7 +112,7 @@ export default function EditHealth({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Cập nhật bệnh đang mắc phải
+          Cập nhật thông tin sức khỏe
         </h2>
         <FormProvider {...methods}>
           <form
