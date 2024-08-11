@@ -89,6 +89,15 @@ export default function TableServicePackage() {
       ),
     },
     {
+      title: "Số lượng đã đăng ký",
+      width: 120,
+      dataIndex: "totalOrder",
+      key: "totalOrder",
+      sorter: (a, b) => a.totalOrder - b.totalOrder,
+      // ...getColumnPriceRangeProps("price", "Giá Tiền"),
+     
+    },
+    {
       title: "Thể loại dịch vụ",
       width: 120,
       dataIndex: "servicePackageCategory",
@@ -274,7 +283,6 @@ export default function TableServicePackage() {
     <div>
       <div className="flex justify-end pb-2">
         <div>
-          {" "}
           <ComButton onClick={modal.handleOpen}>Tạo mới dịch vụ</ComButton>
         </div>
       </div>
@@ -293,6 +301,7 @@ export default function TableServicePackage() {
         //   expandedRowRender,
         //   defaultExpandedRowKeys: ["0"],
         // }}
+        y={"50vh"}
         columns={columns}
         dataSource={data}
         loading={table.loading}

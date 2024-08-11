@@ -136,7 +136,7 @@ export default function CreateUser({ onClose, tableRef }) {
         avatarUrl: dataImg,
       })
         .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo");
+          notificationApi("success", "Thành công", "Đã tạo thành công");
           setTimeout(() => {
             if (tableRef.current) {
               // Kiểm tra xem ref đã được gắn chưa

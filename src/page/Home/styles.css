@@ -14471,7 +14471,7 @@ li.tile-grid__tile-wrapper {
   position: relative;
 }
 .quote__opening:before {
-  content: "“";
+  /* content: "“"; */
   position: absolute;
   left: -16px;
   width: 16px;
@@ -14483,7 +14483,7 @@ li.tile-grid__tile-wrapper {
   border-bottom: 1px solid #001777;
 }
 .quote__closing:after {
-  content: "”";
+  /* content: "”"; */
 }
 .quote__button {
   margin: -1px -2.5rem 0;

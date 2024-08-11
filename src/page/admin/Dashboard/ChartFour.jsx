@@ -63,7 +63,7 @@ const options = {
         "T12",
       ],
     },
-  
+
     yaxis: {
       labels: {
         formatter: (value) =>
@@ -71,6 +71,7 @@ const options = {
       },
     },
     tooltip: {
+      theme: "dark",
       y: {
         formatter: (value) =>
           value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),

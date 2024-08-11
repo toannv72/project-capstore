@@ -74,6 +74,9 @@ const options = {
   fill: {
     opacity: 1,
   },
+  tooltip: {
+    theme: "dark",
+  },
 };
 
 const ChartElder = () => {

@@ -166,7 +166,7 @@ export default function LoginPage(props) {
                     <FieldError className="text-red-500 text-center">
                       {LoginState || LoginError ? errorMessage : ""}
                     </FieldError>
-                    <div className="mt-6 text-center gap-1 flex flex-col">
+                    <div className="mt-6 text-center gap-3 flex flex-col">
                       <ComButton
                         disabled={disabled}
                         htmlType="submit"
@@ -175,7 +175,7 @@ export default function LoginPage(props) {
                       >
                         {Login.pageTitle}
                       </ComButton>
-                      <p>&</p>
+                      
                       <Link to="/" className=" text-sky-600">
                         Trang chủ
                       </Link>

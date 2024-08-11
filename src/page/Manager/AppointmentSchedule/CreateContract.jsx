@@ -197,7 +197,7 @@ export default function CreateContract({
           };
           postData("/contract", datapost)
             .then((e) => {
-              notificationApi("success", "tạo thành công", "đã tạo");
+              notificationApi("success", "Thành công", "Đã tạo thành công");
               setDisabled(false);
               onClose();
               onClose1();
@@ -209,7 +209,7 @@ export default function CreateContract({
               if (error?.status === 616) {
                 setErrorMessage(error?.data?.detail);
               }
-              notificationApi("error", "tạo không thành công", "đã tạo");
+              notificationApi("error", "Không thành công", "Vui lòng thử lại");
             });
         });
       }

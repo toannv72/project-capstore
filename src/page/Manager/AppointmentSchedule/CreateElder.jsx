@@ -287,7 +287,7 @@ export default function CreateElder({
               },
             })
               .then((e) => {
-                notificationApi("success", "tạo thành công", "đã tạo");
+                notificationApi("success", "Thành công", "Đã tạo thành công");
                 setTimeout(() => {}, 100);
                 onClose();
                 onClose1();
@@ -298,7 +298,7 @@ export default function CreateElder({
                 console.log(error);
                 handleErrors(error, setError, setFocus);
                 setDisabled(false);
-                notificationApi("error", "tạo không thành công", "đã tạo");
+                notificationApi("error", "Không thành công", "Vui lòng thử lại");
               });
           });
         });

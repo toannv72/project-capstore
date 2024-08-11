@@ -69,7 +69,7 @@ export default function Contact() {
     postData("/potential-customer", {
       ...data,
     }).then((e) => {
-      notificationApi("success", "tạo thành công", "đã tạo");
+      notificationApi("success", "Thành công", "Đã tạo thành công");
       reset();
     });
   };

@@ -263,7 +263,7 @@ export default function CreateElder({ onClose, tableRef }) {
               },
             })
               .then((e) => {
-                notificationApi("success", "tạo thành công", "đã tạo");
+                notificationApi("success", "Thành công", "Đã tạo thành công");
                 setDisabled(false);
                 setTimeout(() => {
                   if (tableRef.current) {
@@ -277,7 +277,7 @@ export default function CreateElder({ onClose, tableRef }) {
                 console.log(error);
                 setDisabled(false);
                 handleErrors(error, setError, setFocus);
-                notificationApi("error", "tạo không thành công", "đã tạo");
+                notificationApi("error", "Không thành công", "Vui lòng thử lại");
               });
           });
         });

@@ -114,6 +114,155 @@ const options = {
     },
   },
   tooltip: {
+    theme: "dark",
+    y: {
+      formatter: (value) =>
+        value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+    },
+  },
+};
+const options1 = {
+  legend: {
+    show: true,
+    position: "top",
+    horizontalAlign: "right",
+    fontSize: "14px",
+    labels: {
+      colors: ["#3056D3", "#80CAEE", "#6577f3", "#c90000"],
+    },
+  },
+  colors: ["#3056D3", "#80CAEE", "#6577f3", "#c90000"],
+  chart: {
+    fontFamily: "Satoshi, sans-serif",
+    height: 350,
+    type: "area",
+    dropShadow: {
+      enabled: true,
+      color: "#000",
+      top: 10,
+      blur: 10,
+      left: 0,
+      opacity: 0.15,
+    },
+    toolbar: {
+      show: true,
+    },
+    animations: {
+      enabled: true,
+      easing: "easeinout",
+      speed: 800,
+      animateGradually: {
+        enabled: true,
+        delay: 150,
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350,
+      },
+    },
+  },
+  stroke: {
+    width: [3, 3],
+    curve: "smooth",
+  },
+  grid: {
+    borderColor: "#e7e7e7",
+    strokeDashArray: 5,
+    xaxis: {
+      lines: {
+        show: true,
+      },
+    },
+    yaxis: {
+      lines: {
+        show: true,
+      },
+    },
+  },
+  dataLabels: {
+    enabled: true,
+    background: {
+      enabled: true,
+      foreColor: "#fff",
+      borderRadius: 2,
+      dropShadow: {
+        enabled: true,
+        top: 1,
+        left: 1,
+        blur: 1,
+        color: "#000",
+        opacity: 0.45,
+      },
+    },
+    style: {
+      fontSize: "12px",
+      colors: ["#3056D3"],
+    },
+  },
+  markers: {
+    size: 6,
+    colors: "#fff",
+    strokeColors: ["#3056D3", "#80CAEE", "#6577f3", "#c90000"],
+    strokeWidth: 3,
+    strokeOpacity: 0.9,
+    strokeDashArray: 0,
+    fillOpacity: 1,
+    hover: {
+      size: 8,
+      sizeOffset: 3,
+    },
+  },
+  xaxis: {
+    type: "category",
+    categories: [
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "T6",
+      "T7",
+      "T8",
+      "T9",
+      "T10",
+      "T11",
+      "T12",
+    ],
+    axisBorder: {
+      show: true,
+      color: "#78909C",
+      height: 1,
+      width: "100%",
+      offsetX: 0,
+      offsetY: 0,
+    },
+    axisTicks: {
+      show: true,
+      borderType: "solid",
+      color: "#78909C",
+      height: 6,
+      offsetX: 0,
+      offsetY: 0,
+    },
+    labels: {
+      style: {
+        colors: "#78909C",
+        fontSize: "12px",
+      },
+    },
+  },
+  yaxis: {
+    labels: {
+      formatter: (value) =>
+        value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+      style: {
+        colors: "#78909C",
+        fontSize: "12px",
+      },
+    },
+  },
+  tooltip: {
+    theme: "dark",
     y: {
       formatter: (value) =>
         value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),

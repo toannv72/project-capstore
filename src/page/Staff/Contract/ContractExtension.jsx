@@ -175,7 +175,7 @@ export default function ContractExtension({
             images: convertUrlsToObjects(dataImg1),
           })
             .then((e) => {
-              notificationApi("success", "tạo thành công", "đã tạo");
+              notificationApi("success", "Thành công", "Đã tạo thành công");
               setDisabled(false);
               reloadApi();
               onClose();
@@ -187,7 +187,7 @@ export default function ContractExtension({
                 setErrorMessage(error?.data?.detail);
               }
               handleErrors(error, setError, setFocus);
-              notificationApi("error", "tạo không thành công", "đã tạo");
+              notificationApi("error", "Không thành công", "Vui lòng thử lại");
             });
         });
       }

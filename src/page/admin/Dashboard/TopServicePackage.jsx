@@ -45,30 +45,34 @@ export default function TopServicePackage() {
           <tbody>
             {data &&
               data.map((item, index) => (
-                <tr key={index} className="border-b-2 border-x-stone-500">
-                  <td className="py-2">
-                    <div className="flex items-center">
-                      <img
-                        src={item.imageUrl} // Assuming there's a logoUrl in your data
-                        alt={item.source}
-                        className="w-10 h-10 mr-2"
-                      />
-                      {item.name}
-                    </div>
-                  </td>
-                  <td className="text-center px-4">{item.totalOrder}</td>
-                  <td className="text-center px-4 text-green-500 font-bold">
-                    {formatCurrency(item.price)}
-                  </td>
-                  <td className="text-center px-4">
-                    <ComTypePackageConverter>
-                      {item.type}
-                    </ComTypePackageConverter>
-                  </td>
-                  <td className="text-center px-4 text-blue-500">
-                    {item?.servicePackageCategory?.name}
-                  </td>
-                </tr>
+                <>
+                  {index <= 4 && (
+                    <tr key={index} className="border-b-2 border-x-stone-500">
+                      <td className="py-2">
+                        <div className="flex items-center">
+                          <img
+                            src={item.imageUrl} // Assuming there's a logoUrl in your data
+                            alt={item.source}
+                            className="w-10 h-10 mr-2"
+                          />
+                          {item.name}
+                        </div>
+                      </td>
+                      <td className="text-center px-4">{item.totalOrder}</td>
+                      <td className="text-center px-4 text-green-500 font-bold">
+                        {formatCurrency(item.price)}
+                      </td>
+                      <td className="text-center px-4">
+                        <ComTypePackageConverter>
+                          {item.type}
+                        </ComTypePackageConverter>
+                      </td>
+                      <td className="text-center px-4 text-blue-500">
+                        {item?.servicePackageCategory?.name}
+                      </td>
+                    </tr>
+                  )}
+                </>
               ))}
           </tbody>
         </table>

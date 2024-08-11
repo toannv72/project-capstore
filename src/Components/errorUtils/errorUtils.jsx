@@ -60,11 +60,20 @@ export const handleErrors = (error, setError, setFocus) => {
       message:
         "Đã có người sử dụng nên không thể thay đổi số lượng điều dưỡng ",
     },
+    625: {
+      field1: "contract.name",
+      field: "name",
+      message: "Đã có số hợp đồng này",
+    },
   };
 
   const status = error?.response?.data?.status || error?.data?.status;
   if (errorMapping[status]) {
-    const { field, message } = errorMapping[status];
+    const { field, message, field1 } = errorMapping[status];
+    if (field1) {
+      setError(field, { message });
+      setFocus(field);
+    }
     setError(field, { message });
     setFocus(field);
   }
