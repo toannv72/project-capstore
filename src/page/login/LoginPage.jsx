@@ -128,54 +128,56 @@ export default function LoginPage(props) {
               />
             </div>
             <div className="flex flex-col justify-center p-10">
-              <div className="mt-8 space-y-6 mx-auto max-w-xl text-center ">
+              <div className="mt-8 space-y-6  text-center ">
                 <h3 className="text-3xl font-bold text-gray-700">Đăng nhập</h3>
                 <p className="mt-2 text-gray-500">
                   Chào mừng đến với CareConnect!
                 </p>
               </div>
               <FormProvider {...methods}>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="mt-8 space-y-6 mx-auto max-w-xl "
-                >
-                  <div>
-                    <ComInput
-                      placeholder={Login.placeholder.username}
-                      label={Login.label.username}
-                      type="text"
-                      {...register("username")}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <ComInput
-                      placeholder={Login.placeholder.password}
-                      label={Login.label.password}
-                      type="password"
-                      maxLength={16}
-                      {...register("password")}
-                      required
-                    />
-                  </div>
-                  <FieldError className="text-red-500 text-center">
-                    {LoginState || LoginError ? errorMessage : ""}
-                  </FieldError>
-                  <div className="mt-6 text-center gap-1 flex flex-col">
-                    <ComButton
-                      disabled={disabled}
-                      htmlType="submit"
-                      type="primary"
-                      className="w-full duration-300"
-                    >
-                      {Login.pageTitle}
-                    </ComButton>
-                    <p>&</p>
-                    <Link to="/" className=" text-sky-600">
-                      Trang chủ
-                    </Link>
-                  </div>
-                </form>
+                <div className="flex flex-col items-center ">
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="mt-8 space-y-6  max-w-xl m-4 min-w-full"
+                  >
+                    <div>
+                      <ComInput
+                        placeholder={Login.placeholder.username}
+                        label={Login.label.username}
+                        type="text"
+                        {...register("username")}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <ComInput
+                        placeholder={Login.placeholder.password}
+                        label={Login.label.password}
+                        type="password"
+                        maxLength={16}
+                        {...register("password")}
+                        required
+                      />
+                    </div>
+                    <FieldError className="text-red-500 text-center">
+                      {LoginState || LoginError ? errorMessage : ""}
+                    </FieldError>
+                    <div className="mt-6 text-center gap-1 flex flex-col">
+                      <ComButton
+                        disabled={disabled}
+                        htmlType="submit"
+                        type="primary"
+                        className="w-full duration-300"
+                      >
+                        {Login.pageTitle}
+                      </ComButton>
+                      <p>&</p>
+                      <Link to="/" className=" text-sky-600">
+                        Trang chủ
+                      </Link>
+                    </div>
+                  </form>
+                </div>
               </FormProvider>
             </div>
           </div>
