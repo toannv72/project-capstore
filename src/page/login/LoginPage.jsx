@@ -84,12 +84,16 @@ export default function LoginPage(props) {
               case "Nurse":
                 setDisabled(false);
                 setLogin(true);
-
                 setErrorMessage(
                   "Tài khoản không được phép đăng nhập vào hệ thống"
                 );
                 break;
               default:
+                setDisabled(false);
+                setLogin(true);
+                setErrorMessage(
+                  "Tài khoản không được phép đăng nhập vào hệ thống"
+                );
                 break;
             }
             resolve(); // Báo hiệu Promise đã hoàn thành

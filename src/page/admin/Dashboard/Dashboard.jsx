@@ -5,6 +5,7 @@ import ChartFour from "./ChartFour";
 import ChartElder from "./ChartElder";
 import { useEffect, useState } from "react";
 import { getData } from "../../../api/api";
+import TopServicePackage from "./TopServicePackage";
 
 function Dashboard() {
   const [totalUsers, setTotalUsers] = useState(null); // Thay bằng dữ liệu thực tế của bạn
@@ -21,14 +22,12 @@ function Dashboard() {
     });
     getData("/statistical/user").then((e) => {
       setTotalStaff(
-        e.data.totalCustomer +
-          e.data.totalManager +
-          e.data.totalStaff +
-          e.data.totalNurse
+        // e.data.totalCustomer +
+        e.data.totalManager + e.data.totalStaff + e.data.totalNurse
       );
     });
     getData("/statistical/user").then((e) => {
-      setTotalUsers(e.data.totalUser);
+      setTotalUsers(e.data.totalCustomer);
     });
   }, []);
   function formatCurrency(number) {
@@ -65,8 +64,8 @@ function Dashboard() {
         <ChartFour />
         <ChartTwo />
         <ChartElder />
-        {/* <ChartThree /> */}
       </div>
+      <TopServicePackage />
     </div>
   );
 }
