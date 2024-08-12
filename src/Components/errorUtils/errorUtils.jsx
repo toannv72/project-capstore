@@ -11,7 +11,7 @@ export const handleErrors = (error, setError, setFocus) => {
       message: "Phòng với gói dưỡng lão khác nhau!",
     },
     606: {
-      field: "nursingPackageId",
+      field: "roomId",
       message: "Phòng với gói dưỡng lão khác nhau package khác nhau",
     },
     607: {
@@ -61,7 +61,10 @@ export const handleErrors = (error, setError, setFocus) => {
         "Đã có người sử dụng nên không thể thay đổi số lượng điều dưỡng ",
     },
     625: {
-      field1: "contract.name",
+      field: "contract.name",
+      message: "Đã có số hợp đồng này",
+    },
+    626: {
       field: "name",
       message: "Đã có số hợp đồng này",
     },

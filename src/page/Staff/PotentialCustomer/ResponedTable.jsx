@@ -63,11 +63,11 @@ export default function ResponedTable({ ref }) {
        ...getColumnSearchProps("title", "Chủ đề"),
      },
      {
-       title: "nội dung",
+       title: "Nội dung",
        width: 100,
        dataIndex: "description",
        key: "description",
-       ...getColumnSearchProps("description", "nội dung"),
+       ...getColumnSearchProps("description", "Nội dung"),
      },
      {
        title: "Địa chỉ",

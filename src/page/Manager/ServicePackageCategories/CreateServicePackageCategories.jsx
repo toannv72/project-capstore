@@ -18,7 +18,7 @@ export function CreateServicePackageCategories({ onClose, tableRef }) {
 
   const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhập tên thể loại"),
+    name: yup.string().required("Vui lòng nhập tên thể loại").trim(),
   });
 
   const methods = useForm({

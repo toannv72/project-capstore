@@ -284,7 +284,7 @@ export const Tables = forwardRef((props, ref) => {
             record={record}
             showModalDetails={() => showModal(record)}
             showModalEdit={showModalEdit}
-            extraMenuItems={extraMenuItems}
+            // extraMenuItems={extraMenuItems}
             excludeDefaultItems={["delete"]}
             order={order}
           />

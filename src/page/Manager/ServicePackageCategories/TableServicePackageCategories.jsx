@@ -102,7 +102,7 @@ export const TableServicePackageCategories = forwardRef((props, ref) => {
     notificationApi(
       "error",
       "Không thành công ",
-      "Xóa thể loại dịch vụ không thành công!"
+      "Đã có dịch vụ đang sử dụng thể loại này!"
     );
   };
   return (

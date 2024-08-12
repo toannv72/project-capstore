@@ -197,6 +197,18 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
+      getData("/nursing-package")
+        .then((e) => {
+          const dataForSelects = e?.data?.contends.map((item) => ({
+            value: item.id,
+            label: `${item.name}`,
+            price: item.price,
+          }));
+          setDataPackage(dataForSelects);
+        })
+        .catch((error) => {
+          console.error("Error fetching items:", error);
+        });
     getData(
       `/room?NursingPackageId=${selectedData?.contractsInUse?.nursingPackage?.id}`
     )
@@ -380,6 +392,28 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                       ]}
                       required
                       {...register("relationship")}
+                    />
+                  </div>
+                </div>
+                <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComSelect
+                      size={"large"}
+                      style={{
+                        width: "100%",
+                      }}
+                      label="Gói cho hợp đồng"
+                      placeholder="Gói"
+                      // onChangeValue={handleChange2}
+                      value={watch("nursingPackageId")}
+                      // mode="tags"
+                      mode="default"
+                      options={dataPackage}
+                      required
+                      inputReadOnly
+                      open={false}
+                      disabled={true}
+                      {...register("nursingPackageId")}
                     />
                   </div>
                 </div>
