@@ -78,7 +78,7 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Cập nhật thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
             setTimeout(() => {}, 100);
             setDisabled(false);
             tableRef();
@@ -89,13 +89,13 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
             setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
-            notificationApi("error", "Cập nhật không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "Đã cập nhật");
           });
       } else {
         const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Cập nhật thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
             setTimeout(() => {}, 100);
             setDisabled(false);
             tableRef();
@@ -106,7 +106,7 @@ export default function EditBill({ selectedUser, onClose, tableRef }) {
             // set các trường hợp lỗi api
             setDisabled(false);
             handleErrors(e, setError, setFocus);
-            notificationApi("error", "Cập nhật không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "Đã cập nhật");
           });
       }
     });

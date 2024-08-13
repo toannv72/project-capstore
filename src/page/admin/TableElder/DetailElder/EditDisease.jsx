@@ -41,7 +41,7 @@ export default function EditDisease({ selectedData, onClose, tableRef }) {
       diseaseCategories: diseaseCategories,
     })
       .then((e) => {
-        notificationApi("success", "Cập nhật thành công", "đã sửa");
+        notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
 
         tableRef();
         setDisabled(false);

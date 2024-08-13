@@ -121,7 +121,7 @@ export default function DetailElderHealth() {
                       rows={5}
                       readOnly
                       {...register("medicalRecord.underlyingDisease")}
-                      required
+                      // required
                     />
                   </div>
                 </div>

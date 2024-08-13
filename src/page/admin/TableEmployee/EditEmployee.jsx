@@ -75,7 +75,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedData.id, dataPut)
           .then((data) => {
-            notificationApi("success", "Cập nhật thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
             setTimeout(() => {}, 100);
             tableRef();
             setDisabled(false);
@@ -96,7 +96,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
         const dataPut = { ...data, avatarUrl: selectedData.avatarUrl };
         putData(`/users`, selectedData.id, dataPut)
           .then((data) => {
-            notificationApi("success", "Cập nhật thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
             setTimeout(() => {}, 100);
             tableRef();
             onClose();

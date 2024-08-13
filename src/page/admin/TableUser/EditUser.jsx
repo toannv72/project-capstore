@@ -79,7 +79,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
         const dataPut = { ...data, avatarUrl: dataImg };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Cập nhật thành công ", "đã sửa");
+            notificationApi("success", "Cập nhật thành công ", "Đã cập nhật");
             setTimeout(() => {}, 100);
             tableRef();
             onClose();
@@ -90,13 +90,13 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
             setDisabled(false);
-            notificationApi("error", "Cập nhật không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "Đã cập nhật");
           });
       } else {
         const dataPut = { ...data, avatarUrl: selectedUser.avatarUrl };
         putData(`/users`, selectedUser.id, dataPut)
           .then((e) => {
-            notificationApi("success", "Cập nhật thành công", "đã sửa");
+            notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
             setTimeout(() => {}, 100);
             tableRef();
             setDisabled(false);
@@ -107,7 +107,7 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
             setDisabled(false);
             // set các trường hợp lỗi api
             handleErrors(e, setError, setFocus);
-            notificationApi("error", "Cập nhật không thành công", "đã sửa");
+            notificationApi("error", "Cập nhật không thành công", "Đã cập nhật");
           });
       }
     });

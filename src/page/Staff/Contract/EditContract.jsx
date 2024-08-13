@@ -41,7 +41,7 @@ export default function EditContract({ selectedUser, onClose }) {
     firebaseImgs(image).then((dataImg) => {
       setDisabled(false);
       console.log("ảnh nè : ", dataImg);
-      notificationApi("error", "Cập nhật thành công", "đã sửa");
+      notificationApi("error", "Cập nhật thành công", "Đã cập nhật");
       onClose();
     });
   };
