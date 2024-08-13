@@ -438,6 +438,15 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   </div>
                 </div>
                 <div className="sm:col-span-2">
+                  <ComTextArea
+                    label="Ghi chú người cao tuổi"
+                    placeholder="Vui lòng nhập ghi chú"
+                    rows={5}
+                    {...register("notes")}
+                    // required
+                  />
+                </div>
+                <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea
                       type="text"
@@ -613,23 +622,23 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   </div>
                 </div> */}
               </div>
-            <div className="mt-8">
-              <ComUpImgOne
-                imgUrl={selectedData?.imageUrl}
-                onChange={onChange}
-                label={"Hình ảnh"}
-              />
-            </div>
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                type="primary"
-                disabled={disabled}
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Cập nhật
-              </ComButton>
-            </div>
+              <div className="mt-8">
+                <ComUpImgOne
+                  imgUrl={selectedData?.imageUrl}
+                  onChange={onChange}
+                  label={"Hình ảnh"}
+                />
+              </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  type="primary"
+                  disabled={disabled}
+                  className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Cập nhật
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>
