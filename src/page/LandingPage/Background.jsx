@@ -62,7 +62,7 @@ export default function Background({ focusFrom }) {
         <div className="wrap cf ">
           <div className="intro__wrapper intro__wrapper--center ">
             <h2 className="intro__title">
-              CareConnect - Vì một tuổi già an yên cho ba mẹ và sự an tâm cho
+              CareConnect - Vì một tuổi già an nhiên cho ba mẹ và sự an tâm cho
               bạn, hãy kết nối với chúng tôi ngay hôm nay.
             </h2>
 
