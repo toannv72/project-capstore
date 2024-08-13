@@ -96,6 +96,12 @@ export default function EditNursingPackage({
             .catch((error) => {
               console.log(error);
               setDisabled(false);
+              if (error.response?.status === 409) {
+                setError("name", {
+                  message: "Đã có tên gói dưỡng lão này!",
+                });
+                setFocus("name");
+              }
               notificationApi(
                 "error",
                 "Cập nhật không thành công",
@@ -122,6 +128,12 @@ export default function EditNursingPackage({
             .catch((error) => {
               console.log(error);
               setDisabled(false);
+              if (error.response?.status === 409) {
+                setError("name", {
+                  message: "Đã có tên gói dưỡng lão này!",
+                });
+                setFocus("name");
+              }
               handleErrors(error, setError, setFocus);
               notificationApi(
                 "error",
@@ -130,8 +142,6 @@ export default function EditNursingPackage({
               );
             });
         }
-
-        
       });
     } else {
       setDisabled(false);
@@ -159,7 +169,7 @@ export default function EditNursingPackage({
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComNumber
                       // type="text"
@@ -177,7 +187,7 @@ export default function EditNursingPackage({
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-1">
                   <div className="mt-2.5">
                     <ComNumber
                       // type="text"

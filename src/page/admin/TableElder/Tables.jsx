@@ -344,6 +344,7 @@ export const Tables = forwardRef((props, ref) => {
       {/* chi tiết người lớn tuôi */}
       <ComModal
         isOpen={modalDetailElder?.isModalOpen}
+        width={700}
         onClose={modalDetailElder?.handleClose}
       >
         <DetailElder

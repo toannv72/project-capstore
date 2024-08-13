@@ -171,6 +171,7 @@ console.log(data);
       </ComModal>
       <ComModal
         isOpen={modalEdit?.isModalOpen}
+        width={800}
         onClose={modalEdit?.handleClose}
       >
         <EditNursingPackage

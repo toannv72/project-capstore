@@ -62,7 +62,7 @@ export default function TableServicePackage() {
       title: "Ảnh dịch vụ",
       dataIndex: "imageUrl",
       key: "imageUrl",
-      width: 100,
+      width: 150,
       fixed: "left",
       render: (_, record) => (
         <div className="w-24 h-24 flex items-center justify-center overflow-hidden">

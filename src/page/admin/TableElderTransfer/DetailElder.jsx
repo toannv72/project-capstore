@@ -89,6 +89,14 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
                 </ComDateConverter>
               </td>
             </tr>
+            <tr className="border-b">
+              <td className="px-4 py-2 text-gray-600 font-medium">
+                Thói quen sinh hoạt:
+              </td>
+              <td className="px-4 py-2">
+                <pre className="whitespace-pre-wrap">{data.habits}</pre>
+              </td>
+            </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}
           </tbody>
         </table>
