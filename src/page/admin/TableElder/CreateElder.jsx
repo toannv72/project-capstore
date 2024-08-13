@@ -1003,7 +1003,6 @@ export default function CreateElder({ onClose, tableRef }) {
                   </div>
                 </div> */}
               </div>
-            </div>
 
             <div className="mt-10">
               <ComButton
@@ -1014,6 +1013,7 @@ export default function CreateElder({ onClose, tableRef }) {
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

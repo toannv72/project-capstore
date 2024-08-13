@@ -234,21 +234,23 @@ export default function CreateUser({ onClose, tableRef }) {
                   </div>
                 </div>
               </div>
-            </div>
-            <ComUpImgOne
-              onChange={onChange}
-              reset={resetImg}
-              label={"Hình ảnh"}
-            />
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                disabled={disabled}
-                type="primary"
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Tạo mới
-              </ComButton>
+              <div className="mt-8">
+                <ComUpImgOne
+                  onChange={onChange}
+                  reset={resetImg}
+                  label={"Hình ảnh"}
+                />
+              </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  disabled={disabled}
+                  type="primary"
+                  className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Tạo mới
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>

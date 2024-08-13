@@ -205,8 +205,6 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                   </div>
                 </div>
               </div>
-            </div>
-
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -217,6 +215,8 @@ export default function CreateNursingPackage({ tableRef, onClose }) {
                 Tạo mới
               </ComButton>
             </div>
+            </div>
+
           </form>
         </FormProvider>
       </div>

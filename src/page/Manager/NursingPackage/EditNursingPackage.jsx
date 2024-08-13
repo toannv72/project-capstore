@@ -248,8 +248,6 @@ export default function EditNursingPackage({
                   </div>
                 </div>
               </div>
-            </div>
-
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -260,6 +258,8 @@ export default function EditNursingPackage({
                 Cập nhật
               </ComButton>
             </div>
+            </div>
+
           </form>
         </FormProvider>
       </div>

@@ -617,7 +617,6 @@ export default function CreateMedical({ onClose, tableRef }) {
                   />
                 </div>
               </div>
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -627,6 +626,7 @@ export default function CreateMedical({ onClose, tableRef }) {
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

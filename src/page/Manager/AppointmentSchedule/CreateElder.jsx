@@ -834,8 +834,6 @@ export default function CreateElder({
                   />
                 </div>
               </div>
-            </div>
-
             <div className="mt-10">
               <ComButton
                 disabled={disabled}
@@ -846,6 +844,8 @@ export default function CreateElder({
                 Tạo mới
               </ComButton>
             </div>
+            </div>
+
           </form>
         </FormProvider>
       </div>

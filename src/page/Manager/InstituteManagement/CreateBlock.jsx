@@ -81,7 +81,6 @@ setDisabled(true);
                   </div>
                 </div> */}
               </div>
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -91,6 +90,7 @@ setDisabled(true);
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

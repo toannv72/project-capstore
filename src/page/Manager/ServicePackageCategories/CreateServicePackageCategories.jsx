@@ -91,17 +91,16 @@ export function CreateServicePackageCategories({ onClose, tableRef }) {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                type="primary"
-                disabled={disabled}
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Tạo mới
-              </ComButton>
+                <div className="mt-10">
+                  <ComButton
+                    htmlType="submit"
+                    type="primary"
+                    disabled={disabled}
+                    className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Tạo mới
+                  </ComButton>
+                </div>
             </div>
           </form>
         </FormProvider>

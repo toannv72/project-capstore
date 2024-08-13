@@ -168,8 +168,6 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                   </div>
                 </div> */}
               </div>
-            </div>
-
             <div className="mt-10 ">
               <ComButton
                 htmlType="submit"
@@ -180,6 +178,8 @@ export default function CreateRoom({ isOpen, onClose, getDataApi }) {
                 Tạo mới
               </ComButton>
             </div>
+            </div>
+
           </form>
         </FormProvider>
       </div>

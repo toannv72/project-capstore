@@ -207,7 +207,6 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
                   </div>
                 </div>
               </div>
-            </div>
             <ComUpImgOne
               imgUrl={selectedData.avatarUrl}
               onChange={onChange}
@@ -222,6 +221,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
               >
                 Cập nhật
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

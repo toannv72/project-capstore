@@ -620,7 +620,6 @@ export default function CreateContract({
                   />
                 </div>
               </div>
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -630,6 +629,7 @@ export default function CreateContract({
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

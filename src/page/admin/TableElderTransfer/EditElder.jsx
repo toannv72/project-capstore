@@ -499,12 +499,6 @@ showSearch
                   </div>
                 </div> */}
               </div>
-            </div>
-            {/* <ComUpImgOne
-              imgUrl={selectedData?.imageUrl}
-              onChange={onChange}
-              label={"Hình ảnh"}
-            /> */}
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -515,6 +509,12 @@ showSearch
                 Cập nhật
               </ComButton>
             </div>
+            </div>
+            {/* <ComUpImgOne
+              imgUrl={selectedData?.imageUrl}
+              onChange={onChange}
+              label={"Hình ảnh"}
+            /> */}
           </form>
         </FormProvider>
       </div>

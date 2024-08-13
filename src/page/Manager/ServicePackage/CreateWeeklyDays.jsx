@@ -248,7 +248,6 @@ export default function CreateWeeklyDays({ onClose }) {
                   </div>
                 </div>
               </div>
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -257,6 +256,7 @@ export default function CreateWeeklyDays({ onClose }) {
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

@@ -335,7 +335,6 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
                     </div>
                   </div>
                 ))}
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -345,6 +344,7 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
               >
                 Cập nhật
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

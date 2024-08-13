@@ -215,7 +215,6 @@ export default function CreateAnyDay({ onClose }) {
                   </div>
                 </div>
               </div>
-            </div>
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -224,6 +223,7 @@ export default function CreateAnyDay({ onClose }) {
               >
                 Tạo mới
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

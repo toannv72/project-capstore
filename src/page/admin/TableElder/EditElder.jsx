@@ -613,12 +613,13 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
                   </div>
                 </div> */}
               </div>
+            <div className="mt-8">
+              <ComUpImgOne
+                imgUrl={selectedData?.imageUrl}
+                onChange={onChange}
+                label={"Hình ảnh"}
+              />
             </div>
-            <ComUpImgOne
-              imgUrl={selectedData?.imageUrl}
-              onChange={onChange}
-              label={"Hình ảnh"}
-            />
             <div className="mt-10">
               <ComButton
                 htmlType="submit"
@@ -628,6 +629,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
               >
                 Cập nhật
               </ComButton>
+            </div>
             </div>
           </form>
         </FormProvider>

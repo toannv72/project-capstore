@@ -244,21 +244,23 @@ export default function EditUser({ selectedUser, onClose, tableRef }) {
                   </div>
                 </div>
               </div>
-            </div>
-            <ComUpImgOne
-              imgUrl={selectedUser.avatarUrl}
-              onChange={onChange}
-              label={"Hình ảnh"}
-            />
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                type="primary"
-                disabled={disabled}
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Cập nhật
-              </ComButton>
+              <div className="mt-8">
+                <ComUpImgOne
+                  imgUrl={selectedUser.avatarUrl}
+                  onChange={onChange}
+                  label={"Hình ảnh"}
+                />
+              </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  type="primary"
+                  disabled={disabled}
+                  className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Cập nhật
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>

@@ -29,7 +29,7 @@ export const TableHealth = forwardRef((props, ref) => {
       {
         title: "Tên chỉ số",
         fixed: "left",
-        width: 100,
+        width:200,
         dataIndex: "healthCategory.name",
         key: "healthCategory.name",
         ...getColumnSearchProps("healthCategory.name", "Tên chỉ số"),
@@ -244,9 +244,10 @@ export const TableHealth = forwardRef((props, ref) => {
         columns={columns}
         dataSource={data}
         loading={table.loading}
+        x
         scroll={{
           x: 1020,
-          y: "55vh",
+          y: "50vh",
         }}
       />
       <ComModal isOpen={modal?.isModalOpen} onClose={modal?.handleClose}>
