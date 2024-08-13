@@ -9,7 +9,7 @@ import ComUpImg from "../../../Components/ComUpImg/ComUpImg";
 import { useNotification } from "../../../Notification/Notification";
 import ComTextArea from "./../../../Components/ComInput/ComTextArea";
 import ComNumber from "./../../../Components/ComInput/ComNumber";
-import { postData } from "../../../api/api";
+import { postData, putData } from "../../../api/api";
 import { handleErrors } from "./../../../Components/errorUtils/errorUtils";
 
 export function EditServicePackageCategories({
@@ -34,7 +34,7 @@ export function EditServicePackageCategories({
 
   const onSubmit = (data) => {
     setDisabled(true);
-    postData(`/service-package-categories`, data)
+    putData(`/service-package-categories`, selectData.id, data)
       .then((e) => {
         notificationApi(
           "success",
@@ -50,9 +50,15 @@ export function EditServicePackageCategories({
         setDisabled(false);
       })
       .catch((error) => {
-        console.log(error);
         handleErrors(error, setError, setFocus);
         setDisabled(false);
+
+        if (error?.response?.status === 409) {
+          setError("name", {
+            message: "Đã có tên thể loại này",
+          });
+          setFocus("name");
+        }
         notificationApi(
           "error",
           "Cập nhật không thành công",
