@@ -133,11 +133,7 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
           })
           .catch((error) => {
             console.log(error);
-            notificationApi(
-              "error",
-              "Cập nhật không thành công ",
-              "Cập nhật"
-            );
+            notificationApi("error", "Cập nhật không thành công ", "Cập nhật");
             setDisabled(false);
             handleErrors(error, setError, setFocus);
           });
@@ -197,25 +193,29 @@ export default function EditElder({ selectedData, onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-      getData("/nursing-package")
-        .then((e) => {
-          const dataForSelects = e?.data?.contends.map((item) => ({
-            value: item.id,
-            label: `${item.name}`,
-            price: item.price,
-          }));
-          setDataPackage(dataForSelects);
-        })
-        .catch((error) => {
-          console.error("Error fetching items:", error);
-        });
+    getData("/nursing-package")
+      .then((e) => {
+        const dataForSelects = e?.data?.contends.map((item) => ({
+          value: item.id,
+          label: `${item.name}`,
+          price: item.price,
+        }));
+        setDataPackage(dataForSelects);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
     getData(
       `/room?NursingPackageId=${selectedData?.contractsInUse?.nursingPackage?.id}`
     )
       .then((e) => {
-        console.log(e?.data?.contends);
+        console.log(111111111, e?.data?.contends);
         const dataForSelect = e?.data?.contends
-          .filter((item) => item.totalBed - item.totalElder > 0)
+          .filter(
+            (item) =>
+              selectedData.roomId === item.id ||
+              item.totalBed - item.totalElder > 0
+          )
           .map((item) => ({
             value: item.id,
             label: `Phòng:${item.name}

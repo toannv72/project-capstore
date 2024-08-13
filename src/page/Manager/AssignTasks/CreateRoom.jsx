@@ -67,7 +67,7 @@ setDisabled(true);
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/nursing-package")
+    getData("/nursing-package?State=Active&SortDir=Desc")
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,

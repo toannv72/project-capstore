@@ -383,7 +383,7 @@ export default function CreateElder({ onClose, tableRef }) {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-    getData("/nursing-package?SortDir=Desc")
+    getData("/nursing-package?State=Active&SortDir=Desc")
       .then((e) => {
         const dataForSelects = e?.data?.contends.map((item) => ({
           value: item.id,
