@@ -24,8 +24,8 @@ export default function EditMeasureUnit({
 }) {
   const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên chỉ số"),
     unitType: yup.string().required("Vui lòng nhập đơn vị chỉ số"),
     minValue: yup
@@ -80,17 +80,19 @@ const CreateProductMessenger = yup.object({
   });
 
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     console.log(data);
 
     putData(`/measure-unit`, dataSelect.id, { ...data })
       .then((e) => {
         notificationApi("success", "thành công", "đã cập nhật chỉ số !");
         getDataApi();
-        onClose();setDisabled(false);
+        onClose();
+        setDisabled(false);
       })
       .catch((error) => {
-        console.log(error);setDisabled(false);
+        console.log(error);
+        setDisabled(false);
         handleErrors(error, setError, setFocus);
       });
   };
@@ -111,8 +113,8 @@ setDisabled(true);
                 <div className="sm:col-span-1">
                   <ComInput
                     type="text"
-                    label={"Tên đơn vị đo lường"}
-                    placeholder={"Tên đơn vị đo lường"}
+                    label={"Tên đơn vị đo"}
+                    placeholder={"Tên đơn vị đo"}
                     {...register(`name`)}
                     required
                   />
@@ -120,8 +122,8 @@ setDisabled(true);
                 <div className="sm:col-span-1">
                   <ComInput
                     type="text"
-                    label={"Loại đơn vị"}
-                    placeholder={"Loại đơn vị"}
+                    label={"Đơn vị đo"}
+                    placeholder={"Đơn vị đo"}
                     {...register(`unitType`)}
                     required
                   />

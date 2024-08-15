@@ -216,7 +216,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
   ];
   const reloadData = () => {
     table.handleOpenLoading();
-    getData("/health-category?SortDir=Desc")
+    getData("/health-category?State=Active&SortDir=Desc")
       .then((e) => {
         setData(e?.data?.contends);
         table.handleCloseLoading();
