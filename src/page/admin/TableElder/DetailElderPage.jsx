@@ -13,6 +13,7 @@ import { Skeleton } from "antd";
 import ErrorPage from "../../404/ErrorPage";
 import ComPhoneConverter from "../../../Components/ComPhoneConverter/ComPhoneConverter";
 import DetailElderInformation from "./DetailElder/DetailElderInformation";
+import ComAgeConverter from './../../../Components/ComDateConverter/ComAgeConverter';
 
 export default function DetailElderPage() {
   const { id } = useParams();
@@ -129,6 +130,9 @@ export default function DetailElderPage() {
                   <ComDateConverter>{data?.dateOfBirth}</ComDateConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
+                  Tuổi: <ComAgeConverter>{data?.dateOfBirth}</ComAgeConverter>
+                </div>
+                <div class="text-sm text-gray-500  ">
                   Giới tính:{" "}
                   <ComGenderConverter>{data?.gender}</ComGenderConverter>
                 </div>
@@ -158,6 +162,10 @@ export default function DetailElderPage() {
                 <h3 class="mb-1 text-xl font-bold text-gray-900  ">
                   Người giám hộ chính: {data?.user?.fullName}
                 </h3>
+                <div class="text-sm text-gray-500  ">
+                  Tuổi:{" "}
+                  <ComAgeConverter>{data?.user?.dateOfBirth}</ComAgeConverter>
+                </div>
                 <div class="text-sm text-gray-500  ">
                   Năm sinh:{" "}
                   <ComDateConverter>{data?.user?.dateOfBirth}</ComDateConverter>

@@ -14,13 +14,13 @@ import DetailElder from "./DetailElder";
 import EditElder from "./EditElder";
 import { getData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import DetailUser from "./../TableUser/DetailUser";
+import DetailUser from "../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import useRolePermission from "../../../hooks/useRolePermission";
 
-export const Tables = forwardRef((props, ref) => {
+export const TableTransfer = forwardRef((props, ref) => {
   const { idUser } = props;
   const [data, setData] = useState([]);
   const {

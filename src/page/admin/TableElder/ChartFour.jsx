@@ -88,11 +88,11 @@ const ChartFour = () => {
       },
 
       // {
-      //   name: "Dịch vụ lập lại theo ngày",
+      //   name: "Dịch vụ lặp lại theo ngày",
       //   data: [15, 42, 38, 29, 14, 53, 27, 36, 21, 58, 33, 7],
       // },
       // {
-      //   name: "Dịch vụ lập lại theo tuần",
+      //   name: "Dịch vụ lặp lại theo tuần",
       //   data: [5, 23, 48, 12, 59, 30, 39, 46, 10, 24, 37, 41],
       // },
       // {
