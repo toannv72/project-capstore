@@ -193,11 +193,12 @@ export const TableHealthCategory = forwardRef((props, ref) => {
                 `Bạn có chắc chắn muốn xóa?`,
                 reloadData,
                 notificationSuccess,
-                notificationError
+                notificationError,
+                "put"
               );
             }}
             extraMenuItems={extraMenuItems}
-            excludeDefaultItems={["details",]}
+            excludeDefaultItems={["details"]}
             // order={order}
           />
         </div>
