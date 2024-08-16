@@ -16,7 +16,7 @@ export default function EditBlock({ dataSelect, onClose, getDataApi }) {
 
     const [disabled, setDisabled] = useState(false);
 const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhâp tên").trim(),
+    name: yup.string().required("Vui lòng nhập tên").trim(),
   });
 
   const methods = useForm({

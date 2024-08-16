@@ -21,8 +21,8 @@ export default function EditHealthCategory({dataSelect, isOpen, onClose, getData
   const { notificationApi } = useNotification();
     const [disabled, setDisabled] = useState(false);
 const CreateProductMessenger = yup.object({
-    name: yup.string().required("Vui lòng nhâp tên"),
-    description: yup.string().required("Vui lòng nhâp tên"),
+    name: yup.string().required("Vui lòng nhập tên"),
+    description: yup.string().required("Vui lòng nhập tên"),
 
   });
 

@@ -34,6 +34,7 @@ import ComHeaderDirector from "./Components/ComHeaderDirector/ComHeaderDirector"
 import ComHeaderManager from "./Components/ComHeaderManager/ComHeaderManager";
 import DetailUserPage from "./page/admin/TableUser/DetailUserPage";
 import TableElderTransfer from "./page/admin/TableElderTransfer/TableElderTransfer";
+import Disease from "./page/Manager/Disease/Disease";
 
 export const routers = createBrowserRouter([
   {
@@ -242,7 +243,7 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/staff",
-        element: <Admin />,
+        element: <AssignTasksManagement />,
       },
       {
         path: "/staff/contract",
@@ -263,6 +264,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/elder",
         element: <TableElder />,
+      },
+      {
+        path: "/staff/diseaseCategory",
+        element: <Disease />,
       },
       {
         path: "/staff/elder/:id",

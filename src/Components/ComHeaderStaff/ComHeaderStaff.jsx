@@ -2,11 +2,12 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   ArrowsRightLeftIcon,
-  Bars3Icon,
+  BugAntIcon,
   CalendarDaysIcon,
   CreditCardIcon,
   HeartIcon,
   QueueListIcon,
+  ShieldCheckIcon,
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -62,6 +63,11 @@ const subCategories = [
     name: "Khách hàng tiềm năng",
     href: "/staff/potentialCustomer",
     icon: StarIcon,
+  },
+  {
+    name: "Loại bệnh",
+    href: "/staff/diseaseCategory",
+    icon: ShieldCheckIcon,
   },
 ];
 
