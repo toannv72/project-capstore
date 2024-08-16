@@ -19,7 +19,7 @@ const uniqueMeasureUnitNames = (measureUnits) => {
 };
 
 export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
-  const [image, setImages] = useState([]);
+  const [image, setImages] = useState(null);
   const { notificationApi } = useNotification();
   const [disabled, setDisabled] = useState(false);
   const CreateProductMessenger = yup.object({
@@ -43,19 +43,32 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
                 const { maxValue } = this.parent;
                 return value < maxValue;
               }
+            )
+            .test(
+              "is-decimal-precision",
+              "Giá trị tối thiểu chỉ được có 2 số sau dấu phẩy",
+              function (value) {
+                return /^-?\d+(\.\d{1,2})?$/.test(value);
+              }
             ),
           maxValue: yup
             .number()
             .required("Vui lòng nhập đơn vị chỉ số")
             .moreThan(0, "Giá trị tối đa phải lớn hơn 0")
             .typeError("Vui lòng nhập ")
-
             .test(
               "is-more-than-min",
               "Giá trị tối đa phải lớn hơn giá trị tối thiểu",
               function (value) {
                 const { minValue } = this.parent;
                 return value > minValue;
+              }
+            )
+            .test(
+              "is-decimal-precision",
+              "Giá trị tối đa chỉ được có 2 số sau dấu phẩy",
+              function (value) {
+                return /^-?\d+(\.\d{1,2})?$/.test(value);
               }
             ),
           // description: yup.string().required("Vui lòng nhập mô tả"),
@@ -97,21 +110,26 @@ export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
   const onSubmit = (data) => {
     setDisabled(true);
     console.log(data);
-    firebaseImg(image).then((imageUrl) => {
-      postData(`/health-category`, { ...data, imageUrl })
-        .then((e) => {
-          notificationApi("success", "Tạo thành công", "Đã tạo chỉ số !");
-          getDataApi();
-          onClose();
-          setDisabled(false);
-          reset();
-        })
-        .catch((error) => {
-          console.log(error);
-          setDisabled(false);
-          handleErrors(error, setError, setFocus);
-        });
-    });
+    if (image) {
+      firebaseImg(image).then((imageUrl) => {
+        postData(`/health-category`, { ...data, imageUrl })
+          .then((e) => {
+            notificationApi("success", "Tạo thành công", "Đã tạo chỉ số !");
+            getDataApi();
+            onClose();
+            setDisabled(false);
+            reset();
+          })
+          .catch((error) => {
+            console.log(error);
+            setDisabled(false);
+            handleErrors(error, setError, setFocus);
+          });
+      });
+    } else {
+      notificationApi("error", "Không thành công", "Vui lòng nhập ảnh");
+      setDisabled(false);
+    }
   };
   const onChange = (data) => {
     const selectedImages = data;

@@ -16,7 +16,7 @@ export default function DetailAppointment2({
 }) {
   const modal = useModalState();
   const { notificationApi } = useNotification();
-    const hasPermission = useRolePermission([ "staff"]);
+  const hasPermission = useRolePermission(["staff"]);
 
   console.log("====================================");
   console.log(selectedData);
@@ -107,9 +107,9 @@ export default function DetailAppointment2({
           ) : (
             <></>
           )}
-          <ComButton className={" bg-white "} onClick={onClose}>
+          {/* <ComButton className={" bg-white "} onClick={onClose}>
             <div className="text-black">Đóng</div>
-          </ComButton>
+          </ComButton> */}
         </div>
       </div>
       <ComModal
@@ -122,6 +122,7 @@ export default function DetailAppointment2({
           onClose1={onClose}
           onClose={modal?.handleClose}
           userID={selectedData}
+          changeStatus={()=>update("ComPleted")}
         />
       </ComModal>
     </div>

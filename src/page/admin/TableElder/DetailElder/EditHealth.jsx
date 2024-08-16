@@ -245,12 +245,13 @@ export default function EditHealth({ selectedData, onClose, tableRef }) {
                 />
               </div>
             </div>
+      
             <div className="sm:col-span-2">
               <div className="mt-2.5">
                 <ComTextArea
                   type="text"
                   label={"Ghi chú"}
-                  placeholder={"Vui lòng nhập Ghi chú"}
+                  placeholder={"Vui lòng nhập ghi chú"}
                   rows={5}
                   {...register("note")}
                   // required

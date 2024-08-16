@@ -124,6 +124,19 @@ export default function DetailElderHealth() {
                     />
                   </div>
                 </div>
+                {/* <div className="sm:col-span-2">
+                  <div className="mt-2.5">
+                    <ComTextArea
+                      type="text"
+                      label={"Thói quen sinh hoạt"}
+                      // placeholder={"Vui lòng nhập Ghi chú"}
+                      rows={5}
+                      readOnly
+                      {...register("habits")}
+                      // required
+                    />
+                  </div>
+                </div> */}
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComTextArea

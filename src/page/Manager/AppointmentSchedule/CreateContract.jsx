@@ -24,6 +24,7 @@ export default function CreateContract({
   onClose,
   onClose1,
   tableRef,
+  changeStatus,
   userID,
 }) {
   const [image, setImages] = useState([]);
@@ -197,13 +198,15 @@ export default function CreateContract({
           };
           postData("/contract", datapost)
             .then((e) => {
-              notificationApi("success", "Thành công", "Đã tạo thành công");
+              notificationApi("success", "Thành công", "Gia hạn thành công");
               setDisabled(false);
               onClose();
               onClose1();
+              changeStatus();
             })
             .catch((error) => {
               console.log(error);
+
               handleErrors(error, setError, setFocus);
               setDisabled(false);
               if (error?.status === 616) {
@@ -620,16 +623,16 @@ export default function CreateContract({
                   />
                 </div>
               </div>
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                disabled={disabled}
-                type="primary"
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Tạo mới
-              </ComButton>
-            </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  disabled={disabled}
+                  type="primary"
+                  className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Gia hạn
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>
