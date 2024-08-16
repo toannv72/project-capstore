@@ -12,7 +12,7 @@ export const handleErrors = (error, setError, setFocus) => {
     },
     606: {
       field: "roomId",
-      message: "Phòng với gói dưỡng lão khác nhau package khác nhau",
+      message: "Phòng với gói dưỡng lão khác nhau, gói dưỡng lão khác nhau",
     },
     607: {
       field: "#",

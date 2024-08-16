@@ -21,10 +21,10 @@ const uniqueMeasureUnitNames = (measureUnits) => {
 export default function CreateHealthCategory({ isOpen, onClose, getDataApi }) {
   const [image, setImages] = useState([]);
   const { notificationApi } = useNotification();
-    const [disabled, setDisabled] = useState(false);
-const CreateProductMessenger = yup.object({
+  const [disabled, setDisabled] = useState(false);
+  const CreateProductMessenger = yup.object({
     name: yup.string().required("Vui lòng nhập tên"),
-    description: yup.string().required("Vui lòng nhập tên"),
+    // description: yup.string().required("Vui lòng nhập tên"),
     measureUnits: yup
       .array()
       .of(
@@ -58,7 +58,7 @@ const CreateProductMessenger = yup.object({
                 return value > minValue;
               }
             ),
-          description: yup.string().required("Vui lòng nhập mô tả"),
+          // description: yup.string().required("Vui lòng nhập mô tả"),
         })
       )
       .min(1, "Cần ít nhất một đơn vị đo lường")
@@ -74,9 +74,7 @@ const CreateProductMessenger = yup.object({
     defaultValues: {
       name: "",
       description: "",
-      measureUnits: [
-        { name: "", unitType: "", description: "" },
-      ],
+      measureUnits: [{ name: "", unitType: "", description: "" }],
     },
   });
 
@@ -97,18 +95,20 @@ const CreateProductMessenger = yup.object({
     name: "measureUnits",
   });
   const onSubmit = (data) => {
-setDisabled(true);
+    setDisabled(true);
     console.log(data);
     firebaseImg(image).then((imageUrl) => {
       postData(`/health-category`, { ...data, imageUrl })
         .then((e) => {
-          notificationApi("success", "tạo thành công", "đã tạo chỉ số !");
+          notificationApi("success", "Tạo thành công", "Đã tạo chỉ số !");
           getDataApi();
-          onClose();setDisabled(false);
-          reset()
+          onClose();
+          setDisabled(false);
+          reset();
         })
         .catch((error) => {
-          console.log(error);setDisabled(false);
+          console.log(error);
+          setDisabled(false);
           handleErrors(error, setError, setFocus);
         });
     });
@@ -144,7 +144,6 @@ setDisabled(true);
                       label={"Thông tin bổ sung"}
                       placeholder={"Thông tin bổ sung"}
                       {...register("description")}
-                      required
                     />
                   </div>
                 </div>
@@ -157,8 +156,8 @@ setDisabled(true);
                       <div className="sm:col-span-1">
                         <ComInput
                           type="text"
-                          label={"Tên đơn vị đo lường"}
-                          placeholder={"Tên đơn vị đo lường"}
+                          label={"Tên đơn vị đo"}
+                          placeholder={"Tên đơn vị đo"}
                           {...register(`measureUnits.${index}.name`)}
                           required
                         />
@@ -166,8 +165,8 @@ setDisabled(true);
                       <div className="sm:col-span-1">
                         <ComInput
                           type="text"
-                          label={"Loại đơn vị"}
-                          placeholder={"Loại đơn vị"}
+                          label={"Đơn vị đo"}
+                          placeholder={"Đơn vị đo"}
                           {...register(`measureUnits.${index}.unitType`)}
                           required
                         />
@@ -197,7 +196,6 @@ setDisabled(true);
                           label={"Mô tả đơn vị"}
                           placeholder={"Mô tả đơn vị"}
                           {...register(`measureUnits.${index}.description`)}
-                          required
                         />
                       </div>
 
@@ -238,16 +236,16 @@ setDisabled(true);
                   />
                 </div>
               </div>
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                disabled={disabled}
-                type="primary"
-                className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Tạo mới
-              </ComButton>
-            </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  disabled={disabled}
+                  type="primary"
+                  className="block w-full rounded-md bg-[#0F296D]  text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Tạo mới
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>

@@ -21,7 +21,7 @@ export const TableHealth = forwardRef((props, ref) => {
   const modalDetailEmployee = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
   const [selectedHealth, setSelectedHealth] = useState(null);
-   const { idElder } = props;
+  const { idElder } = props;
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
 
   const expandedRowRender = (record) => {
@@ -29,7 +29,7 @@ export const TableHealth = forwardRef((props, ref) => {
       {
         title: "Tên chỉ số",
         fixed: "left",
-        width:200,
+        width: 200,
         dataIndex: "healthCategory.name",
         key: "healthCategory.name",
         ...getColumnSearchProps("healthCategory.name", "Tên chỉ số"),
@@ -143,14 +143,14 @@ export const TableHealth = forwardRef((props, ref) => {
     },
 
     {
-      title: "Tên người do",
+      title: "Tên người đo",
       width: 100,
       dataIndex: "creatorInfo.fullName",
       key: "creatorInfo.fullName",
       sorter: (a, b) =>
         a?.creatorInfo?.fullName?.localeCompare(b?.creatorInfo?.fullName),
 
-      ...getColumnSearchProps("creatorInfo.fullName", "Tên người do"),
+      ...getColumnSearchProps("creatorInfo.fullName", "Tên người đo"),
       render: (user, data) => (
         <Typography.Link
           onClick={() => {

@@ -45,7 +45,7 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
         <table className="w-full">
           <tbody>
             <tr className="border-b">
-              <td className="px-4 py-2 text-gray-600 font-medium">
+              <td className="px-4 py-2 w-1/3 text-gray-600 font-medium">
                 Họ và tên:
               </td>
               <td className="px-4 py-2">{data.name}</td>
@@ -96,7 +96,11 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
                 Thói quen sinh hoạt:
               </td>
               <td className="px-4 py-2">
-                <pre className="whitespace-pre-wrap">{data.habits}</pre>
+                <pre className="whitespace-pre-wrap">
+                  {data.habits?.length > 150
+                    ? `${data.habits.slice(0, 150)}...`
+                    : data.habits}
+                </pre>
               </td>
             </tr>
             {/* Thêm các dòng khác cho thông tin chi tiết */}

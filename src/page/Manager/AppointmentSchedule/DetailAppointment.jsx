@@ -91,7 +91,7 @@ export default function DetailAppointment({
             </Card>
             <div className="flex flex-col gap-4">
               {selectedData.elders.map((data, index) => (
-                <Card key={index} className=" mb-4 flex flex-col items-center">
+                <Card key={index} className=" mb-4 flex flex-col">
                   <tr className="border-b w-full">
                     <td className="px-4 py-2 text-gray-600 font-medium text-2xl">
                       Người cao tuổi {index + 1}
@@ -124,7 +124,7 @@ export default function DetailAppointment({
                     </td>
                     <td className="px-4 py-2">{data.room?.type}</td>
                   </tr>
-                  <div className="flex items-center justify-center">
+                  <div className="flex mt-2 items-center justify-center">
                     <ComLink
                       to={`/${getRoleFromPath(location.pathname)}/elder/${
                         data?.id

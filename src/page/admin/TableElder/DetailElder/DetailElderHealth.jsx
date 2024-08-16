@@ -10,7 +10,7 @@ import ComInput from "../../../../Components/ComInput/ComInput";
 import ComTextArea from "../../../../Components/ComInput/ComTextArea";
 import ComDatePicker from "../../../../Components/ComDatePicker/ComDatePicker";
 import ComModal from "../../../../Components/ComModal/ComModal";
-import EditHealth from './EditHealth';
+import EditHealth from "./EditHealth";
 import { useModalState } from "../../../../hooks/useModalState";
 import ComMenuButonTable from "../../../../Components/ComMenuButonTable/ComMenuButonTable";
 
@@ -110,7 +110,6 @@ export default function DetailElderHealth() {
                     />
                   </div>
                 </div>
-            
 
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
