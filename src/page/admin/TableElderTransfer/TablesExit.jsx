@@ -8,17 +8,18 @@ import ComTable from "../../../Components/ComTable/ComTable";
 import useColumnSearch from "../../../Components/ComTable/utils";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTableState } from "../../../hooks/useTableState";
-import { Image, Tooltip, Typography } from "antd";
+import { Image, Modal, Tooltip, Typography } from "antd";
 import ComModal from "../../../Components/ComModal/ComModal";
 import DetailElder from "./DetailElder";
 import EditElder from "./EditElder";
-import { getData } from "../../../api/api";
+import { deleteData, getData, putData } from "../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import DetailUser from "./../TableUser/DetailUser";
 import ComMenuButonTable from "../../../Components/ComMenuButonTable/ComMenuButonTable";
 import ComGenderConverter from "../../../Components/ComGenderConverter/ComGenderConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
 import useRolePermission from "../../../hooks/useRolePermission";
+import { useNotification } from "../../../Notification/Notification";
 
 export const TablesExit = forwardRef((props, ref) => {
   const { idUser } = props;
@@ -32,6 +33,7 @@ export const TablesExit = forwardRef((props, ref) => {
   const table = useTableState();
   const modalDetailUser = useModalState();
   const modalDetailElder = useModalState();
+  const { notificationApi } = useNotification();
   const modalEdit = useModalState();
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedElder, setSelectedElder] = useState(null);
@@ -75,24 +77,37 @@ export const TablesExit = forwardRef((props, ref) => {
   // const order = ["Thêm mới", "edit", "delete", "details"];
   const extraMenuItems = [
     {
-      label: "Thêm mới",
-      onClick: () => {
-        console.log("Thêm mới clicked");
+      label: "Xuất viện",
+      onClick: (data) => {
+        Modal.confirm({
+          title: "Xác nhận người cao tuổi này đã xuất viện",
+          content: "Người cao tuổi này đã xuất viện?",
+          okText: "Xác nhận",
+          okType: "danger",
+          cancelText: "Hủy",
+          onOk: () => {
+            deleteData(`elders`, `${data.id}`)
+              .then((e) => {
+                notificationApi(
+                  "success",
+                  "Thành công",
+                  "Người cao tuổi đã xuất viện"
+                );
+                reloadData();
+              })
+              .catch((error) => {
+                reloadData();
+                console.log("error", error);
+                notificationApi("error", "Không thành công", "");
+              });
+          },
+        });
       },
     },
   ];
 
   const uniqueRoomValues = getUniqueValues(data, "room.name");
-  const uniquePackageValues = getUniqueValues(
-    data,
-    "contractsInUse.nursingPackage.name"
-  );
-  function ComContractInUseStatusConverter({ contractsInUse }) {
-    const status = contractsInUse ? "Đang được hoạt động" : "Đã hủy";
-    const className = contractsInUse ? "text-blue-600" : "text-red-600";
 
-    return <div className={className}>{status}</div>;
-  }
   const columns = [
     {
       title: "Họ và tên người cao tuổi",
@@ -138,52 +153,52 @@ export const TablesExit = forwardRef((props, ref) => {
         </Typography.Link>
       ),
     },
-    // {
-    //   title: "Năm sinh người cao tuổi",
-    //   width: 160,
-    //   dataIndex: "dateOfBirth",
-    //   key: "dateOfBirth",
-    //   sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
-    //   ...getColumnApprox("dateOfBirth"),
+    {
+      title: "Năm sinh người cao tuổi",
+      width: 160,
+      dataIndex: "dateOfBirth",
+      key: "dateOfBirth",
+      sorter: (a, b) => new Date(a.dateOfBirth) - new Date(b.dateOfBirth),
+      ...getColumnApprox("dateOfBirth"),
 
-    //   render: (_, render) => (
-    //     <div>
-    //       <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   title: "CMND/CCCD",
-    //   width: 150,
-    //   dataIndex: "cccd",
-    //   key: "cccd",
-    //   sorter: (a, b) => a.cccd - b.cccd,
+      render: (_, render) => (
+        <div>
+          <ComDateConverter>{render?.dateOfBirth}</ComDateConverter>
+        </div>
+      ),
+    },
+    {
+      title: "CMND/CCCD",
+      width: 150,
+      dataIndex: "cccd",
+      key: "cccd",
+      sorter: (a, b) => a.cccd - b.cccd,
 
-    //   ...getColumnSearchProps("cccd", "CMND/CCCD"),
-    //   render: (cccd) => (
-    //     <div>
-    //       <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   title: "Giới tính",
-    //   width: 100,
-    //   dataIndex: "gender",
-    //   key: "gender",
-    //   filters: [
-    //     { text: "Nam", value: "Male" },
-    //     { text: "Nữ", value: "Female" },
-    //   ],
-    //   onFilter: (value, record) => record.gender === value,
-    //   sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
+      ...getColumnSearchProps("cccd", "CMND/CCCD"),
+      render: (cccd) => (
+        <div>
+          <ComCccdOrCmndConverter>{cccd}</ComCccdOrCmndConverter>
+        </div>
+      ),
+    },
+    {
+      title: "Giới tính",
+      width: 100,
+      dataIndex: "gender",
+      key: "gender",
+      filters: [
+        { text: "Nam", value: "Male" },
+        { text: "Nữ", value: "Female" },
+      ],
+      onFilter: (value, record) => record.gender === value,
+      sorter: (a, b) => a?.gender?.localeCompare(b?.gender),
 
-    //   render: (_, record) => (
-    //     <div>
-    //       <ComGenderConverter>{record?.gender}</ComGenderConverter>
-    //     </div>
-    //   ),
-    // },
+      render: (_, record) => (
+        <div>
+          <ComGenderConverter>{record?.gender}</ComGenderConverter>
+        </div>
+      ),
+    },
     // {
     //   title: "Trạng thái hợp đồng",
     //   dataIndex: "contractsInUses",
@@ -229,80 +244,80 @@ export const TablesExit = forwardRef((props, ref) => {
         <div className="text-red-600">{render?.room?.name}</div>
       ),
     },
-    {
-      title: "Loại gói dưỡng lão",
-      width: 150,
-      dataIndex: "contractsInUse",
-      key: "contractsInUse",
+    //   {
+    //     title: "Loại gói dưỡng lão",
+    //     width: 150,
+    //     dataIndex: "contractsInUse",
+    //     key: "contractsInUse",
 
-      sorter: (a, b) =>
-        a?.contractsInUse?.nursingPackage?.name?.localeCompare(
-          b?.contractsInUse?.nursingPackage?.name
-        ),
-      ...getColumnFilterProps(
-        "contractsInUse.nursingPackage.name",
-        "Loại gói dưỡng lão",
-        uniquePackageValues
-      ),
-      // ...getColumnSearchProps(
-      //   "contractsInUse.nursingPackage.name",
-      //   "Loại gói dưỡng lão"
-      // ),
+    //     sorter: (a, b) =>
+    //       a?.contractsInUse?.nursingPackage?.name?.localeCompare(
+    //         b?.contractsInUse?.nursingPackage?.name
+    //       ),
+    //     ...getColumnFilterProps(
+    //       "contractsInUse.nursingPackage.name",
+    //       "Loại gói dưỡng lão",
+    //       uniquePackageValues
+    //     ),
+    //     // ...getColumnSearchProps(
+    //     //   "contractsInUse.nursingPackage.name",
+    //     //   "Loại gói dưỡng lão"
+    //     // ),
 
-      render: (_, render) => (
-        <div>{render?.contractsInUse?.nursingPackage?.name}</div>
-      ),
-    },
-    {
-      title: "Ngày có hiệu lực",
-      width: 120,
-      dataIndex: "contractsInUse.startDate",
-      key: "contractsInUse.startDate",
-      sorter: (a, b) =>
-        new Date(a?.contractsInUse?.startDate) -
-        new Date(b?.contractsInUse?.startDate),
-      ...getColumnApprox("contractsInUse.startDate"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>
-            {render?.contractsInUse?.startDate}
-          </ComDateConverter>
-        </div>
-      ),
-    },
-    {
-      title: "Ngày hết hạn",
-      width: 120,
-      dataIndex: "expiryDate",
-      key: "expiryDate",
-      sorter: (a, b) =>
-        new Date(a?.contractsInUse?.endDate) -
-        new Date(b?.contractsInUse?.endDate),
-      ...getColumnApprox("contractsInUse.endDate"),
-      render: (_, render) => (
-        <div>
-          <ComDateConverter>{render?.contractsInUse?.endDate}</ComDateConverter>
-        </div>
-      ),
-    },
-    {
-      title: "Ngày đăng ký",
-      width: 120,
-      dataIndex: "signingDate",
-      key: "signingDate",
-      sorter: (a, b) =>
-        new Date(a?.contractsInUse?.signingDate) -
-        new Date(b?.contractsInUse?.signingDate),
-      ...getColumnApprox("contractsInUse.signingDate"),
-      render: (_, render) => (
-        <div>
-          {/* {render?.contract?.signingDate} */}
-          <ComDateConverter>
-            {render?.contractsInUse?.signingDate}
-          </ComDateConverter>
-        </div>
-      ),
-    },
+    //     render: (_, render) => (
+    //       <div>{render?.contractsInUse?.nursingPackage?.name}</div>
+    //     ),
+    //   },
+    //   {
+    //     title: "Ngày có hiệu lực",
+    //     width: 120,
+    //     dataIndex: "contractsInUse.startDate",
+    //     key: "contractsInUse.startDate",
+    //     sorter: (a, b) =>
+    //       new Date(a?.contractsInUse?.startDate) -
+    //       new Date(b?.contractsInUse?.startDate),
+    //     ...getColumnApprox("contractsInUse.startDate"),
+    //     render: (_, render) => (
+    //       <div>
+    //         <ComDateConverter>
+    //           {render?.contractsInUse?.startDate}
+    //         </ComDateConverter>
+    //       </div>
+    //     ),
+    //   },
+    //   {
+    //     title: "Ngày hết hạn",
+    //     width: 120,
+    //     dataIndex: "expiryDate",
+    //     key: "expiryDate",
+    //     sorter: (a, b) =>
+    //       new Date(a?.contractsInUse?.endDate) -
+    //       new Date(b?.contractsInUse?.endDate),
+    //     ...getColumnApprox("contractsInUse.endDate"),
+    //     render: (_, render) => (
+    //       <div>
+    //         <ComDateConverter>{render?.contractsInUse?.endDate}</ComDateConverter>
+    //       </div>
+    //     ),
+    //   },
+    //   {
+    //     title: "Ngày đăng ký",
+    //     width: 120,
+    //     dataIndex: "signingDate",
+    //     key: "signingDate",
+    //     sorter: (a, b) =>
+    //       new Date(a?.contractsInUse?.signingDate) -
+    //       new Date(b?.contractsInUse?.signingDate),
+    //     ...getColumnApprox("contractsInUse.signingDate"),
+    //     render: (_, render) => (
+    //       <div>
+    //         {/* {render?.contract?.signingDate} */}
+    //         <ComDateConverter>
+    //           {render?.contractsInUse?.signingDate}
+    //         </ComDateConverter>
+    //       </div>
+    //     ),
+    // },
     {
       title: "Địa chỉ",
       width: 220,
@@ -328,10 +343,10 @@ export const TablesExit = forwardRef((props, ref) => {
             record={record}
             showModalDetails={() => showModalElder(record)}
             showModalEdit={showModalEdit}
-            // extraMenuItems={extraMenuItems}
+            extraMenuItems={extraMenuItems}
             // showModalDelete={extraMenuItems}
             excludeDefaultItems={
-              hasPermission ? ["delete"] : ["delete", "edit"]
+              hasPermission ? ["delete", "edit"] : ["delete", "edit"]
             }
             // order={order}
           />
@@ -349,7 +364,6 @@ export const TablesExit = forwardRef((props, ref) => {
       >
         <DetailElder
           selectedData={selectedElder}
-          isOpenEdit={hasPermission ? modalEdit.handleOpen : false}
           onClose={modalDetailElder?.handleClose}
         />
       </ComModal>

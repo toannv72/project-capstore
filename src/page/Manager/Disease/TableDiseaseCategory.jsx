@@ -34,7 +34,7 @@ export const TableDiseaseCategory = forwardRef((props, ref) => {
     notificationApi("success", "thành công", "Đã thành công");
   };
   const notificationError = () => {
-    notificationApi("error", "Lỗi", "Không thành công!");
+    notificationApi("error", "Lỗi", "Đã có người có bệnh này");
   };
   const columns = [
     {
@@ -60,7 +60,7 @@ export const TableDiseaseCategory = forwardRef((props, ref) => {
             }}
             showModalDelete={() => {
               ComConfirmDeleteModal(
-                `/health-category`,
+                `/disease-category`,
                 record.id,
                 `Bạn có chắc chắn muốn xóa?`,
                 reloadData,
@@ -69,7 +69,7 @@ export const TableDiseaseCategory = forwardRef((props, ref) => {
                 "put"
               );
             }}
-            excludeDefaultItems={["details", "delete"]}
+            excludeDefaultItems={["details"]}
             // order={order}
           />
         </div>

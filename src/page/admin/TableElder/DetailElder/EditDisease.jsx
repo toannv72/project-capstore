@@ -61,7 +61,7 @@ export default function EditDisease({ selectedData, onClose, tableRef }) {
   }, [selectedData]);
 
   const reloadData = () => {
-    getData("/disease-category?SortDir=Desc")
+    getData("/disease-category?State=Active&SortDir=Desc")
       .then((e) => {
         const dataForSelect = e?.data?.contends.map((item) => ({
           value: item.id,
