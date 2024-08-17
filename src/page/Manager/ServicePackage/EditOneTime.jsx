@@ -47,13 +47,21 @@ export default function EditOneTime({ onClose, dataValue }) {
     registrationLimit: yup
       .number()
       .typeError("Vui lòng nhập số lượng")
-      .required("Vui lòng nhập số lượng"),
+      .required("Vui lòng nhập số lượng")
+      .integer("Vui lòng nhập số nguyên")
+      .min(
+        dataValue?.totalOrder,
+        `Vui lòng nhập lớn hơn hoặc bằng ${dataValue?.totalOrder}`
+      ),
   });
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
     values: dataValue,
   });
 
+  console.log("====================================");
+  console.log(dataValue);
+  console.log("====================================");
   const {
     handleSubmit,
     register,
@@ -261,6 +269,8 @@ export default function EditOneTime({ onClose, dataValue }) {
                       required
                       disabledDate={disabledDate3Day6m}
                       {...register("eventDate")}
+                      // open={false}
+                      disabled={dataValue?.totalOrder === 0 ? false : true}
                       // Các props khác của RangePicker
                     />
                   </div>
@@ -291,7 +301,7 @@ export default function EditOneTime({ onClose, dataValue }) {
                 )}
 
                 {checkbox || (
-                  <div className="sm:col-span-1">
+                  <div className="sm:col-span-2">
                     <div className="mt-2.5">
                       <ComNumber
                         type="text"
@@ -303,7 +313,7 @@ export default function EditOneTime({ onClose, dataValue }) {
                         min={1}
                         value={registrationLimit}
                         // max={10000}
-                        label={"Số lượng người có thể tham gia"}
+                        label={`Số lượng người có thể tham gia (Đã đăng ký ${dataValue?.totalOrder} người)`}
                         placeholder={"Vui lòng nhập số lượng có thể tham gia"}
                         {...register("registrationLimit")}
                         required

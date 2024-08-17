@@ -28,7 +28,7 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
     Modal.confirm({
       title: "Xác nhận Thanh toán",
       content: "xác nhận thanh toán bằng tiền mặt cho hóa đơn này?",
-      okText: "Xóa",
+      okText: "Thanh toán",
       okType: "danger",
       cancelText: "Hủy",
       onOk: () => {

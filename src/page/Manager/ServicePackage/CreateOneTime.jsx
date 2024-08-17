@@ -73,7 +73,7 @@ const CreateProductMessenger = yup.object({
 
   useEffect(() => {
     setEndDate((e) => !e);
-    setValue("endRegistrationStartDate", null);
+    setValue("endRegistrationDate", null);
   }, [watch("eventDate")]);
   const onChange = (data) => {
     const selectedImages = data;
