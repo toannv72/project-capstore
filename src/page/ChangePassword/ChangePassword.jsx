@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,9 +7,11 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 import ComInput from "../../Components/ComInput/ComInput";
 import ComButton from "../../Components/ComButton/ComButton";
+import { postData } from "../../api/api";
+import { useNotification } from "../../Notification/Notification";
 
 const passwordSchema = yup.object({
-  password: yup.string().required("Mật khẩu cũ không được để trống"),
+  oldPassword: yup.string().required("Mật khẩu cũ không được để trống"),
   newPassword: yup
     .string()
     .min(8, "Mật khẩu mới phải có ít nhất 8 ký tự")
@@ -26,9 +28,9 @@ const passwordSchema = yup.object({
 
 export default function ChangePassword() {
   const navigate = useNavigate();
-  const [oldPassword] = useState("abc");
-  const [isOldPasswordIncorrect, setIsOldPasswordIncorrect] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const location = useLocation();
+  const { notificationApi } = useNotification();
 
   const methods = useForm({
     resolver: yupResolver(passwordSchema),
@@ -62,30 +64,46 @@ export default function ChangePassword() {
     } else {
       clearErrors("confirmPassword");
     }
-  }, [newPassword, confirmPassword, setError, clearErrors]);
-
+  }, [newPassword, confirmPassword]);
+  function getRoleFromPath(pathname) {
+    const parts = pathname.split("/");
+    return parts[1];
+  }
   const onSubmit = (data) => {
-setDisabled(true);
-    if (data.password !== oldPassword) {
-      setIsOldPasswordIncorrect(true);
-    } else {
-      setIsOldPasswordIncorrect(false);
-      // Proceed to send data.newPassword to the database
-    }
+    setDisabled(true);
+    console.log("====================================");
+    console.log(data);
+    console.log("====================================");
+    postData("/users/change-password", data)
+      .then((e) => {
+        setDisabled(false);
+        notificationApi("success", "Thành công", "Thay đổi mật khẩu thành công!");
+         navigate(`/${getRoleFromPath(location.pathname)}/profile`);
+      })
+      .catch((errors) => {
+        console.log("====================================");
+        setDisabled(false);
+        console.log(errors);
+        console.log("====================================");
+        setError("oldPassword", {
+          type: "manual",
+          message: "Mật khẩu hiện tại không đúng!",
+        });
+      });
   };
 
   const handleCancelClick = () => {
-    navigate("/admin/profile");
+    navigate(`/${getRoleFromPath(location.pathname)}/profile`);
   };
   return (
     <div className="flex flex-col-1 md:flex-row p-10 gap-10">
       <div className="p-10 flex w-full bg-gray-200 rounded-md">
         <div className="flex flex-1 flex-col w-full gap-2">
           <div className="text-5xl font-semibold font-montserrat text-gray-500 mb-4">
-            Change Password
+            Thay đổi mật khẩu
           </div>
           <div className="text-xl font-montserrat text-gray-400">
-            Passwords must contain:
+            Mật khẩu phải có:
           </div>
           <div
             className={`text-lg ${
@@ -99,7 +117,7 @@ setDisabled(true);
             ) : (
               <CheckOutlined style={{ color: "blue", marginRight: "5px" }} />
             )}
-            At least 8 characters
+            Ít nhất 8 ký tự
           </div>
           <div
             className={`text-lg ${
@@ -113,7 +131,7 @@ setDisabled(true);
             ) : (
               <CheckOutlined style={{ color: "blue", marginRight: "5px" }} />
             )}
-            At least 1 upper case (A-Z)
+            Ít nhất 1 ký tự chữ hoa
           </div>
           <div
             className={`text-lg ${
@@ -127,7 +145,7 @@ setDisabled(true);
             ) : (
               <CheckOutlined style={{ color: "blue", marginRight: "5px" }} />
             )}
-            At least 1 lower case (a-z)
+            Ít nhất 1 ký tự chữ thường
           </div>
           <div
             className={`text-lg ${
@@ -141,7 +159,7 @@ setDisabled(true);
             ) : (
               <CheckOutlined style={{ color: "blue", marginRight: "5px" }} />
             )}
-            At least 1 number (0-9)
+            Ít nhất 1 ký tự số
           </div>
         </div>
         <div className="flex-1 w-full md:w-1/2">
@@ -155,15 +173,11 @@ setDisabled(true);
                 label="Mật khẩu hiện tại"
                 type="password"
                 maxLength={16}
-                {...register("password")}
+                {...register("oldPassword")}
                 error={errors.password?.message}
                 required
               />
-              {isOldPasswordIncorrect && (
-                <span className="text-red-500">
-                  Mật khẩu cũ không chính xác.
-                </span>
-              )}
+
               <ComInput
                 placeholder="Nhập mật khẩu thay đổi"
                 label="Mật khẩu mới"

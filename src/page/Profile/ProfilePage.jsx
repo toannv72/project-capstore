@@ -98,7 +98,7 @@ export default function ProfilePage() {
       console.log(dataPut);
       putData(`/users`, "profile", dataPut)
         .then((e) => {
-          notificationApi("success", "Cập nhật thành công 123", "Đã cập nhật");
+          notificationApi("success", "Cập nhật thành công", "Đã cập nhật");
           setTimeout(() => {}, 100);
           setIsConfirmationModalVisible(false);
           setIsEditing(false);

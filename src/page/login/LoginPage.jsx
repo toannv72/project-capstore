@@ -70,7 +70,7 @@ export default function LoginPage(props) {
             console.log(data);
             switch (data?.listRole[0]) {
               case "Staff":
-                navigate("/staff/assignTask");
+                navigate("/staff/contract");
                 break;
               case "Admin":
                 navigate("/admin/account");
