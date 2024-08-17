@@ -31,7 +31,13 @@ const integerStr = "-0123456789";
 const positiveIntegerStr = "0123456789";
 const decimalStr = "-.0123456789";
 const decimalPositiveStr = ".0123456789";
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
+function capitalizeFullName(fullName) {
+  return fullName.split(" ").map(capitalizeFirstLetter).join(" ");
+}
 const toBigDecimal = (value, length) => {
   let valueTmp = value.toString();
   if (valueTmp.includes(".")) {
@@ -94,6 +100,10 @@ const ComInput = React.forwardRef(
           if (!checkValidType(decimalPositiveStr, value)) {
             return;
           }
+          break;
+        case "name":
+          const nameValue = capitalizeFullName(value);
+          value = nameValue;
           break;
         case "numbers":
           // if (!checkValidType(positiveIntegerStr, value)) {

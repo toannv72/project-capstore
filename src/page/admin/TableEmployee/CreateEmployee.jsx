@@ -182,7 +182,7 @@ export default function CreateEmployee({ onClose, tableRef }) {
                 <div className="sm:col-span-2">
                   <div className="mt-2.5">
                     <ComInput
-                      type="text"
+                      type="name"
                       label={"Họ và Tên"}
                       placeholder={"Vui lòng nhập Họ và Tên"}
                       {...register("fullName")}
