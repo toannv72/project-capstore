@@ -23,7 +23,7 @@ const options = {
     },
 
     toolbar: {
-      show: true,
+      show: false,
     },
     
   },

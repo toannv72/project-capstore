@@ -14,6 +14,9 @@ const options = {
       zoom: {
         autoScaleYaxis: true,
       },
+      toolbar: {
+        show: false,
+      },
     },
     // annotations: {
     //   yaxis: [

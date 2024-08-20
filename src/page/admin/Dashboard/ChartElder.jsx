@@ -14,7 +14,7 @@ const options = {
     height: 335,
     stacked: true,
     toolbar: {
-      show: true,
+      show: false,
     },
   },
 
