@@ -33,9 +33,9 @@ export const Tables = forwardRef((props, ref) => {
   const [selectedElder, setSelectedElder] = useState(null);
 
   const hasPermission = useRolePermission(["admin", "staff"]);
-console.log('====================================');
-console.log(data);
-console.log('====================================');
+  console.log("====================================");
+  console.log(data);
+  console.log("====================================");
   useEffect(() => {
     reloadData();
   }, []);
@@ -225,6 +225,14 @@ console.log('====================================');
       ),
     },
     {
+      title: "Gmail",
+      width: 100,
+      dataIndex: "email",
+      key: "email",
+      sorter: (a, b) => a?.email?.localeCompare(b?.email),
+      ...getColumnSearchProps("email", "Gmail"),
+    },
+    {
       title: "CMND/CCCD",
       width: 100,
       dataIndex: "cccd",
@@ -237,15 +245,7 @@ console.log('====================================');
         </div>
       ),
     },
-    {
-      title: "Gmail",
-      width: 100,
-      dataIndex: "email",
-      key: "email",
-      sorter: (a, b) => a?.email?.localeCompare(b?.email),
 
-      ...getColumnSearchProps("email", "Gmail"),
-    },
     {
       title: "Địa chỉ",
       width: 100,

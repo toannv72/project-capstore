@@ -113,9 +113,12 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
       });
   };
 
-  const disabledDate = (current) => {
-    return current && current < dayjs().startOf("month");
-  };
+const disabledDate = (current) => {
+  const currentMonth = dayjs().startOf("month");
+  const endMonth = dayjs().add(1, "month").endOf("month");
+
+  return current && (current < currentMonth || current > endMonth);
+};
 
   useEffect(() => {
     getData(
