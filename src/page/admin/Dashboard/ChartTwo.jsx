@@ -76,7 +76,6 @@ const options = {
   },
   tooltip: {
     theme: "dark",
-  
   },
 };
 
@@ -87,7 +86,6 @@ const ChartTwo = () => {
         name: "Người dùng",
         data: [],
       },
-
     ],
   });
   const currentYear = moment().year();
@@ -98,21 +96,19 @@ const ChartTwo = () => {
   };
   console.log(currentYear);
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
   const fetchData = (year) => {
-    getData(`statistical/${year || selectedYear}`).then((data) => {
+    getData(`statistical/user/${year || selectedYear}`).then((data) => {
       // Chuyển đổi dữ liệu từ API
 
       console.log(data?.data);
 
       const userSeries = [];
-      const elderSeries = [];
 
       // Chuyển đổi dữ liệu từ API
       for (let key in data?.data) {
-        userSeries.push(data?.data[key].user);
-        elderSeries.push(data?.data[key].elder);
+        userSeries.push(data?.data[key].totalCustomer);
       }
 
       console.log(userSeries);
@@ -122,7 +118,6 @@ const ChartTwo = () => {
             name: "Người dùng",
             data: userSeries,
           },
-        
         ],
       });
     });
@@ -150,7 +145,6 @@ const ChartTwo = () => {
                 )
               )}
             </Select>
-           
           </div>
         </div>
       </div>
