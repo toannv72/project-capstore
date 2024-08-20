@@ -127,7 +127,7 @@ export default function EditEmployee({ selectedData, onClose, tableRef }) {
     <div>
       <div className="p-4 bg-white ">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Cập nhật Y tá
+          Cập nhật thông tin
         </h2>
         <FormProvider {...methods}>
           <form
