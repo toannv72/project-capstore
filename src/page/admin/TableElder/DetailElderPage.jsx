@@ -141,7 +141,7 @@ export default function DetailElderPage() {
                   <ComCccdOrCmndConverter>{data?.cccd}</ComCccdOrCmndConverter>
                 </div>
                 <div class="text-sm text-gray-500  ">
-                  Phòng: {data?.room?.name}
+                  Phòng: {data?.room?.name||"Không có"}
                 </div>
                 <div class="mb-4 text-sm text-gray-500  ">
                   Gói dưỡng lão: {data?.contractsInUse?.nursingPackage?.name}

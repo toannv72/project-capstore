@@ -60,13 +60,15 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">Phòng:</td>
-              <td className="px-4 py-2">{data.room?.name}</td>
+              <td className="px-4 py-2">{data.room?.name || "Không có"}</td>
             </tr>
             <tr className="border-b">
               <td className="px-4 py-2 text-gray-600 font-medium">
-                Loại phòng:
+                Gói dưỡng lão:
               </td>
-              <td className="px-4 py-2">{data.room?.type}</td>
+              <td className="px-4 py-2">
+                {data.contractsInUse?.nursingPackage?.name || "Không có"}
+              </td>
             </tr>
 
             <tr className="border-b">
@@ -74,9 +76,13 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
                 Ngày có hiệu lực:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>
-                  {data.contractsInUse?.startDate}
-                </ComDateConverter>
+                {data.contractsInUse?.startDate ? (
+                  <ComDateConverter>
+                    {data.contractsInUse?.startDate}
+                  </ComDateConverter>
+                ) : (
+                  "Không có"
+                )}
               </td>
             </tr>
             <tr className="border-b">
@@ -84,9 +90,13 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
                 Ngày hết hạn hợp đồng:
               </td>
               <td className="px-4 py-2">
-                <ComDateConverter>
-                  {data.contractsInUse?.endDate}
-                </ComDateConverter>
+                {data.contractsInUse?.startDate ? (
+                  <ComDateConverter>
+                    {data.contractsInUse?.endDate}
+                  </ComDateConverter>
+                ) : (
+                  "Không có"
+                )}
               </td>
             </tr>
             <tr className="border-b">
