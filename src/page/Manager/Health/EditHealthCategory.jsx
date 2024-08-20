@@ -57,8 +57,8 @@ setDisabled(true);
             .then((e) => {
               notificationApi(
                 "success",
-                "thành công",
-                "đã cập nhật chỉ số !"
+                "Thành công",
+                "Đã cập nhật chỉ số !"
               );
               getDataApi();
               onClose();setDisabled(false);

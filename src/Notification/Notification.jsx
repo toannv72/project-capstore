@@ -11,12 +11,15 @@ export const useNotification = () => useContext(NotificationContext);
 export const NotificationProvider = ({ children }) => {
   // Sử dụng hook useNotification của antd để nhận API notification
   const [api, contextHolder] = notification.useNotification();
-
+  function capitalizeFirstLetter(string) {
+    const trimmedString = string.trim();
+    return trimmedString.charAt(0).toUpperCase() + trimmedString.slice(1);
+  }
   // Tạo một hàm wrapper để thông báo
   const notificationApi = (type, message, description) => {
     api[type]({
-      message: message,
-      description: description,
+      message: capitalizeFirstLetter(message),
+      description: capitalizeFirstLetter(description),
     });
   };
 
