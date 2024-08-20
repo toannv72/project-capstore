@@ -26,7 +26,9 @@ export const TableBlock = forwardRef((props, ref) => {
       common: { button },
     },
   } = useContext(LanguageContext);
-
+console.log('====================================');
+console.log(data);
+console.log('====================================');
   const expandedRowRender = (record) => {
     const columns = [
       {
@@ -45,26 +47,27 @@ export const TableBlock = forwardRef((props, ref) => {
       //   key: "status",
       // },
       {
-        title: "Số giường",
+        title: "Tổng số giường",
         width: 100,
-        dataIndex: "userBed",
-        key: "userBed",
-        sorter: (a, b) => a?.userBed - b?.userBed,
+        dataIndex: "totalBed",
+        key: "totalBed",
+        sorter: (a, b) => a?.totalBed - b?.totalBed,
       },
       {
-        title: "Loại phòng",
+        title: "Số người trong phòng",
+        dataIndex: "userBed",
+        key: "userBed",
         width: 100,
-        dataIndex: "type",
-        key: "type",
-        sorter: (a, b) => a?.type?.localeCompare(b?.type),
-        ...getColumnSearchProps("type", "tên khu"),
+        sorter: (a, b) => a.userBed - b.userBed,
+        ...getColumnSearchProps("userBed", "Số người trong phòng"),
       },
       {
         width: 100,
         title: "Số giường trống",
         dataIndex: "unusedBed",
         key: "unusedBed",
-        sorter: (a, b) => a?.unusedBed - b?.unusedBed,
+        sorter: (a, b) => a.totalBed - a.userBed - (b.totalBed - b.userBed),
+        render: (render, data) => <div>{data?.totalBed - data?.userBed}</div>,
       },
     ];
     return (

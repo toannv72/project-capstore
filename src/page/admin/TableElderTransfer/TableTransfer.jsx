@@ -331,7 +331,9 @@ export const TableTransfer = forwardRef((props, ref) => {
             // extraMenuItems={extraMenuItems}
             // showModalDelete={extraMenuItems}
             excludeDefaultItems={
-              hasPermission ? ["delete"] : ["delete", "edit"]
+              hasPermission && record?.contractsInUse?.nursingPackage?.name
+                ? ["delete"]
+                : ["delete", "edit"]
             }
             // order={order}
           />

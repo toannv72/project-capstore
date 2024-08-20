@@ -44,7 +44,11 @@ function Health() {
       </div>
       <div className="flex justify-end pb-2">
         <div>
-          <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+          {selectedCardIndex === 1 ? (
+            <ComButton onClick={modal.handleOpen}>Tạo mới</ComButton>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       {viewTable()}
