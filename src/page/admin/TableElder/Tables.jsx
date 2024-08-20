@@ -249,7 +249,7 @@ export const Tables = forwardRef((props, ref) => {
       // ),
 
       render: (_, render) => (
-        <div>{render?.contractsInUse?.nursingPackage?.name||"Không có"}</div>
+        <div>{render?.contractsInUse?.nursingPackage?.name || "Không có"}</div>
       ),
     },
     {
@@ -330,7 +330,9 @@ export const Tables = forwardRef((props, ref) => {
             // extraMenuItems={extraMenuItems}
             // showModalDelete={extraMenuItems}
             excludeDefaultItems={
-              hasPermission ? ["delete"] : ["delete", "edit"]
+              hasPermission && record?.contractsInUse?.nursingPackage?.name
+                ? ["delete"]
+                : ["delete", "edit"]
             }
             // order={order}
           />

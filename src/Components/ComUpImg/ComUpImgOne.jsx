@@ -32,7 +32,7 @@ const ComUpImgOne = ({
   }, [reset]);
 
   const isImageFile = (file) => {
-    const acceptedFormats = [".jpeg", ".jpg", ".png", ".gif"];
+    const acceptedFormats = [".jpeg", ".jpg", ".png", ".gif", ".webp"];
     const fileExtension = file.name.toLowerCase();
 
     if (!acceptedFormats.some((format) => fileExtension.endsWith(format))) {
@@ -85,7 +85,7 @@ const ComUpImgOne = ({
           className="avatar-uploader"
           showUploadList={false}
           onChange={handleFileChange}
-          accept=".jpg,.jpeg,.png,.gif"
+          accept=".jpg,.jpeg,.png,.gif,.webp"
         >
           {imageUrl ? (
             <img

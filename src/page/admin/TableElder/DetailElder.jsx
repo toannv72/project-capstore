@@ -123,7 +123,7 @@ export default function DetailElder({ selectedData, isOpenEdit, onClose }) {
             Xem thêm
           </ComLink>
         </div>
-        {isOpenEdit ? (
+        {isOpenEdit && data.contractsInUse?.nursingPackage?.name ? (
           <div className="mt-10">
             <ComButton
               onClick={() => {
