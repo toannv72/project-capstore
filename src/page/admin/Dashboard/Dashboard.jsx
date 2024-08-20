@@ -15,7 +15,7 @@ function Dashboard() {
 
   useEffect(() => {
     getData("/statistical/elder").then((e) => {
-      setTotalPatients(e.data.totalElder);
+      setTotalPatients(e.data.totalElderValid);
     });
     getData("/statistical/money").then((e) => {
       setTotalAmount(e.data.totalMoney);
@@ -42,19 +42,19 @@ function Dashboard() {
   return (
     <div className="h-max">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 2xl:gap-7.5 mb-6">
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4 bg-white rounded-lg  shadow-lg">
           <h2 className="text-xl font-bold">Tổng số người dùng</h2>
           <p className="text-2xl">{totalUsers}</p>
         </div>
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4 bg-white rounded-lg  shadow-lg">
           <h2 className="text-xl font-bold">Tổng số nhân viên</h2>
           <p className="text-2xl">{totalStaff}</p>
         </div>
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4 bg-white rounded-lg  shadow-lg">
           <h2 className="text-xl font-bold">Tổng số người cao tuổi</h2>
           <p className="text-2xl">{totalPatients}</p>
         </div>
-        <div className="p-4 bg-white shadow rounded">
+        <div className="p-4 bg-white rounded-lg  shadow-lg">
           <h2 className="text-xl font-bold">Tổng số tiền</h2>
           <p className="text-2xl">{formatCurrency(totalAmount)}</p>
         </div>

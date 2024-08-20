@@ -28,7 +28,7 @@ export default function TopServicePackage() {
   }
   return (
     <div className="grid grid-cols-1 mt-10 gap-4 md:gap-6 2xl:gap-7.5 mb-6">
-      <div className="p-4 bg-white shadow rounded">
+      <div className="p-4 bg-white rounded-lg  shadow-lg">
         <h2 className="text-xl font-bold">
           Những dịch vụ được sử dụng nhiều nhất
         </h2>
