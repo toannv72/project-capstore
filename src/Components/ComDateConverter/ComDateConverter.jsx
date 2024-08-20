@@ -9,7 +9,7 @@ function ComDateConverter({ children, formatData = "YYYY-MM-DD" }) {
         ? moment(children)
         : moment(children, formatData, true);
 
-      const formattedDate = date.isValid() ? date.format("DD-MM-YYYY") : ""; // Return empty string if invalid
+      const formattedDate = date.isValid() ? date.format("DD-MM-YYYY") : "Không có"; // Return empty string if invalid
       return formattedDate;
     } catch (error) {
       return "";

@@ -226,7 +226,7 @@ export const Tables = forwardRef((props, ref) => {
       // ...getColumnSearchProps("room.name", "Phòng hiện tại"),
       ...getColumnFilterProps("room.name", "Phòng hiện tại", uniqueRoomValues),
 
-      render: (_, render) => <div>{render?.room?.name}</div>,
+      render: (_, render) => <div>{render?.room?.name || "Đã xuất viện"}</div>,
     },
     {
       title: "Loại gói dưỡng lão hiện tại",
@@ -249,7 +249,7 @@ export const Tables = forwardRef((props, ref) => {
       // ),
 
       render: (_, render) => (
-        <div>{render?.contractsInUse?.nursingPackage?.name}</div>
+        <div>{render?.contractsInUse?.nursingPackage?.name||"Không có"}</div>
       ),
     },
     {
