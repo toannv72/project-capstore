@@ -147,7 +147,7 @@ export default function DetailUserPage() {
         <div className=" col-span-3  ">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-1   sm:p-6  ">
             <h3 class="mb-1 text-xl font-bold text-gray-900   p-3">
-              Thông tin người cao tuổi đại diện
+              Danh sách người cao tuổi 
             </h3>
             <Tables idUser={id} />
           </div>
