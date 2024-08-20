@@ -63,7 +63,18 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
           <table className="w-full">
             <tbody>
               {[
-                { label: "Thanh toán bằng:", value: selectedData?.method },
+                {
+                  label: "Thanh toán bằng:",
+                  value: (
+                    <>
+                      {selectedData.method === "Cash"
+                        ? "Tiền mặt"
+                        : selectedData.method === "None"
+                        ? "Chưa thanh toán"
+                        : selectedData.method}
+                    </>
+                  ),
+                },
                 {
                   label: "Thời gian thanh toán:",
                   value: (
