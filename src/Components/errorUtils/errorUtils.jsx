@@ -68,6 +68,10 @@ export const handleErrors = (error, setError, setFocus) => {
       field: "name",
       message: "Đã có số hợp đồng này",
     },
+    629: {
+      field: "name",
+      message: "Người này đã xuất viện không thể sửa ",
+    },
   };
 
   const status = error?.response?.data?.status || error?.data?.status;
