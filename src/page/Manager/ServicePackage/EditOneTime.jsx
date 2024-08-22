@@ -269,8 +269,10 @@ export default function EditOneTime({ onClose, dataValue }) {
                       required
                       disabledDate={disabledDate3Day6m}
                       {...register("eventDate")}
-                      // open={false}
-                      disabled={dataValue?.totalOrder === 0 ? false : true}
+                      open={false}
+                      inputReadOnly
+                      disabled
+                      // disabled={dataValue?.totalOrder === 0 ? false : true}
                       // Các props khác của RangePicker
                     />
                   </div>
@@ -282,7 +284,10 @@ export default function EditOneTime({ onClose, dataValue }) {
                         label="Thời gian kết thúc đăng ký"
                         disabledDate={disabledDateEnd}
                         {...register("endRegistrationDate")}
+                        open={false}
                         required
+                        disabled
+                        inputReadOnly
                       />
                     </div>
                   </div>
@@ -295,6 +300,9 @@ export default function EditOneTime({ onClose, dataValue }) {
                         disabledDate={disabledDateEnd}
                         {...register("endRegistrationDate")}
                         required
+                        disabled
+                        open={false}
+                        inputReadOnly
                       />
                     </div>
                   </div>

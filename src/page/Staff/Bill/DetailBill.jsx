@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ComPhoneConverter from "./../../../Components/ComPhoneConverter/ComPhoneConverter";
 import ComCccdOrCmndConverter from "../../../Components/ComCccdOrCmndConverter/ComCccdOrCmndConverter";
-import { Image, Modal } from "antd";
+import { Image, Modal, Typography } from "antd";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComButton from "../../../Components/ComButton/ComButton";
-import { putData } from "../../../api/api";
+import { getData, putData } from "../../../api/api";
 import { useNotification } from "../../../Notification/Notification";
 import ComGenderConverter from "./../../../Components/ComGenderConverter/ComGenderConverter";
+import { useModalState } from "../../../hooks/useModalState";
+import ComModal from "../../../Components/ComModal/ComModal";
+import DetailEmployee from "../../admin/TableEmployee/DetailEmployee";
 
 export default function DetailBill({ selectedData, onClose, reloadData }) {
   const { notificationApi } = useNotification();
+  const [dataUser, setDataUser] = useState({});
+  const modalDetailUser = useModalState();
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
     if (typeof number === "number") {
@@ -51,7 +58,23 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
   const notificationError = () => {
     notificationApi("error", "Lỗi", "Không thành công!");
   };
-
+  useEffect(() => {
+    if (selectedData.method === "Cash") {
+      getData(`/users/${selectedData.modifiedBy}`)
+        .then((e) => {
+          setDataUser(e?.data);
+          console.log(1111, e.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching items:", error);
+        });
+    }
+  }, [selectedData]);
+      const showModaldUser = (record) => {
+        console.log(record);
+        modalDetailUser.handleOpen();
+        setSelectedEmployee(record);
+      };
   return (
     <>
       <div>
@@ -62,7 +85,25 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
           </h2>
           <table className="w-full">
             <tbody>
+              {selectedData.method === "Cash"?<tr className="border-b">
+                <td className="px-4 py-2 text-gray-600 font-medium">
+                  Người thanh toán:
+                </td>
+                <td className="px-4 py-2">
+                  <Typography.Link onClick={() => showModaldUser(dataUser)}>
+                    {dataUser?.fullName}
+                  </Typography.Link>
+                </td>
+              </tr>:<></>}
               {[
+                // {
+                //   label: "Người thanh toán:",
+                //   value: (
+                //     <Typography.Link onClick={() => showModaldUser(dataUser)}>
+                //       {dataUser?.fullName}
+                //     </Typography.Link>
+                //   ),
+                // },
                 {
                   label: "Thanh toán bằng:",
                   value: (
@@ -376,6 +417,15 @@ export default function DetailBill({ selectedData, onClose, reloadData }) {
           <></>
         )}
       </div>
+      <ComModal
+        isOpen={modalDetailUser?.isModalOpen}
+        onClose={modalDetailUser?.handleClose}
+      >
+        <DetailEmployee
+          selectedData={selectedEmployee}
+          onClose={modalDetailUser?.handleClose}
+        />
+      </ComModal>
     </>
   );
 }

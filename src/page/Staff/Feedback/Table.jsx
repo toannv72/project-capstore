@@ -7,7 +7,7 @@ import { useTableState } from "../../../hooks/useTableState";
 import ComModal from "../../../Components/ComModal/ComModal";
 import { getData } from "./../../../api/api";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
-import ComMenuButonTable from './../../../Components/ComMenuButonTable/ComMenuButonTable';
+import ComMenuButonTable from "./../../../Components/ComMenuButonTable/ComMenuButonTable";
 
 const Table = () => {
   const [data, setData] = useState([]);
@@ -36,7 +36,7 @@ const Table = () => {
       default:
         return rating;
     }
-  }
+  };
   const columns = [
     {
       title: "Người đánh giá",
@@ -131,7 +131,9 @@ const Table = () => {
         console.error("Error fetching items:", error);
       });
   }, []);
-
+  console.log("====================================");
+  console.log(selectedFeedback);
+  console.log("====================================");
   return (
     <div>
       <ComTable columns={columns} dataSource={data} loading={table.loading} />
@@ -153,6 +155,14 @@ const Table = () => {
                   </td>
                   <td className="px-4 py-2">
                     {selectedFeedback.user.fullName}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="px-4 py-2 text-gray-600 font-medium">
+                    Người sử dụng dịch vụ:
+                  </td>
+                  <td className="px-4 py-2">
+                    {selectedFeedback.orderDetail.elder.name}
                   </td>
                 </tr>
                 <tr className="border-b">
@@ -193,6 +203,30 @@ const Table = () => {
                   </td>
                   <td className="px-4 py-2">{selectedFeedback.content}</td>
                 </tr>
+                {/* <!-- Thông tin người thực hiện dịch vụ --> */}
+
+                {selectedFeedback?.orderDetail?.orderDates.map((e, i) => (
+                  <React.Fragment key={i}>
+               
+                      <tr className="border-b">
+                        <td className="px-4 py-2 text-gray-600 font-medium w-1/3">
+                          Người thực hiện dịch vụ:
+                        </td>
+                        <td className="px-4 py-2 w-2/3">
+                          {e.user?.fullName || "Chưa có "}
+                        </td>
+                      </tr>
+                      <tr className="border-b border-neutral-950">
+                        <td className="px-4 py-2 text-gray-600 font-medium w-1/3">
+                          Thời gian thực hiện:
+                        </td>
+                        <td className="px-4 py-2 w-2/3">
+                          <ComDateConverter>{e?.completedAt}</ComDateConverter>
+                        </td>
+                      </tr>
+               
+                  </React.Fragment>
+                ))}
               </tbody>
             </table>
           </div>
