@@ -182,6 +182,9 @@ export const TableHealth = forwardRef((props, ref) => {
       fixed: "left",
       dataIndex: "notes",
       key: "notes",
+      sorter: (a, b) => a?.notes?.localeCompare(b?.notes),
+      ...getColumnSearchProps("notes", "Ghi chú"),
+
       render: (data, record) => (
         <div>
           <div className="gap-2">

@@ -39,6 +39,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         width: 100,
         dataIndex: "name",
         key: "name",
+        sorter: (a, b) => a?.name?.localeCompare(b?.name),
         ...getColumnSearchProps("name", "Tên"),
       },
       {
@@ -46,6 +47,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataIndex: "unitType",
         key: "unitType",
         width: 100,
+        sorter: (a, b) => a?.unitType?.localeCompare(b?.unitType),
         ...getColumnSearchProps("unitType", "đơn vị"),
       },
       {
@@ -53,6 +55,8 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataIndex: "minValue",
         key: "minValue",
         width: 100,
+        sorter: (a, b) => a.minValue - b.minValue,
+
         render: (_, record) => (
           <div className="flex items-center flex-col">
             {record.minValue}
@@ -65,6 +69,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataIndex: "maxValue",
         key: "maxValue",
         width: 100,
+        sorter: (a, b) => a.maxValue - b.maxValue,
         render: (_, record) => (
           <div className="flex items-center flex-col">
             {record.maxValue}
@@ -77,6 +82,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
         dataIndex: "description",
         key: "description",
         width: 100,
+        sorter: (a, b) => a.description?.localeCompare(b.description),
         ...getColumnSearchProps("description", "Chi tiết"),
       },
       {
@@ -141,6 +147,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       fixed: "left",
       dataIndex: "name",
       key: "name",
+      sorter: (a, b) => a?.name?.localeCompare(b?.name),
       ...getColumnSearchProps("name", "Tên"),
     },
     {
@@ -169,6 +176,7 @@ export const TableHealthCategory = forwardRef((props, ref) => {
       dataIndex: "description",
       key: "description",
       width: 100,
+      sorter: (a, b) => a?.description?.localeCompare(b?.description),
       ...getColumnSearchProps("description", "Chi tiết"),
     },
 
