@@ -49,6 +49,9 @@ const ComCalendar = ({ selectedData, ...props }) => {
         `/employee-schedule?CareMonth=${careMonth}&CareYear=${careYear}&RoomId=${selectedData.id}`
       );
       setEmployeeSchedule(response?.data?.contends);
+      console.log('====================================');
+      console.log(selectedData);
+      console.log('====================================');
     };
     fetchEmployeeSchedule();
   }, [selectedData, careMonth, careYear]);

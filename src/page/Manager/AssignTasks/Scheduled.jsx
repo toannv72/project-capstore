@@ -22,6 +22,12 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
   const [selectedNurses, setSelectedNurses] = useState([]);
   const { notificationApi } = useNotification();
   const [disabled, setDisabled] = useState(false);
+  const currentDate = new Date();
+  const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const currentYear = String(currentDate.getFullYear());
+  const [careMonth, setCareMonth] = useState(currentMonth);
+  const [careYear, setCareYear] = useState(currentYear);
+  const [disabledMonths, setDisabledMonths] = useState([]);
   console.log(dataSelect.nursingPackage?.numberOfNurses);
   console.log(employeeType);
   const CreateProductMessenger = yup.object({
@@ -40,6 +46,46 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
       })
     ),
   });
+  const disabledDate = (current) => {
+    const month = String(current.month() + 1).padStart(2, "0");
+    const year = String(current.year());
+
+    const currentMonth = dayjs().startOf("month");
+    const endMonth = dayjs().add(1, "month").endOf("month");
+
+    // Check if the date is outside the current and next months
+    if (current < currentMonth || current > endMonth) {
+      return true;
+    }
+
+    // Check if the month should be disabled due to data availability
+    return disabledMonths.includes(month) && year === careYear;
+  };
+  const fetchEmployeeSchedule = async () => {
+    const response = await getData(
+      `/employee-schedule?CareMonth=${careMonth}&CareYear=${careYear}&RoomId=${dataSelect.id}`
+    );
+    const response2 = await getData(
+      `/employee-schedule?CareMonth=${String(parseInt(careMonth) + 1).padStart(
+        2,
+        "0"
+      )}&CareYear=${careYear}&RoomId=${dataSelect.id}`
+    );
+
+    const monthsToDisable = [];
+    if (response?.data?.contends?.length > 0) {
+      monthsToDisable.push(currentMonth);
+    }
+    if (response2?.data?.contends?.length > 0) {
+      monthsToDisable.push(String(parseInt(careMonth) + 1).padStart(2, "0"));
+    }
+
+    setDisabledMonths(monthsToDisable);
+  };
+
+  useEffect(() => {
+    fetchEmployeeSchedule();
+  }, [dataSelect]);
 
   const methods = useForm({
     resolver: yupResolver(CreateProductMessenger),
@@ -112,13 +158,6 @@ export default function Scheduled({ dataSelect, onClose, getDataApi }) {
         setDisabled(false);
       });
   };
-
-const disabledDate = (current) => {
-  const currentMonth = dayjs().startOf("month");
-  const endMonth = dayjs().add(1, "month").endOf("month");
-
-  return current && (current < currentMonth || current > endMonth);
-};
 
   useEffect(() => {
     getData(
@@ -276,7 +315,6 @@ const disabledDate = (current) => {
                       format={"MM-YYYY"}
                       onChangeValue={(name, date) => {
                         const [year, month] = date.split("-");
-
                         setValue("careMonth", month);
                         setValue("careYear", year);
                       }}
@@ -338,16 +376,16 @@ const disabledDate = (current) => {
                     </div>
                   </div>
                 ))}
-            <div className="mt-10">
-              <ComButton
-                htmlType="submit"
-                disabled={disabled}
-                type="primary"
-                className="block w-full rounded-md bg-[#0F296D] text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Cập nhật
-              </ComButton>
-            </div>
+              <div className="mt-10">
+                <ComButton
+                  htmlType="submit"
+                  disabled={disabled}
+                  type="primary"
+                  className="block w-full rounded-md bg-[#0F296D] text-center text-sm font-semibold text-white shadow-sm hover:bg-[#0F296D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Cập nhật
+                </ComButton>
+              </div>
             </div>
           </form>
         </FormProvider>
