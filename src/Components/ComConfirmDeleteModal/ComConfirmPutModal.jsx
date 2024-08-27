@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import { deleteData, putData } from "../../api/api";
 
-const ComConfirmDeleteModal = async (
+const ComConfirmPutModal = async (
   apiPath,
   id,
   message,
@@ -12,14 +12,14 @@ const ComConfirmDeleteModal = async (
 ) => {
   if (put) {
     Modal.confirm({
-      title: "Xác nhận xóa",
+      title: "Xác nhận",
       content: message,
-      okText: "Xóa",
+      okText: "Xác nhận",
       okType: "danger",
       cancelText: "Hủy",
       onOk: () => {
-        putData(`${apiPath}`, `${id}/change-state`, {
-          state: "Deleted",
+        putData(`${apiPath}`, `${id}`, {
+          status: "Processed",
         })
           .then((e) => {
             onSuccess();
@@ -53,4 +53,4 @@ const ComConfirmDeleteModal = async (
   }
 };
 
-export default ComConfirmDeleteModal;
+export default ComConfirmPutModal;

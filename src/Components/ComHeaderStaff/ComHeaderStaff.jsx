@@ -2,6 +2,7 @@ import { Fragment, useContext, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   ArrowsRightLeftIcon,
+  Bars3Icon,
   BugAntIcon,
   CalendarDaysIcon,
   CreditCardIcon,
@@ -69,6 +70,11 @@ const subCategories = [
     href: "/staff/diseaseCategory",
     icon: ShieldCheckIcon,
   },
+  {
+    name: "Trạng thái dịch vụ",
+    href: "/staff/servicePackageStatus",
+    icon: Bars3Icon,
+  },
 ];
 
 export default function ComHeaderStaff({ children }) {
@@ -79,8 +85,8 @@ export default function ComHeaderStaff({ children }) {
   const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
   const [role, setRole, loadStoredValue] = useStorage("role", null);
-console.log(role);
-console.log(currentPath);
+  console.log(role);
+  console.log(currentPath);
   useEffect(() => {
     setActiveCategory(currentPath);
     window.scrollTo(0, 0);

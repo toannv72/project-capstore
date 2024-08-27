@@ -35,6 +35,7 @@ import ComHeaderManager from "./Components/ComHeaderManager/ComHeaderManager";
 import DetailUserPage from "./page/admin/TableUser/DetailUserPage";
 import TableElderTransfer from "./page/admin/TableElderTransfer/TableElderTransfer";
 import Disease from "./page/Manager/Disease/Disease";
+import ServicePackageStatus from "./page/Manager/ServicePackageStatus/ServicePackageStatus";
 
 export const routers = createBrowserRouter([
   {
@@ -320,6 +321,10 @@ export const routers = createBrowserRouter([
       {
         path: "/staff/health",
         element: <Health />,
+      },
+      {
+        path: "/staff/servicePackageStatus",
+        element: <ServicePackageStatus />,
       },
       // Add other unprotected admin routes here (if any)
     ],
