@@ -18,13 +18,16 @@ import ComConfirmDeleteModal from "../../../Components/ComConfirmDeleteModal/Com
 
 import ComConfirmPutModal from "../../../Components/ComConfirmDeleteModal/ComConfirmPutModal";
 import { useNotification } from "../../../Notification/Notification";
+import DetailServicePackage from "../ServicePackage/DetailServicePackage";
 
 export const TableServicePackageStatus = forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const table = useTableState();
   const modal = useModalState();
   const modalDetailEmployee = useModalState();
+  const modalDetailService = useModalState();
   const [selectedElder, setSelectedElder] = useState(null);
+  const [selectedService, setSelectedService] = useState(null);
   const [selectedHealth, setSelectedHealth] = useState(null);
   const { idElder } = props;
   const { getColumnSearchProps, getColumnApprox } = useColumnSearch();
@@ -190,6 +193,30 @@ export const TableServicePackageStatus = forwardRef((props, ref) => {
       ),
     },
     {
+      title: "Dịch vụ",
+      width: 100,
+      dataIndex: "orderDetail.servicePackage",
+      key: "orderDetail.servicePackage",
+      sorter: (a, b) =>
+        a?.orderDetail?.servicePackage?.name?.localeCompare(
+          b?.orderDetail?.servicePackage?.name
+        ),
+
+      ...getColumnSearchProps("orderDetail.servicePackage.name", "Dịch vụ"),
+      render: (_, record) => (
+        <div>
+          <Typography.Link
+            onClick={() => {
+              setSelectedService(record?.orderDetail?.servicePackage);
+              modalDetailService.handleOpen();
+            }}
+          >
+            {record?.orderDetail?.servicePackage?.name}
+          </Typography.Link>
+        </div>
+      ),
+    },
+    {
       title: "Thời gian đăng ký",
       width: 100,
       dataIndex: "date",
@@ -229,40 +256,23 @@ export const TableServicePackageStatus = forwardRef((props, ref) => {
       ),
     },
     {
-      title: "Ghi chú",
-      width: 200,
-      fixed: "left",
-      dataIndex: "notes",
-      key: "notes",
-      sorter: (a, b) => a?.notes?.localeCompare(b?.notes),
-      ...getColumnSearchProps("notes", "Ghi chú"),
-
-      render: (data, record) => (
-        <div>
-          <div className="gap-2">
-            <p className="flex flex-col">
-              <div className={`${record?.isWarning ? " text-red-600" : ""} `}>
-                {data}
-              </div>
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
       title: "Thao tác",
       key: "operation",
       fixed: "right",
-      width: 80,
+      width: 50,
       render: (_, record) => (
         <div className="flex items-center flex-col">
-          <ComMenuButonTable
-            record={record}
-            showModalDetails={() => showModaldHealth(record)}
-            showModalEdit={() => modal?.handleOpen(record)}
-            extraMenuItems={record.status === "Missed" ? extraMenuItems : []}
-            excludeDefaultItems={["delete", "details", "edit"]}
-          />
+          {record.status === "Missed" ? (
+            <ComMenuButonTable
+              record={record}
+              showModalDetails={() => showModaldHealth(record)}
+              showModalEdit={() => modal?.handleOpen(record)}
+              extraMenuItems={record.status === "Missed" ? extraMenuItems : []}
+              excludeDefaultItems={["delete", "details", "edit"]}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       ),
     },
@@ -350,6 +360,18 @@ export const TableServicePackageStatus = forwardRef((props, ref) => {
         onClose={modalDetailElder?.handleClose}
       >
         <DetailElder selectedData={selectedElder} />
+      </ComModal>
+
+      <ComModal
+        isOpen={modalDetailService?.isModalOpen}
+        onClose={modalDetailService?.handleClose}
+        width={800}
+      >
+        <DetailServicePackage
+          isOpen={modalDetailService?.isModalOpen}
+          onClose={modalDetailService?.handleClose}
+          selectedData={selectedService}
+        />
       </ComModal>
     </div>
   );

@@ -1,11 +1,15 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import ComDateConverter from "../../../Components/ComDateConverter/ComDateConverter";
 import ComWeekConverter from "../../../Components/ComWeekConverter/ComWeekConverter";
 import { Image } from "antd";
 import ComTypePackageConverter from "../../../Components/ComTypePackageConverter/ComTypePackageConverter";
+import { getData } from "../../../api/api";
 
 const DetailServicePackage = ({ isOpen, onClose, selectedData }) => {
+  const [data, setData] = useState({});
+
   if (!selectedData) return null;
+
   function formatCurrency(number) {
     // Sử dụng hàm toLocaleString() để định dạng số thành chuỗi với ngăn cách hàng nghìn và mặc định là USD.
     if (typeof number === "number") {
@@ -15,6 +19,7 @@ const DetailServicePackage = ({ isOpen, onClose, selectedData }) => {
       });
     }
   }
+
   const showTypePackageDay = (type, data) => {
     switch (type) {
       case "OneDay":
@@ -35,7 +40,7 @@ const DetailServicePackage = ({ isOpen, onClose, selectedData }) => {
             Ngày diễn ra hàng tháng:
             <br />
             <div className="flex flex-wrap">
-              {data?.servicePackageDates.map((e, index) => (
+              {data?.servicePackageDates?.map((e, index) => (
                 <h1 key={index}> {e.repetitionDay},</h1>
               ))}
             </div>
@@ -47,7 +52,7 @@ const DetailServicePackage = ({ isOpen, onClose, selectedData }) => {
             Thứ diễn ra:
             <br />
             <div className="flex flex-wrap">
-              {data?.servicePackageDates.map((e, index) => (
+              {data?.servicePackageDates?.map((e, index) => (
                 <div key={index} className="flex flex-wrap">
                   <div>
                     <ComWeekConverter>{e.dayOfWeek}</ComWeekConverter>
@@ -100,7 +105,7 @@ const DetailServicePackage = ({ isOpen, onClose, selectedData }) => {
               Thể loại dịch vụ:
             </td>
             <td className="px-4 py-2">
-              {selectedData.servicePackageCategory.name}
+              {selectedData?.servicePackageCategory?.name}
             </td>
           </tr>
           <tr className="border-b">
