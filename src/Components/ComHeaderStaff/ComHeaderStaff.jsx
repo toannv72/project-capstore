@@ -324,13 +324,7 @@ export default function ComHeaderStaff({ children }) {
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6 ">
             <div className="lg:col-span-6  h-full w-full ">
-              {/* <div className="lg:w-[calc(100vw-350px)] w-[calc(100vw-70px)]"> */}
               <div className="">
-                {/* {user?.role === "admin" ? (
-                  children
-                ) : (
-                  <ErrorPage goTo={"/"} statusCode={"404"} />
-                )} */}
                 {children}
               </div>
             </div>

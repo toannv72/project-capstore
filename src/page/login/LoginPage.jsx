@@ -34,14 +34,8 @@ export default function LoginPage(props) {
   const defaultColor = "bg-cyan-600";
 
   const loginMessenger = yup.object({
-    //   phone: yup
-    //     .string()
-    //     .trim()
-    //     .matches(/^\d{10}$/, Login.message.phone)
-    //     .required(Login.message.phoneRequired),
     username: yup.string().trim().required("Tên đăng nhập không được để trống"),
     password: yup.string().required("Mật khẩu không được để trống"),
-    // email: yup.string().trim().email(Login.message.emailInvalid).required(Login.message.emailRequired),
   });
   const LoginRequestDefault = {
     username: "",
