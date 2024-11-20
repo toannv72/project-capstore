@@ -1,7 +1,7 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: "http://165.227.84.158:5000/api/",
-  // baseURL: "https://nursinghome.runasp.net/api/",
+ // baseURL: "http://165.227.84.158:5000/api/",
+   baseURL: "https://homenursingcatone.xyz/api/",
   // baseURL: "https://nursinghome.runasp.net/api/",
   withCredentials: true,
 });
